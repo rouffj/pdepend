@@ -1,3 +1,6 @@
 [submodule "setup"]
 	path = setup
 	url = git://github.com/manuelpichler/build-commons.git
+[submodule "lib/PHP-Parser"]
+	path = lib/PHP-Parser
+	url = git://github.com/nikic/PHP-Parser.git
