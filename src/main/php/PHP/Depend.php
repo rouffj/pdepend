@@ -532,6 +532,8 @@ class PHP_Depend
      */
     private function _performParseProcess()
     {
+        $parser2 = new PHPParser_Parser();
+
         // Reset list of thrown exceptions
         $this->_parseExceptions = array();
 
@@ -539,30 +541,27 @@ class PHP_Depend
 
         $this->fireStartParseProcess($this->_builder);
 
+        ini_set('xdebug.max_nesting_level', $this->configuration->parser->nesting);
+
         foreach ($this->_createFileIterator() as $file) {
-            $tokenizer->setSourceFile($file);
-
-            $parser = new PHP_Depend_Parser_VersionAllParser(
-                $tokenizer,
-                $this->_builder,
-                $this->_cacheFactory->create()
-            );
-            $parser->setMaxNestingLevel($this->configuration->parser->nesting);
-
             // Disable annotation parsing?
-            if ($this->_withoutAnnotations === true) {
-                $parser->setIgnoreAnnotations();
-            }
+//            if ($this->_withoutAnnotations === true) {
+//                $parser->setIgnoreAnnotations();
+//            }
 
             $this->fireStartFileParsing($tokenizer);
 
             try {
-                $parser->parse();
-            } catch (PHP_Depend_Parser_Exception $e) {
+                $lexer = new PHPParser_Lexer(file_get_contents($file));
+
+                $stmts = $parser2->parse($lexer);
+            } catch (PHPParser_Error $e) {
                 $this->_parseExceptions[] = $e;
             }
             $this->fireEndFileParsing($tokenizer);
         }
+
+        ini_restore('xdebug.max_nesting_level');
 
         $this->fireEndParseProcess($this->_builder);
     }
