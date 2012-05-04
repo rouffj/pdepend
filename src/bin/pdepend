@@ -52,6 +52,7 @@ if (strpos('@php_bin@', '@php_bin') === 0) {
 }
 
 require_once 'PHP/Depend/Autoload.php';
+require_once dirname(__FILE__) . '/../../lib/PHP-Parser/lib/bootstrap.php';
 
 // Allow as much memory as possible by default
 if (extension_loaded('suhosin') && is_numeric(ini_get('suhosin.memory_limit'))) {
