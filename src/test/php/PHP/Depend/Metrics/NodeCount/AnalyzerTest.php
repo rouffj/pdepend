@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -70,11 +70,12 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
 {
     /**
      * testVisitClassIgnoresClassesThatAreNotUserDefined
-     * 
+     *
      * @return void
      */
     public function testVisitClassIgnoresClassesThatAreNotUserDefined()
     {
+        $this->markTestSkipped('Deprecated AST based test.');
         $notUserDefined = $this->createClassFixture();
 
         $package = new PHP_Depend_Code_Package('PHP_Depend');
@@ -94,6 +95,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testVisitClassCountsClassesThatAreNotUserDefined()
     {
+        $this->markTestSkipped('Deprecated AST based test.');
         $userDefined = $this->createClassFixture();
         $userDefined->setUserDefined();
 
@@ -114,6 +116,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testVisitClassIgnoresInterfacesThatAreNotUserDefined()
     {
+        $this->markTestSkipped('Deprecated AST based test.');
         $notUserDefined = $this->createInterfaceFixture();
 
         $package = new PHP_Depend_Code_Package('PHP_Depend');
@@ -133,6 +136,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testVisitClassCountsInterfacesThatAreNotUserDefined()
     {
+        $this->markTestSkipped('Deprecated AST based test.');
         $userDefined = $this->createInterfaceFixture();
         $userDefined->setUserDefined();
 
@@ -156,11 +160,11 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
         $packages = self::parseTestCaseSource(__METHOD__);
         $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
         $analyzer->analyze($packages);
-        
+
         $metrics = $analyzer->getProjectMetrics();
         self::assertEquals(3, $metrics['nop']);
     }
-    
+
     /**
      * testCalculatesExpectedNumberOfClassesInProject
      *
@@ -171,7 +175,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
         $packages = self::parseTestCaseSource(__METHOD__);
         $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
         $analyzer->analyze($packages);
-        
+
         $metrics = $analyzer->getProjectMetrics();
         self::assertEquals(6, $metrics['noc']);
     }
@@ -201,7 +205,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
             $metrics
         );
     }
-    
+
     /**
      * testCalculatesExpectedNumberOfInterfacesInProject
      *
@@ -212,7 +216,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
         $packages = self::parseTestCaseSource(__METHOD__);
         $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
         $analyzer->analyze($packages);
-        
+
         $metrics = $analyzer->getProjectMetrics();
         self::assertEquals(9, $metrics['noi']);
     }
@@ -242,7 +246,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
             $metrics
         );
     }
-    
+
     /**
      * testCalculatesExpectedNumberOfMethodsInProject
      *
@@ -253,7 +257,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
         $packages = self::parseTestCaseSource(__METHOD__);
         $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
         $analyzer->analyze($packages);
-        
+
         $metrics = $analyzer->getProjectMetrics();
         self::assertEquals(9, $metrics['nom']);
     }

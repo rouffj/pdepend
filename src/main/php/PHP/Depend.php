@@ -138,7 +138,7 @@ class PHP_Depend
     /**
      * List or registered listeners.
      *
-     * @var array(PHP_Depend_ProcessListenerI) $_listeners
+     * @var PHP_Depend_ProcessListenerI[]
      */
     private $_listeners = array();
 
@@ -450,11 +450,11 @@ class PHP_Depend
     /**
      * Sends the start file parsing event.
      *
-     * @param PHP_Depend_TokenizerI $tokenizer The used tokenizer instance.
+     * @param PHP_Depend_Tokenizer $tokenizer The used tokenizer instance.
      *
      * @return void
      */
-    protected function fireStartFileParsing(PHP_Depend_TokenizerI $tokenizer)
+    protected function fireStartFileParsing(PHP_Depend_Tokenizer $tokenizer)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startFileParsing($tokenizer);
@@ -464,11 +464,11 @@ class PHP_Depend
     /**
      * Sends the end file parsing event.
      *
-     * @param PHP_Depend_TokenizerI $tokenizer The used tokenizer instance.
+     * @param PHP_Depend_Tokenizer $tokenizer The used tokenizer instance.
      *
      * @return void
      */
-    protected function fireEndFileParsing(PHP_Depend_TokenizerI $tokenizer)
+    protected function fireEndFileParsing(PHP_Depend_Tokenizer $tokenizer)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endFileParsing($tokenizer);
@@ -532,12 +532,10 @@ class PHP_Depend
      */
     private function _performParseProcess()
     {
-        $parser2 = new PHPParser_Parser();
+        $parser2 = new PHP_Depend_Parser();
 
         // Reset list of thrown exceptions
         $this->_parseExceptions = array();
-
-        $tokenizer = new PHP_Depend_Tokenizer_Internal();
 
         $this->fireStartParseProcess($this->_builder);
 
@@ -548,13 +546,12 @@ class PHP_Depend
 //            if ($this->_withoutAnnotations === true) {
 //                $parser->setIgnoreAnnotations();
 //            }
+            $tokenizer = new PHP_Depend_Tokenizer_VersionAll($file);
 
             $this->fireStartFileParsing($tokenizer);
 
             try {
-                $lexer = new PHPParser_Lexer(file_get_contents($file));
-
-                $stmts = $parser2->parse($lexer);
+                $compilationUnit = $parser2->parse($tokenizer);
             } catch (PHPParser_Error $e) {
                 $this->_parseExceptions[] = $e;
             }

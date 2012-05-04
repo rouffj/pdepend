@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -66,59 +66,59 @@ interface PHP_Depend_ProcessListenerI
      * Is called when PDepend starts the file parsing process.
      *
      * @param PHP_Depend_BuilderI $builder The used node builder instance.
-     * 
+     *
      * @return void
      */
     function startParseProcess(PHP_Depend_BuilderI $builder);
-    
+
     /**
      * Is called when PDepend has finished the file parsing process.
      *
      * @param PHP_Depend_BuilderI $builder The used node builder instance.
-     * 
+     *
      * @return void
      */
     function endParseProcess(PHP_Depend_BuilderI $builder);
-    
+
     /**
      * Is called when PDepend starts parsing of a new file.
      *
-     * @param PHP_Depend_TokenizerI $tokenizer The used tokenizer instance.
-     * 
+     * @param PHP_Depend_Tokenizer $tokenizer The used tokenizer instance.
+     *
      * @return void
      */
-    function startFileParsing(PHP_Depend_TokenizerI $tokenizer);
-    
+    function startFileParsing(PHP_Depend_Tokenizer $tokenizer);
+
     /**
      * Is called when PDepend has finished a file.
      *
-     * @param PHP_Depend_TokenizerI $tokenizer The used tokenizer instance.
-     * 
+     * @param PHP_Depend_Tokenizer $tokenizer The used tokenizer instance.
+     *
      * @return void
      */
-    function endFileParsing(PHP_Depend_TokenizerI $tokenizer);
-    
+    function endFileParsing(PHP_Depend_Tokenizer $tokenizer);
+
     /**
      * Is called when PDepend starts the analyzing process.
-     * 
+     *
      * @return void
      */
     function startAnalyzeProcess();
-    
+
     /**
      * Is called when PDepend has finished the analyzing process.
-     * 
+     *
      * @return void
      */
     function endAnalyzeProcess();
-    
+
     /**
      * Is called when PDepend starts the logging process.
      *
      * @return void
      */
     function startLogProcess();
-    
+
     /**
      * Is called when PDepend has finished the logging process.
      *

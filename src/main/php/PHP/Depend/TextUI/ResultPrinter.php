@@ -103,11 +103,11 @@ class PHP_Depend_TextUI_ResultPrinter
     /**
      * Is called when PDepend starts parsing of a new file.
      *
-     * @param PHP_Depend_TokenizerI $tokenizer The used tokenizer instance.
+     * @param PHP_Depend_Tokenizer $tokenizer The used tokenizer instance.
      *
      * @return void
      */
-    public function startFileParsing(PHP_Depend_TokenizerI $tokenizer)
+    public function startFileParsing(PHP_Depend_Tokenizer $tokenizer)
     {
         $this->step();
     }
@@ -115,11 +115,11 @@ class PHP_Depend_TextUI_ResultPrinter
     /**
      * Is called when PDepend has finished a file.
      *
-     * @param PHP_Depend_TokenizerI $tokenizer The used tokenizer instance.
+     * @param PHP_Depend_Tokenizer $tokenizer The used tokenizer instance.
      *
      * @return void
      */
-    public function endFileParsing(PHP_Depend_TokenizerI $tokenizer)
+    public function endFileParsing(PHP_Depend_Tokenizer $tokenizer)
     {
 
     }
