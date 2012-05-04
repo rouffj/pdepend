@@ -757,25 +757,19 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
         }
         sort($files);
 
-        $cache   = new PHP_Depend_Util_Cache_Driver_Memory();
-        $builder = new PHP_Depend_Builder_Default();
+        $parser = new PHP_Depend_Parser();
 
+        $compilationUnits = array();
         foreach ($files as $file) {
-            $tokenizer = new PHP_Depend_Tokenizer_Internal();
-            $tokenizer->setSourceFile($file);
+            $tokenizer = new PHP_Depend_Tokenizer_VersionAll($file);
+// FIXME: What should we do with ignore annotations
+//            if ($ignoreAnnotations === true) {
+//                $parser->setIgnoreAnnotations();
+//            }
 
-            $parser = new PHP_Depend_Parser_VersionAllParser(
-                $tokenizer,
-                $builder,
-                $cache
-            );
-            if ($ignoreAnnotations === true) {
-                $parser->setIgnoreAnnotations();
-            }
-
-            $parser->parse();
+            $compilationUnits[] = $parser->parse($tokenizer);
         }
-        return $builder->getPackages();
+        return $compilationUnits;
     }
 }
 

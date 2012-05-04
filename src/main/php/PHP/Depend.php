@@ -532,7 +532,7 @@ class PHP_Depend
      */
     private function _performParseProcess()
     {
-        $parser2 = new PHP_Depend_Parser();
+        $parser = new PHP_Depend_Parser();
 
         // Reset list of thrown exceptions
         $this->_parseExceptions = array();
@@ -542,7 +542,7 @@ class PHP_Depend
         ini_set('xdebug.max_nesting_level', $this->configuration->parser->nesting);
 
         foreach ($this->_createFileIterator() as $file) {
-            // Disable annotation parsing?
+// FIXME: What should we do with ignore annotations
 //            if ($this->_withoutAnnotations === true) {
 //                $parser->setIgnoreAnnotations();
 //            }
@@ -551,7 +551,7 @@ class PHP_Depend
             $this->fireStartFileParsing($tokenizer);
 
             try {
-                $compilationUnit = $parser2->parse($tokenizer);
+                $compilationUnit = $parser->parse($tokenizer);
             } catch (PHPParser_Error $e) {
                 $this->_parseExceptions[] = $e;
             }
