@@ -47,7 +47,10 @@
  */
 
 /**
- * Marker interface that marks a result set as node metrics aware.
+ * This interface is used to mark a result set as project summary aware.
+ *
+ * A result set that implements this interface provides overview or calculated
+ * values for the complete analyzed source code.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -58,24 +61,20 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-interface PHP_Depend_Metrics_NodeAwareI extends PHP_Depend_Metrics_AnalyzerI
+interface PHP_Depend_Metrics_ProjectAware extends PHP_Depend_Metrics_Analyzer
 {
     /**
-     * This method will return an <b>array</b> with all generated metric values
-     * for the node with the given <b>$uuid</b> identifier. If there are no
-     * metrics for the requested node, this method will return an empty <b>array</b>.
+     * Provides the project summary as an <b>array</b>.
      *
      * <code>
      * array(
-     *     'loc'    =>  42,
-     *     'ncloc'  =>  17,
-     *     'cc'     =>  12
+     *     'loc'  =>  1742,
+     *     'nop'  =>  23,
+     *     'noc'  =>  17
      * )
      * </code>
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
-     *
      * @return array(string=>mixed)
      */
-    function getNodeMetrics(PHP_Depend_Code_NodeI $node);
+    function getProjectMetrics();
 }

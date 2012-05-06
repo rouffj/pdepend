@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -47,10 +47,7 @@
  */
 
 /**
- * This interface is used to mark a result set as project summary aware.
- * 
- * A result set that implements this interface provides overview or calculated 
- * values for the complete analyzed source code. 
+ * Base interface for all analyzer implementations.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -61,20 +58,40 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-interface PHP_Depend_Metrics_ProjectAwareI extends PHP_Depend_Metrics_AnalyzerI
+interface PHP_Depend_Metrics_Analyzer
 {
     /**
-     * Provides the project summary as an <b>array</b>.
-     * 
-     * <code>
-     * array(
-     *     'loc'  =>  1742,
-     *     'nop'  =>  23,
-     *     'noc'  =>  17
-     * )
-     * </code>
+     * Constructs a new analyzer instance.
      *
-     * @return array(string=>mixed)
+     * @param array $options
+     *        Global option array, every analyzer can extract the required options.
      */
-    function getProjectMetrics();
+    public function __construct( array $options = array() );
+
+    /**
+     * Adds a listener to this analyzer.
+     *
+     * @param PHP_Depend_Metrics_ListenerI $listener The listener instance.
+     *
+     * @return void
+     */
+    public function addAnalyzeListener( PHP_Depend_Metrics_ListenerI $listener );
+
+    /**
+     * Processes all compilation units.
+     *
+     * @param PHP_Depend_AST_CompilationUnit[] $compilationUnits
+     * @return void
+     */
+    public function analyze( array $compilationUnits );
+
+    /**
+     * An analyzer that is active must return <b>true</b> to recognized by
+     * pdepend framework, while an analyzer that does not perform any action
+     * for any reason should return <b>false</b>.
+     *
+     * @return boolean
+     * @since 0.9.10
+     */
+    public function isEnabled();
 }

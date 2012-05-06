@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -47,7 +47,7 @@
  */
 
 /**
- * Base interface for all analyzer implementations.
+ * Marker interface that marks a result set as node metrics aware.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -58,41 +58,24 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-interface PHP_Depend_Metrics_AnalyzerI
+interface PHP_Depend_Metrics_NodeAware extends PHP_Depend_Metrics_Analyzer
 {
     /**
-     * Constructs a new analyzer instance.
+     * This method will return an <b>array</b> with all generated metric values
+     * for the node with the given <b>$uuid</b> identifier. If there are no
+     * metrics for the requested node, this method will return an empty <b>array</b>.
      *
-     * @param array(string=>mixed) $options Global option array, every analyzer
-     *                                      can extract the required options.
-     */
-    function __construct(array $options = array());
-    
-    /**
-     * Adds a listener to this analyzer.
+     * <code>
+     * array(
+     *     'loc'    =>  42,
+     *     'ncloc'  =>  17,
+     *     'cc'     =>  12
+     * )
+     * </code>
      *
-     * @param PHP_Depend_Metrics_ListenerI $listener The listener instance.
-     * 
-     * @return void
-     */
-    function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener);
-    
-    /**
-     * Processes all {@link PHP_Depend_Code_Package} code nodes.
+     * @param PHP_Depend_Code_NodeI $node The context node instance.
      *
-     * @param PHP_Depend_Code_NodeIterator $packages All code packages.
-     * 
-     * @return void
+     * @return array(string=>mixed)
      */
-    function analyze(PHP_Depend_Code_NodeIterator $packages);
-
-    /**
-     * An analyzer that is active must return <b>true</b> to recognized by
-     * pdepend framework, while an analyzer that does not perform any action
-     * for any reason should return <b>false</b>.
-     *
-     * @return boolean
-     * @since 0.9.10
-     */
-    function isEnabled();
+    function getNodeMetrics(PHP_Depend_Code_NodeI $node);
 }
