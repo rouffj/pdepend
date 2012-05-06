@@ -1,6 +1,8 @@
 <?php
 namespace A {
-    class A1 {}
+    class A1 {
+        private $x;
+    }
     class A2 {}
     class A3 {}
 }

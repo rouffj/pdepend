@@ -94,13 +94,6 @@ class PHP_Depend
     private $_files = array();
 
     /**
-     * The used code node builder.
-     *
-     * @var PHP_Depend_BuilderI $_builder
-     */
-    private $_builder = null;
-
-    /**
      * Generated {@link PHP_Depend_Code_Package} objects.
      *
      * @var Iterator $_packages
@@ -163,13 +156,13 @@ class PHP_Depend
      *
      * @param PHP_Depend_Util_Configuration $configuration The system configuration.
      */
-    public function __construct(PHP_Depend_Util_Configuration $configuration)
+    public function __construct( PHP_Depend_Util_Configuration $configuration )
     {
         $this->configuration = $configuration;
 
         $this->_fileFilter = new PHP_Depend_Input_CompositeFilter();
 
-        $this->_cacheFactory = new PHP_Depend_Util_Cache_Factory($configuration);
+        $this->_cacheFactory = new PHP_Depend_Util_Cache_Factory( $configuration );
     }
 
     /**
@@ -179,11 +172,11 @@ class PHP_Depend
      *
      * @return void
      */
-    public function addDirectory($directory)
+    public function addDirectory( $directory )
     {
-        $dir = realpath($directory);
+        $dir = realpath( $directory );
 
-        if (!is_dir($dir)) {
+        if ( !is_dir( $dir ) ) {
             throw new InvalidArgumentException(
                 "Invalid directory '{$directory}' added."
             );
@@ -199,13 +192,13 @@ class PHP_Depend
      *
      * @return void
      */
-    public function addFile($file)
+    public function addFile( $file )
     {
-        $fileName = realpath($file);
+        $fileName = realpath( $file );
 
-        if (!is_file($fileName)) {
+        if ( !is_file( $fileName ) ) {
             throw new InvalidArgumentException(
-                sprintf('The given file "%s" does not exist.', $file)
+                sprintf( 'The given file "%s" does not exist.', $file )
             );
         }
 
@@ -219,7 +212,7 @@ class PHP_Depend
      *
      * @return void
      */
-    public function addLogger(PHP_Depend_Log_LoggerI $logger)
+    public function addLogger( PHP_Depend_Log_LoggerI $logger )
     {
         $this->_loggers[] = $logger;
     }
@@ -231,9 +224,9 @@ class PHP_Depend
      *
      * @return void
      */
-    public function addFileFilter(PHP_Depend_Input_FilterI $filter)
+    public function addFileFilter( PHP_Depend_Input_FilterI $filter )
     {
-        $this->_fileFilter->append($filter);
+        $this->_fileFilter->append( $filter );
     }
 
     /**
@@ -243,7 +236,7 @@ class PHP_Depend
      *
      * @return void
      */
-    public function setOptions(array $options = array())
+    public function setOptions( array $options = array() )
     {
         $this->_options = $options;
     }
@@ -265,9 +258,9 @@ class PHP_Depend
      *
      * @return void
      */
-    public function addProcessListener(PHP_Depend_ProcessListenerI $listener)
+    public function addProcessListener( PHP_Depend_ProcessListenerI $listener )
     {
-        if (in_array($listener, $this->_listeners, true) === false) {
+        if ( in_array( $listener, $this->_listeners, true ) === false ) {
             $this->_listeners[] = $listener;
         }
     }
@@ -280,46 +273,23 @@ class PHP_Depend
      */
     public function analyze()
     {
-        $this->_builder = new PHP_Depend_Builder_Default();
-
         $this->_performParseProcess();
 
         $this->_performAnalyzeProcess();
 
-        $packages = $this->_builder->getPackages();
-
         $this->fireStartLogProcess();
 
-        foreach ($this->_loggers as $logger) {
+        foreach ( $this->_loggers as $logger ) {
             // Check for code aware loggers
-            if ($logger instanceof PHP_Depend_Log_CodeAwareI) {
-                $logger->setCode($packages);
+            if ( $logger instanceof PHP_Depend_Log_CodeAwareI ) {
+                $logger->setCode( array() );
             }
             $logger->close();
         }
 
         $this->fireEndLogProcess();
 
-        return ($this->_packages = $packages);
-    }
-
-    /**
-     * Returns the number of analyzed php classes and interfaces.
-     *
-     * @return integer
-     */
-    public function countClasses()
-    {
-        if ($this->_packages === null) {
-            $msg = 'countClasses() doesn\'t work before the source was analyzed.';
-            throw new RuntimeException($msg);
-        }
-
-        $classes = 0;
-        foreach ($this->_packages as $package) {
-            $classes += $package->getTypes()->count();
-        }
-        return $classes;
+        //return ($this->_packages = $packages);
     }
 
     /**
@@ -334,86 +304,30 @@ class PHP_Depend
     }
 
     /**
-     *  Returns the number of analyzed packages.
-     *
-     * @return integer
-     */
-    public function countPackages()
-    {
-        if ($this->_packages === null) {
-            $msg = 'countPackages() doesn\'t work before the source was analyzed.';
-            throw new RuntimeException($msg);
-        }
-
-        $count = 0;
-        foreach ($this->_packages as $package) {
-            if ($package->isUserDefined()) {
-                ++$count;
-            }
-        }
-        return $count;
-    }
-
-    /**
-     * Returns the analyzed package of the specified name.
-     *
-     * @param string $name The package name.
-     *
-     * @return PHP_Depend_Code_Package
-     */
-    public function getPackage($name)
-    {
-        if ($this->_packages === null) {
-            $msg = 'getPackage() doesn\'t work before the source was analyzed.';
-            throw new RuntimeException($msg);
-        }
-        foreach ($this->_packages as $package) {
-            if ($package->getName() === $name) {
-                return $package;
-            }
-        }
-        throw new OutOfBoundsException(sprintf('Unknown package "%s".', $name));
-    }
-
-    /**
-     * Returns an iterator of the analyzed packages.
-     *
-     * @return Iterator
-     */
-    public function getPackages()
-    {
-        if ($this->_packages === null) {
-            $msg = 'getPackages() doesn\'t work before the source was analyzed.';
-            throw new RuntimeException($msg);
-        }
-        return $this->_packages;
-    }
-
-    /**
      * Send the start parsing process event.
      *
-     * @param PHP_Depend_BuilderI $builder The used node builder instance.
+     * @param PHP_Depend_Parser $builder The used node builder instance.
      *
      * @return void
      */
-    protected function fireStartParseProcess(PHP_Depend_BuilderI $builder)
+    protected function fireStartParseProcess( PHP_Depend_Parser $builder )
     {
-        foreach ($this->_listeners as $listener) {
-            $listener->startParseProcess($builder);
+        foreach ( $this->_listeners as $listener ) {
+            $listener->startParseProcess( $builder );
         }
     }
 
     /**
      * Send the end parsing process event.
      *
-     * @param PHP_Depend_BuilderI $builder The used node builder instance.
+     * @param PHP_Depend_Parser $builder The used node builder instance.
      *
      * @return void
      */
-    protected function fireEndParseProcess(PHP_Depend_BuilderI $builder)
+    protected function fireEndParseProcess( PHP_Depend_Parser $builder )
     {
-        foreach ($this->_listeners as $listener) {
-            $listener->endParseProcess($builder);
+        foreach ( $this->_listeners as $listener ) {
+            $listener->endParseProcess( $builder );
         }
     }
 
@@ -424,10 +338,10 @@ class PHP_Depend
      *
      * @return void
      */
-    protected function fireStartFileParsing(PHP_Depend_Tokenizer $tokenizer)
+    protected function fireStartFileParsing( PHP_Depend_Tokenizer $tokenizer )
     {
-        foreach ($this->_listeners as $listener) {
-            $listener->startFileParsing($tokenizer);
+        foreach ( $this->_listeners as $listener ) {
+            $listener->startFileParsing( $tokenizer );
         }
     }
 
@@ -438,10 +352,10 @@ class PHP_Depend
      *
      * @return void
      */
-    protected function fireEndFileParsing(PHP_Depend_Tokenizer $tokenizer)
+    protected function fireEndFileParsing( PHP_Depend_Tokenizer $tokenizer )
     {
-        foreach ($this->_listeners as $listener) {
-            $listener->endFileParsing($tokenizer);
+        foreach ( $this->_listeners as $listener ) {
+            $listener->endFileParsing( $tokenizer );
         }
     }
 
@@ -452,7 +366,7 @@ class PHP_Depend
      */
     protected function fireStartAnalyzeProcess()
     {
-        foreach ($this->_listeners as $listener) {
+        foreach ( $this->_listeners as $listener ) {
             $listener->startAnalyzeProcess();
         }
     }
@@ -464,7 +378,7 @@ class PHP_Depend
      */
     protected function fireEndAnalyzeProcess()
     {
-        foreach ($this->_listeners as $listener) {
+        foreach ( $this->_listeners as $listener ) {
             $listener->endAnalyzeProcess();
         }
     }
@@ -476,7 +390,7 @@ class PHP_Depend
      */
     protected function fireStartLogProcess()
     {
-        foreach ($this->_listeners as $listener) {
+        foreach ( $this->_listeners as $listener ) {
             $listener->startLogProcess();
         }
     }
@@ -488,7 +402,7 @@ class PHP_Depend
      */
     protected function fireEndLogProcess()
     {
-        foreach ($this->_listeners as $listener) {
+        foreach ( $this->_listeners as $listener ) {
             $listener->endLogProcess();
         }
     }
@@ -507,30 +421,30 @@ class PHP_Depend
         // Reset list of thrown exceptions
         $this->_parseExceptions = array();
 
-        $this->fireStartParseProcess($this->_builder);
+        $this->fireStartParseProcess( $parser );
 
-        ini_set('xdebug.max_nesting_level', $this->configuration->parser->nesting);
+        ini_set( 'xdebug.max_nesting_level', $this->configuration->parser->nesting );
 
-        foreach ($this->_createFileIterator() as $file) {
+        foreach ( $this->_createFileIterator() as $file ) {
 // FIXME: What should we do with ignore annotations
 //            if ($this->_withoutAnnotations === true) {
 //                $parser->setIgnoreAnnotations();
 //            }
-            $tokenizer = new PHP_Depend_Tokenizer_VersionAll($file);
+            $tokenizer = new PHP_Depend_Tokenizer_VersionAll( $file );
 
-            $this->fireStartFileParsing($tokenizer);
+            $this->fireStartFileParsing( $tokenizer );
 
             try {
-                $compilationUnit = $parser->parse($tokenizer);
-            } catch (PHPParser_Error $e) {
+                $compilationUnit = $parser->parse( $tokenizer );
+            } catch ( PHPParser_Error $e ) {
                 $this->_parseExceptions[] = $e;
             }
-            $this->fireEndFileParsing($tokenizer);
+            $this->fireEndFileParsing( $tokenizer );
         }
 
-        ini_restore('xdebug.max_nesting_level');
+        ini_restore( 'xdebug.max_nesting_level' );
 
-        $this->fireEndParseProcess($this->_builder);
+        $this->fireEndParseProcess( $parser );
     }
 
     /**
@@ -542,21 +456,21 @@ class PHP_Depend
      */
     private function _performAnalyzeProcess()
     {
-        $analyzerLoader = $this->_createAnalyzerLoader($this->_options);
+        $analyzerLoader = $this->_createAnalyzerLoader( $this->_options );
 
         $this->fireStartAnalyzeProcess();
 
-        ini_set('xdebug.max_nesting_level', $this->configuration->parser->nesting);
+        ini_set( 'xdebug.max_nesting_level', $this->configuration->parser->nesting );
 
-        foreach ($analyzerLoader as $analyzer) {
-            $analyzer->analyze($this->_builder->getPackages());
+        foreach ( $analyzerLoader as $analyzer ) {
+            $analyzer->analyze( $this->_builder->getPackages() );
 
-            foreach ($this->_loggers as $logger) {
-                $logger->log($analyzer);
+            foreach ( $this->_loggers as $logger ) {
+                $logger->log( $analyzer );
             }
         }
 
-        ini_restore('xdebug.max_nesting_level');
+        ini_restore( 'xdebug.max_nesting_level' );
 
         $this->fireEndAnalyzeProcess();
     }
@@ -572,14 +486,15 @@ class PHP_Depend
      */
     private function _initAnalyseListeners(
         PHP_Depend_Metrics_AnalyzerLoader $analyzerLoader
-    ) {
+    )
+    {
         // Append all listeners
-        foreach ($analyzerLoader as $analyzer) {
-            foreach ($this->_listeners as $listener) {
-                $analyzer->addAnalyzeListener($listener);
+        foreach ( $analyzerLoader as $analyzer ) {
+            foreach ( $this->_listeners as $listener ) {
+                $analyzer->addAnalyzeListener( $listener );
 
-                if ($analyzer instanceof PHP_Depend_VisitorI) {
-                    $analyzer->addVisitListener($listener);
+                if ( $analyzer instanceof PHP_Depend_VisitorI ) {
+                    $analyzer->addVisitListener( $listener );
                 }
             }
         }
@@ -595,18 +510,18 @@ class PHP_Depend
      */
     private function _createFileIterator()
     {
-        if (count($this->_directories) === 0 && count($this->_files) === 0) {
-            throw new RuntimeException('No source directory and file set.');
+        if ( count( $this->_directories ) === 0 && count( $this->_files ) === 0 ) {
+            throw new RuntimeException( 'No source directory and file set.' );
         }
 
         $fileIterator = new AppendIterator();
-        $fileIterator->append(new ArrayIterator($this->_files));
+        $fileIterator->append( new ArrayIterator( $this->_files ) );
 
-        foreach ($this->_directories as $directory) {
+        foreach ( $this->_directories as $directory ) {
             $fileIterator->append(
                 new PHP_Depend_Input_Iterator(
                     new RecursiveIteratorIterator(
-                        new RecursiveDirectoryIterator($directory . '/')
+                        new RecursiveDirectoryIterator( $directory . '/' )
                     ),
                     $this->_fileFilter,
                     $directory
@@ -618,19 +533,19 @@ class PHP_Depend
         //       wrong in the iterator code used above.
         // Strange: why is the iterator not unique and why does this loop fix it?
         $files = array();
-        foreach ($fileIterator as $file) {
-            if (is_string($file)) {
+        foreach ( $fileIterator as $file ) {
+            if ( is_string( $file ) ) {
                 $files[$file] = $file;
             } else {
-                $pathname         = realpath($file->getPathname());
+                $pathname = realpath( $file->getPathname() );
                 $files[$pathname] = $pathname;
             }
         }
 
-        ksort($files);
+        ksort( $files );
         // END
 
-        return new ArrayIterator(array_values($files));
+        return new ArrayIterator( array_values( $files ) );
     }
 
     /**
@@ -642,48 +557,28 @@ class PHP_Depend
      *
      * @return PHP_Depend_Metrics_AnalyzerLoader
      */
-    private function _createAnalyzerLoader(array $options)
+    private function _createAnalyzerLoader( array $options )
     {
         $analyzerSet = array();
 
-        foreach ($this->_loggers as $logger) {
-            foreach ($logger->getAcceptedAnalyzers() as $type) {
+        foreach ( $this->_loggers as $logger ) {
+            foreach ( $logger->getAcceptedAnalyzers() as $type ) {
                 // Check for type existence
-                if (in_array($type, $analyzerSet) === false) {
+                if ( in_array( $type, $analyzerSet ) === false ) {
                     $analyzerSet[] = $type;
                 }
             }
         }
 
-        $cacheKey = md5(serialize($this->_files) . serialize($this->_directories));
+        $cacheKey = md5( serialize( $this->_files ) . serialize( $this->_directories ) );
 
         $loader = new PHP_Depend_Metrics_AnalyzerLoader(
             new PHP_Depend_Metrics_AnalyzerClassFileSystemLocator(),
-            $this->_cacheFactory->create($cacheKey),
+            $this->_cacheFactory->create( $cacheKey ),
             $analyzerSet,
             $options
         );
 
-        return $this->_initAnalyseListeners($loader);
+        return $this->_initAnalyseListeners( $loader );
     }
-
-    // @codeCoverageIgnoreStart
-
-    /**
-     * Helper method for PHP version < 5.3, this method can be used to
-     * unwire the complex object graph created by PHP_Depend, so that the
-     * garbage collector can free memory consumed by PHP_Depend. Please
-     * remember that this method will destroy all the data calculated by
-     * PHP_Depend, so it is unusable after a call to <b>free()</b>.
-     *
-     * @return void
-     * @since 0.9.12
-     * @deprecated Since 1.0.0
-     */
-    public function free()
-    {
-        trigger_error(__METHOD__ . '() is deprecated.', E_USER_DEPRECATED);
-    }
-
-    // @codeCoverageIgnoreEnd
 }

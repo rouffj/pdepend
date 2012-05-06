@@ -65,20 +65,20 @@ interface PHP_Depend_ProcessListenerI
     /**
      * Is called when PDepend starts the file parsing process.
      *
-     * @param PHP_Depend_BuilderI $builder The used node builder instance.
+     * @param PHP_Depend_Parser $parser The used node builder instance.
      *
      * @return void
      */
-    function startParseProcess(PHP_Depend_BuilderI $builder);
+    function startParseProcess(PHP_Depend_Parser $parser);
 
     /**
      * Is called when PDepend has finished the file parsing process.
      *
-     * @param PHP_Depend_BuilderI $builder The used node builder instance.
+     * @param PHP_Depend_Parser $parser The used node builder instance.
      *
      * @return void
      */
-    function endParseProcess(PHP_Depend_BuilderI $builder);
+    function endParseProcess(PHP_Depend_Parser $parser);
 
     /**
      * Is called when PDepend starts parsing of a new file.

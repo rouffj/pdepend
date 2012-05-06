@@ -60,10 +60,10 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Metrics_NodeCount_Analyzer
-       extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_AnalyzerI,
-               PHP_Depend_Metrics_NodeAwareI,
-               PHP_Depend_Metrics_ProjectAwareI
+    extends PHP_Depend_Metrics_AbstractAnalyzer
+    implements PHP_Depend_Metrics_Analyzer,
+    PHP_Depend_Metrics_NodeAware,
+    PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Type of this analyzer class.
@@ -73,51 +73,51 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
     /**
      * Metrics provided by the analyzer implementation.
      */
-    const M_NUMBER_OF_PACKAGES   = 'nop',
-          M_NUMBER_OF_CLASSES    = 'noc',
-          M_NUMBER_OF_INTERFACES = 'noi',
-          M_NUMBER_OF_METHODS    = 'nom',
-          M_NUMBER_OF_FUNCTIONS  = 'nof';
+    const M_NUMBER_OF_PACKAGES = 'nop',
+        M_NUMBER_OF_CLASSES = 'noc',
+        M_NUMBER_OF_INTERFACES = 'noi',
+        M_NUMBER_OF_METHODS = 'nom',
+        M_NUMBER_OF_FUNCTIONS = 'nof';
 
     /**
      * Number Of Packages.
      *
-     * @var integer $_nop
+     * @var integer
      */
     private $_nop = 0;
 
     /**
      * Number Of Classes.
      *
-     * @var integer $_noc
+     * @var integer
      */
     private $_noc = 0;
 
     /**
      * Number Of Interfaces.
      *
-     * @var integer $_noi
+     * @var integer
      */
     private $_noi = 0;
 
     /**
      * Number Of Methods.
      *
-     * @var integer $_nom
+     * @var integer
      */
     private $_nom = 0;
 
     /**
      * Number Of Functions.
      *
-     * @var integer $_nof
+     * @var integer
      */
     private $_nof = 0;
 
     /**
      * Collected node metrics
      *
-     * @var array(string=>array) $_nodeMetrics
+     * @var array(string=>array)
      */
     private $_nodeMetrics = null;
 
@@ -138,10 +138,10 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics( PHP_Depend_Code_NodeI $node )
     {
         $metrics = array();
-        if (isset($this->_nodeMetrics[$node->getUUID()])) {
+        if ( isset( $this->_nodeMetrics[$node->getUUID()] ) ) {
             $metrics = $this->_nodeMetrics[$node->getUUID()];
         }
         return $metrics;
@@ -165,34 +165,34 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
     public function getProjectMetrics()
     {
         return array(
-            self::M_NUMBER_OF_PACKAGES    =>  $this->_nop,
-            self::M_NUMBER_OF_CLASSES     =>  $this->_noc,
-            self::M_NUMBER_OF_INTERFACES  =>  $this->_noi,
-            self::M_NUMBER_OF_METHODS     =>  $this->_nom,
-            self::M_NUMBER_OF_FUNCTIONS   =>  $this->_nof
+            self::M_NUMBER_OF_PACKAGES => $this->_nop,
+            self::M_NUMBER_OF_CLASSES => $this->_noc,
+            self::M_NUMBER_OF_INTERFACES => $this->_noi,
+            self::M_NUMBER_OF_METHODS => $this->_nom,
+            self::M_NUMBER_OF_FUNCTIONS => $this->_nof
         );
     }
 
     /**
-     * Processes all {@link PHP_Depend_Code_Package} code nodes.
+     * Processes all compilation units.
      *
-     * @param PHP_Depend_Code_NodeIterator $packages All code packages.
-     *
+     * @param PHP_Depend_AST_CompilationUnit[] $compilationUnits
      * @return void
      */
-    public function analyze(PHP_Depend_Code_NodeIterator $packages)
+    public function analyze( array $compilationUnits )
     {
         // Check for previous run
-        if ($this->_nodeMetrics === null) {
+        if ( $this->_nodeMetrics === null ) {
 
             $this->fireStartAnalyzer();
 
             // Init node metrics
             $this->_nodeMetrics = array();
 
-            // Process all packages
-            foreach ($packages as $package) {
-                $package->accept($this);
+            $processor = new MetricProcessor($this);
+
+            foreach ( $compilationUnits as $compilationUnit ) {
+                $processor->process( $compilationUnit );
             }
 
             $this->fireEndAnalyzer();
@@ -207,13 +207,13 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitClass()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass( PHP_Depend_Code_Class $class )
     {
-        if (false === $class->isUserDefined()) {
+        if ( false === $class->isUserDefined() ) {
             return;
         }
 
-        $this->fireStartClass($class);
+        $this->fireStartClass( $class );
 
         // Update global class count
         ++$this->_noc;
@@ -223,14 +223,14 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         ++$this->_nodeMetrics[$packageUUID][self::M_NUMBER_OF_CLASSES];
 
         $this->_nodeMetrics[$class->getUUID()] = array(
-            self::M_NUMBER_OF_METHODS  =>  0
+            self::M_NUMBER_OF_METHODS => 0
         );
 
-        foreach ($class->getMethods() as $method) {
-            $method->accept($this);
+        foreach ( $class->getMethods() as $method ) {
+            $method->accept( $this );
         }
 
-        $this->fireEndClass($class);
+        $this->fireEndClass( $class );
     }
 
     /**
@@ -241,9 +241,9 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitFunction()
      */
-    public function visitFunction(PHP_Depend_Code_Function $function)
+    public function visitFunction( PHP_Depend_Code_Function $function )
     {
-        $this->fireStartFunction($function);
+        $this->fireStartFunction( $function );
 
         // Update global function count
         ++$this->_nof;
@@ -252,7 +252,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $packageUUID = $function->getPackage()->getUUID();
         ++$this->_nodeMetrics[$packageUUID][self::M_NUMBER_OF_FUNCTIONS];
 
-        $this->fireEndFunction($function);
+        $this->fireEndFunction( $function );
     }
 
     /**
@@ -263,13 +263,13 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitInterface()
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface( PHP_Depend_Code_Interface $interface )
     {
-        if (false === $interface->isUserDefined()) {
+        if ( false === $interface->isUserDefined() ) {
             return;
         }
 
-        $this->fireStartInterface($interface);
+        $this->fireStartInterface( $interface );
 
         // Update global class count
         ++$this->_noi;
@@ -279,14 +279,14 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         ++$this->_nodeMetrics[$packageUUID][self::M_NUMBER_OF_INTERFACES];
 
         $this->_nodeMetrics[$interface->getUUID()] = array(
-            self::M_NUMBER_OF_METHODS  =>  0
+            self::M_NUMBER_OF_METHODS => 0
         );
 
-        foreach ($interface->getMethods() as $method) {
-            $method->accept($this);
+        foreach ( $interface->getMethods() as $method ) {
+            $method->accept( $this );
         }
 
-        $this->fireEndInterface($interface);
+        $this->fireEndInterface( $interface );
     }
 
     /**
@@ -297,9 +297,9 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitMethod()
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod( PHP_Depend_Code_Method $method )
     {
-        $this->fireStartMethod($method);
+        $this->fireStartMethod( $method );
 
         // Update global method count
         ++$this->_nom;
@@ -314,7 +314,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $packageUUID = $parent->getPackage()->getUUID();
         ++$this->_nodeMetrics[$packageUUID][self::M_NUMBER_OF_METHODS];
 
-        $this->fireEndMethod($method);
+        $this->fireEndMethod( $method );
     }
 
     /**
@@ -325,31 +325,209 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitPackage()
      */
-    public function visitPackage(PHP_Depend_Code_Package $package)
+    public function visitPackage( PHP_Depend_Code_Package $package )
     {
-        $this->fireStartPackage($package);
+        $this->fireStartPackage( $package );
 
         // Update package count
         ++$this->_nop;
 
         $this->_nodeMetrics[$package->getUUID()] = array(
-            self::M_NUMBER_OF_CLASSES     =>  0,
-            self::M_NUMBER_OF_INTERFACES  =>  0,
-            self::M_NUMBER_OF_METHODS     =>  0,
-            self::M_NUMBER_OF_FUNCTIONS   =>  0
+            self::M_NUMBER_OF_CLASSES => 0,
+            self::M_NUMBER_OF_INTERFACES => 0,
+            self::M_NUMBER_OF_METHODS => 0,
+            self::M_NUMBER_OF_FUNCTIONS => 0
         );
 
 
-        foreach ($package->getClasses() as $class) {
-            $class->accept($this);
+        foreach ( $package->getClasses() as $class ) {
+            $class->accept( $this );
         }
-        foreach ($package->getInterfaces() as $interface) {
-            $interface->accept($this);
+        foreach ( $package->getInterfaces() as $interface ) {
+            $interface->accept( $this );
         }
-        foreach ($package->getFunctions() as $function) {
-            $function->accept($this);
+        foreach ( $package->getFunctions() as $function ) {
+            $function->accept( $this );
         }
 
-        $this->fireEndPackage($package);
+        $this->fireEndPackage( $package );
     }
+
+    public function visitStmtClassBefore( PHPParser_Node_Stmt_Class $class )
+    {
+        ++$this->_noc;
+    }
+
+    public function visitStmtInterfaceBefore( PHPParser_Node_Stmt_Interface $interface )
+    {
+        ++$this->_noi;
+    }
+
+    public function visitStmtClassMethodBefore( PHPParser_Node_Stmt_ClassMethod $method )
+    {
+        ++$this->_nom;
+    }
+
+    public function visitStmtFunctionBefore( PHPParser_Node_Stmt_Function $function )
+    {
+        ++$this->_nof;
+    }
+
+    public function visitStmtNamespaceBefore( PHPParser_Node_Stmt_Namespace $ns )
+    {
+        //echo $ns->name, PHP_EOL;
+        //echo __METHOD__, PHP_EOL;
+    }
+}
+
+class MetricProcessor extends PHPParser_NodeTraverser implements PHPParser_NodeVisitor
+{
+    /**
+     * @var PHP_Depend_Metrics_Analyzer[]
+     */
+    private $analyzers = array();
+
+    private $data = array();
+
+    private $callbacks = array();
+
+    public function __construct( $analyzer )
+    {
+        $class = get_class( $analyzer );
+
+        foreach ( get_class_methods( $analyzer ) as $method )
+        {
+            if ( 0 === preg_match( '(^visit[\w\d]+(Before|After)$)', $method ) )
+            {
+                continue;
+            }
+            if ( false === isset( $this->callbacks[$method] ) )
+            {
+                $this->callbacks[$method] = array();
+            }
+            $this->callbacks[$method][] = $class;
+        }
+
+        $this->addVisitor( $this );
+
+        $this->data[$class]      = null;
+        $this->analyzers[$class] = $analyzer;
+    }
+
+    public function process( PHP_Depend_AST_CompilationUnit $compilationUnit )
+    {
+        foreach ( $this->analyzers as $analyzer )
+        {
+            if ( method_exists( $analyzer, 'visitCompilationUnitBefore' ) )
+            {
+                $analyzer->visitCompilationUnitBefore( $compilationUnit );
+            }
+        }
+
+        $this->traverse( $compilationUnit->stmts );
+
+        foreach ( $this->analyzers as $analyzer )
+        {
+            if ( method_exists( $analyzer, 'visitCompilationUnitAfter' ) )
+            {
+                $analyzer->visitCompilationUnitBefore( $compilationUnit );
+            }
+        }
+    }
+
+    /**
+     * Called once before traversal.
+     *
+     * Return value semantics:
+     *  * null:      $nodes stays as-is
+     *  * otherwise: $nodes is set to the return value
+     *
+     * @param PHPParser_Node[] $nodes Array of nodes
+     *
+     * @return null|PHPParser_Node[] Array of nodes
+     */
+    public function beforeTraverse(array $nodes)
+    {
+        foreach ( array_keys( $this->data ) as $class )
+        {
+            $this->data[$class] = null;
+        }
+    }
+
+    /**
+     * Called when entering a node.
+     *
+     * Return value semantics:
+     *  * null:      $node stays as-is
+     *  * otherwise: $node is set to the return value
+     *
+     * @param PHPParser_Node $node Node
+     *
+     * @return null|PHPParser_Node Node
+     */
+    public function enterNode(PHPParser_Node $node)
+    {
+        $callback = sprintf(
+            'visit%sBefore',
+            str_replace( '_', '', substr( get_class( $node ), 15 ) )
+        );
+
+        if ( false === isset( $this->callbacks[$callback] ) )
+        {
+            return ;
+        }
+
+        foreach ( $this->callbacks[$callback] as $class )
+        {
+            $this->data[$class] = $this->analyzers[$class]->$callback( $node, $this->data[$class] );
+        }
+    }
+
+    /**
+     * Called when leaving a node.
+     *
+     * Return value semantics:
+     *  * null:      $node stays as-is
+     *  * false:     $node is removed from the parent array
+     *  * array:     The return value is merged into the parent array (at the position of the $node)
+     *  * otherwise: $node is set to the return value
+     *
+     * @param PHPParser_Node $node Node
+     *
+     * @return null|PHPParser_Node|false|PHPParser_Node[] Node
+     */
+    public function leaveNode(PHPParser_Node $node)
+    {
+        $callback = sprintf(
+            'visit%sAfter',
+            str_replace( '_', '', substr( get_class( $node ), 15 ) )
+        );
+
+        if ( false === isset( $this->callbacks[$callback] ) )
+        {
+            return ;
+        }
+
+        foreach ( $this->callbacks[$callback] as $class )
+        {
+            $this->data[$class] = $this->analyzers[$class]->$callback( $node, $this->data[$class] );
+        }
+    }
+
+    /**
+     * Called once after traversal.
+     *
+     * Return value semantics:
+     *  * null:      $nodes stays as-is
+     *  * otherwise: $nodes is set to the return value
+     *
+     * @param PHPParser_Node[] $nodes Array of nodes
+     *
+     * @return null|PHPParser_Node[] Array of nodes
+     */
+    public function afterTraverse(array $nodes)
+    {
+
+    }
+
 }
