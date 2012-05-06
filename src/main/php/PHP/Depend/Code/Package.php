@@ -337,23 +337,4 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
     {
         $visitor->visitPackage($this);
     }
-
-    // @codeCoverageIgnoreStart
-
-    /**
-     * This method can be called by the PHP_Depend runtime environment or a
-     * utilizing component to free up memory. This methods are required for
-     * PHP version < 5.3 where cyclic references can not be resolved
-     * automatically by PHP's garbage collector.
-     *
-     * @return void
-     * @since 0.9.12
-     * @deprecated Since 1.0.0
-     */
-    public function free()
-    {
-        trigger_error(__METHOD__ . '() is deprecated.', E_USER_DEPRECATED);
-    }
-
-    // @codeCoverageIgnoreEnd
 }

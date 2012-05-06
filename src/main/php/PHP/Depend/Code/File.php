@@ -62,7 +62,7 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
 {
     /**
      * The type of this class.
-     * 
+     *
      * @since 0.10.0
      */
     const CLAZZ = __CLASS__;
@@ -400,24 +400,4 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
             $this->endLine   = substr_count($this->_source, "\n") + 1;
         }
     }
-    
-    // Deprecated methods
-    // @codeCoverageIgnoreStart
-
-    /**
-     * This method can be called by the PHP_Depend runtime environment or a
-     * utilizing component to free up memory. This methods are required for
-     * PHP version < 5.3 where cyclic references can not be resolved
-     * automatically by PHP's garbage collector.
-     *
-     * @return void
-     * @since 0.9.12
-     * @deprecated Since 0.10.0
-     */
-    public function free()
-    {
-        fwrite(STDERR, __METHOD__ . ' is deprecated since version 0.10.0' . PHP_EOL);
-    }
-
-    // @codeCoverageIgnoreEnd
 }
