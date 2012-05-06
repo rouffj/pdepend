@@ -91,28 +91,28 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      *
      * @var integer
      */
-    private $_noc = 0;
+    private $numberOfClasses = 0;
 
     /**
      * Number Of Interfaces.
      *
      * @var integer
      */
-    private $_noi = 0;
+    private $numberOfInterfaces = 0;
 
     /**
      * Number Of Methods.
      *
      * @var integer
      */
-    private $_nom = 0;
+    private $numberOfMethods = 0;
 
     /**
      * Number Of Functions.
      *
      * @var integer
      */
-    private $_nof = 0;
+    private $numberOfFunctions = 0;
 
     /**
      * Collected node metrics
@@ -166,10 +166,10 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
     {
         return array(
             self::M_NUMBER_OF_PACKAGES => $this->_nop,
-            self::M_NUMBER_OF_CLASSES => $this->_noc,
-            self::M_NUMBER_OF_INTERFACES => $this->_noi,
-            self::M_NUMBER_OF_METHODS => $this->_nom,
-            self::M_NUMBER_OF_FUNCTIONS => $this->_nof
+            self::M_NUMBER_OF_CLASSES => $this->numberOfClasses,
+            self::M_NUMBER_OF_INTERFACES => $this->numberOfInterfaces,
+            self::M_NUMBER_OF_METHODS => $this->numberOfMethods,
+            self::M_NUMBER_OF_FUNCTIONS => $this->numberOfFunctions
         );
     }
 
@@ -216,7 +216,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->fireStartClass( $class );
 
         // Update global class count
-        ++$this->_noc;
+        ++$this->numberOfClasses;
 
         // Update parent package
         $packageUUID = $class->getPackage()->getUUID();
@@ -246,7 +246,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->fireStartFunction( $function );
 
         // Update global function count
-        ++$this->_nof;
+        ++$this->numberOfFunctions;
 
         // Update parent package
         $packageUUID = $function->getPackage()->getUUID();
@@ -272,7 +272,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->fireStartInterface( $interface );
 
         // Update global class count
-        ++$this->_noi;
+        ++$this->numberOfInterfaces;
 
         // Update parent package
         $packageUUID = $interface->getPackage()->getUUID();
@@ -302,7 +302,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->fireStartMethod( $method );
 
         // Update global method count
-        ++$this->_nom;
+        ++$this->numberOfMethods;
 
         $parent = $method->getParent();
 
@@ -355,28 +355,39 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
 
     public function visitStmtClassBefore( PHPParser_Node_Stmt_Class $class )
     {
-        ++$this->_noc;
+        ++$this->numberOfClasses;
     }
 
     public function visitStmtInterfaceBefore( PHPParser_Node_Stmt_Interface $interface )
     {
-        ++$this->_noi;
+        ++$this->numberOfInterfaces;
     }
 
     public function visitStmtClassMethodBefore( PHPParser_Node_Stmt_ClassMethod $method )
     {
-        ++$this->_nom;
+        ++$this->numberOfMethods;
     }
 
-    public function visitStmtFunctionBefore( PHPParser_Node_Stmt_Function $function )
+    public function visitFunctionBefore( PHPParser_Node_Stmt_Function $function )
     {
-        ++$this->_nof;
+        ++$this->numberOfFunctions;
+
+        $parts = explode( '|', $function->getAttribute( 'id' ) );
+        array_pop( $parts );
+        var_dump( join( '|', $parts ) );
     }
 
     public function visitStmtNamespaceBefore( PHPParser_Node_Stmt_Namespace $ns )
     {
-        //echo $ns->name, PHP_EOL;
-        //echo __METHOD__, PHP_EOL;
+        if ( false === isset( $this->_nodeMetrics[$ns->getAttribute( 'id' )] ) )
+        {
+            $this->_nodeMetrics[$ns->getAttribute( 'id' )] = array(
+                self::M_NUMBER_OF_CLASSES     =>  0,
+                self::M_NUMBER_OF_INTERFACES  =>  0,
+                self::M_NUMBER_OF_METHODS     =>  0,
+                self::M_NUMBER_OF_FUNCTIONS   =>  0
+            );
+        }
     }
 }
 
@@ -465,7 +476,7 @@ class MetricProcessor extends PHPParser_NodeTraverser implements PHPParser_NodeV
      *
      * @return null|PHPParser_Node Node
      */
-    public function enterNode(PHPParser_Node $node)
+    public function enterNode( PHPParser_Node $node )
     {
         $callback = sprintf(
             'visit%sBefore',

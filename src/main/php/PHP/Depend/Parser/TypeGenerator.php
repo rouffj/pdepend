@@ -47,8 +47,7 @@
  */
 
 /**
- * Visitor class that generates unique node identifiers for classes, namespaces,
- * interfaces and functions/methods.
+ * Visitor class that generates custom nodes used by PHP_Depend.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -60,114 +59,40 @@
  * @link       http://pdepend.org/
  * @since      2.0.0
  */
-class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
+class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
 {
-    /**
-     * Fragments the build of the node identifier.
-     *
-     * @var array
-     */
-    private $parts = array();
-
-    /**
-     * Sets the currently parsed source file.
-     *
-     * @param string $file
-     * @return void
-     */
-    public function setFile( $file )
-    {
-        $this->parts = array(
-            sprintf(
-                '%s~%s',
-                base_convert( md5( $file ), 16, 35 ),
-                strtr( substr( basename( $file ), -30, 30 ), '|', '_' )
-            )
-        );
-    }
-
     /**
      * Extracts the name of several node types and adds them to the internally
      * used node identifier tree.
      *
      * @param PHPParser_Node $node
-     * @return null
+     * @return PHPParser_Node
      */
     public function enterNode( PHPParser_Node $node )
     {
-        if ( $node instanceof PHPParser_Node_Stmt_Class )
+        if ( $node instanceof PHPParser_Node_Stmt_Namespace )
         {
-            array_push( $this->parts, "\\{$node->name}" );
+            return new PHP_Depend_AST_Namespace( $node );
+        }
+        else if ( $node instanceof PHPParser_Node_Stmt_Class )
+        {
+
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Interface )
         {
-            array_push( $this->parts, "\\{$node->name}" );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
-        {
-            array_push( $this->parts, $node->name );
+
         }
         else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
         {
-            array_push( $this->parts, "\${$node->name}" );
+
         }
         else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
-            array_push( $this->parts, "::{$node->name}()" );
+
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {
-            array_push( $this->parts, "\\{$node->name}()" );
             return new PHP_Depend_AST_Function( $node );
-        }
-    }
-
-    /**
-     * Sets a unique identifier on the given node. The ID will be stored in a
-     * node attribute named <b>"id"</b>.
-     *
-     * @param PHPParser_Node $node Node
-     * @return null
-     */
-    public function leaveNode( PHPParser_Node $node )
-    {
-        if ( $node instanceof PHPParser_Node_Stmt_Class )
-        {
-            $id = join( '|', $this->parts );
-            array_pop( $this->parts );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Interface )
-        {
-            $id = join( '|', $this->parts );
-            array_pop( $this->parts );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
-        {
-            $id = $node->name;
-            array_pop( $this->parts );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
-        {
-            $id = join( '|', $this->parts );
-            array_pop( $this->parts );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
-        {
-            $id = join( '|', $this->parts );
-            array_pop( $this->parts );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Function )
-        {
-            $id = join( '|', $this->parts );
-            array_pop( $this->parts );
-        }
-
-        if ( isset( $id ) )
-        {
-            $node->setAttribute(
-                'id',
-                ltrim( preg_replace( '([^a-z0-9:\(\)\.\~\|]+)i', '', $id ), '-' )
-            );
         }
     }
 }

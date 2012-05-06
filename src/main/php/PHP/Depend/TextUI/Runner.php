@@ -125,7 +125,7 @@ class PHP_Depend_TextUI_Runner
     /**
      * List of cli options for loggers or analyzers.
      *
-     * @var array(string=>mixed) $_options
+     * @var array(string=>mixed)
      */
     private $_options = array();
 
@@ -133,14 +133,14 @@ class PHP_Depend_TextUI_Runner
      * This of process listeners that will be hooked into PHP_Depend's analyzing
      * process.
      *
-     * @var array(PHP_Depend_ProcessListenerI) $_processListeners
+     * @var PHP_Depend_ProcessListener[]
      */
     private $_processListeners = array();
 
     /**
      * List of error messages for all parsing errors.
      *
-     * @var array(string) $_parseErrors
+     * @var array(string)
      */
     private $_parseErrors = array();
 
@@ -249,11 +249,11 @@ class PHP_Depend_TextUI_Runner
      * Adds a process listener instance that will be hooked into PHP_Depends
      * analyzing process.
      *
-     * @param PHP_Depend_ProcessListenerI $processListener A process listener.
+     * @param PHP_Depend_ProcessListener $processListener A process listener.
      *
      * @return void
      */
-    public function addProcessListener(PHP_Depend_ProcessListenerI $processListener)
+    public function addProcessListener(PHP_Depend_ProcessListener $processListener)
     {
         $this->_processListeners[] = $processListener;
     }

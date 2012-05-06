@@ -63,7 +63,7 @@
  */
 class PHP_Depend_DbusUI_ResultPrinter
        extends PHP_Depend_Visitor_AbstractListener
-    implements PHP_Depend_ProcessListenerI
+    implements PHP_Depend_ProcessListener
 {
     /**
      * Time when it the process has started.

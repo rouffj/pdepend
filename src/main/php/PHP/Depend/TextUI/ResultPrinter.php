@@ -60,7 +60,7 @@
  */
 class PHP_Depend_TextUI_ResultPrinter
        extends PHP_Depend_Visitor_AbstractListener
-    implements PHP_Depend_ProcessListenerI
+    implements PHP_Depend_ProcessListener
 {
     /**
      * The step size.

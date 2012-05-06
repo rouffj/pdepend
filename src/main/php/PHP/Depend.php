@@ -124,7 +124,7 @@ class PHP_Depend
     /**
      * List or registered listeners.
      *
-     * @var PHP_Depend_ProcessListenerI[]
+     * @var PHP_Depend_ProcessListener[]
      */
     private $_listeners = array();
 
@@ -254,11 +254,11 @@ class PHP_Depend
     /**
      * Adds a process listener.
      *
-     * @param PHP_Depend_ProcessListenerI $listener The listener instance.
+     * @param PHP_Depend_ProcessListener $listener The listener instance.
      *
      * @return void
      */
-    public function addProcessListener( PHP_Depend_ProcessListenerI $listener )
+    public function addProcessListener( PHP_Depend_ProcessListener $listener )
     {
         if ( in_array( $listener, $this->_listeners, true ) === false ) {
             $this->_listeners[] = $listener;
