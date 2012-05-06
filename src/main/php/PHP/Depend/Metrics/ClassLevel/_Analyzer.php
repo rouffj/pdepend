@@ -64,7 +64,6 @@
 class PHP_Depend_Metrics_ClassLevel_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
     implements PHP_Depend_Metrics_AggregateAnalyzerI,
-               PHP_Depend_Metrics_FilterAwareI,
                PHP_Depend_Metrics_NodeAwareI
 {
     /**

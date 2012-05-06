@@ -282,12 +282,6 @@ class PHP_Depend_TextUI_Runner
             $pdepend->addFileFilter($filter);
         }
 
-        if (count($this->_excludePackages) > 0) {
-            $exclude = $this->_excludePackages;
-            $filter  = new PHP_Depend_Code_Filter_Package($exclude);
-            $pdepend->setCodeFilter($filter);
-        }
-
         if ($this->_withoutAnnotations === true) {
             $pdepend->setWithoutAnnotations();
         }

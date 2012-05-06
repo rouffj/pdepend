@@ -76,9 +76,6 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      */
     public function testAnalyzerCalculatesCorrectANDCValue()
     {
-        $filter = PHP_Depend_Code_Filter_Collection::getInstance();
-        $filter->setFilter(new PHP_Depend_Code_Filter_Package(array('library')));
-
         $packages = self::parseTestCaseSource(__METHOD__);
         $analyzer = new PHP_Depend_Metrics_Inheritance_Analyzer();
         $analyzer->analyze($packages);
@@ -95,9 +92,6 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      */
     public function testAnalyzerCalculatesCorrectAHHValue()
     {
-        $filter = PHP_Depend_Code_Filter_Collection::getInstance();
-        $filter->setFilter(new PHP_Depend_Code_Filter_Package(array('library')));
-
         $packages = self::parseTestCaseSource(__METHOD__);
         $analyzer = new PHP_Depend_Metrics_Inheritance_Analyzer();
         $analyzer->analyze($packages);
@@ -224,7 +218,7 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
         $actual = array();
         foreach ($package->getClasses() as $class) {
             $metrics = $analyzer->getNodeMetrics($class);
-            
+
             $actual[$class->getName()] = $metrics['dit'];
         }
         ksort($actual);

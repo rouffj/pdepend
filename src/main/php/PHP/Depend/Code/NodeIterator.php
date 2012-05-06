@@ -89,8 +89,6 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      */
     public function __construct(array $nodes)
     {
-        $filter = PHP_Depend_Code_Filter_Collection::getInstance();
-
         $nodeKeys = array();
         foreach ($nodes as $node) {
             $uuid = $node->getUUID();

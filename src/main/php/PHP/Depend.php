@@ -122,13 +122,6 @@ class PHP_Depend
     private $_fileFilter = null;
 
     /**
-     * A filter for source packages.
-     *
-     * @var PHP_Depend_Code_FilterI $_codeFilter
-     */
-    private $_codeFilter = null;
-
-    /**
      * Should the parse ignore doc comment annotations?
      *
      * @var boolean $_withoutAnnotations
@@ -174,7 +167,6 @@ class PHP_Depend
     {
         $this->configuration = $configuration;
 
-        $this->_codeFilter = new PHP_Depend_Code_Filter_Null();
         $this->_fileFilter = new PHP_Depend_Input_CompositeFilter();
 
         $this->_cacheFactory = new PHP_Depend_Util_Cache_Factory($configuration);
@@ -245,19 +237,6 @@ class PHP_Depend
     }
 
     /**
-     * Sets an additional code filter. These filters could be used to hide
-     * external libraries and global stuff from the PDepend output.
-     *
-     * @param PHP_Depend_Code_FilterI $filter The code filter.
-     *
-     * @return void
-     */
-    public function setCodeFilter(PHP_Depend_Code_FilterI $filter)
-    {
-        $this->_codeFilter = $filter;
-    }
-
-    /**
      * Sets analyzer options.
      *
      * @param array(string=>mixed) $options The analyzer options.
@@ -305,16 +284,7 @@ class PHP_Depend
 
         $this->_performParseProcess();
 
-        // Get global filter collection
-        $collection = PHP_Depend_Code_Filter_Collection::getInstance();
-        $collection->setFilter($this->_codeFilter);
-
-        $collection->setFilter();
-
         $this->_performAnalyzeProcess();
-
-        // Set global filter for logging
-        $collection->setFilter($this->_codeFilter);
 
         $packages = $this->_builder->getPackages();
 
@@ -574,22 +544,12 @@ class PHP_Depend
     {
         $analyzerLoader = $this->_createAnalyzerLoader($this->_options);
 
-        $collection = PHP_Depend_Code_Filter_Collection::getInstance();
-
         $this->fireStartAnalyzeProcess();
 
         ini_set('xdebug.max_nesting_level', $this->configuration->parser->nesting);
 
         foreach ($analyzerLoader as $analyzer) {
-            // Add filters if this analyzer is filter aware
-            if ($analyzer instanceof PHP_Depend_Metrics_FilterAwareI) {
-                $collection->setFilter($this->_codeFilter);
-            }
-
             $analyzer->analyze($this->_builder->getPackages());
-
-            // Remove filters if this analyzer is filter aware
-            $collection->setFilter();
 
             foreach ($this->_loggers as $logger) {
                 $logger->log($analyzer);

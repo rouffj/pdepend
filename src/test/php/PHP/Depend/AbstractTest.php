@@ -96,8 +96,6 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        PHP_Depend_Code_Filter_Collection::getInstance()->setFilter();
-
         $this->_clearRunResources();
         $this->resetWorkingDirectory();
 
@@ -640,8 +638,6 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
         $path .= PATH_SEPARATOR . get_include_path();
         set_include_path($path);
 
-        include_once 'PHP/Depend/Code/Filter/Collection.php';
-
         self::_initVersionCompatibility();
     }
 
@@ -654,10 +650,15 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public static function autoload($className)
     {
+        $basedir = realpath(dirname(__FILE__) . '/../../../../../');
+
         $file = strtr($className, '_', '/') . '.php';
-        if (is_file(dirname(__FILE__) . '/../../../../main/php/PHP/Depend.php')) {
-            $file = dirname(__FILE__) . '/../../../../main/php/' . $file;
+        if (is_file($basedir . '/src/main/php/' . $file)) {
+            $file = $basedir . '/src/main/php/' . $file;
+        } else if (is_file($basedir . '/lib/PHP-Parser/lib/' . $file)) {
+            $file = $basedir . '/lib/PHP-Parser/lib/' . $file;
         }
+
         if (file_exists($file)) {
             include $file;
         }
