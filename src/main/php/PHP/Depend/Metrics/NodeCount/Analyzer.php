@@ -74,10 +74,10 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      * Metrics provided by the analyzer implementation.
      */
     const M_NUMBER_OF_PACKAGES = 'nop',
-        M_NUMBER_OF_CLASSES = 'noc',
+        M_NUMBER_OF_CLASSES    = 'noc',
         M_NUMBER_OF_INTERFACES = 'noi',
-        M_NUMBER_OF_METHODS = 'nom',
-        M_NUMBER_OF_FUNCTIONS = 'nof';
+        M_NUMBER_OF_METHODS    = 'nom',
+        M_NUMBER_OF_FUNCTIONS  = 'nof';
 
     /**
      * Number Of Packages.
