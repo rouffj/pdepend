@@ -62,8 +62,8 @@ interface PHP_Depend_Metrics_NodeAware extends PHP_Depend_Metrics_Analyzer
 {
     /**
      * This method will return an <b>array</b> with all generated metric values
-     * for the node with the given <b>$uuid</b> identifier. If there are no
-     * metrics for the requested node, this method will return an empty <b>array</b>.
+     * for the given node or node identifier. If there are no metrics for the
+     * requested node, this method will return an empty <b>array</b>.
      *
      * <code>
      * array(
@@ -73,9 +73,9 @@ interface PHP_Depend_Metrics_NodeAware extends PHP_Depend_Metrics_Analyzer
      * )
      * </code>
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node|string $node The context node instance.
      *
-     * @return array(string=>mixed)
+     * @return array
      */
-    function getNodeMetrics(PHP_Depend_Code_NodeI $node);
+    function getNodeMetrics( $node );
 }

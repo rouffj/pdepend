@@ -1,8 +1,8 @@
 <?php
-class PHP_Depend_AST_Namespace extends PHPParser_Node_Stmt_Namespace
+class PHP_Depend_AST_Namespace
+    extends PHPParser_Node_Stmt_Namespace
+    implements PHP_Depend_AST_Node
 {
-    private $id;
-
     public function __construct( PHPParser_Node_Stmt_Namespace $namespace )
     {
         parent::__construct(
@@ -15,13 +15,13 @@ class PHP_Depend_AST_Namespace extends PHPParser_Node_Stmt_Namespace
         $this->attributes = $namespace->attributes;
     }
 
-    public function setId( $id )
-    {
-        $this->id = $id;
-    }
-
     public function getId()
     {
-        return $this->id;
+        return (string) $this->name;
+    }
+
+    public function getNamespace()
+    {
+        return null;
     }
 }

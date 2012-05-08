@@ -1,17 +1,20 @@
 <?php
-class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function
+class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PHP_Depend_AST_Node
 {
     /**
      * @var string
      */
-    private $id;
+    public $id;
 
     /**
-     * @var
+     * @var PHP_Depend_AST_Namespace
      */
-    private $namespace;
+    public $namespace;
 
-    public function __construct( PHPParser_Node_Stmt_Function $function )
+    public function __construct(
+        PHPParser_Node_Stmt_Function $function,
+        PHP_Depend_AST_Namespace $namespace
+    )
     {
         parent::__construct(
             $function->name,
@@ -26,15 +29,17 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function
 
         $this->attributes     = $function->attributes;
         $this->namespacedName = $function->namespacedName;
-    }
 
-    public function setId( $id )
-    {
-        $this->id = $id;
+        $this->namespace = $namespace;
     }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getNamespace()
+    {
+        return $this->namespace;
     }
 }

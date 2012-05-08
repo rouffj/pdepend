@@ -84,7 +84,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      *
      * @var integer
      */
-    private $_nop = 0;
+    private $numberOfPackages = 0;
 
     /**
      * Number Of Classes.
@@ -123,7 +123,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
 
     /**
      * This method will return an <b>array</b> with all generated metric values
-     * for the given <b>$node</b> instance. If there are no metrics for the
+     * for the given node or node identifier. If there are no metrics for the
      * requested node, this method will return an empty <b>array</b>.
      *
      * <code>
@@ -134,17 +134,19 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      * )
      * </code>
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node|string $node The context node instance.
      *
-     * @return array(string=>mixed)
+     * @return array
      */
-    public function getNodeMetrics( PHP_Depend_Code_NodeI $node )
+    public function getNodeMetrics( $node )
     {
-        $metrics = array();
-        if ( isset( $this->_nodeMetrics[$node->getUUID()] ) ) {
-            $metrics = $this->_nodeMetrics[$node->getUUID()];
+        $nodeId = (string) is_object( $node ) ? $node->getId() : $node;
+
+        if ( isset( $this->_nodeMetrics[$nodeId] ) )
+        {
+            return $this->_nodeMetrics[$nodeId];
         }
-        return $metrics;
+        return array();
     }
 
     /**
@@ -165,7 +167,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
     public function getProjectMetrics()
     {
         return array(
-            self::M_NUMBER_OF_PACKAGES => $this->_nop,
+            self::M_NUMBER_OF_PACKAGES => $this->numberOfPackages,
             self::M_NUMBER_OF_CLASSES => $this->numberOfClasses,
             self::M_NUMBER_OF_INTERFACES => $this->numberOfInterfaces,
             self::M_NUMBER_OF_METHODS => $this->numberOfMethods,
@@ -317,42 +319,6 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->fireEndMethod( $method );
     }
 
-    /**
-     * Visits a package node.
-     *
-     * @param PHP_Depend_Code_Class $package The package class node.
-     *
-     * @return void
-     * @see PHP_Depend_VisitorI::visitPackage()
-     */
-    public function visitPackage( PHP_Depend_Code_Package $package )
-    {
-        $this->fireStartPackage( $package );
-
-        // Update package count
-        ++$this->_nop;
-
-        $this->_nodeMetrics[$package->getUUID()] = array(
-            self::M_NUMBER_OF_CLASSES => 0,
-            self::M_NUMBER_OF_INTERFACES => 0,
-            self::M_NUMBER_OF_METHODS => 0,
-            self::M_NUMBER_OF_FUNCTIONS => 0
-        );
-
-
-        foreach ( $package->getClasses() as $class ) {
-            $class->accept( $this );
-        }
-        foreach ( $package->getInterfaces() as $interface ) {
-            $interface->accept( $this );
-        }
-        foreach ( $package->getFunctions() as $function ) {
-            $function->accept( $this );
-        }
-
-        $this->fireEndPackage( $package );
-    }
-
     public function visitStmtClassBefore( PHPParser_Node_Stmt_Class $class )
     {
         ++$this->numberOfClasses;
@@ -368,25 +334,28 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         ++$this->numberOfMethods;
     }
 
-    public function visitFunctionBefore( PHPParser_Node_Stmt_Function $function )
+    public function visitFunctionBefore( PHP_Depend_AST_Function $function )
     {
         ++$this->numberOfFunctions;
 
-        $parts = explode( '|', $function->getAttribute( 'id' ) );
-        array_pop( $parts );
-        var_dump( join( '|', $parts ) );
+        $namespace = $function->getNamespace();
+        $this->visitNamespaceBefore( $namespace );
+
+        ++$this->_nodeMetrics[$namespace->getId()][self::M_NUMBER_OF_FUNCTIONS];
     }
 
-    public function visitStmtNamespaceBefore( PHPParser_Node_Stmt_Namespace $ns )
+    public function visitNamespaceBefore( PHPParser_Node_Stmt_Namespace $ns )
     {
-        if ( false === isset( $this->_nodeMetrics[$ns->getAttribute( 'id' )] ) )
+        if ( false === isset( $this->_nodeMetrics[$ns->getId()] ) )
         {
-            $this->_nodeMetrics[$ns->getAttribute( 'id' )] = array(
+            $this->_nodeMetrics[$ns->getId()] = array(
                 self::M_NUMBER_OF_CLASSES     =>  0,
                 self::M_NUMBER_OF_INTERFACES  =>  0,
                 self::M_NUMBER_OF_METHODS     =>  0,
                 self::M_NUMBER_OF_FUNCTIONS   =>  0
             );
+
+            ++$this->numberOfPackages;
         }
     }
 }

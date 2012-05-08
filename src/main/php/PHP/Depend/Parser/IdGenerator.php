@@ -118,7 +118,6 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
         else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {
             array_push( $this->parts, "\\{$node->name}()" );
-            return new PHP_Depend_AST_Function( $node );
         }
     }
 
@@ -143,7 +142,6 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
         {
-            $id = $node->name;
             array_pop( $this->parts );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
@@ -156,9 +154,10 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
             $id = join( '|', $this->parts );
             array_pop( $this->parts );
         }
-        else if ( $node instanceof PHPParser_Node_Stmt_Function )
+        else if ( $node instanceof PHP_Depend_AST_Function )
         {
             $id = join( '|', $this->parts );
+            $node->id = ltrim( preg_replace( '([^a-z0-9:\(\)\.\~\|]+)i', '', $id ), '-' );
             array_pop( $this->parts );
         }
 
