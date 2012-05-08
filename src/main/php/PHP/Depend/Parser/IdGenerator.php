@@ -95,7 +95,7 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
      */
     public function enterNode( PHPParser_Node $node )
     {
-        if ( $node instanceof PHPParser_Node_Stmt_Class )
+        if ( $node instanceof PHP_Depend_AST_Class )
         {
             array_push( $this->parts, "\\{$node->name}" );
         }
@@ -103,19 +103,19 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
         {
             array_push( $this->parts, "\\{$node->name}" );
         }
-        else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
+        else if ( $node instanceof PHP_Depend_AST_Namespace )
         {
             array_push( $this->parts, $node->name );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
         {
-            array_push( $this->parts, "\${$node->name}" );
+            array_push( $this->parts, ".\${$node->name}" );
         }
-        else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
+        else if ( $node instanceof PHP_Depend_AST_Method )
         {
-            array_push( $this->parts, "::{$node->name}()" );
+            array_push( $this->parts, ".{$node->name}()" );
         }
-        else if ( $node instanceof PHPParser_Node_Stmt_Function )
+        else if ( $node instanceof PHP_Depend_AST_Function )
         {
             array_push( $this->parts, "\\{$node->name}()" );
         }
@@ -140,7 +140,7 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
             $id = join( '|', $this->parts );
             array_pop( $this->parts );
         }
-        else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
+        else if ( $node instanceof PHP_Depend_AST_Namespace )
         {
             array_pop( $this->parts );
         }
@@ -149,7 +149,7 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
             $id = join( '|', $this->parts );
             array_pop( $this->parts );
         }
-        else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
+        else if ( $node instanceof PHP_Depend_AST_Method )
         {
             $id = join( '|', $this->parts );
             array_pop( $this->parts );

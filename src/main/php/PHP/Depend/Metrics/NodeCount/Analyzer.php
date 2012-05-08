@@ -319,7 +319,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->fireEndMethod( $method );
     }
 
-    public function visitStmtClassBefore( PHPParser_Node_Stmt_Class $class )
+    public function visitClassBefore( PHP_Depend_AST_Class $class )
     {
         ++$this->numberOfClasses;
     }
@@ -329,9 +329,11 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         ++$this->numberOfInterfaces;
     }
 
-    public function visitStmtClassMethodBefore( PHPParser_Node_Stmt_ClassMethod $method )
+    public function visitMethodBefore( PHP_Depend_AST_Method $method )
     {
         ++$this->numberOfMethods;
+
+        $method->getNamespace();
     }
 
     public function visitFunctionBefore( PHP_Depend_AST_Function $function )
