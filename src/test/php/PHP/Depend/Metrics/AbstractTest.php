@@ -46,7 +46,7 @@
  * @link       http://pdepend.org/
  */
 
-require_once dirname(__FILE__) . '/../AbstractTest.php';
+require_once dirname( __FILE__ ) . '/../AbstractTest.php';
 
 /**
  * Abstract base class for tests of the metrics package.
@@ -69,30 +69,30 @@ abstract class PHP_Depend_Metrics_AbstractTest extends PHP_Depend_AbstractTest
      * @param string  $testCase          Qualified test case name.
      * @param boolean $ignoreAnnotations The parser should ignore annotations.
      *
-     * @return PHP_Depend_Code_NodeIterator
+     * @return PHP_Depend_AST_CompilationUnit[]
      */
-    public static function parseTestCaseSource($testCase, $ignoreAnnotations = false)
+    public static function parseTestCaseSource( $testCase, $ignoreAnnotations = false )
     {
-        list($class, $method) = explode('::', $testCase);
+        list( $class, $method ) = explode( '::', $testCase );
 
-        $parts = explode('_', $class);
+        $parts = explode( '_', $class );
 
         try {
             return parent::parseSource(
                 sprintf(
                     'Metrics/%s/%s.php',
-                    $parts[count($parts) - 2],
+                    $parts[count( $parts ) - 2],
                     $method
                 ),
                 $ignoreAnnotations
             );
-        } catch (Exception $e) {
+        } catch ( Exception $e ) {
         }
-        
+
         return parent::parseSource(
             sprintf(
                 'Metrics/%s/%s',
-                $parts[count($parts) - 2],
+                $parts[count( $parts ) - 2],
                 $method
             ),
             $ignoreAnnotations
