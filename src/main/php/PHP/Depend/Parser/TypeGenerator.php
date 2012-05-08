@@ -59,8 +59,11 @@
  * @link       http://pdepend.org/
  * @since      2.0.0
  */
-class PHP_Depend_Parser_TypeMapper extends PHPParser_NodeVisitorAbstract
+class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
 {
+
+    private $type;
+
     /**
      * Extracts the name of several node types and adds them to the internally
      * used node identifier tree.
@@ -76,7 +79,9 @@ class PHP_Depend_Parser_TypeMapper extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Class )
         {
-
+            return new PHP_Depend_AST_Class(
+                $node, $this->extractNamespace( $node )
+            );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Interface )
         {
@@ -88,7 +93,9 @@ class PHP_Depend_Parser_TypeMapper extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
-
+            return new PHP_Depend_AST_Method(
+                $node
+            );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {

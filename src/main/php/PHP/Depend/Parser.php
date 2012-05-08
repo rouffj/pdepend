@@ -19,7 +19,7 @@ class PHP_Depend_Parser
 
         $this->traverser = new PHPParser_NodeTraverser();
         $this->traverser->addVisitor( new PHPParser_NodeVisitor_NameResolver() );
-        $this->traverser->addVisitor( new PHP_Depend_Parser_TypeMapper() );
+        $this->traverser->addVisitor( new PHP_Depend_Parser_TypeGenerator() );
         $this->traverser->addVisitor( $this->idGenerator );
     }
 
