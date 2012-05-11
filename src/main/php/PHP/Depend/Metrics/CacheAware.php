@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -62,7 +62,7 @@
  * @link       http://pdepend.org/
  * @since      1.0.0
  */
-interface PHP_Depend_Metrics_CacheAware extends PHP_Depend_Metrics_AnalyzerI
+interface PHP_Depend_Metrics_CacheAware extends PHP_Depend_Metrics_Analyzer
 {
     /**
      * Setter method for the system wide used cache.
@@ -71,5 +71,5 @@ interface PHP_Depend_Metrics_CacheAware extends PHP_Depend_Metrics_AnalyzerI
      *
      * @return void
      */
-    public function setCache(PHP_Depend_Util_Cache_Driver $cache);
+    public function setCache( PHP_Depend_Util_Cache_Driver $cache );
 }
