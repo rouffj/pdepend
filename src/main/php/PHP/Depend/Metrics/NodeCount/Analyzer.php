@@ -323,35 +323,29 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
     {
         ++$this->numberOfClasses;
 
-        $namespace = $class->getNamespace();
-        $this->visitNamespaceBefore( $namespace );
-
-        ++$this->_nodeMetrics[$namespace->getId()][self::M_NUMBER_OF_CLASSES];
+        $this->updateNamespace( $class->getNamespace(), self::M_NUMBER_OF_CLASSES );
     }
 
-    public function visitStmtInterfaceBefore( PHPParser_Node_Stmt_Interface $interface )
+    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface )
     {
         ++$this->numberOfInterfaces;
+
+        $this->updateNamespace( $interface->getNamespace(), self::M_NUMBER_OF_INTERFACES );
     }
 
     public function visitMethodBefore( PHP_Depend_AST_Method $method )
     {
         ++$this->numberOfMethods;
-
-        $method->getNamespace();
     }
 
     public function visitFunctionBefore( PHP_Depend_AST_Function $function )
     {
         ++$this->numberOfFunctions;
 
-        $namespace = $function->getNamespace();
-        $this->visitNamespaceBefore( $namespace );
-
-        ++$this->_nodeMetrics[$namespace->getId()][self::M_NUMBER_OF_FUNCTIONS];
+        $this->updateNamespace( $function->getNamespace(), self::M_NUMBER_OF_FUNCTIONS );
     }
 
-    public function visitNamespaceBefore( PHPParser_Node_Stmt_Namespace $ns )
+    public function visitNamespaceBefore( PHP_Depend_AST_Namespace $ns )
     {
         if ( false === isset( $this->_nodeMetrics[$ns->getId()] ) )
         {
@@ -364,6 +358,13 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
 
             ++$this->numberOfPackages;
         }
+    }
+
+    private function updateNamespace( PHP_Depend_AST_Namespace $namespace, $metricId )
+    {
+        $this->visitNamespaceBefore( $namespace );
+
+        ++$this->_nodeMetrics[$namespace->getId()][$metricId];
     }
 }
 

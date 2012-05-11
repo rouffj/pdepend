@@ -116,7 +116,21 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Interface )
         {
+            $extends = array();
+            foreach ( $node->extends as $extend )
+            {
+                $extends[] = (string) $extend;
+            }
 
+            return new PHP_Depend_AST_Interface(
+                $node,
+                new PHP_Depend_AST_InterfaceRefs(
+                    $this->context,
+                    $this->extractNamespaceName( $node ),
+                    $extends
+
+                )
+            );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
         {
