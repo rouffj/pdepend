@@ -59,11 +59,7 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-class PHP_Depend_Metrics_NodeCount_Analyzer
-    extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_Analyzer,
-    PHP_Depend_Metrics_NodeAware,
-    PHP_Depend_Metrics_ProjectAware
+class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractAnalyzer implements PHP_Depend_Metrics_NodeAware, PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Type of this analyzer class.
@@ -119,7 +115,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
      *
      * @var array(string=>array)
      */
-    private $_nodeMetrics = null;
+    private $metrics = null;
 
     /**
      * This method will return an <b>array</b> with all generated metric values
@@ -142,9 +138,9 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
     {
         $nodeId = (string) is_object( $node ) ? $node->getId() : $node;
 
-        if ( isset( $this->_nodeMetrics[$nodeId] ) )
+        if ( isset( $this->metrics[$nodeId] ) )
         {
-            return $this->_nodeMetrics[$nodeId];
+            return $this->metrics[$nodeId];
         }
         return array();
     }
@@ -176,59 +172,57 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
     }
 
     /**
-     * Processes all compilation units.
+     * Visits the given class before it's children were traversed.
      *
-     * @param PHP_Depend_AST_CompilationUnit[] $compilationUnits
-     * @return void
+     * @param PHP_Depend_AST_Class $class
+     * @param mixed $data
+     * @return mixed
      */
-    public function analyze( array $compilationUnits )
-    {
-        // Check for previous run
-        if ( $this->_nodeMetrics === null ) {
-
-            $this->fireStartAnalyzer();
-
-            // Init node metrics
-            $this->_nodeMetrics = array();
-
-            $processor = new PHP_Depend_Metrics_Processor();
-            $processor->register( $this );
-
-            foreach ( $compilationUnits as $compilationUnit ) {
-                $processor->process( $compilationUnit );
-            }
-
-            $this->fireEndAnalyzer();
-        }
-    }
-
-    public function visitClassBefore( PHP_Depend_AST_Class $class )
+    public function visitClassBefore( PHP_Depend_AST_Class $class, $data )
     {
         $this->fireStartClass( $class );
 
         ++$this->numberOfClasses;
 
-        $this->_nodeMetrics[$class->getId()] = array( self::M_NUMBER_OF_METHODS => 0 );
+        $this->metrics[$class->getId()] = array( self::M_NUMBER_OF_METHODS => 0 );
 
         $this->updateNamespace( $class->getNamespace(), self::M_NUMBER_OF_CLASSES );
 
         $this->fireEndClass( $class );
+
+        return $data;
     }
 
-    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface )
+    /**
+     * Visits the given interface before it's children were traversed.
+     *
+     * @param PHP_Depend_AST_Interface $interface
+     * @param mixed $data
+     * @return mixed
+     */
+    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface, $data )
     {
         $this->fireStartInterface( $interface );
 
         ++$this->numberOfInterfaces;
 
-        $this->_nodeMetrics[$interface->getId()] = array( self::M_NUMBER_OF_METHODS => 0 );
+        $this->metrics[$interface->getId()] = array( self::M_NUMBER_OF_METHODS => 0 );
 
         $this->updateNamespace( $interface->getNamespace(), self::M_NUMBER_OF_INTERFACES );
 
         $this->fireEndInterface( $interface );
+
+        return $data;
     }
 
-    public function visitMethodBefore( PHP_Depend_AST_Method $method )
+    /**
+     * Visits the given method before it's children were traversed.
+     *
+     * @param PHP_Depend_AST_Method $method
+     * @param mixed $data
+     * @return mixed
+     */
+    public function visitMethodBefore( PHP_Depend_AST_Method $method, $data )
     {
         $this->fireStartMethod( $method );
 
@@ -238,9 +232,18 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->updateNamespace( $method->getNamespace(), self::M_NUMBER_OF_METHODS );
 
         $this->fireEndMethod( $method );
+
+        return $data;
     }
 
-    public function visitFunctionBefore( PHP_Depend_AST_Function $function )
+    /**
+     * Visits the given function before it's children were traversed.
+     *
+     * @param PHP_Depend_AST_Function $function
+     * @param mixed $data
+     * @return mixed
+     */
+    public function visitFunctionBefore( PHP_Depend_AST_Function $function, $data )
     {
         $this->fireStartFunction( $function );
 
@@ -249,13 +252,22 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->updateNamespace( $function->getNamespace(), self::M_NUMBER_OF_FUNCTIONS );
 
         $this->fireEndFunction( $function );
+
+        return $data;
     }
 
-    public function visitNamespaceBefore( PHP_Depend_AST_Namespace $ns )
+    /**
+     * Visits the given namespace before it's children were traversed.
+     *
+     * @param PHP_Depend_AST_Namespace $ns
+     * @param mixed $data
+     * @return mixed
+     */
+    public function visitNamespaceBefore( PHP_Depend_AST_Namespace $ns, $data )
     {
-        if ( false === isset( $this->_nodeMetrics[$ns->getId()] ) )
+        if ( false === isset( $this->metrics[$ns->getId()] ) )
         {
-            $this->_nodeMetrics[$ns->getId()] = array(
+            $this->metrics[$ns->getId()] = array(
                 self::M_NUMBER_OF_CLASSES     =>  0,
                 self::M_NUMBER_OF_INTERFACES  =>  0,
                 self::M_NUMBER_OF_METHODS     =>  0,
@@ -264,17 +276,34 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
 
             ++$this->numberOfPackages;
         }
+        return $data;
     }
 
+    /**
+     * Increments the metric identified by <b>$metricId</b> on the given
+     * <b>$namespace</b> object.
+     *
+     * @param PHP_Depend_AST_Namespace $namespace
+     * @param string $metricId
+     * @return void
+     */
     private function updateNamespace( PHP_Depend_AST_Namespace $namespace, $metricId )
     {
-        $this->visitNamespaceBefore( $namespace );
+        $this->visitNamespaceBefore( $namespace, null );
 
-        ++$this->_nodeMetrics[$namespace->getId()][$metricId];
+        ++$this->metrics[$namespace->getId()][$metricId];
     }
 
+    /**
+     * Increments the metric identified by <b>$metricId</b> on the given
+     * <b>$type</b> object.
+     *
+     * @param PHP_Depend_AST_Type $type
+     * @param string $metricId
+     * @return void
+     */
     private function updateType( PHP_Depend_AST_Type $type, $metricId )
     {
-        ++$this->_nodeMetrics[$type->getId()][$metricId];
+        ++$this->metrics[$type->getId()][$metricId];
     }
 }

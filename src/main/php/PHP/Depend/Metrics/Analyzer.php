@@ -78,14 +78,6 @@ interface PHP_Depend_Metrics_Analyzer
     public function addAnalyzeListener( PHP_Depend_Metrics_ListenerI $listener );
 
     /**
-     * Processes all compilation units.
-     *
-     * @param PHP_Depend_AST_CompilationUnit[] $compilationUnits
-     * @return void
-     */
-    public function analyze( array $compilationUnits );
-
-    /**
      * An analyzer that is active must return <b>true</b> to recognized by
      * pdepend framework, while an analyzer that does not perform any action
      * for any reason should return <b>false</b>.
