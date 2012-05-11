@@ -3,7 +3,13 @@ class PHP_Depend_AST_Namespace
     extends PHPParser_Node_Stmt_Namespace
     implements PHP_Depend_AST_Node
 {
-    public function __construct( PHPParser_Node_Stmt_Namespace $namespace )
+
+    /**
+     * @var PHP_Depend_AST_NamespaceRefs
+     */
+    private $refs;
+
+    public function __construct( PHPParser_Node_Stmt_Namespace $namespace, PHP_Depend_AST_NamespaceRefs $refs )
     {
         parent::__construct(
             $namespace->name,
@@ -12,16 +18,19 @@ class PHP_Depend_AST_Namespace
             $namespace->docComment
         );
 
+        $this->refs       = $refs;
         $this->attributes = $namespace->attributes;
+
+        $this->refs->initialize( $this );
     }
 
     public function getId()
     {
-        return (string) $this->name;
+        return $this->getAttribute( 'id' );
     }
 
-    public function getNamespace()
+    public function __wakeup()
     {
-        return null;
+        $this->refs->initialize( $this );
     }
 }

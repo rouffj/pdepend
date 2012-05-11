@@ -65,17 +65,29 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
     private $type;
 
     /**
-     * Extracts the name of several node types and adds them to the internally
-     * used node identifier tree.
+     * @var PHP_Depend_Context
+     */
+    private $context;
+
+    public function __construct()
+    {
+        $this->context = new PHP_Depend_Context();
+    }
+
+    /**
+     * Sets a unique identifier on the given node. The ID will be stored in a
+     * node attribute named <b>"id"</b>.
      *
-     * @param PHPParser_Node $node
+     * @param PHPParser_Node $node Node
      * @return null|PHPParser_Node
      */
-    public function enterNode( PHPParser_Node $node )
+    public function leaveNode( PHPParser_Node $node )
     {
         if ( $node instanceof PHPParser_Node_Stmt_Namespace )
         {
-            return new PHP_Depend_AST_Namespace( $node );
+            return new PHP_Depend_AST_Namespace(
+                $node, new PHP_Depend_AST_NamespaceRefs( $this->context )
+            );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Class )
         {
@@ -100,7 +112,11 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
         else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {
             return new PHP_Depend_AST_Function(
-                $node, $this->extractNamespace( $node )
+                $node,
+                new PHP_Depend_AST_FunctionRefs(
+                    $this->context,
+                    $this->extractNamespaceName( $node )
+                )
             );
         }
     }
@@ -118,7 +134,23 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
                             strrpos( $node->namespacedName, '\\' )
                         )
                     )
+                ),
+                new PHP_Depend_AST_NamespaceRefs(
+                    $this->context
                 )
+            );
+        }
+        return "";
+    }
+
+    private function extractNamespaceName( PHPParser_Node $node )
+    {
+        if ( isset( $node->namespacedName ) )
+        {
+            return substr(
+                $node->namespacedName,
+                0,
+                strrpos( $node->namespacedName, '\\' )
             );
         }
         return "";

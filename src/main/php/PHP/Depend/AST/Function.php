@@ -7,13 +7,13 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
     public $id;
 
     /**
-     * @var PHP_Depend_AST_Namespace
+     * @var PHP_Depend_AST_FunctionRefs
      */
-    public $namespace;
+    private $refs;
 
     public function __construct(
         PHPParser_Node_Stmt_Function $function,
-        PHP_Depend_AST_Namespace $namespace
+        PHP_Depend_AST_FunctionRefs $refs
     )
     {
         parent::__construct(
@@ -27,19 +27,25 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
             $function->docComment
         );
 
+        $this->refs           = $refs;
         $this->attributes     = $function->attributes;
         $this->namespacedName = $function->namespacedName;
 
-        $this->namespace = $namespace;
+        $this->refs->initialize( $this );
     }
 
     public function getId()
     {
-        return $this->id;
+        return $this->getAttribute( 'id' );
     }
 
     public function getNamespace()
     {
-        return $this->namespace;
+        return $this->refs->getNamespace();
+    }
+
+    public function __wakeup()
+    {
+        $this->refs->initialize( $this );
     }
 }

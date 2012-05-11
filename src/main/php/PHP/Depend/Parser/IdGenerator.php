@@ -70,23 +70,6 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
     private $parts = array();
 
     /**
-     * Sets the currently parsed source file.
-     *
-     * @param string $file
-     * @return void
-     */
-    public function setFile( $file )
-    {
-        $this->parts = array(
-            sprintf(
-                '%s~%s',
-                base_convert( md5( $file ), 16, 35 ),
-                strtr( substr( basename( $file ), -30, 30 ), '|', '_' )
-            )
-        );
-    }
-
-    /**
      * Extracts the name of several node types and adds them to the internally
      * used node identifier tree.
      *
@@ -95,7 +78,7 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
      */
     public function enterNode( PHPParser_Node $node )
     {
-        if ( $node instanceof PHP_Depend_AST_Class )
+        if ( $node instanceof PHPParser_Node_Stmt_Class )
         {
             array_push( $this->parts, "\\{$node->name}" );
         }
@@ -103,19 +86,19 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
         {
             array_push( $this->parts, "\\{$node->name}" );
         }
-        else if ( $node instanceof PHP_Depend_AST_Namespace )
+        else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
         {
             array_push( $this->parts, $node->name );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
         {
-            array_push( $this->parts, ".\${$node->name}" );
+            array_push( $this->parts, "::\${$node->name}" );
         }
-        else if ( $node instanceof PHP_Depend_AST_Method )
+        else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
-            array_push( $this->parts, ".{$node->name}()" );
+            array_push( $this->parts, "::{$node->name}()" );
         }
-        else if ( $node instanceof PHP_Depend_AST_Function )
+        else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {
             array_push( $this->parts, "\\{$node->name}()" );
         }
@@ -132,32 +115,32 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
     {
         if ( $node instanceof PHPParser_Node_Stmt_Class )
         {
-            $id = join( '|', $this->parts );
+            $id = join( '', $this->parts );
             array_pop( $this->parts );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Interface )
         {
-            $id = join( '|', $this->parts );
+            $id = join( '', $this->parts );
             array_pop( $this->parts );
         }
-        else if ( $node instanceof PHP_Depend_AST_Namespace )
+        else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
         {
+            $id = join( '', $this->parts );
             array_pop( $this->parts );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
         {
-            $id = join( '|', $this->parts );
+            $id = join( '', $this->parts );
             array_pop( $this->parts );
         }
-        else if ( $node instanceof PHP_Depend_AST_Method )
+        else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
-            $id = join( '|', $this->parts );
+            $id = join( '', $this->parts );
             array_pop( $this->parts );
         }
-        else if ( $node instanceof PHP_Depend_AST_Function )
+        else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {
-            $id = join( '|', $this->parts );
-            $node->id = ltrim( preg_replace( '([^a-z0-9:\(\)\.\~\|]+)i', '', $id ), '-' );
+            $id = join( '', $this->parts );
             array_pop( $this->parts );
         }
 
@@ -165,7 +148,14 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
         {
             $node->setAttribute(
                 'id',
-                ltrim( preg_replace( '([^a-z0-9:\(\)\.\~\|]+)i', '', $id ), '-' )
+                trim(
+                    preg_replace(
+                        array( '(\\\\+)', '([^a-z0-9:\(\)\.\$]+)i' ),
+                        array( '.', '' ),
+                        $id
+                    ),
+                    '-'
+                )
             );
         }
     }
