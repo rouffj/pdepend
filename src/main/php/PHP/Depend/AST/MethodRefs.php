@@ -47,7 +47,7 @@
  */
 
 /**
- * Custom AST node that represents a PHP method.
+ * Container class that holds nodes referenced by a method.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -59,80 +59,73 @@
  * @link       http://pdepend.org/
  * @since      2.0.0
  */
-class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements PHP_Depend_AST_Node
+class PHP_Depend_AST_MethodRefs
 {
     /**
-     * Reference context used to retrieve referenced nodes.
-     *
-     * @var PHP_Depend_AST_MethodRefs
+     * @var PHP_Depend_Context
      */
-    public $refs;
+    private $context;
 
     /**
-     * Construct a new custom method node instance.
-     *
-     * @param PHPParser_Node_Stmt_ClassMethod $method
-     * @param PHP_Depend_AST_MethodRefs $refs
+     * @var string
      */
-    public function __construct( PHPParser_Node_Stmt_ClassMethod $method, PHP_Depend_AST_MethodRefs $refs )
+    private $namespace;
+
+    /**
+     * @var string
+     */
+    private $declaringType;
+
+    /**
+     * Constructs a new reference context for an interface.
+     *
+     * @param PHP_Depend_Context $context
+     * @param string $namespace
+     * @param string $declaringType
+     */
+    public function __construct( PHP_Depend_Context $context, $namespace, $declaringType )
     {
-        parent::__construct(
-            $method->name,
-            array(
-                'type'   => $method->type,
-                'byRef'  => $method->byRef,
-                'params' => $method->params,
-                'stmts'  => $method->stmts,
-            ),
-            $method->line,
-            $method->docComment
-        );
-
-        $this->refs       = $refs;
-        $this->attributes = $method->attributes;
-
-        $this->refs->initialize( $this );
+        $this->context       = $context;
+        $this->namespace     = $namespace;
+        $this->declaringType = $declaringType;
     }
 
     /**
-     * Returns the global identifier for this node.
-     *
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->getAttribute( 'id' );
-    }
-
-    /**
-     * Returns the namespace where this method is declared.
+     * Returns the namespace for the context interface.
      *
      * @return PHP_Depend_AST_Namespace
      */
     public function getNamespace()
     {
-        return $this->refs->getNamespace();
+        if ( $namespace = $this->context->getNode( $this->namespace ) )
+        {
+            return $namespace;
+        }
+        // TODO Return dummy namespace
     }
 
     /**
-     * Returns the declaring type for this method.
+     * Returns the declaring type for the context method.
      *
      * @return PHP_Depend_AST_Type
      */
     public function getDeclaringType()
     {
-        return $this->refs->getDeclaringType();
+        if ( $declaringType = $this->context->getNode( $this->declaringType ) )
+        {
+            return $declaringType;
+        }
+        // TODO Return dummy class
     }
 
     /**
-     * Magic wake up method that will register this object in the global node
-     * reference context.
+     * Initializes this reference instance for the given method.
      *
+     * @param PHP_Depend_AST_Method $method
      * @return void
-     * @access private
      */
-    public function __wakeup()
+    public function initialize( PHP_Depend_AST_Method $method )
     {
-        $this->refs->initialize( $this );
+        $this->context->registerNode( $method );
     }
 }

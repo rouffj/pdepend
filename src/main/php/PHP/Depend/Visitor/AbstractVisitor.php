@@ -96,12 +96,12 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a class node.
      *
-     * @param PHP_Depend_Code_Class $class The current class node.
+     * @param PHP_Depend_AST_Class $class The current class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitClass()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         $this->fireStartClass($class);
 
@@ -120,12 +120,12 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a trait node.
      *
-     * @param PHP_Depend_Code_Trait $trait The current trait node.
+     * @param PHP_Depend_AST_Trait $trait The current trait node.
      *
      * @return void
      * @since 1.0.0
      */
-    public function visitTrait(PHP_Depend_Code_Trait $trait)
+    public function visitTrait(PHP_Depend_AST_Trait $trait)
     {
         $this->fireStartTrait($trait);
 
@@ -141,12 +141,12 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a file node.
      *
-     * @param PHP_Depend_Code_File $file The current file node.
+     * @param PHP_Depend_AST_File $file The current file node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitFile()
      */
-    public function visitFile(PHP_Depend_Code_File $file)
+    public function visitFile(PHP_Depend_AST_File $file)
     {
         $this->fireStartFile($file);
         $this->fireEndFile($file);
@@ -155,12 +155,12 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a function node.
      *
-     * @param PHP_Depend_Code_Function $function The current function node.
+     * @param PHP_Depend_AST_Function $function The current function node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitFunction()
      */
-    public function visitFunction(PHP_Depend_Code_Function $function)
+    public function visitFunction(PHP_Depend_AST_Function $function)
     {
         $this->fireStartFunction($function);
 
@@ -176,12 +176,12 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a code interface object.
      *
-     * @param PHP_Depend_Code_Interface $interface The context code interface.
+     * @param PHP_Depend_AST_Interface $interface The context code interface.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitInterface()
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->fireStartInterface($interface);
 
@@ -197,12 +197,12 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a method node.
      *
-     * @param PHP_Depend_Code_Class $method The method class node.
+     * @param PHP_Depend_AST_Class $method The method class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitMethod()
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->fireStartMethod($method);
 
@@ -216,12 +216,12 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a package node.
      *
-     * @param PHP_Depend_Code_Class $package The package class node.
+     * @param PHP_Depend_AST_Class $package The package class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitPackage()
      */
-    public function visitPackage(PHP_Depend_Code_Package $package)
+    public function visitPackage(PHP_Depend_AST_Package $package)
     {
         $this->fireStartPackage($package);
 
@@ -244,11 +244,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a parameter node.
      *
-     * @param PHP_Depend_Code_Parameter $parameter The parameter node.
+     * @param PHP_Depend_AST_Parameter $parameter The parameter node.
      *
      * @return void
      */
-    public function visitParameter(PHP_Depend_Code_Parameter $parameter)
+    public function visitParameter(PHP_Depend_AST_Parameter $parameter)
     {
         $this->fireStartParameter($parameter);
         $this->fireEndParameter($parameter);
@@ -257,12 +257,12 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Visits a property node.
      *
-     * @param PHP_Depend_Code_Property $property The property class node.
+     * @param PHP_Depend_AST_Property $property The property class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitProperty()
      */
-    public function visitProperty(PHP_Depend_Code_Property $property)
+    public function visitProperty(PHP_Depend_AST_Property $property)
     {
         $this->fireStartProperty($property);
         $this->fireEndProperty($property);
@@ -271,11 +271,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start class event.
      *
-     * @param PHP_Depend_Code_Class $class The context class instance.
+     * @param PHP_Depend_AST_Class $class The context class instance.
      *
      * @return void
      */
-    protected function fireStartClass(PHP_Depend_Code_Class $class)
+    protected function fireStartClass(PHP_Depend_AST_Class $class)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitClass($class);
@@ -285,11 +285,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends an end class event.
      *
-     * @param PHP_Depend_Code_Class $class The context class instance.
+     * @param PHP_Depend_AST_Class $class The context class instance.
      *
      * @return void
      */
-    protected function fireEndClass(PHP_Depend_Code_Class $class)
+    protected function fireEndClass(PHP_Depend_AST_Class $class)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitClass($class);
@@ -299,11 +299,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start trait event.
      *
-     * @param PHP_Depend_Code_Trait $trait The context trait instance.
+     * @param PHP_Depend_AST_Trait $trait The context trait instance.
      *
      * @return void
      */
-    protected function fireStartTrait(PHP_Depend_Code_Trait $trait)
+    protected function fireStartTrait(PHP_Depend_AST_Trait $trait)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitTrait($trait);
@@ -313,11 +313,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends an end trait event.
      *
-     * @param PHP_Depend_Code_Trait $trait The context trait instance.
+     * @param PHP_Depend_AST_Trait $trait The context trait instance.
      *
      * @return void
      */
-    protected function fireEndTrait(PHP_Depend_Code_Trait $trait)
+    protected function fireEndTrait(PHP_Depend_AST_Trait $trait)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitTrait($trait);
@@ -327,11 +327,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start file event.
      *
-     * @param PHP_Depend_Code_File $file The context file.
+     * @param PHP_Depend_AST_File $file The context file.
      *
      * @return void
      */
-    protected function fireStartFile(PHP_Depend_Code_File $file)
+    protected function fireStartFile(PHP_Depend_AST_File $file)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitFile($file);
@@ -341,11 +341,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends an end file event.
      *
-     * @param PHP_Depend_Code_File $file The context file instance.
+     * @param PHP_Depend_AST_File $file The context file instance.
      *
      * @return void
      */
-    protected function fireEndFile(PHP_Depend_Code_File $file)
+    protected function fireEndFile(PHP_Depend_AST_File $file)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitFile($file);
@@ -355,11 +355,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start function event.
      *
-     * @param PHP_Depend_Code_Function $function The context function instance.
+     * @param PHP_Depend_AST_Function $function The context function instance.
      *
      * @return void
      */
-    protected function fireStartFunction(PHP_Depend_Code_Function $function)
+    protected function fireStartFunction(PHP_Depend_AST_Function $function)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitFunction($function);
@@ -369,11 +369,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends an end function event.
      *
-     * @param PHP_Depend_Code_Function $function The context function instance.
+     * @param PHP_Depend_AST_Function $function The context function instance.
      *
      * @return void
      */
-    protected function fireEndFunction(PHP_Depend_Code_Function $function)
+    protected function fireEndFunction(PHP_Depend_AST_Function $function)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitFunction($function);
@@ -383,11 +383,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start interface event.
      *
-     * @param PHP_Depend_Code_Interface $interface The context interface instance.
+     * @param PHP_Depend_AST_Interface $interface The context interface instance.
      *
      * @return void
      */
-    protected function fireStartInterface(PHP_Depend_Code_Interface $interface)
+    protected function fireStartInterface(PHP_Depend_AST_Interface $interface)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitInterface($interface);
@@ -397,11 +397,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends an end interface event.
      *
-     * @param PHP_Depend_Code_Interface $interface The context interface instance.
+     * @param PHP_Depend_AST_Interface $interface The context interface instance.
      *
      * @return void
      */
-    protected function fireEndInterface(PHP_Depend_Code_Interface $interface)
+    protected function fireEndInterface(PHP_Depend_AST_Interface $interface)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitInterface($interface);
@@ -411,11 +411,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start method event.
      *
-     * @param PHP_Depend_Code_Method $method The context method instance.
+     * @param PHP_Depend_AST_Method $method The context method instance.
      *
      * @return void
      */
-    protected function fireStartMethod(PHP_Depend_Code_Method $method)
+    protected function fireStartMethod(PHP_Depend_AST_Method $method)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitMethod($method);
@@ -425,11 +425,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends an end method event.
      *
-     * @param PHP_Depend_Code_Method $method The context method instance.
+     * @param PHP_Depend_AST_Method $method The context method instance.
      *
      * @return void
      */
-    protected function fireEndMethod(PHP_Depend_Code_Method $method)
+    protected function fireEndMethod(PHP_Depend_AST_Method $method)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitMethod($method);
@@ -439,11 +439,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start package event.
      *
-     * @param PHP_Depend_Code_Package $package The context package instance.
+     * @param PHP_Depend_AST_Package $package The context package instance.
      *
      * @return void
      */
-    protected function fireStartPackage(PHP_Depend_Code_Package $package)
+    protected function fireStartPackage(PHP_Depend_AST_Package $package)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitPackage($package);
@@ -453,11 +453,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends an end package event.
      *
-     * @param PHP_Depend_Code_Package $package The context package instance.
+     * @param PHP_Depend_AST_Package $package The context package instance.
      *
      * @return void
      */
-    protected function fireEndPackage(PHP_Depend_Code_Package $package)
+    protected function fireEndPackage(PHP_Depend_AST_Package $package)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitPackage($package);
@@ -467,11 +467,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start parameter event.
      *
-     * @param PHP_Depend_Code_Parameter $parameter The context parameter instance.
+     * @param PHP_Depend_AST_Parameter $parameter The context parameter instance.
      *
      * @return void
      */
-    protected function fireStartParameter(PHP_Depend_Code_Parameter $parameter)
+    protected function fireStartParameter(PHP_Depend_AST_Parameter $parameter)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitParameter($parameter);
@@ -481,11 +481,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a end parameter event.
      *
-     * @param PHP_Depend_Code_Parameter $parameter The context parameter instance.
+     * @param PHP_Depend_AST_Parameter $parameter The context parameter instance.
      *
      * @return void
      */
-    protected function fireEndParameter(PHP_Depend_Code_Parameter $parameter)
+    protected function fireEndParameter(PHP_Depend_AST_Parameter $parameter)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitParameter($parameter);
@@ -495,11 +495,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends a start property event.
      *
-     * @param PHP_Depend_Code_Property $property The context property instance.
+     * @param PHP_Depend_AST_Property $property The context property instance.
      *
      * @return void
      */
-    protected function fireStartProperty(PHP_Depend_Code_Property $property)
+    protected function fireStartProperty(PHP_Depend_AST_Property $property)
     {
         foreach ($this->_listeners as $listener) {
             $listener->startVisitProperty($property);
@@ -509,11 +509,11 @@ abstract class PHP_Depend_Visitor_AbstractVisitor
     /**
      * Sends an end property event.
      *
-     * @param PHP_Depend_Code_Property $property The context property instance.
+     * @param PHP_Depend_AST_Property $property The context property instance.
      *
      * @return void
      */
-    protected function fireEndProperty(PHP_Depend_Code_Property $property)
+    protected function fireEndProperty(PHP_Depend_AST_Property $property)
     {
         foreach ($this->_listeners as $listener) {
             $listener->endVisitProperty($property);

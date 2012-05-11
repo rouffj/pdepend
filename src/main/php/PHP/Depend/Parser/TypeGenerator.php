@@ -138,8 +138,22 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
+            // TODO Cleanup this code
+            $parts = explode( '::', $node->getAttribute( 'id' ) );
+            $parts = explode( '\\', array_shift( $parts ) );
+
+            $declaringType = join( '\\', $parts );
+            array_pop( $parts );
+
+            $namespace = join( '\\', $parts );
+
             return new PHP_Depend_AST_Method(
-                $node
+                $node,
+                new PHP_Depend_AST_MethodRefs(
+                    $this->context,
+                    $namespace,
+                    $declaringType
+                )
             );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Function )

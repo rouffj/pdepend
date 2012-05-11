@@ -75,82 +75,82 @@ interface PHP_Depend_VisitorI
     /**
      * Visits a class node.
      *
-     * @param PHP_Depend_Code_Class $class The current class node.
+     * @param PHP_Depend_AST_Class $class The current class node.
      *
      * @return void
      */
-    function visitClass(PHP_Depend_Code_Class $class);
+    function visitClass(PHP_Depend_AST_Class $class);
 
     /**
      * Visits a trait node.
      *
-     * @param PHP_Depend_Code_Trait $trait The current trait node.
+     * @param PHP_Depend_AST_Trait $trait The current trait node.
      *
      * @return void
      * @since 1.0.0
      */
-    function visitTrait(PHP_Depend_Code_Trait $trait);
+    function visitTrait(PHP_Depend_AST_Trait $trait);
 
     /**
      * Visits a file node.
      *
-     * @param PHP_Depend_Code_File $file The current file node.
+     * @param PHP_Depend_AST_File $file The current file node.
      *
      * @return void
      */
-    function visitFile(PHP_Depend_Code_File $file);
+    function visitFile(PHP_Depend_AST_File $file);
 
     /**
      * Visits a function node.
      *
-     * @param PHP_Depend_Code_Function $function The current function node.
+     * @param PHP_Depend_AST_Function $function The current function node.
      *
      * @return void
      */
-    function visitFunction(PHP_Depend_Code_Function $function);
+    function visitFunction(PHP_Depend_AST_Function $function);
 
     /**
      * Visits a code interface object.
      *
-     * @param PHP_Depend_Code_Interface $interface The context code interface.
+     * @param PHP_Depend_AST_Interface $interface The context code interface.
      *
      * @return void
      */
-    function visitInterface(PHP_Depend_Code_Interface $interface);
+    function visitInterface(PHP_Depend_AST_Interface $interface);
 
     /**
      * Visits a method node.
      *
-     * @param PHP_Depend_Code_Class $method The method class node.
+     * @param PHP_Depend_AST_Class $method The method class node.
      *
      * @return void
      */
-    function visitMethod(PHP_Depend_Code_Method $method);
+    function visitMethod(PHP_Depend_AST_Method $method);
 
     /**
      * Visits a package node.
      *
-     * @param PHP_Depend_Code_Class $package The package class node.
+     * @param PHP_Depend_AST_Class $package The package class node.
      *
      * @return void
      */
-    function visitPackage(PHP_Depend_Code_Package $package);
+    function visitPackage(PHP_Depend_AST_Package $package);
 
     /**
      * Visits a parameter node.
      *
-     * @param PHP_Depend_Code_Parameter $parameter The parameter node.
+     * @param PHP_Depend_AST_Parameter $parameter The parameter node.
      *
      * @return void
      */
-    function visitParameter(PHP_Depend_Code_Parameter $parameter);
+    function visitParameter(PHP_Depend_AST_Parameter $parameter);
 
     /**
      * Visits a property node.
      *
-     * @param PHP_Depend_Code_Property $property The property class node.
+     * @param PHP_Depend_AST_Property $property The property class node.
      *
      * @return void
      */
-    function visitProperty(PHP_Depend_Code_Property $property);
+    function visitProperty(PHP_Depend_AST_Property $property);
 }

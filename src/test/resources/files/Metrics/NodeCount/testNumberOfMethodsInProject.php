@@ -20,6 +20,11 @@ namespace B {
     interface B2 {
         function b2a();
     }
+    class B3 {
+        function b3a() {}
+        function b3b() {}
+        function b3c() {}
+    }
 }
 
 namespace C {

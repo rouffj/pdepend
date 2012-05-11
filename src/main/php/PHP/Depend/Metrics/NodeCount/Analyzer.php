@@ -201,148 +201,53 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         }
     }
 
-    /**
-     * Visits a class node.
-     *
-     * @param PHP_Depend_Code_Class $class The current class node.
-     *
-     * @return void
-     * @see PHP_Depend_VisitorI::visitClass()
-     */
-    public function visitClass( PHP_Depend_Code_Class $class )
+    public function visitClassBefore( PHP_Depend_AST_Class $class )
     {
-        if ( false === $class->isUserDefined() ) {
-            return;
-        }
-
         $this->fireStartClass( $class );
 
-        // Update global class count
         ++$this->numberOfClasses;
 
-        // Update parent package
-        $packageUUID = $class->getPackage()->getUUID();
-        ++$this->_nodeMetrics[$packageUUID][self::M_NUMBER_OF_CLASSES];
+        $this->_nodeMetrics[$class->getId()] = array( self::M_NUMBER_OF_METHODS => 0 );
 
-        $this->_nodeMetrics[$class->getUUID()] = array(
-            self::M_NUMBER_OF_METHODS => 0
-        );
-
-        foreach ( $class->getMethods() as $method ) {
-            $method->accept( $this );
-        }
+        $this->updateNamespace( $class->getNamespace(), self::M_NUMBER_OF_CLASSES );
 
         $this->fireEndClass( $class );
     }
 
-    /**
-     * Visits a function node.
-     *
-     * @param PHP_Depend_Code_Function $function The current function node.
-     *
-     * @return void
-     * @see PHP_Depend_VisitorI::visitFunction()
-     */
-    public function visitFunction( PHP_Depend_Code_Function $function )
+    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface )
     {
-        $this->fireStartFunction( $function );
-
-        // Update global function count
-        ++$this->numberOfFunctions;
-
-        // Update parent package
-        $packageUUID = $function->getPackage()->getUUID();
-        ++$this->_nodeMetrics[$packageUUID][self::M_NUMBER_OF_FUNCTIONS];
-
-        $this->fireEndFunction( $function );
-    }
-
-    /**
-     * Visits a code interface object.
-     *
-     * @param PHP_Depend_Code_Interface $interface The context code interface.
-     *
-     * @return void
-     * @see PHP_Depend_VisitorI::visitInterface()
-     */
-    public function visitInterface( PHP_Depend_Code_Interface $interface )
-    {
-        if ( false === $interface->isUserDefined() ) {
-            return;
-        }
-
         $this->fireStartInterface( $interface );
 
-        // Update global class count
         ++$this->numberOfInterfaces;
 
-        // Update parent package
-        $packageUUID = $interface->getPackage()->getUUID();
-        ++$this->_nodeMetrics[$packageUUID][self::M_NUMBER_OF_INTERFACES];
+        $this->_nodeMetrics[$interface->getId()] = array( self::M_NUMBER_OF_METHODS => 0 );
 
-        $this->_nodeMetrics[$interface->getUUID()] = array(
-            self::M_NUMBER_OF_METHODS => 0
-        );
-
-        foreach ( $interface->getMethods() as $method ) {
-            $method->accept( $this );
-        }
+        $this->updateNamespace( $interface->getNamespace(), self::M_NUMBER_OF_INTERFACES );
 
         $this->fireEndInterface( $interface );
     }
 
-    /**
-     * Visits a method node.
-     *
-     * @param PHP_Depend_Code_Class $method The method class node.
-     *
-     * @return void
-     * @see PHP_Depend_VisitorI::visitMethod()
-     */
-    public function visitMethod( PHP_Depend_Code_Method $method )
+    public function visitMethodBefore( PHP_Depend_AST_Method $method )
     {
         $this->fireStartMethod( $method );
 
-        // Update global method count
         ++$this->numberOfMethods;
 
-        $parent = $method->getParent();
-
-        // Update parent class or interface
-        $parentUUID = $parent->getUUID();
-        ++$this->_nodeMetrics[$parentUUID][self::M_NUMBER_OF_METHODS];
-
-        // Update parent package
-        $packageUUID = $parent->getPackage()->getUUID();
-        ++$this->_nodeMetrics[$packageUUID][self::M_NUMBER_OF_METHODS];
+        $this->updateType( $method->getDeclaringType(), self::M_NUMBER_OF_METHODS );
+        $this->updateNamespace( $method->getNamespace(), self::M_NUMBER_OF_METHODS );
 
         $this->fireEndMethod( $method );
     }
 
-    public function visitClassBefore( PHP_Depend_AST_Class $class )
-    {
-        ++$this->numberOfClasses;
-
-        $this->updateNamespace( $class->getNamespace(), self::M_NUMBER_OF_CLASSES );
-    }
-
-    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface )
-    {
-        ++$this->numberOfInterfaces;
-
-        $this->updateNamespace( $interface->getNamespace(), self::M_NUMBER_OF_INTERFACES );
-    }
-
-    public function visitMethodBefore( PHP_Depend_AST_Method $method )
-    {
-        ++$this->numberOfMethods;
-    }
-
     public function visitFunctionBefore( PHP_Depend_AST_Function $function )
     {
+        $this->fireStartFunction( $function );
+
         ++$this->numberOfFunctions;
 
         $this->updateNamespace( $function->getNamespace(), self::M_NUMBER_OF_FUNCTIONS );
+
+        $this->fireEndFunction( $function );
     }
 
     public function visitNamespaceBefore( PHP_Depend_AST_Namespace $ns )
@@ -365,6 +270,11 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
         $this->visitNamespaceBefore( $namespace );
 
         ++$this->_nodeMetrics[$namespace->getId()][$metricId];
+    }
+
+    private function updateType( PHP_Depend_AST_Type $type, $metricId )
+    {
+        ++$this->_nodeMetrics[$type->getId()][$metricId];
     }
 }
 

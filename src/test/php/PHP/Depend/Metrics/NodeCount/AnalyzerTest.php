@@ -69,88 +69,6 @@ require_once dirname( __FILE__ ) . '/../AbstractTest.php';
 class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
     /**
-     * testVisitClassIgnoresClassesThatAreNotUserDefined
-     *
-     * @return void
-     */
-    public function testVisitClassIgnoresClassesThatAreNotUserDefined()
-    {
-        $this->markTestSkipped( 'Deprecated AST based test.' );
-        $notUserDefined = $this->createClassFixture();
-
-        $package = new PHP_Depend_Code_Package( 'PHP_Depend' );
-        $package->addType( $notUserDefined );
-
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( new PHP_Depend_Code_NodeIterator( array( $package ) ) );
-
-        $metrics = $analyzer->getNodeMetrics( $package );
-        self::assertEquals( 0, $metrics['noc'] );
-    }
-
-    /**
-     * testVisitClassCountsClassesThatAreNotUserDefined
-     *
-     * @return void
-     */
-    public function testVisitClassCountsClassesThatAreNotUserDefined()
-    {
-        $this->markTestSkipped( 'Deprecated AST based test.' );
-        $userDefined = $this->createClassFixture();
-        $userDefined->setUserDefined();
-
-        $package = new PHP_Depend_Code_Package( 'PHP_Depend' );
-        $package->addType( $userDefined );
-
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( new PHP_Depend_Code_NodeIterator( array( $package ) ) );
-
-        $metrics = $analyzer->getNodeMetrics( $package );
-        self::assertEquals( 1, $metrics['noc'] );
-    }
-
-    /**
-     * testVisitClassIgnoresInterfacesThatAreNotUserDefined
-     *
-     * @return void
-     */
-    public function testVisitClassIgnoresInterfacesThatAreNotUserDefined()
-    {
-        $this->markTestSkipped( 'Deprecated AST based test.' );
-        $notUserDefined = $this->createInterfaceFixture();
-
-        $package = new PHP_Depend_Code_Package( 'PHP_Depend' );
-        $package->addType( $notUserDefined );
-
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( new PHP_Depend_Code_NodeIterator( array( $package ) ) );
-
-        $metrics = $analyzer->getNodeMetrics( $package );
-        self::assertEquals( 0, $metrics['noi'] );
-    }
-
-    /**
-     * testVisitClassCountsInterfacesThatAreNotUserDefined
-     *
-     * @return void
-     */
-    public function testVisitClassCountsInterfacesThatAreNotUserDefined()
-    {
-        $this->markTestSkipped( 'Deprecated AST based test.' );
-        $userDefined = $this->createInterfaceFixture();
-        $userDefined->setUserDefined();
-
-        $package = new PHP_Depend_Code_Package( 'PHP_Depend' );
-        $package->addType( $userDefined );
-
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( new PHP_Depend_Code_NodeIterator( array( $package ) ) );
-
-        $metrics = $analyzer->getNodeMetrics( $package );
-        self::assertEquals( 1, $metrics['noi'] );
-    }
-
-    /**
      * Tests that the analyzer calculates the correct number of packages value.
      *
      * @return void
@@ -246,45 +164,74 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
     }
 
     /**
-     * testCalculatesExpectedNumberOfMethodsInProject
+     * testNumberOfMethodsInProject
      *
-     * @return void
+     * @return PHP_Depend_Metrics_NodeCount_Analyzer
      */
-    public function testCalculatesExpectedNumberOfMethodsInProject()
+    public function testNumberOfMethodsInProject()
     {
-        $packages = self::parseTestCaseSource( __METHOD__ );
         $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $packages );
+        $analyzer->analyze( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals( 9, $metrics['nom'] );
+        $this->assertEquals( 12, $metrics['nom'] );
+
+        return $analyzer;
     }
 
     /**
-     * testCalculatesExpectedNumberOfMethodsInPackages
+     * testNumberOfMethodsInPackages
+     *
+     * @param PHP_Depend_Metrics_NodeCount_Analyzer $analyzer
      *
      * @return void
+     * @depends testNumberOfMethodsInProject
      */
-    public function testCalculatesExpectedNumberOfMethodsInPackages()
+    public function testNumberOfMethodsInPackages( PHP_Depend_Metrics_NodeCount_Analyzer $analyzer )
     {
-        $this->markTestSkipped( 'Deprecated package based test.' );
-
-        $packages = self::parseTestCaseSource( __METHOD__ );
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $packages );
-
-        $metrics = array();
-        foreach ( $packages as $package ) {
-            $metrics[$package->getName()] = $analyzer->getNodeMetrics( $package );
-        }
-
-        self::assertEquals(
+        $this->assertEquals(
             array(
                 'A' => array( 'noc' => 2, 'noi' => 1, 'nom' => 4, 'nof' => 0 ),
-                'B' => array( 'noc' => 0, 'noi' => 2, 'nom' => 3, 'nof' => 0 ),
+                'B' => array( 'noc' => 1, 'noi' => 2, 'nom' => 6, 'nof' => 0 ),
                 'C' => array( 'noc' => 0, 'noi' => 1, 'nom' => 2, 'nof' => 0 ),
             ),
-            $metrics
+            array(
+                'A'  =>  $analyzer->getNodeMetrics( 'A' ),
+                'B'  =>  $analyzer->getNodeMetrics( 'B' ),
+                'C'  =>  $analyzer->getNodeMetrics( 'C' )
+            )
+        );
+    }
+
+    /**
+     * testNumberOfMethodsInClass
+     *
+     * @param PHP_Depend_Metrics_NodeCount_Analyzer $analyzer
+     *
+     * @return void
+     * @depends testNumberOfMethodsInProject
+     */
+    public function testNumberOfMethodsInClass( PHP_Depend_Metrics_NodeCount_Analyzer $analyzer )
+    {
+        $this->assertEquals(
+            array( 'nom'  =>  3 ),
+            $analyzer->getNodeMetrics( 'B\\B3' )
+        );
+    }
+
+    /**
+     * testNumberOfMethodsInInterface
+     *
+     * @param PHP_Depend_Metrics_NodeCount_Analyzer $analyzer
+     *
+     * @return void
+     * @depends testNumberOfMethodsInProject
+     */
+    public function testNumberOfMethodsInInterface( PHP_Depend_Metrics_NodeCount_Analyzer $analyzer )
+    {
+        $this->assertEquals(
+            array( 'nom'  =>  2 ),
+            $analyzer->getNodeMetrics( 'C\\C1' )
         );
     }
 
