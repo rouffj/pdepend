@@ -314,23 +314,7 @@ class MetricProcessor extends PHPParser_NodeTraverser implements PHPParser_NodeV
 
     public function process( PHP_Depend_AST_CompilationUnit $compilationUnit )
     {
-        foreach ( $this->analyzers as $analyzer )
-        {
-            if ( method_exists( $analyzer, 'visitCompilationUnitBefore' ) )
-            {
-                $analyzer->visitCompilationUnitBefore( $compilationUnit );
-            }
-        }
-
-        $this->traverse( $compilationUnit->stmts );
-
-        foreach ( $this->analyzers as $analyzer )
-        {
-            if ( method_exists( $analyzer, 'visitCompilationUnitAfter' ) )
-            {
-                $analyzer->visitCompilationUnitBefore( $compilationUnit );
-            }
-        }
+        $this->traverse( array( $compilationUnit ) );
     }
 
     /**
