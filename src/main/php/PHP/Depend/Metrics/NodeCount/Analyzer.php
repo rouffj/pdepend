@@ -113,9 +113,9 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
     /**
      * Collected node metrics
      *
-     * @var array(string=>array)
+     * @var array
      */
-    private $metrics = null;
+    private $metrics = array();
 
     /**
      * This method will return an <b>array</b> with all generated metric values
