@@ -191,7 +191,8 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
             // Init node metrics
             $this->_nodeMetrics = array();
 
-            $processor = new PHP_Depend_Metrics_Processor($this);
+            $processor = new PHP_Depend_Metrics_Processor();
+            $processor->register( $this );
 
             foreach ( $compilationUnits as $compilationUnit ) {
                 $processor->process( $compilationUnit );

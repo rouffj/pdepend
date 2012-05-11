@@ -86,12 +86,7 @@ class PHP_Depend_Metrics_Processor extends PHPParser_NodeTraverser implements PH
      */
     private $callbacks = array();
 
-    /**
-     * Constructs a new metric processor instance.
-     *
-     * @param PHP_Depend_Metrics_Analyzer $analyzer
-     */
-    public function __construct( $analyzer )
+    public function register( PHP_Depend_Metrics_Analyzer $analyzer )
     {
         $class = get_class( $analyzer );
 
@@ -107,13 +102,19 @@ class PHP_Depend_Metrics_Processor extends PHPParser_NodeTraverser implements PH
 
         $this->addVisitor( $this );
 
-        $this->data[$class] = null;
+        $this->data[$class]      = null;
         $this->analyzers[$class] = $analyzer;
     }
 
-    public function process( PHP_Depend_AST_CompilationUnit $compilationUnit )
+    /**
+     * Processes the given compilation units with all registered analyzers.
+     *
+     * @param PHP_Depend_AST_CompilationUnit[] $compilationUnit
+     * @return void
+     */
+    public function process( array $compilationUnit )
     {
-        $this->traverse( array( $compilationUnit ) );
+        $this->traverse( $compilationUnit );
     }
 
     /**

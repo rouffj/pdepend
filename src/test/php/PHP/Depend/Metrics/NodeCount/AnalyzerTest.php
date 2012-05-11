@@ -75,9 +75,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testCalculatesExpectedNumberOfPackages()
     {
-        $packages = self::parseTestCaseSource( __METHOD__ );
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $packages );
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
         self::assertEquals( 3, $metrics['nop'] );
@@ -90,9 +90,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testCalculatesExpectedNumberOfClassesInProject()
     {
-        $packages = self::parseTestCaseSource( __METHOD__ );
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $packages );
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
         self::assertEquals( 6, $metrics['noc'] );
@@ -105,9 +105,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testCalculatesExpectedNumberOfClassesInPackages()
     {
-        $compilationUnits = self::parseTestCaseSource( __METHOD__ );
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $compilationUnits );
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         self::assertEquals(
             array(
@@ -130,9 +130,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testCalculatesExpectedNumberOfInterfacesInProject()
     {
-        $packages = self::parseTestCaseSource( __METHOD__ );
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $packages );
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
         self::assertEquals( 9, $metrics['noi'] );
@@ -145,9 +145,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testCalculatesExpectedNumberOfInterfacesInPackages()
     {
-        $compilationUnits = self::parseTestCaseSource( __METHOD__ );
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $compilationUnits );
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         self::assertEquals(
             array(
@@ -170,8 +170,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testNumberOfMethodsInProject()
     {
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( self::parseTestCaseSource( __METHOD__ ) );
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
         $this->assertEquals( 12, $metrics['nom'] );
@@ -242,9 +243,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testCalculatesExpectedNumberOfFunctionsInProject()
     {
-        $packages = self::parseTestCaseSource( __METHOD__ );
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $packages );
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
         $this->assertEquals( 6, $metrics['nof'] );
@@ -257,9 +258,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testCalculatesExpectedNumberOfFunctionsInPackages()
     {
-        $packages = self::parseTestCaseSource( __METHOD__ );
-        $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $packages );
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         self::assertEquals(
             array(

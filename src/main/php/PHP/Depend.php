@@ -462,10 +462,19 @@ class PHP_Depend
 
         ini_set( 'xdebug.max_nesting_level', $this->configuration->parser->nesting );
 
-        foreach ( $analyzerLoader as $analyzer ) {
-            $analyzer->analyze( $this->_builder->getPackages() );
+        $processor = new PHP_Depend_Metrics_Processor();
 
-            foreach ( $this->_loggers as $logger ) {
+        foreach ( $analyzerLoader as $analyzer )
+        {
+            $processor->register( $analyzer );
+        }
+
+        //$processor->process();
+
+        foreach ( $analyzerLoader as $analyzer )
+        {
+            foreach ( $this->_loggers as $logger )
+            {
                 $logger->log( $analyzer );
             }
         }
