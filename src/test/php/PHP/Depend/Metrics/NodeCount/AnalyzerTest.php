@@ -187,16 +187,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      */
     public function testCalculatesExpectedNumberOfClassesInPackages()
     {
-        $this->markTestSkipped( 'Deprecated package based test.' );
-
-        $packages = self::parseTestCaseSource( __METHOD__ );
+        $compilationUnits = self::parseTestCaseSource( __METHOD__ );
         $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer();
-        $analyzer->analyze( $packages );
-
-        $metrics = array();
-        foreach ( $packages as $package ) {
-            $metrics[$package->getName()] = $analyzer->getNodeMetrics( $package );
-        }
+        $analyzer->analyze( $compilationUnits );
 
         self::assertEquals(
             array(
@@ -204,7 +197,11 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
                 'B' => array( 'noc' => 2, 'noi' => 0, 'nom' => 0, 'nof' => 0 ),
                 'C' => array( 'noc' => 1, 'noi' => 0, 'nom' => 0, 'nof' => 0 ),
             ),
-            $metrics
+            array(
+                'A'  =>  $analyzer->getNodeMetrics( 'A' ),
+                'B'  =>  $analyzer->getNodeMetrics( 'B' ),
+                'C'  =>  $analyzer->getNodeMetrics( 'C' ),
+            )
         );
     }
 

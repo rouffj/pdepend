@@ -322,6 +322,11 @@ class PHP_Depend_Metrics_NodeCount_Analyzer
     public function visitClassBefore( PHP_Depend_AST_Class $class )
     {
         ++$this->numberOfClasses;
+
+        $namespace = $class->getNamespace();
+        $this->visitNamespaceBefore( $namespace );
+
+        ++$this->_nodeMetrics[$namespace->getId()][self::M_NUMBER_OF_CLASSES];
     }
 
     public function visitStmtInterfaceBefore( PHPParser_Node_Stmt_Interface $interface )

@@ -13,5 +13,5 @@ namespace B {
 }
 
 namespace C {
-    class C1 {}
+    class C1 extends \B\B1 {}
 }

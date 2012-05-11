@@ -148,13 +148,10 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
         {
             $node->setAttribute(
                 'id',
-                trim(
-                    preg_replace(
-                        array( '(\\\\+)', '([^a-z0-9:\(\)\.\$]+)i' ),
-                        array( '.', '' ),
-                        $id
-                    ),
-                    '-'
+                preg_replace(
+                    '([^\w\d:\(\)\.\$\\\\]+)i',
+                    '',
+                    $id
                 )
             );
         }
