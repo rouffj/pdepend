@@ -86,6 +86,12 @@ class PHP_Depend_Metrics_Processor extends PHPParser_NodeTraverser implements PH
      */
     private $callbacks = array();
 
+    /**
+     * Registers the given analyzer for the next AST processing.
+     *
+     * @param PHP_Depend_Metrics_Analyzer $analyzer
+     * @return void
+     */
     public function register( PHP_Depend_Metrics_Analyzer $analyzer )
     {
         $class = get_class( $analyzer );
