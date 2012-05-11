@@ -178,7 +178,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
      * @param mixed $data
      * @return mixed
      */
-    public function visitClassBefore( PHP_Depend_AST_Class $class, $data )
+    public function visitClassBefore( PHP_Depend_AST_Class $class, $data = null )
     {
         $this->fireStartClass( $class );
 
@@ -200,7 +200,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
      * @param mixed $data
      * @return mixed
      */
-    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface, $data )
+    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface, $data = null )
     {
         $this->fireStartInterface( $interface );
 
@@ -222,7 +222,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
      * @param mixed $data
      * @return mixed
      */
-    public function visitMethodBefore( PHP_Depend_AST_Method $method, $data )
+    public function visitMethodBefore( PHP_Depend_AST_Method $method, $data = null )
     {
         $this->fireStartMethod( $method );
 
@@ -243,7 +243,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
      * @param mixed $data
      * @return mixed
      */
-    public function visitFunctionBefore( PHP_Depend_AST_Function $function, $data )
+    public function visitFunctionBefore( PHP_Depend_AST_Function $function, $data = null )
     {
         $this->fireStartFunction( $function );
 
@@ -263,7 +263,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
      * @param mixed $data
      * @return mixed
      */
-    public function visitNamespaceBefore( PHP_Depend_AST_Namespace $ns, $data )
+    public function visitNamespaceBefore( PHP_Depend_AST_Namespace $ns, $data = null )
     {
         if ( false === isset( $this->metrics[$ns->getId()] ) )
         {
@@ -289,7 +289,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
      */
     private function updateNamespace( PHP_Depend_AST_Namespace $namespace, $metricId )
     {
-        $this->visitNamespaceBefore( $namespace, null );
+        $this->visitNamespaceBefore( $namespace );
 
         ++$this->metrics[$namespace->getId()][$metricId];
     }
