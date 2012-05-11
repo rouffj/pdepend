@@ -77,5 +77,5 @@ interface PHP_Depend_Metrics_NodeAware extends PHP_Depend_Metrics_Analyzer
      *
      * @return array
      */
-    function getNodeMetrics( $node );
+    public function getNodeMetrics( $node );
 }
