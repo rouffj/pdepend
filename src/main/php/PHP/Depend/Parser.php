@@ -73,10 +73,12 @@ class PHP_Depend_Parser
 
     /**
      * Constructs a new parser instance.
+     *
+     * @param PHP_Depend_Tokenizer $tokenizer
      */
-    public function __construct()
+    public function __construct( PHP_Depend_Tokenizer $tokenizer )
     {
-        $this->parser = new PHPParser_Parser();
+        $this->parser = new PHPParser_Parser( $tokenizer );
 
         $this->idGenerator = new PHP_Depend_Parser_IdGenerator();
 
@@ -89,16 +91,16 @@ class PHP_Depend_Parser
     /**
      * Transforms the given token stream into an abstract syntax tree.
      *
-     * @param PHP_Depend_Tokenizer $tokenizer
+     * @param string $file
      * @return PHP_Depend_AST_CompilationUnit
      */
-    public function parse( PHP_Depend_Tokenizer $tokenizer )
+    public function parse( $file )
     {
         $nodes = $this->traverser->traverse(
             array(
                 new PHP_Depend_AST_CompilationUnit(
-                    $tokenizer->getFile(),
-                    $this->parser->parse( $tokenizer )
+                    $file,
+                    $this->parser->parse( file_get_contents( $file ) )
                 )
             )
         );

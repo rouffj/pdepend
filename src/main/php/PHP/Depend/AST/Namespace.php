@@ -14,12 +14,10 @@ class PHP_Depend_AST_Namespace
         parent::__construct(
             $namespace->name,
             $namespace->stmts,
-            $namespace->line,
-            $namespace->docComment
+            $namespace->attributes
         );
 
-        $this->refs       = $refs;
-        $this->attributes = $namespace->attributes;
+        $this->refs = $refs;
 
         $this->refs->initialize( $this );
     }

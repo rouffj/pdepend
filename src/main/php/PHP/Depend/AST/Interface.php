@@ -82,12 +82,10 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
                 'extends'  =>  $interface->extends,
                 'stmts'    =>  $interface->stmts
             ),
-            $interface->line,
-            $interface->docComment
+            $interface->attributes
         );
 
         $this->refs           = $refs;
-        $this->attributes     = $interface->attributes;
         $this->namespacedName = $interface->namespacedName;
 
         $this->refs->initialize( $this );

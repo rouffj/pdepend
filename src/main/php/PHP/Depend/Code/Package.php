@@ -170,7 +170,7 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
     }
 
     /**
-     * Returns an array with all {@link PHP_Depend_Code_Trait} instances
+     * Returns an array with all {@link PHP_Depend_AST_Trait} instances
      * declared in this package.
      *
      * @return array
@@ -178,7 +178,7 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      */
     public function getTraits()
     {
-        return $this->_getTypesOfType(PHP_Depend_Code_Trait::CLAZZ);
+        return $this->_getTypesOfType(PHP_Depend__Code__Trait::CLAZZ);
     }
 
     /**

@@ -78,12 +78,13 @@
  */
 class PHP_Depend_Metrics_Coupling_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_NodeAware,
-               PHP_Depend_Metrics_ProjectAware
+    /* TODO 2.0
+   implements PHP_Depend_Metrics_NodeAware,
+              PHP_Depend_Metrics_ProjectAware */
 {
-    /**
-     * Type of this analyzer class.
-     */
+   /**
+    * Type of this analyzer class.
+    */
     const CLAZZ = __CLASS__;
 
     /**
@@ -172,7 +173,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         if (isset($this->_nodeMetrics[$node->getUUID()])) {
             return $this->_nodeMetrics[$node->getUUID()];
@@ -264,7 +265,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      *
      * @return void
      */
-    public function visitFunction(PHP_Depend_Code_Function $function)
+    public function visitFunction(PHP_Depend_AST_Function $function)
     {
         $this->fireStartFunction($function);
 
@@ -310,7 +311,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * @return void
      * @since 0.10.2
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         $this->_initDependencyMap($class);
         return parent::visitClass($class);
@@ -325,7 +326,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * @return void
      * @since 0.10.2
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->_initDependencyMap($interface);
         return parent::visitInterface($interface);
@@ -338,7 +339,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      *
      * @return void
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->fireStartMethod($method);
 
@@ -368,7 +369,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      *
      * @return void
      */
-    public function visitProperty(PHP_Depend_Code_Property $property)
+    public function visitProperty(PHP_Depend_AST_Property $property)
     {
         $this->fireStartProperty($property);
 

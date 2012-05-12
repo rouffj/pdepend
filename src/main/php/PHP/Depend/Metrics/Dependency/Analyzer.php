@@ -60,11 +60,12 @@
  */
 class PHP_Depend_Metrics_Dependency_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_Analyzer
+    /* TODO 2.0
+   implements PHP_Depend_Metrics_Analyzer*/
 {
-    /**
-     * Type of this analyzer class.
-     */
+   /**
+    * Type of this analyzer class.
+    */
     const CLAZZ = __CLASS__;
 
     /**
@@ -112,12 +113,12 @@ class PHP_Depend_Metrics_Dependency_Analyzer
      * <code>
      * array(
      *     <package-uuid> => array(
-     *         PHP_Depend_Code_Package {},
-     *         PHP_Depend_Code_Package {},
+     *         PHP_Depend_AST_Package {},
+     *         PHP_Depend_AST_Package {},
      *     ),
      *     <package-uuid> => array(
-     *         PHP_Depend_Code_Package {},
-     *         PHP_Depend_Code_Package {},
+     *         PHP_Depend_AST_Package {},
+     *         PHP_Depend_AST_Package {},
      *     ),
      * )
      * </code>
@@ -127,13 +128,13 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     private $_collectedCycles = array();
 
     /**
-     * Processes all {@link PHP_Depend_Code_Package} code nodes.
+     * Processes all {@link PHP_Depend_AST_Package} code nodes.
      *
-     * @param PHP_Depend_Code_NodeIterator $packages All code packages.
+     * @param PHP_Depend_AST_NodeIterator $packages All code packages.
      *
      * @return void
      */
-    public function analyze(PHP_Depend_Code_NodeIterator $packages)
+    public function analyze(PHP_Depend_AST_NodeIterator $packages)
     {
         if ($this->_nodeMetrics === null) {
 
@@ -158,11 +159,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Returns the statistics for the requested node.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
      * @return array
      */
-    public function getStats(PHP_Depend_Code_NodeI $node)
+    public function getStats(PHP_Depend_AST_Node $node)
     {
         $stats = array();
         if (isset($this->_nodeMetrics[$node->getUUID()])) {
@@ -174,11 +175,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Returns an array of all afferent nodes.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
-     * @return array(PHP_Depend_Code_NodeI)
+     * @return array(PHP_Depend_AST_Node)
      */
-    public function getAfferents(PHP_Depend_Code_NodeI $node)
+    public function getAfferents(PHP_Depend_AST_Node $node)
     {
         $afferents = array();
         if (isset($this->_afferentNodes[$node->getUUID()])) {
@@ -190,11 +191,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Returns an array of all efferent nodes.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
-     * @return array(PHP_Depend_Code_NodeI)
+     * @return array(PHP_Depend_AST_Node)
      */
-    public function getEfferents(PHP_Depend_Code_NodeI $node)
+    public function getEfferents(PHP_Depend_AST_Node $node)
     {
         $efferents = array();
         if (isset($this->_efferentNodes[$node->getUUID()])) {
@@ -207,11 +208,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
      * Returns an array of nodes that build a cycle for the requested node or it
      * returns <b>null</b> if no cycle exists .
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
-     * @return array(PHP_Depend_Code_NodeI)
+     * @return array(PHP_Depend_AST_Node)
      */
-    public function getCycle(PHP_Depend_Code_NodeI $node)
+    public function getCycle(PHP_Depend_AST_Node $node)
     {
         if (array_key_exists($node->getUUID(), $this->_collectedCycles)) {
             return $this->_collectedCycles[$node->getUUID()];
@@ -230,11 +231,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Visits a method node.
      *
-     * @param PHP_Depend_Code_Class $method The method class node.
+     * @param PHP_Depend_AST_Class $method The method class node.
      *
      * @return void
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->fireStartMethod($method);
 
@@ -249,11 +250,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Visits a package node.
      *
-     * @param PHP_Depend_Code_Class $package The package class node.
+     * @param PHP_Depend_AST_Class $package The package class node.
      *
      * @return void
      */
-    public function visitPackage(PHP_Depend_Code_Package $package)
+    public function visitPackage(PHP_Depend_AST_Package $package)
     {
         $this->fireStartPackage($package);
 
@@ -271,11 +272,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Visits a class node.
      *
-     * @param PHP_Depend_Code_Class $class The current class node.
+     * @param PHP_Depend_AST_Class $class The current class node.
      *
      * @return void
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         $this->fireStartClass($class);
         $this->visitType($class);
@@ -285,11 +286,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Visits an interface node.
      *
-     * @param PHP_Depend_Code_Interface $interface The current interface node.
+     * @param PHP_Depend_AST_Interface $interface The current interface node.
      *
      * @return void
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->fireStartInterface($interface);
         $this->visitType($interface);
@@ -300,11 +301,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
      * Generic visit method for classes and interfaces. Both visit methods
      * delegate calls to this method.
      *
-     * @param PHP_Depend_Code_AbstractClassOrInterface $type The type instance.
+     * @param PHP_Depend_AST_AbstractClassOrInterface $type The type instance.
      *
      * @return void
      */
-    protected function visitType(PHP_Depend_Code_AbstractClassOrInterface $type)
+    protected function visitType(PHP_Depend_AST_AbstractClassOrInterface $type)
     {
         // Get context package uuid
         $pkgUUID = $type->getPackage()->getUUID();
@@ -332,14 +333,14 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Collects the dependencies between the two given packages.
      *
-     * @param PHP_Depend_Code_Package $packageA Context/owning package.
-     * @param PHP_Depend_Code_Package $packageB Dependent package.
+     * @param PHP_Depend_AST_Package $packageA Context/owning package.
+     * @param PHP_Depend_AST_Package $packageB Dependent package.
      *
      * @return void
      */
     private function _collectDependencies(
-        PHP_Depend_Code_Package $packageA,
-        PHP_Depend_Code_Package $packageB
+        PHP_Depend_AST_Package $packageA,
+        PHP_Depend_AST_Package $packageB
     ) {
         $idA = $packageA->getUUID();
         $idB = $packageB->getUUID();
@@ -360,11 +361,11 @@ class PHP_Depend_Metrics_Dependency_Analyzer
     /**
      * Initializes the node metric record for the given <b>$package</b>.
      *
-     * @param PHP_Depend_Code_Package $package The context package.
+     * @param PHP_Depend_AST_Package $package The context package.
      *
      * @return void
      */
-    protected function initPackageMetric(PHP_Depend_Code_Package $package)
+    protected function initPackageMetric(PHP_Depend_AST_Package $package)
     {
         $uuid = $package->getUUID();
 
@@ -475,13 +476,13 @@ class PHP_Depend_Metrics_Dependency_Analyzer
      * Collects a single cycle that is reachable by this package. All packages
      * that are part of the cylce are stored in the given <b>$list</b> array.
      *
-     * @param array(PHP_Depend_Code_Package) &$list   Already visited packages.
-     * @param PHP_Depend_Code_Package        $package The context code package.
+     * @param array(PHP_Depend_AST_Package) &$list   Already visited packages.
+     * @param PHP_Depend_AST_Package        $package The context code package.
      *
      * @return boolean If this method detects a cycle the return value is <b>true</b>
      *                 otherwise this method will return <b>false</b>.
      */
-    protected function collectCycle(array &$list, PHP_Depend_Code_Package $package)
+    protected function collectCycle(array &$list, PHP_Depend_AST_Package $package)
     {
         if (in_array($package, $list, true)) {
             $list[] = $package;

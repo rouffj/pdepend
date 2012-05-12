@@ -63,8 +63,10 @@
  */
 class PHP_Depend_Metrics_ClassLevel_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
+/* TODO 2.0
     implements PHP_Depend_Metrics_AggregateAnalyzerI,
                PHP_Depend_Metrics_NodeAware
+*/
 {
     /**
      * Type of this analyzer class.
@@ -183,7 +185,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         $metrics = array();
         if (isset($this->_nodeMetrics[$node->getUUID()])) {
@@ -200,7 +202,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitClass()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         $this->fireStartClass($class);
 
@@ -239,7 +241,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitInterface()
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         // Empty visit method, we don't want interface metrics
     }
@@ -247,12 +249,12 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
     /**
      * Visits a trait node.
      *
-     * @param PHP_Depend_Code_Trait $trait The current trait node.
+     * @param PHP_Depend_AST_Trait $trait The current trait node.
      *
      * @return void
      * @since 1.0.0
      */
-    public function visitTrait(PHP_Depend_Code_Trait $trait)
+    public function visitTrait(PHP_Depend_AST_Trait $trait)
     {
         $this->fireStartTrait($trait);
 
@@ -289,7 +291,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitMethod()
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->fireStartMethod($method);
 
@@ -323,7 +325,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitProperty()
      */
-    public function visitProperty(PHP_Depend_Code_Property $property)
+    public function visitProperty(PHP_Depend_AST_Property $property)
     {
         $this->fireStartProperty($property);
 
@@ -403,12 +405,12 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
     /**
      * Calculates the Weight Method Per Class metric for a trait.
      *
-     * @param PHP_Depend_Code_Trait $trait The context trait instance.
+     * @param PHP_Depend_AST_Trait $trait The context trait instance.
      *
      * @return integer
      * @since 1.0.6
      */
-    private function _calculateWMCiForTrait(PHP_Depend_Code_Trait $trait)
+    private function _calculateWMCiForTrait(PHP_Depend_AST_Trait $trait)
     {
         return array_sum($this->_calculateWMCi($trait));
     }

@@ -67,13 +67,14 @@
  */
 class PHP_Depend_Metrics_Inheritance_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_NodeAware,
-               PHP_Depend_Metrics_FilterAware,
-               PHP_Depend_Metrics_ProjectAware
+    /* TODO 2.0
+   implements PHP_Depend_Metrics_NodeAware,
+              PHP_Depend_Metrics_FilterAware,
+              PHP_Depend_Metrics_ProjectAware*/
 {
-    /**
-     * Type of this analyzer class.
-     */
+   /**
+    * Type of this analyzer class.
+    */
     const CLAZZ = __CLASS__;
 
     /**
@@ -147,7 +148,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         if (isset($this->_nodeMetrics[$node->getUUID()])) {
             return $this->_nodeMetrics[$node->getUUID()];
@@ -226,7 +227,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitClass()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         if (!$class->isUserDefined()) {
             return;

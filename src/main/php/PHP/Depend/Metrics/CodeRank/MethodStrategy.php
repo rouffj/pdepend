@@ -87,7 +87,7 @@ class PHP_Depend_Metrics_CodeRank_MethodStrategy
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitMethod()
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->fireStartMethod($method);
 

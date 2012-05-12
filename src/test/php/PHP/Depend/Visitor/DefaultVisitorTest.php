@@ -259,9 +259,9 @@ class PHP_Depend_Visitor_DefaultVisitorTest extends PHP_Depend_AbstractTest
     public function testVisitorVisitsTrait()
     {
         $package = new PHP_Depend_Code_Package('MyPackage');
-        $package->addType(new PHP_Depend_Code_Trait('MyTraitOne'))
+        $package->addType(new PHP_Depend_AST_Trait('MyTraitOne'))
             ->setSourceFile(new PHP_Depend_Code_File(__FILE__));
-        $package->addType(new PHP_Depend_Code_Trait('MyTraitTwo'))
+        $package->addType(new PHP_Depend_AST_Trait('MyTraitTwo'))
             ->setSourceFile(new PHP_Depend_Code_File(__FILE__));
 
         $visitor = $this->getMock('PHP_Depend_Visitor_AbstractVisitor', array('visitTrait'));

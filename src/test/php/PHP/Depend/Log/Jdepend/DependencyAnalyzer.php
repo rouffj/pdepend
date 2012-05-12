@@ -71,11 +71,11 @@ class PHP_Depend_Log_Jdepend_DependencyAnalyzer
     /**
      * Returns the statistics for the requested node.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
      * @return array
      */
-    public function getStats(PHP_Depend_Code_NodeI $node)
+    public function getStats(PHP_Depend_AST_Node $node)
     {
         if (isset($this->stats[$node->getUUID()])) {
             return $this->stats[$node->getUUID()];

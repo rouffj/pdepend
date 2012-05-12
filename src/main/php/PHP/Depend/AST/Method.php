@@ -84,12 +84,11 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
                 'params' => $method->params,
                 'stmts'  => $method->stmts,
             ),
-            $method->line,
-            $method->docComment
+            $method->attributes
         );
 
-        $this->refs       = $refs;
-        $this->attributes = $method->attributes;
+        $this->refs = $refs;
+
 
         $this->refs->initialize( $this );
     }

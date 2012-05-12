@@ -59,7 +59,7 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Log_Dummy_Logger
-    implements PHP_Depend_Log_LoggerI,
+    implements PHP_Depend_Log_Logger,
                PHP_Depend_Log_CodeAware,
                PHP_Depend_Log_FileAware
 {

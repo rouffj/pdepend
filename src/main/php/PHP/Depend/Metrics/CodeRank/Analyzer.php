@@ -60,12 +60,14 @@
  */
 class PHP_Depend_Metrics_CodeRank_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_Analyzer,
-               PHP_Depend_Metrics_NodeAware
+    /* TODO 2.0
+   implements PHP_Depend_Metrics_Analyzer,
+              PHP_Depend_Metrics_NodeAware
+   */
 {
-    /**
-     * Type of this analyzer class.
-     */
+   /**
+    * Type of this analyzer class.
+    */
     const CLAZZ = __CLASS__;
 
     /**
@@ -187,7 +189,7 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         if (isset($this->_nodeMetrics[$node->getUUID()])) {
             return $this->_nodeMetrics[$node->getUUID()];

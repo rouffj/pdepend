@@ -60,14 +60,14 @@ class PHP_Depend_Visitor_TestListener extends PHP_Depend_Visitor_AbstractListene
 {
     public $nodes = array();
     
-    public function startVisitNode(PHP_Depend_Code_NodeI $node)
+    public function startVisitNode(PHP_Depend_AST_Node $node)
     {
         $this->nodes[$node->getName() . '#start'] = true;
         
         parent::startVisitNode($node);
     }
 
-    public function endVisitNode(PHP_Depend_Code_NodeI $node)
+    public function endVisitNode(PHP_Depend_AST_Node $node)
     {
         $this->nodes[$node->getName() . '#end'] = true;
         

@@ -2,20 +2,11 @@
 <phpunit>
     <testsuites>
         <testsuite name="PHP Depends Test Suite">
-            <file>src/test/php/PHP/Depend/Log/Summary/XmlTest.php</file>
-            <file>src/test/php/PHP/Depend/Metrics/CyclomaticComplexity/AnalyzerTest.php</file>
-            <file>src/test/php/PHP/Depend/Metrics/NodeCount/AnalyzerTest.php</file>
-            <!--<directory suffix="Test.php">src/test/php</directory>-->
+            <directory suffix="Test.php">src/test/php</directory>
             <directory suffix=".phpt">src/test/php</directory>
         </testsuite>
 	</testsuites>
-<!--
-    <groups>
-        <include>
-            <group>2.0</group>
-        </include>
-	</groups>
--->
+
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/main/php/PHP</directory>

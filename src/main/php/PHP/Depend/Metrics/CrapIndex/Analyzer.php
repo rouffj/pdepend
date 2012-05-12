@@ -62,12 +62,13 @@
  */
 class PHP_Depend_Metrics_CrapIndex_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_AggregateAnalyzerI,
-               PHP_Depend_Metrics_NodeAware
+    /* TODO 2.0
+   implements PHP_Depend_Metrics_AggregateAnalyzerI,
+              PHP_Depend_Metrics_NodeAware*/
 {
-    /**
-     * Type of this analyzer class.
-     */
+   /**
+    * Type of this analyzer class.
+    */
     const CLAZZ = __CLASS__;
 
     /**
@@ -119,7 +120,7 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return array(string=>float)
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         if (isset($this->_metrics[$node->getUUID()])) {
             return $this->_metrics[$node->getUUID()];
@@ -194,7 +195,7 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return void
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         if ($method->isAbstract() === false) {
             $this->_visitCallable($method);
@@ -208,7 +209,7 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return void
      */
-    public function visitFunction(PHP_Depend_Code_Function $function)
+    public function visitFunction(PHP_Depend_AST_Function $function)
     {
         $this->_visitCallable($function);
     }

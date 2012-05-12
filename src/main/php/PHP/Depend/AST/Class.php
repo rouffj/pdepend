@@ -16,12 +16,10 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
                 'implements' => $class->implements,
                 'stmts'      => $class->stmts,
             ),
-            $class->line,
-            $class->docComment
+            $class->attributes
         );
 
         $this->refs           = $refs;
-        $this->attributes     = $class->attributes;
         $this->namespacedName = $class->namespacedName;
 
         $this->refs->initialize( $this );

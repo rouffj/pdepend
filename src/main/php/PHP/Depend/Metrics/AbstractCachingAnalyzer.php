@@ -103,7 +103,7 @@ abstract class PHP_Depend_Metrics_AbstractCachingAnalyzer
      * restored the metrics it will return <b>TRUE</b>, otherwise the return
      * value will be <b>FALSE</b>.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
      * @return boolean
      */

@@ -87,7 +87,7 @@ class PHP_Depend_Metrics_CodeRank_PropertyStrategy
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitProperty()
      */
-    public function visitProperty(PHP_Depend_Code_Property $property)
+    public function visitProperty(PHP_Depend_AST_Property $property)
     {
         $this->fireStartProperty($property);
 

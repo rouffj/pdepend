@@ -70,14 +70,15 @@
  */
 class PHP_Depend_Metrics_Hierarchy_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_Analyzer,
-               PHP_Depend_Metrics_FilterAware,
-               PHP_Depend_Metrics_NodeAware,
-               PHP_Depend_Metrics_ProjectAware
+    /* TODO 2.0
+   implements PHP_Depend_Metrics_Analyzer,
+              PHP_Depend_Metrics_FilterAware,
+              PHP_Depend_Metrics_NodeAware,
+              PHP_Depend_Metrics_ProjectAware*/
 {
-    /**
-     * Type of this analyzer class.
-     */
+   /**
+    * Type of this analyzer class.
+    */
     const CLAZZ = __CLASS__;
 
     /**
@@ -211,7 +212,7 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         if (isset($this->_nodeMetrics[$node->getUUID()])) {
             return $this->_nodeMetrics[$node->getUUID()];
@@ -227,7 +228,7 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitClass()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         if (false === $class->isUserDefined()) {
             return;
@@ -270,7 +271,7 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitFunction()
      */
-    public function visitFunction(PHP_Depend_Code_Function $function)
+    public function visitFunction(PHP_Depend_AST_Function $function)
     {
         $this->fireStartFunction($function);
         ++$this->_fcs;
@@ -285,7 +286,7 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitInterface()
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->fireStartInterface($interface);
 
@@ -306,7 +307,7 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer
      * @return void
      * @see PHP_Depend_VisitorI::visitMethod()
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->fireStartMethod($method);
         ++$this->_mts;

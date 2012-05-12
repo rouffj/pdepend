@@ -71,12 +71,12 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
     /**
      * Visits a class node.
      *
-     * @param PHP_Depend_Code_Class $class The current class node.
+     * @param PHP_Depend_AST_Class $class The current class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitClass()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         $this->visits[] = $class->getName();
 
@@ -86,12 +86,12 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
     /**
      * Visits a file node.
      *
-     * @param PHP_Depend_Code_File $file The current file node.
+     * @param PHP_Depend_AST_File $file The current file node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitFile()
      */
-    public function visitFile(PHP_Depend_Code_File $file)
+    public function visitFile(PHP_Depend_AST_File $file)
     {
         $this->visits[] = get_class($file);
 
@@ -101,12 +101,12 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
     /**
      * Visits a function node.
      *
-     * @param PHP_Depend_Code_Function $function The current function node.
+     * @param PHP_Depend_AST_Function $function The current function node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitFunction()
      */
-    public function visitFunction(PHP_Depend_Code_Function $function)
+    public function visitFunction(PHP_Depend_AST_Function $function)
     {
         $this->visits[] = $function->getName();
 
@@ -116,12 +116,12 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
     /**
      * Visits a code interface object.
      *
-     * @param PHP_Depend_Code_Interface $interface The context code interface.
+     * @param PHP_Depend_AST_Interface $interface The context code interface.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitInterface()
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->visits[] = $interface->getName();
 
@@ -131,12 +131,12 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
     /**
      * Visits a method node.
      *
-     * @param PHP_Depend_Code_Class $method The method class node.
+     * @param PHP_Depend_AST_Class $method The method class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitMethod()
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->visits[] = $method->getName();
 
@@ -146,12 +146,12 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
     /**
      * Visits a package node.
      *
-     * @param PHP_Depend_Code_Class $package The package class node.
+     * @param PHP_Depend_AST_Class $package The package class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitPackage()
      */
-    public function visitPackage(PHP_Depend_Code_Package $package)
+    public function visitPackage(PHP_Depend_AST_Package $package)
     {
         $this->visits[] = $package->getName();
 
@@ -161,12 +161,12 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
     /**
      * Visits a property node.
      *
-     * @param PHP_Depend_Code_Property $property The property class node.
+     * @param PHP_Depend_AST_Property $property The property class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitProperty()
      */
-    public function visitProperty(PHP_Depend_Code_Property $property)
+    public function visitProperty(PHP_Depend_AST_Property $property)
     {
         $this->visits[] = $property->getName();
 

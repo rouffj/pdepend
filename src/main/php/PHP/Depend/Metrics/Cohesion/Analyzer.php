@@ -61,11 +61,12 @@
  */
 class PHP_Depend_Metrics_Cohesion_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_NodeAware
+    /* TODO 2.0
+   implements PHP_Depend_Metrics_NodeAware*/
 {
-    /**
-     * Type of this analyzer class.
-     */
+   /**
+    * Type of this analyzer class.
+    */
     const CLAZZ = __CLASS__;
 
     /**
@@ -97,7 +98,7 @@ class PHP_Depend_Metrics_Cohesion_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         if (isset($this->_nodeMetrics[$node->getUUID()])) {
             return $this->_nodeMetrics[$node->getUUID()];
@@ -124,14 +125,14 @@ class PHP_Depend_Metrics_Cohesion_Analyzer
     }
 
     /*
-    public function visitProperty(PHP_Depend_Code_Property $property)
+    public function visitProperty(PHP_Depend_AST_Property $property)
     {
         $this->fireStartProperty($property);
         echo ltrim($property->getName(), '$'), PHP_EOL;
         $this->fireEndProperty($property);
     }
 
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->fireStartMethod($method);
 

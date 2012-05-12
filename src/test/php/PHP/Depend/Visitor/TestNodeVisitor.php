@@ -61,14 +61,14 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * The last visited class instance.
      *
-     * @var PHP_Depend_Code_Class
+     * @var PHP_Depend_AST_Class
      */
     public $class;
 
     /**
      * The last visited trait instance.
      *
-     * @var PHP_Depend_Code_Trait
+     * @var PHP_Depend_AST_Trait
      * @since 1.0.0
      */
     public $trait;
@@ -76,42 +76,42 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * The last visited interface instance.
      *
-     * @var PHP_Depend_Code_Interface
+     * @var PHP_Depend_AST_Interface
      */
     public $interface;
 
     /**
      * The last visited method instance.
      *
-     * @var PHP_Depend_Code_Method
+     * @var PHP_Depend_AST_Method
      */
     public $method;
 
     /**
      * The last visited package instance.
      *
-     * @var PHP_Depend_Code_Package
+     * @var PHP_Depend_AST_Package
      */
     public $package;
 
     /**
      * The last visited parameter instance.
      *
-     * @var PHP_Depend_Code_Parameter
+     * @var PHP_Depend_AST_Parameter
      */
     public $parameter;
 
     /**
      * The last visited property instance.
      *
-     * @var PHP_Depend_Code_Property
+     * @var PHP_Depend_AST_Property
      */
     public $property;
 
     /**
      * The last visited function instance.
      *
-     * @var PHP_Depend_Code_Function
+     * @var PHP_Depend_AST_Function
      */
     public $function;
 
@@ -129,11 +129,11 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a class node.
      *
-     * @param PHP_Depend_Code_Class $class The current class node.
+     * @param PHP_Depend_AST_Class $class The current class node.
      *
      * @return void
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         $this->class = $class;
     }
@@ -141,12 +141,12 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a trait node.
      *
-     * @param PHP_Depend_Code_Trait $trait The current trait node.
+     * @param PHP_Depend_AST_Trait $trait The current trait node.
      *
      * @return void
      * @since 1.0.0
      */
-    public function visitTrait(PHP_Depend_Code_Trait $trait)
+    public function visitTrait(PHP_Depend_AST_Trait $trait)
     {
         $this->trait = $trait;
     }
@@ -155,11 +155,11 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a code interface object.
      *
-     * @param PHP_Depend_Code_Interface $interface The context code interface.
+     * @param PHP_Depend_AST_Interface $interface The context code interface.
      *
      * @return void
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->interface = $interface;
     }
@@ -167,11 +167,11 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a method node.
      *
-     * @param PHP_Depend_Code_Class $method The method class node.
+     * @param PHP_Depend_AST_Class $method The method class node.
      *
      * @return void
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->method = $method;
     }
@@ -179,11 +179,11 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a package node.
      *
-     * @param PHP_Depend_Code_Class $package The package class node.
+     * @param PHP_Depend_AST_Class $package The package class node.
      *
      * @return void
      */
-    public function visitPackage(PHP_Depend_Code_Package $package)
+    public function visitPackage(PHP_Depend_AST_Package $package)
     {
         $this->package = $package;
     }
@@ -191,11 +191,11 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a parameter node.
      *
-     * @param PHP_Depend_Code_Parameter $parameter The parameter node.
+     * @param PHP_Depend_AST_Parameter $parameter The parameter node.
      *
      * @return void
      */
-    public function visitParameter(PHP_Depend_Code_Parameter $parameter)
+    public function visitParameter(PHP_Depend_AST_Parameter $parameter)
     {
         $this->parameter = $parameter;
     }
@@ -203,12 +203,12 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a property node.
      *
-     * @param PHP_Depend_Code_Property $property The property class node.
+     * @param PHP_Depend_AST_Property $property The property class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitProperty()
      */
-    public function visitProperty(PHP_Depend_Code_Property $property)
+    public function visitProperty(PHP_Depend_AST_Property $property)
     {
         $this->property = $property;
     }
@@ -216,11 +216,11 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a function node.
      *
-     * @param PHP_Depend_Code_Function $function The current function node.
+     * @param PHP_Depend_AST_Function $function The current function node.
      *
      * @return void
      */
-    public function visitFunction(PHP_Depend_Code_Function $function)
+    public function visitFunction(PHP_Depend_AST_Function $function)
     {
         $this->function = $function;
     }
@@ -228,12 +228,12 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
     /**
      * Visits a file node.
      *
-     * @param PHP_Depend_Code_File $file The current file node.
+     * @param PHP_Depend_AST_File $file The current file node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitFile()
      */
-    public function visitFile(PHP_Depend_Code_File $file)
+    public function visitFile(PHP_Depend_AST_File $file)
     {
 
     }

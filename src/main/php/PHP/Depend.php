@@ -422,7 +422,7 @@ class PHP_Depend
      */
     private function processParsing()
     {
-        $parser = new PHP_Depend_Parser();
+        $parser = new PHP_Depend_Parser( new PHP_Depend_Tokenizer_VersionAll() );
 
         // Reset list of thrown exceptions
         $this->_parseExceptions = array();
@@ -444,7 +444,7 @@ class PHP_Depend
 
             try
             {
-                $compilationUnits[] = $parser->parse( $tokenizer );
+                $compilationUnits[] = $parser->parse( file_get_contents( $file ) );
             }
             catch ( PHPParser_Error $e )
             {

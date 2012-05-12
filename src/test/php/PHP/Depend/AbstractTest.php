@@ -224,7 +224,7 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
      * Returns the first trait found in a test file associated with the given
      * test case.
      *
-     * @return PHP_Depend_Code_Trait
+     * @return PHP_Depend_AST_Trait
      * @since 1.0.0
      */
     protected function getFirstTraitForTestCase()
@@ -239,7 +239,7 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
      * Returns the first class found in a test file associated with the given
      * test case.
      *
-     * @return PHP_Depend_Code_Class
+     * @return PHP_Depend_AST_Class
      */
     protected function getFirstClassForTestCase()
     {
@@ -483,14 +483,14 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
      *
      * @param string $name Optional trait name.
      *
-     * @return PHP_Depend_Code_Trait
+     * @return PHP_Depend_AST_Trait
      * @since 1.0.2
      */
     protected function createTraitFixture($name = null)
     {
         $name = $name ? $name : get_class($this);
 
-        $trait = new PHP_Depend_Code_Trait($name);
+        $trait = new PHP_Depend_AST_Trait($name);
         $trait->setCache(new PHP_Depend_Util_Cache_Driver_Memory());
 
         return $trait;
@@ -758,17 +758,16 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
         }
         sort($files);
 
-        $parser = new PHP_Depend_Parser();
+        $parser = new PHP_Depend_Parser( new PHP_Depend_Tokenizer_VersionAll() );
 
         $compilationUnits = array();
         foreach ($files as $file) {
-            $tokenizer = new PHP_Depend_Tokenizer_VersionAll($file);
 // FIXME: What should we do with ignore annotations
 //            if ($ignoreAnnotations === true) {
 //                $parser->setIgnoreAnnotations();
 //            }
 
-            $compilationUnits[] = $parser->parse($tokenizer);
+            $compilationUnits[] = $parser->parse( $file );
         }
         return $compilationUnits;
     }

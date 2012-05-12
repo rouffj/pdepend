@@ -76,14 +76,15 @@
  */
 class PHP_Depend_Metrics_NodeLoc_Analyzer
        extends PHP_Depend_Metrics_AbstractCachingAnalyzer
-    implements PHP_Depend_Metrics_Analyzer,
-               PHP_Depend_Metrics_NodeAware,
-               PHP_Depend_Metrics_FilterAware,
-               PHP_Depend_Metrics_ProjectAware
+    /* TODO 2.0
+   implements PHP_Depend_Metrics_Analyzer,
+              PHP_Depend_Metrics_NodeAware,
+              PHP_Depend_Metrics_FilterAware,
+              PHP_Depend_Metrics_ProjectAware*/
 {
-    /**
-     * Type of this analyzer class.
-     */
+   /**
+    * Type of this analyzer class.
+    */
     const CLAZZ = __CLASS__;
 
     /**
@@ -144,7 +145,7 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return array
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         $metrics = array();
         if (isset($this->metrics[$node->getUUID()])) {
@@ -202,7 +203,7 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitClass()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         $this->fireStartClass($class);
 
@@ -243,7 +244,7 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitFile()
      */
-    public function visitFile(PHP_Depend_Code_File $file)
+    public function visitFile(PHP_Depend_AST_File $file)
     {
         // Skip for dummy files
         if ($file->getFileName() === null) {
@@ -288,7 +289,7 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitFunction()
      */
-    public function visitFunction(PHP_Depend_Code_Function $function)
+    public function visitFunction(PHP_Depend_AST_Function $function)
     {
         $this->fireStartFunction($function);
 
@@ -324,7 +325,7 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return void
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->fireStartInterface($interface);
 
@@ -361,7 +362,7 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return void
      */
-    public function visitMethod(PHP_Depend_Code_Method $method)
+    public function visitMethod(PHP_Depend_AST_Method $method)
     {
         $this->fireStartMethod($method);
 

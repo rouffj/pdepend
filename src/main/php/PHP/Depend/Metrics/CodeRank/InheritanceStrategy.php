@@ -88,7 +88,7 @@ class PHP_Depend_Metrics_CodeRank_InheritanceStrategy
      * @see PHP_Depend_VisitorI::visitClass()
      * @see PHP_Depend_Metrics_CodeRank_Analyzer::visitType()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         $this->fireStartClass($class);
         $this->visitType($class);
@@ -104,7 +104,7 @@ class PHP_Depend_Metrics_CodeRank_InheritanceStrategy
      * @see PHP_Depend_VisitorI::visitInterface()
      * @see PHP_Depend_Metrics_CodeRank_Analyzer::visitType()
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->fireStartInterface($interface);
         $this->visitType($interface);

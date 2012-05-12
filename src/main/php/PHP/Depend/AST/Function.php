@@ -90,12 +90,10 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
                 'params' => $function->params,
                 'stmts'  => $function->stmts,
             ),
-            $function->line,
-            $function->docComment
+            $function->attributes
         );
 
         $this->refs           = $refs;
-        $this->attributes     = $function->attributes;
         $this->namespacedName = $function->namespacedName;
 
         $this->refs->initialize( $this );

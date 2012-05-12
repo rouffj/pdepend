@@ -266,7 +266,7 @@ class PHP_Depend_Visitor_DefaultListenerTest extends PHP_Depend_AbstractTest
         $listener->expects($this->once())
             ->method('startVisitNode');
 
-        $listener->startVisitTrait(new PHP_Depend_Code_Trait('MyTrait'));
+        $listener->startVisitTrait(new PHP_Depend_AST_Trait('MyTrait'));
     }
 
     /**
@@ -281,6 +281,6 @@ class PHP_Depend_Visitor_DefaultListenerTest extends PHP_Depend_AbstractTest
         $listener->expects($this->once())
             ->method('endVisitNode');
 
-        $listener->endVisitTrait(new PHP_Depend_Code_Trait('MyTrait'));
+        $listener->endVisitTrait(new PHP_Depend_AST_Trait('MyTrait'));
     }
 }
