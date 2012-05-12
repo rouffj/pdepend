@@ -60,9 +60,9 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Log_Summary_Xml
-       extends PHP_Depend_Visitor_AbstractVisitor
+    extends PHP_Depend_Visitor_AbstractVisitor
     implements PHP_Depend_Log_CodeAware,
-               PHP_Depend_Log_FileAware
+    PHP_Depend_Log_FileAware
 {
     /**
      * The type of this class.
@@ -77,11 +77,11 @@ class PHP_Depend_Log_Summary_Xml
     private $_logFile = null;
 
     /**
-     * The raw {@link PHP_Depend_AST_Package} instances.
+     * The raw compilation units
      *
-     * @var PHP_Depend_AST_NodeIterator
+     * @var PHP_Depend_AST_CompilationUnit[]
      */
-    protected $code = null;
+    protected $compilationUnits = null;
 
     /**
      * Set of all analyzed files.
@@ -120,7 +120,7 @@ class PHP_Depend_Log_Summary_Xml
      *
      * @return void
      */
-    public function setLogFile($logFile)
+    public function setLogFile( $logFile )
     {
         $this->_logFile = $logFile;
     }
@@ -147,7 +147,7 @@ class PHP_Depend_Log_Summary_Xml
      */
     public function setCode( array $compilationUnits )
     {
-        $this->code = $code;
+        $this->compilationUnits = $compilationUnits;
     }
 
     /**
@@ -160,12 +160,14 @@ class PHP_Depend_Log_Summary_Xml
     public function log( PHP_Depend_Metrics_Analyzer $analyzer )
     {
         $accepted = false;
-        if ($analyzer instanceof PHP_Depend_Metrics_ProjectAwareI) {
+        if ( $analyzer instanceof PHP_Depend_Metrics_ProjectAware )
+        {
             $this->_projectAwareAnalyzers[] = $analyzer;
 
             $accepted = true;
         }
-        if ($analyzer instanceof PHP_Depend_Metrics_NodeAwareI) {
+        if ( $analyzer instanceof PHP_Depend_Metrics_NodeAware )
+        {
             $this->_nodeAwareAnalyzers[] = $analyzer;
 
             $accepted = true;
@@ -181,44 +183,49 @@ class PHP_Depend_Log_Summary_Xml
      */
     public function close()
     {
-        if ($this->_logFile === null) {
-            throw new PHP_Depend_Log_NoLogOutputException($this);
+        if ( $this->_logFile === null )
+        {
+            throw new PHP_Depend_Log_NoLogOutputException( $this );
         }
 
-        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom = new DOMDocument( '1.0', 'UTF-8' );
 
         $dom->formatOutput = true;
 
-        $metrics = $dom->createElement('metrics');
-        $metrics->setAttribute('generated', date('Y-m-d\TH:i:s'));
-        $metrics->setAttribute('pdepend', '@package_version@');
+        $metrics = $dom->createElement( 'metrics' );
+        $metrics->setAttribute( 'generated', date( 'Y-m-d\TH:i:s' ) );
+        $metrics->setAttribute( 'pdepend', '@package_version@' );
 
-        foreach ($this->_getProjectMetrics() as $name => $value) {
-            $metrics->setAttribute($name, $value);
+        foreach ( $this->_getProjectMetrics() as $name => $value )
+        {
+            $metrics->setAttribute( $name, $value );
         }
 
-        array_push($this->_xmlStack, $metrics);
+        array_push( $this->_xmlStack, $metrics );
 
-        foreach ($this->code as $node) {
-            $node->accept($this);
+        foreach ( $this->compilationUnits as $node )
+        {
+            $node->accept( $this );
         }
 
-        if (count($this->fileSet) > 0) {
-            $filesXml = $dom->createElement('files');
-            foreach ($this->fileSet as $file) {
-                $fileXml = $dom->createElement('file');
-                $fileXml->setAttribute('name', $file->getFileName());
+        if ( count( $this->fileSet ) > 0 )
+        {
+            $filesXml = $dom->createElement( 'files' );
+            foreach ( $this->fileSet as $file )
+            {
+                $fileXml = $dom->createElement( 'file' );
+                $fileXml->setAttribute( 'name', $file->getFileName() );
 
-                $this->writeNodeMetrics($fileXml, $file);
+                $this->writeNodeMetrics( $fileXml, $file );
 
-                $filesXml->appendChild($fileXml);
+                $filesXml->appendChild( $fileXml );
             }
-            $metrics->insertBefore($filesXml, $metrics->firstChild);
+            $metrics->insertBefore( $filesXml, $metrics->firstChild );
         }
 
-        $dom->appendChild($metrics);
+        $dom->appendChild( $metrics );
 
-        $dom->save($this->_logFile);
+        $dom->save( $this->_logFile );
     }
 
     /**
@@ -230,13 +237,14 @@ class PHP_Depend_Log_Summary_Xml
     private function _getProjectMetrics()
     {
         $projectMetrics = array();
-        foreach ($this->_projectAwareAnalyzers as $analyzer) {
+        foreach ( $this->_projectAwareAnalyzers as $analyzer )
+        {
             $projectMetrics = array_merge(
                 $projectMetrics,
                 $analyzer->getProjectMetrics()
             );
         }
-        ksort($projectMetrics);
+        ksort( $projectMetrics );
 
         return $projectMetrics;
     }
@@ -248,33 +256,36 @@ class PHP_Depend_Log_Summary_Xml
      *
      * @return void
      */
-    public function visitClass(PHP_Depend_AST_Class $class)
+    public function visitClass( PHP_Depend_AST_Class $class )
     {
-        if (!$class->isUserDefined()) {
+        if ( !$class->isUserDefined() )
+        {
             return;
         }
 
-        $xml = end($this->_xmlStack);
+        $xml = end( $this->_xmlStack );
         $doc = $xml->ownerDocument;
 
-        $classXml = $doc->createElement('class');
-        $classXml->setAttribute('name', $class->getName());
+        $classXml = $doc->createElement( 'class' );
+        $classXml->setAttribute( 'name', $class->getName() );
 
-        $this->writeNodeMetrics($classXml, $class);
-        $this->writeFileReference($classXml, $class->getSourceFile());
+        $this->writeNodeMetrics( $classXml, $class );
+        $this->writeFileReference( $classXml, $class->getSourceFile() );
 
-        $xml->appendChild($classXml);
+        $xml->appendChild( $classXml );
 
-        array_push($this->_xmlStack, $classXml);
+        array_push( $this->_xmlStack, $classXml );
 
-        foreach ($class->getMethods() as $method) {
-            $method->accept($this);
+        foreach ( $class->getMethods() as $method )
+        {
+            $method->accept( $this );
         }
-        foreach ($class->getProperties() as $property) {
-            $property->accept($this);
+        foreach ( $class->getProperties() as $property )
+        {
+            $property->accept( $this );
         }
 
-        array_pop($this->_xmlStack);
+        array_pop( $this->_xmlStack );
     }
 
     /**
@@ -284,29 +295,27 @@ class PHP_Depend_Log_Summary_Xml
      *
      * @return void
      */
-    public function visitFunction(PHP_Depend_AST_Function $function)
+    public function visitFunction( PHP_Depend_AST_Function $function )
     {
-        $xml = end($this->_xmlStack);
+        $xml = end( $this->_xmlStack );
         $doc = $xml->ownerDocument;
 
-        $functionXml = $doc->createElement('function');
-        $functionXml->setAttribute('name', $function->getName());
+        $functionXml = $doc->createElement( 'function' );
+        $functionXml->setAttribute( 'name', $function->getName() );
 
-        $this->writeNodeMetrics($functionXml, $function);
-        $this->writeFileReference($functionXml, $function->getSourceFile());
+        $this->writeNodeMetrics( $functionXml, $function );
+        $this->writeFileReference( $functionXml, $function->getSourceFile() );
 
-        $xml->appendChild($functionXml);
+        $xml->appendChild( $functionXml );
     }
 
     /**
      * Visits a code interface object.
      *
      * @param PHP_Depend_AST_Interface $interface The context code interface.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitInterface()
      */
-    public function visitInterface(PHP_Depend_AST_Interface $interface)
+    public function visitInterface( PHP_Depend_AST_Interface $interface )
     {
         // Empty implementation, because we don't want interface methods.
     }
@@ -315,55 +324,56 @@ class PHP_Depend_Log_Summary_Xml
      * Visits a method node.
      *
      * @param PHP_Depend_AST_Method $method The method class node.
-     *
      * @return void
      */
-    public function visitMethod(PHP_Depend_AST_Method $method)
+    public function visitMethod( PHP_Depend_AST_Method $method )
     {
-        $xml = end($this->_xmlStack);
+        $xml = end( $this->_xmlStack );
         $doc = $xml->ownerDocument;
 
-        $methodXml = $doc->createElement('method');
-        $methodXml->setAttribute('name', $method->getName());
+        $methodXml = $doc->createElement( 'method' );
+        $methodXml->setAttribute( 'name', $method->getName() );
 
-        $this->writeNodeMetrics($methodXml, $method);
+        $this->writeNodeMetrics( $methodXml, $method );
 
-        $xml->appendChild($methodXml);
+        $xml->appendChild( $methodXml );
     }
 
     /**
      * Visits a package node.
      *
      * @param PHP_Depend_AST_Class $package The package class node.
-     *
      * @return void
      */
-    public function visitPackage(PHP_Depend_AST_Package $package)
+    public function visitPackage( PHP_Depend_AST_Package $package )
     {
-        $xml = end($this->_xmlStack);
+        $xml = end( $this->_xmlStack );
         $doc = $xml->ownerDocument;
 
-        $packageXml = $doc->createElement('package');
-        $packageXml->setAttribute('name', $package->getName());
+        $packageXml = $doc->createElement( 'package' );
+        $packageXml->setAttribute( 'name', $package->getName() );
 
-        $this->writeNodeMetrics($packageXml, $package);
+        $this->writeNodeMetrics( $packageXml, $package );
 
-        array_push($this->_xmlStack, $packageXml);
+        array_push( $this->_xmlStack, $packageXml );
 
-        foreach ($package->getTypes() as $type) {
-            $type->accept($this);
+        foreach ( $package->getTypes() as $type )
+        {
+            $type->accept( $this );
         }
-        foreach ($package->getFunctions() as $function) {
-            $function->accept($this);
+        foreach ( $package->getFunctions() as $function )
+        {
+            $function->accept( $this );
         }
 
-        array_pop($this->_xmlStack);
+        array_pop( $this->_xmlStack );
 
-        if ($packageXml->firstChild === null) {
+        if ( $packageXml->firstChild === null )
+        {
             return;
         }
 
-        $xml->appendChild($packageXml);
+        $xml->appendChild( $packageXml );
     }
 
     /**
@@ -372,19 +382,20 @@ class PHP_Depend_Log_Summary_Xml
      *
      * @param DOMElement            $xml  DOM Element that represents <b>$node</b>.
      * @param PHP_Depend_AST_NodeI $node The context code node instance.
-     *
      * @return void
      */
-    protected function writeNodeMetrics(DOMElement $xml, PHP_Depend_AST_NodeI $node)
+    protected function writeNodeMetrics( DOMElement $xml, PHP_Depend_AST_NodeI $node )
     {
         $metrics = array();
-        foreach ($this->_nodeAwareAnalyzers as $analyzer) {
-            $metrics = array_merge($metrics, $analyzer->getNodeMetrics($node));
+        foreach ( $this->_nodeAwareAnalyzers as $analyzer )
+        {
+            $metrics = array_merge( $metrics, $analyzer->getNodeMetrics( $node ) );
         }
-        ksort($metrics);
+        ksort( $metrics );
 
-        foreach ($metrics as $name => $value) {
-            $xml->setAttribute($name, $value);
+        foreach ( $metrics as $name => $value )
+        {
+            $xml->setAttribute( $name, $value );
         }
     }
 
@@ -399,20 +410,18 @@ class PHP_Depend_Log_Summary_Xml
      *
      * @param DOMElement           $xml  The parent xml element.
      * @param PHP_Depend_AST_File $file The code file instance.
-     *
      * @return void
      */
-    protected function writeFileReference(
-        DOMElement $xml,
-        PHP_Depend_AST_File $file = null
-    ) {
-        if (in_array($file, $this->fileSet, true) === false) {
+    protected function writeFileReference( DOMElement $xml, PHP_Depend_AST_File $file = null )
+    {
+        if ( in_array( $file, $this->fileSet, true ) === false )
+        {
             $this->fileSet[] = $file;
         }
 
-        $fileXml = $xml->ownerDocument->createElement('file');
-        $fileXml->setAttribute('name', $file->getFileName());
+        $fileXml = $xml->ownerDocument->createElement( 'file' );
+        $fileXml->setAttribute( 'name', $file->getFileName() );
 
-        $xml->appendChild($fileXml);
+        $xml->appendChild( $fileXml );
     }
 }
