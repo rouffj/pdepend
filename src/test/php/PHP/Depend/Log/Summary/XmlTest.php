@@ -104,14 +104,15 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
      */
     public function testReturnsExceptedAnalyzers()
     {
-        $logger    = new PHP_Depend_Log_Summary_Xml();
-        $actual    = $logger->getAcceptedAnalyzers();
-        $exptected = array(
-            'PHP_Depend_Metrics_NodeAwareI',
-            'PHP_Depend_Metrics_ProjectAwareI'
-        );
+        $logger = new PHP_Depend_Log_Summary_Xml();
 
-        $this->assertEquals($exptected, $actual);
+        $this->assertEquals(
+            array(
+                'PHP_Depend_Metrics_NodeAware',
+                'PHP_Depend_Metrics_ProjectAware'
+            ),
+            $logger->getAcceptedAnalyzers()
+        );
     }
 
     /**
@@ -172,6 +173,8 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
         $processor = new PHP_Depend_Log_Processor();
         $processor->register( $log );
         $processor->process( self::parseCodeResourceForTest() );
+
+        $log->close();
 
         $fileName = 'xml-log-without-metrics.xml';
         $this->assertXmlStringEqualsXmlString(

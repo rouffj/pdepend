@@ -150,11 +150,6 @@ class PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy
      */
     public function getNodeMetrics($node)
     {
-        $nodeId = (string) is_object( $node ) ? $node->getId() : $node;
-
-        if (isset($this->nodeMetrics[$nodeId])) {
-            return $this->nodeMetrics[$nodeId];
-        }
-        return array();
+        return $this->nodeMetrics;
     }
 }

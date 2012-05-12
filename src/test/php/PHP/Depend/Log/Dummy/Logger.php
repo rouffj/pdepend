@@ -107,7 +107,7 @@ class PHP_Depend_Log_Dummy_Logger
      */
     public function getAcceptedAnalyzers()
     {
-        return array('PHP_Depend_Metrics_NodeAwareI');
+        return array('PHP_Depend_Metrics_NodeAware');
     }
 
     /**

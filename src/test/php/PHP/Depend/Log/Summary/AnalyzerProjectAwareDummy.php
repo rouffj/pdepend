@@ -125,8 +125,7 @@ class PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy
     /**
      * Returns the project metrics.
      *
-     * @return array(string=>mixed)
-     * @see PHP_Depend_Metrics_ProjectAwareI::getProjectMetrics()
+     * @return array
      */
     public function getProjectMetrics()
     {
