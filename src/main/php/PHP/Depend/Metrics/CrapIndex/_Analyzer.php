@@ -141,12 +141,12 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
     /**
      * Adds an analyzer that this analyzer depends on.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer An analyzer this analyzer
+     * @param PHP_Depend_Metrics_Analyzer $analyzer An analyzer this analyzer
      *        depends on.
      *
      * @return void
      */
-    public function addAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    public function addAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
     {
         $this->_ccnAnalyzer = $analyzer;
     }

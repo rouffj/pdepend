@@ -59,8 +59,8 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy
-    implements PHP_Depend_Metrics_AnalyzerI,
-               PHP_Depend_Metrics_ProjectAwareI
+    implements PHP_Depend_Metrics_Analyzer,
+               PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Dummy project metrics.

@@ -60,11 +60,4 @@
  */
 interface PHP_Depend_Log_CodeAware extends PHP_Depend_Log_Logger
 {
-    /**
-     * Sets the context code nodes.
-     *
-     * @param PHP_Depend_AST_CompilationUnit[] $compilationUnits
-     * @return void
-     */
-    public function setCode( array $compilationUnits );
 }

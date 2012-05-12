@@ -59,7 +59,7 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-interface PHP_Depend_Metrics_AggregateAnalyzerI extends PHP_Depend_Metrics_AnalyzerI
+interface PHP_Depend_Metrics_AggregateAnalyzerI extends PHP_Depend_Metrics_Analyzer
 {
     /**
      * This method must return an <b>array</b> of class names for required
@@ -72,9 +72,9 @@ interface PHP_Depend_Metrics_AggregateAnalyzerI extends PHP_Depend_Metrics_Analy
     /**
      * Adds a required sub analyzer.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The sub analyzer instance.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The sub analyzer instance.
      * 
      * @return void
      */
-    function addAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer);
+    function addAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
 }

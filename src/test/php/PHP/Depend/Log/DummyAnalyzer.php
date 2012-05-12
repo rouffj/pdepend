@@ -59,9 +59,9 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Log_DummyAnalyzer 
-    implements PHP_Depend_Metrics_AnalyzerI,
-               PHP_Depend_Metrics_NodeAwareI,
-               PHP_Depend_Metrics_ProjectAwareI
+    implements PHP_Depend_Metrics_Analyzer,
+               PHP_Depend_Metrics_NodeAware,
+               PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Test project metrics
@@ -101,11 +101,11 @@ class PHP_Depend_Log_DummyAnalyzer
     /**
      * Returns the node metrics.
      *
-     * @param PHP_Depend_Code_NodeI $node context npde.
+     * @param PHP_Depend_AST_Node|string $node context npde.
      * 
      * @return array
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
         if (isset($this->nodeMetrics[$node->getName()])) {
             return $this->nodeMetrics[$node->getName()];

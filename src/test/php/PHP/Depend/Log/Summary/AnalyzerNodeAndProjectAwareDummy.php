@@ -59,9 +59,9 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy
-    implements PHP_Depend_Metrics_AnalyzerI,
-               PHP_Depend_Metrics_NodeAwareI,
-               PHP_Depend_Metrics_ProjectAwareI
+    implements PHP_Depend_Metrics_Analyzer,
+               PHP_Depend_Metrics_NodeAware,
+               PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Dummy project metrics.
@@ -135,8 +135,7 @@ class PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy
     /**
      * Returns the project metrics.
      *
-     * @return array(string=>mixed)
-     * @see PHP_Depend_Metrics_ProjectAwareI::getProjectMetrics()
+     * @return array
      */
     public function getProjectMetrics()
     {
@@ -146,13 +145,16 @@ class PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy
     /**
      * Returns an array with metrics for the requested node.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
-     *
-     * @return array(string=>mixed)
-     * @see PHP_Depend_Metrics_NodeAwareI::getNodeMetrics()
+     * @param PHP_Depend_AST_Node|string $node
+     * @return array
      */
-    public function getNodeMetrics(PHP_Depend_Code_NodeI $node)
+    public function getNodeMetrics($node)
     {
-        return $this->nodeMetrics;
+        $nodeId = (string) is_object( $node ) ? $node->getId() : $node;
+
+        if (isset($this->nodeMetrics[$nodeId])) {
+            return $this->nodeMetrics[$nodeId];
+        }
+        return array();
     }
 }

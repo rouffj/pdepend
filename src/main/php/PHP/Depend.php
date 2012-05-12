@@ -101,9 +101,9 @@ class PHP_Depend
     private $_packages = null;
 
     /**
-     * List of all registered {@link PHP_Depend_Log_LoggerI} instances.
+     * List of all registered loggers.
      *
-     * @var array(PHP_Depend_Log_LoggerI) $_loggers
+     * @var PHP_Depend_Log_Logger[]
      */
     private $_loggers = array();
 
@@ -275,22 +275,7 @@ class PHP_Depend
      */
     public function analyze()
     {
-        $compilationUnits = $this->performParseProcess();
-        $compilationUnits = $this->_performAnalyzeProcess( $compilationUnits );
-
-        $this->fireStartLogProcess();
-
-        foreach ( $this->_loggers as $logger )
-        {
-            // Check for code aware loggers
-            if ( $logger instanceof PHP_Depend_Log_CodeAwareI )
-            {
-                $logger->setCode( $compilationUnits );
-            }
-            $logger->close();
-        }
-
-        $this->fireEndLogProcess();
+        $this->process();
     }
 
     /**
@@ -416,6 +401,16 @@ class PHP_Depend
         }
     }
 
+    private function process()
+    {
+        $compilationUnits = $this->processParsing();
+
+        $this->processLogging(
+            $compilationUnits,
+            $this->processAnalyzing( $compilationUnits )
+        );
+    }
+
     /**
      * This method performs the parsing process of all source files.
      *
@@ -425,7 +420,7 @@ class PHP_Depend
      * @todo 2.0 Replace PHPParser_Error with custom exception
      * @todo 2.0 What should we do with ignoreeAnnotations?
      */
-    private function performParseProcess()
+    private function processParsing()
     {
         $parser = new PHP_Depend_Parser();
 
@@ -455,6 +450,7 @@ class PHP_Depend
             {
                 $this->_parseExceptions[] = $e;
             }
+
             $this->fireEndFileParsing( $tokenizer );
         }
 
@@ -471,9 +467,9 @@ class PHP_Depend
      * applies them to the source tree.
      *
      * @param PHP_Depend_AST_CompilationUnit[] $compilationUnits
-     * @return PHP_Depend_AST_CompilationUnit[]
+     * @return PHP_Depend_Metrics_Analyzer[]
      */
-    private function _performAnalyzeProcess( array $compilationUnits )
+    private function processAnalyzing( array $compilationUnits )
     {
         $analyzerLoader = $this->_createAnalyzerLoader( $this->_options );
 
@@ -490,19 +486,44 @@ class PHP_Depend
 
         $processor->process( $compilationUnits );
 
-        foreach ( $analyzerLoader as $analyzer )
+        ini_restore( 'xdebug.max_nesting_level' );
+
+        $this->fireEndAnalyzeProcess();
+
+        return iterator_to_array( $analyzerLoader->getIterator() );
+    }
+
+    /**
+     * @param PHP_Depend_AST_CompilationUnit[] $compilationUnits
+     * @param PHP_Depend_Metrics_Analyzer[] $analyzers
+     * @return void
+     */
+    private function processLogging( array $compilationUnits, array $analyzers )
+    {
+        $this->fireStartLogProcess();
+
+        $processor = new PHP_Depend_Log_Processor();
+        foreach ( $this->_loggers as $logger )
         {
-            foreach ( $this->_loggers as $logger )
+            if ( $logger instanceof PHP_Depend_Log_CodeAware )
+            {
+                $processor->register( $logger );
+            }
+
+            foreach ( $analyzers as $analyzer )
             {
                 $logger->log( $analyzer );
             }
         }
 
-        ini_restore( 'xdebug.max_nesting_level' );
+        $processor->process( $compilationUnits );
 
-        $this->fireEndAnalyzeProcess();
+        foreach ( $this->_loggers as $logger )
+        {
+            $logger->close();
+        }
 
-        return $compilationUnits;
+        $this->fireEndLogProcess();
     }
 
     /**
@@ -518,7 +539,6 @@ class PHP_Depend
         PHP_Depend_Metrics_AnalyzerLoader $analyzerLoader
     )
     {
-        // Append all listeners
         foreach ( $analyzerLoader as $analyzer )
         {
             foreach ( $this->_listeners as $listener )
@@ -621,5 +641,13 @@ class PHP_Depend
         );
 
         return $this->_initAnalyseListeners( $loader );
+    }
+}
+
+class PHP_Depend_Log_Processor extends PHP_Depend_Util_Processor
+{
+    public function register( PHP_Depend_Log_Logger $logger )
+    {
+        $this->registerVisitor( $logger );
     }
 }

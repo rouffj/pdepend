@@ -64,7 +64,7 @@ class PHP_Depend_Metrics_AnalyzerLoader implements IteratorAggregate
     /**
      * All matching analyzer instances.
      *
-     * @var PHP_Depend_Metrics_AnalyzerI[]
+     * @var PHP_Depend_Metrics_Analyzer[]
      */
     private $_analyzers;
     
@@ -113,7 +113,7 @@ class PHP_Depend_Metrics_AnalyzerLoader implements IteratorAggregate
     }
 
     /**
-     * Returns a countable iterator of {@link PHP_Depend_Metrics_AnalyzerI}
+     * Returns a countable iterator of {@link PHP_Depend_Metrics_Analyzer}
      * instances that match against the given accepted types.
      *
      * @return Iterator
@@ -143,7 +143,7 @@ class PHP_Depend_Metrics_AnalyzerLoader implements IteratorAggregate
      *
      * @param array $acceptedTypes Accepted/expected analyzer types.
      *
-     * @return PHP_Depend_Metrics_AnalyzerI
+     * @return PHP_Depend_Metrics_Analyzer
      */
     private function _loadAcceptedAnalyzers(array $acceptedTypes)
     {
@@ -168,6 +168,7 @@ class PHP_Depend_Metrics_AnalyzerLoader implements IteratorAggregate
      */
     private function _isInstanceOf(ReflectionClass $reflection, array $expectedTypes)
     {
+
         foreach ($expectedTypes as $type) {
             if (interface_exists($type) && $reflection->implementsInterface($type)) {
                 return true;
@@ -188,7 +189,7 @@ class PHP_Depend_Metrics_AnalyzerLoader implements IteratorAggregate
      *
      * @param ReflectionClass $reflection Reflection class for an analyzer.
      *
-     * @return PHP_Depend_Metrics_AnalyzerI
+     * @return PHP_Depend_Metrics_Analyzer
      * @since 0.9.10
      */
     private function _createOrReturnAnalyzer(ReflectionClass $reflection)
@@ -205,7 +206,7 @@ class PHP_Depend_Metrics_AnalyzerLoader implements IteratorAggregate
      *
      * @param ReflectionClass $reflection Reflection class for an analyzer.
      *
-     * @return PHP_Depend_Metrics_AnalyzerI
+     * @return PHP_Depend_Metrics_Analyzer
      * @since 0.9.10
      */
     private function _createAndConfigure(ReflectionClass $reflection)
@@ -221,12 +222,11 @@ class PHP_Depend_Metrics_AnalyzerLoader implements IteratorAggregate
     /**
      * Initializes the given analyzer instance.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer Context analyzer instance.
-     *
-     * @return PHP_Depend_Metrics_AnalyzerI
+     * @param PHP_Depend_Metrics_Analyzer $analyzer Context analyzer instance.
+     * @return PHP_Depend_Metrics_Analyzer
      * @since 0.9.10
      */
-    private function _configure(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    private function _configure(PHP_Depend_Metrics_Analyzer $analyzer)
     {
         if ($analyzer instanceof PHP_Depend_Metrics_CacheAware) {
             $analyzer->setCache($this->_cache);

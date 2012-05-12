@@ -60,8 +60,8 @@
  */
 class PHP_Depend_Log_Dummy_Logger
     implements PHP_Depend_Log_LoggerI,
-               PHP_Depend_Log_CodeAwareI,
-               PHP_Depend_Log_FileAwareI
+               PHP_Depend_Log_CodeAware,
+               PHP_Depend_Log_FileAware
 {
     /**
      * The output file name.
@@ -126,11 +126,11 @@ class PHP_Depend_Log_Dummy_Logger
      * Adds an analyzer to log. If this logger accepts the given analyzer it
      * with return <b>true</b>, otherwise the return value is <b>false</b>.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The analyzer to log.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The analyzer to log.
      *
      * @return boolean
      */
-    public function log(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    public function log(PHP_Depend_Metrics_Analyzer $analyzer)
     {
         $this->_input['analyzers'][] = $analyzer;
         return true;

@@ -74,7 +74,7 @@ class PHP_Depend_Metrics_AnalyzerIteratorTest extends PHP_Depend_AbstractTest
      */
     public function testIteratorReturnsEnabledAnalyzerInstances()
     {
-        $analyzer = $this->getMock('PHP_Depend_Metrics_AnalyzerI');
+        $analyzer = $this->getMock('PHP_Depend_Metrics_Analyzer');
         $analyzer->expects($this->exactly(2))
             ->method('isEnabled')
             ->will($this->returnValue(true));

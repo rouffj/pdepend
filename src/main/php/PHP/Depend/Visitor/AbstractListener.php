@@ -65,11 +65,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new class instance.
      *
-     * @param PHP_Depend_Code_Class $class The context class instance.
+     * @param PHP_Depend_AST_Class $class The context class instance.
      *
      * @return void
      */
-    public function startVisitClass(PHP_Depend_Code_Class $class)
+    public function startVisitClass(PHP_Depend_AST_Class $class)
     {
         $this->startVisitNode($class);
     }
@@ -77,11 +77,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with a class instance.
      *
-     * @param PHP_Depend_Code_Class $class The context class instance.
+     * @param PHP_Depend_AST_Class $class The context class instance.
      *
      * @return void
      */
-    public function endVisitClass(PHP_Depend_Code_Class $class)
+    public function endVisitClass(PHP_Depend_AST_Class $class)
     {
         $this->endVisitNode($class);
     }
@@ -89,12 +89,12 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new trait instance.
      *
-     * @param PHP_Depend_Code_Trait $trait The context trait instance.
+     * @param PHP_Depend_AST_Trait $trait The context trait instance.
      *
      * @return void
      * @since 1.0.0
      */
-    public function startVisitTrait(PHP_Depend_Code_Trait $trait)
+    public function startVisitTrait(PHP_Depend_AST_Trait $trait)
     {
         $this->startVisitNode($trait);
     }
@@ -102,12 +102,12 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with a trait instance.
      *
-     * @param PHP_Depend_Code_Trait $trait The context trait instance.
+     * @param PHP_Depend_AST_Trait $trait The context trait instance.
      *
      * @return void
      * @since 1.0.0
      */
-    public function endVisitTrait(PHP_Depend_Code_Trait $trait)
+    public function endVisitTrait(PHP_Depend_AST_Trait $trait)
     {
         $this->endVisitNode($trait);
     }
@@ -115,11 +115,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new file instance.
      *
-     * @param PHP_Depend_Code_File $file The context file instance.
+     * @param PHP_Depend_AST_File $file The context file instance.
      *
      * @return void
      */
-    public function startVisitFile(PHP_Depend_Code_File $file)
+    public function startVisitFile(PHP_Depend_AST_File $file)
     {
         $this->startVisitNode($file);
     }
@@ -127,11 +127,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with a file instance.
      *
-     * @param PHP_Depend_Code_File $file The context file instance.
+     * @param PHP_Depend_AST_File $file The context file instance.
      *
      * @return void
      */
-    public function endVisitFile(PHP_Depend_Code_File $file)
+    public function endVisitFile(PHP_Depend_AST_File $file)
     {
         $this->endVisitNode($file);
     }
@@ -139,11 +139,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new function instance.
      *
-     * @param PHP_Depend_Code_Function $function The context function instance.
+     * @param PHP_Depend_AST_Function $function The context function instance.
      *
      * @return void
      */
-    public function startVisitFunction(PHP_Depend_Code_Function $function)
+    public function startVisitFunction(PHP_Depend_AST_Function $function)
     {
         $this->startVisitNode($function);
     }
@@ -151,11 +151,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with a function instance.
      *
-     * @param PHP_Depend_Code_Function $function The context function instance.
+     * @param PHP_Depend_AST_Function $function The context function instance.
      *
      * @return void
      */
-    public function endVisitFunction(PHP_Depend_Code_Function $function)
+    public function endVisitFunction(PHP_Depend_AST_Function $function)
     {
         $this->endVisitNode($function);
     }
@@ -163,11 +163,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new interface instance.
      *
-     * @param PHP_Depend_Code_Interface $interface The context interface instance.
+     * @param PHP_Depend_AST_Interface $interface The context interface instance.
      *
      * @return void
      */
-    public function startVisitInterface(PHP_Depend_Code_Interface $interface)
+    public function startVisitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->startVisitNode($interface);
     }
@@ -175,11 +175,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with an interface instance.
      *
-     * @param PHP_Depend_Code_Interface $interface The context interface instance.
+     * @param PHP_Depend_AST_Interface $interface The context interface instance.
      *
      * @return void
      */
-    public function endVisitInterface(PHP_Depend_Code_Interface $interface)
+    public function endVisitInterface(PHP_Depend_AST_Interface $interface)
     {
         $this->endVisitNode($interface);
     }
@@ -187,11 +187,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new method instance.
      *
-     * @param PHP_Depend_Code_Method $method The context method instance.
+     * @param PHP_Depend_AST_Method $method The context method instance.
      *
      * @return void
      */
-    public function startVisitMethod(PHP_Depend_Code_Method $method)
+    public function startVisitMethod(PHP_Depend_AST_Method $method)
     {
         $this->startVisitNode($method);
     }
@@ -199,11 +199,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with a method instance.
      *
-     * @param PHP_Depend_Code_Method $method The context method instance.
+     * @param PHP_Depend_AST_Method $method The context method instance.
      *
      * @return void
      */
-    public function endVisitMethod(PHP_Depend_Code_Method $method)
+    public function endVisitMethod(PHP_Depend_AST_Method $method)
     {
         $this->endVisitNode($method);
     }
@@ -211,11 +211,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new package instance.
      *
-     * @param PHP_Depend_Code_Package $package The context package instance.
+     * @param PHP_Depend_AST_Package $package The context package instance.
      *
      * @return void
      */
-    public function startVisitPackage(PHP_Depend_Code_Package $package)
+    public function startVisitPackage(PHP_Depend_AST_Package $package)
     {
         $this->startVisitNode($package);
     }
@@ -223,11 +223,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with a package instance.
      *
-     * @param PHP_Depend_Code_Package $package The context package instance.
+     * @param PHP_Depend_AST_Package $package The context package instance.
      *
      * @return void
      */
-    public function endVisitPackage(PHP_Depend_Code_Package $package)
+    public function endVisitPackage(PHP_Depend_AST_Package $package)
     {
         $this->endVisitNode($package);
     }
@@ -235,11 +235,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new parameter instance.
      *
-     * @param PHP_Depend_Code_Parameter $parameter The context parameter instance.
+     * @param PHP_Depend_AST_Parameter $parameter The context parameter instance.
      *
      * @return void
      */
-    public function startVisitParameter(PHP_Depend_Code_Parameter $parameter)
+    public function startVisitParameter(PHP_Depend_AST_Parameter $parameter)
     {
         $this->startVisitNode($parameter);
     }
@@ -247,11 +247,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with a parameter instance.
      *
-     * @param PHP_Depend_Code_Package $parameter The context parameter instance.
+     * @param PHP_Depend_AST_Package $parameter The context parameter instance.
      *
      * @return void
      */
-    public function endVisitParameter(PHP_Depend_Code_Parameter $parameter)
+    public function endVisitParameter(PHP_Depend_AST_Parameter $parameter)
     {
         $this->endVisitNode($parameter);
     }
@@ -259,11 +259,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor starts a new property instance.
      *
-     * @param PHP_Depend_Code_Property $property The context property instance.
+     * @param PHP_Depend_AST_Property $property The context property instance.
      *
      * @return void
      */
-    public function startVisitProperty(PHP_Depend_Code_Property $property)
+    public function startVisitProperty(PHP_Depend_AST_Property $property)
     {
         $this->startVisitNode($property);
     }
@@ -271,11 +271,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Is called when the visitor ends with a property instance.
      *
-     * @param PHP_Depend_Code_Property $property The context property instance.
+     * @param PHP_Depend_AST_Property $property The context property instance.
      *
      * @return void
      */
-    public function endVisitProperty(PHP_Depend_Code_Property $property)
+    public function endVisitProperty(PHP_Depend_AST_Property $property)
     {
         $this->endVisitNode($property);
     }
@@ -283,11 +283,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Generic notification method that is called for every node start.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
      * @return void
      */
-    protected function startVisitNode(PHP_Depend_Code_NodeI $node)
+    protected function startVisitNode(PHP_Depend_AST_Node $node)
     {
 
     }
@@ -295,11 +295,11 @@ abstract class PHP_Depend_Visitor_AbstractListener
     /**
      * Generic notification method that is called when the node processing ends.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
      * @return void
      */
-    protected function endVisitNode(PHP_Depend_Code_NodeI $node)
+    protected function endVisitNode(PHP_Depend_AST_Node $node)
     {
 
     }

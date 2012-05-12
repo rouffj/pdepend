@@ -101,7 +101,7 @@ class PHP_Depend_Metrics_AnalyzerLoaderTest extends PHP_Depend_AbstractTest
      */
     public function testLoaderOnlyReturnsEnabledAnalyzerInstances()
     {
-        $analyzer = $this->getMock('PHP_Depend_Metrics_AnalyzerI');
+        $analyzer = $this->getMock('PHP_Depend_Metrics_Analyzer');
         $analyzer->expects($this->once())
             ->method('isEnabled')
             ->will($this->returnValue(true));
@@ -119,7 +119,7 @@ class PHP_Depend_Metrics_AnalyzerLoaderTest extends PHP_Depend_AbstractTest
         $loader = new PHP_Depend_Metrics_AnalyzerLoader(
             $locator,
             $this->getMock( 'PHP_Depend_Util_Cache_Driver' ),
-            array('PHP_Depend_Metrics_AnalyzerI')
+            array('PHP_Depend_Metrics_Analyzer')
         );
 
         self::assertEquals(1, iterator_count($loader->getIterator()));
@@ -133,7 +133,7 @@ class PHP_Depend_Metrics_AnalyzerLoaderTest extends PHP_Depend_AbstractTest
      */
     public function testLoaderNotReturnsDisabledAnalyzerInstances()
     {
-        $analyzer = $this->getMock('PHP_Depend_Metrics_AnalyzerI');
+        $analyzer = $this->getMock('PHP_Depend_Metrics_Analyzer');
         $analyzer->expects($this->once())
             ->method('isEnabled')
             ->will($this->returnValue(false));
@@ -151,7 +151,7 @@ class PHP_Depend_Metrics_AnalyzerLoaderTest extends PHP_Depend_AbstractTest
         $loader = new PHP_Depend_Metrics_AnalyzerLoader(
             $locator,
             $this->getMock( 'PHP_Depend_Util_Cache_Driver' ),
-            array('PHP_Depend_Metrics_AnalyzerI')
+            array('PHP_Depend_Metrics_Analyzer')
         );
 
         self::assertEquals(0, iterator_count($loader->getIterator()));

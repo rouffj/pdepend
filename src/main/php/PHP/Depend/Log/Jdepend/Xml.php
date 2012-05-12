@@ -61,8 +61,8 @@
  */
 class PHP_Depend_Log_Jdepend_Xml
        extends PHP_Depend_Visitor_AbstractVisitor
-    implements PHP_Depend_Log_CodeAwareI,
-               PHP_Depend_Log_FileAwareI
+    implements PHP_Depend_Log_CodeAware,
+               PHP_Depend_Log_FileAware
 {
     /**
      * The type of this class.
@@ -77,16 +77,16 @@ class PHP_Depend_Log_Jdepend_Xml
     private $_logFile = null;
 
     /**
-     * The raw {@link PHP_Depend_Code_Package} instances.
+     * The raw {@link PHP_Depend_AST_Package} instances.
      *
-     * @var PHP_Depend_Code_NodeIterator $code
+     * @var PHP_Depend_AST_NodeIterator $code
      */
     protected $code = null;
 
     /**
      * Set of all analyzed files.
      *
-     * @var array(string=>PHP_Depend_Code_File) $fileSet
+     * @var array(string=>PHP_Depend_AST_File) $fileSet
      */
     protected $fileSet = array();
 
@@ -165,11 +165,11 @@ class PHP_Depend_Log_Jdepend_Xml
     /**
      * Sets the context code nodes.
      *
-     * @param PHP_Depend_Code_NodeIterator $code The code nodes.
+     * @param PHP_Depend_AST_NodeIterator $code The code nodes.
      *
      * @return void
      */
-    public function setCode(PHP_Depend_Code_NodeIterator $code)
+    public function setCode(PHP_Depend_AST_NodeIterator $code)
     {
         $this->code = $code;
     }
@@ -178,11 +178,11 @@ class PHP_Depend_Log_Jdepend_Xml
      * Adds an analyzer to log. If this logger accepts the given analyzer it
      * with return <b>true</b>, otherwise the return value is <b>false</b>.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The analyzer to log.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The analyzer to log.
      *
      * @return boolean
      */
-    public function log(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    public function log(PHP_Depend_Metrics_Analyzer $analyzer)
     {
         if ($analyzer instanceof PHP_Depend_Metrics_Dependency_Analyzer) {
             $this->analyzer = $analyzer;
@@ -225,12 +225,12 @@ class PHP_Depend_Log_Jdepend_Xml
     /**
      * Visits a class node.
      *
-     * @param PHP_Depend_Code_Class $class The current class node.
+     * @param PHP_Depend_AST_Class $class The current class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitClass()
      */
-    public function visitClass(PHP_Depend_Code_Class $class)
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
         if (!$class->isUserDefined()) {
             return;
@@ -252,12 +252,12 @@ class PHP_Depend_Log_Jdepend_Xml
     /**
      * Visits a code interface object.
      *
-     * @param PHP_Depend_Code_Interface $interface The context code interface.
+     * @param PHP_Depend_AST_Interface $interface The context code interface.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitInterface()
      */
-    public function visitInterface(PHP_Depend_Code_Interface $interface)
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
         if (!$interface->isUserDefined()) {
             return;
@@ -275,12 +275,12 @@ class PHP_Depend_Log_Jdepend_Xml
     /**
      * Visits a package node.
      *
-     * @param PHP_Depend_Code_Class $package The package class node.
+     * @param PHP_Depend_AST_Class $package The package class node.
      *
      * @return void
      * @see PHP_Depend_VisitorI::visitPackage()
      */
-    public function visitPackage(PHP_Depend_Code_Package $package)
+    public function visitPackage(PHP_Depend_AST_Package $package)
     {
         if (!$package->isUserDefined()) {
             return;

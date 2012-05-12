@@ -48,7 +48,7 @@
  */
 
 /**
- * Filter iterator that only returns enabled {@link PHP_Depend_Metrics_AnalyzerI}
+ * Filter iterator that only returns enabled {@link PHP_Depend_Metrics_Analyzer}
  * instances.
  *
  * @category   QualityAssurance
@@ -66,7 +66,7 @@ class PHP_Depend_Metrics_AnalyzerIterator extends FilterIterator
     /**
      * Constructs a new iterator instance.
      *
-     * @param array(PHP_Depend_Metrics_AnalyzerI) $analyzers List of found analyzers.
+     * @param PHP_Depend_Metrics_Analyzer[] $analyzers List of found analyzers.
      */
     public function __construct(array $analyzers)
     {

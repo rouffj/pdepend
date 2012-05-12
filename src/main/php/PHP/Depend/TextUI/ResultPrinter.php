@@ -167,11 +167,11 @@ class PHP_Depend_TextUI_ResultPrinter
     /**
      * Is called when PDepend starts a new analyzer.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The context analyzer instance.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The context analyzer instance.
      *
      * @return void
      */
-    public function startAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    public function startAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
     {
         $this->_count = 0;
 
@@ -182,11 +182,11 @@ class PHP_Depend_TextUI_ResultPrinter
     /**
      * Is called when PDepend has finished one analyzing process.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The context analyzer instance.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The context analyzer instance.
      *
      * @return void
      */
-    public function endAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    public function endAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
     {
         $this->finish(self::STEP_SIZE);
     }
@@ -194,12 +194,11 @@ class PHP_Depend_TextUI_ResultPrinter
     /**
      * Generic notification method that is called for every node start.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * @param PHP_Depend_AST_Node $node The context node instance.
      *
      * @return void
-     * @see PHP_Depend_Visitor_AbstractVisitor::startVisitNode()
      */
-    public function startVisitNode(PHP_Depend_Code_NodeI $node)
+    public function startVisitNode(PHP_Depend_AST_Node $node)
     {
         $this->step(self::STEP_SIZE);
     }

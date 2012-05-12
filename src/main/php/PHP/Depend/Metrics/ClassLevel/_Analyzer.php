@@ -161,11 +161,11 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
     /**
      * Adds a required sub analyzer.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The sub analyzer instance.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The sub analyzer instance.
      *
      * @return void
      */
-    public function addAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    public function addAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
     {
         if ($analyzer instanceof PHP_Depend_Metrics_CyclomaticComplexity_Analyzer) {
             $this->_cyclomaticAnalyzer = $analyzer;

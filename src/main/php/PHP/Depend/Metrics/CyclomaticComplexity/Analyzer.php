@@ -60,7 +60,7 @@
  * @link       http://pdepend.org/
  *
  * @todo 2.0 Generate file, namespace and class ccn
- * @todo 2.0 Generate
+ * @todo 2.0 Generate trait method ccn
  */
 class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
        extends PHP_Depend_Metrics_AbstractCachingAnalyzer
@@ -139,7 +139,6 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      * </code>
      *
      * @param PHP_Depend_AST_Node|string $node The context node instance.
-     *
      * @return array
      */
     public function getNodeMetrics( $node )
@@ -166,6 +165,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
         );
     }
 
+    private $data = array();
+
     /**
      * Visits a function node.
      *
@@ -175,6 +176,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      */
     public function visitFunctionBefore( PHP_Depend_AST_Function $function, $data )
     {
+        $this->data[] = $data;
+
         return array(
             self::M_CYCLOMATIC_COMPLEXITY_1  =>  1,
             self::M_CYCLOMATIC_COMPLEXITY_2  =>  1
@@ -198,7 +201,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
         */
         $this->_updateProjectMetrics( $function->getId() );
 
-        return array();
+        return (array) array_pop( $this->data );
     }
 
     /**
@@ -210,6 +213,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      */
     public function visitMethodBefore( PHP_Depend_AST_Method $method, $data )
     {
+        $this->data[] = $data;
+
         return array(
             self::M_CYCLOMATIC_COMPLEXITY_1  =>  1,
             self::M_CYCLOMATIC_COMPLEXITY_2  =>  1
@@ -233,7 +238,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
         */
         $this->_updateProjectMetrics( $method->getId() );
 
-        return array();
+        return (array) array_pop( $this->data );
     }
 
     /**

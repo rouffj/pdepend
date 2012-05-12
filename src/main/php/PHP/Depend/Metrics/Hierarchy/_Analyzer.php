@@ -70,10 +70,10 @@
  */
 class PHP_Depend_Metrics_Hierarchy_Analyzer
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    implements PHP_Depend_Metrics_AnalyzerI,
-               PHP_Depend_Metrics_FilterAwareI,
-               PHP_Depend_Metrics_NodeAwareI,
-               PHP_Depend_Metrics_ProjectAwareI
+    implements PHP_Depend_Metrics_Analyzer,
+               PHP_Depend_Metrics_FilterAware,
+               PHP_Depend_Metrics_NodeAware,
+               PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Type of this analyzer class.
@@ -165,7 +165,6 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer
      * @param PHP_Depend_Code_NodeIterator $packages The input package set.
      *
      * @return void
-     * @see PHP_Depend_Metrics_AnalyzerI::analyze()
      */
     public function analyze(PHP_Depend_Code_NodeIterator $packages)
     {

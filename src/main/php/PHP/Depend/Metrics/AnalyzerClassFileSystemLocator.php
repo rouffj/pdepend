@@ -190,7 +190,7 @@ class PHP_Depend_Metrics_AnalyzerClassFileSystemLocator
      */
     private function _implementsInterface($className)
     {
-        $expectedType = 'PHP_Depend_Metrics_AnalyzerI';
+        $expectedType = 'PHP_Depend_Metrics_Analyzer';
         return in_array($expectedType, class_implements($className));
     }
 }

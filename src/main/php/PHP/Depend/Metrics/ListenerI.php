@@ -65,18 +65,18 @@ interface PHP_Depend_Metrics_ListenerI
     /**
      * This method is called when the analyzer starts code processing.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The context analyzer instance.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The context analyzer instance.
      * 
      * @return void
      */
-    function startAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer);
+    function startAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
     
     /**
      * This method is called when the analyzer has finished code processing.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The context analyzer instance.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The context analyzer instance.
      * 
      * @return void
      */
-    function endAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer);
+    function endAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
 }

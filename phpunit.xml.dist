@@ -5,7 +5,14 @@
             <directory suffix="Test.php">src/test/php</directory>
             <directory suffix=".phpt">src/test/php</directory>
         </testsuite>
-    </testsuites>
+	</testsuites>
+
+    <groups>
+        <include>
+            <group>2.0</group>
+        </include>
+	</groups>
+
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/main/php/PHP</directory>

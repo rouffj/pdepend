@@ -188,22 +188,22 @@ class PHP_Depend_DbusUI_ResultPrinter
     /**
      * Is called when PDepend starts a new analyzer.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The context analyzer instance.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The context analyzer instance.
      *
      * @return void
      */
-    public function startAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    public function startAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
     {
     }
 
     /**
      * Is called when PDepend has finished one analyzing process.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The context analyzer instance.
+     * @param PHP_Depend_Metrics_Analyzer $analyzer The context analyzer instance.
      *
      * @return void
      */
-    public function endAnalyzer(PHP_Depend_Metrics_AnalyzerI $analyzer)
+    public function endAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
     {
     }
 }
