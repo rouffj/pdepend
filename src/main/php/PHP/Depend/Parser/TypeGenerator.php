@@ -61,8 +61,15 @@
  */
 class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
 {
+    /**
+     * @var string
+     */
+    private $declaringType;
 
-    private $type;
+    /**
+     * @var string
+     */
+    private $declaringNamespace;
 
     /**
      * @var PHP_Depend_Context
@@ -72,6 +79,27 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
     public function __construct()
     {
         $this->context = new PHP_Depend_Context();
+    }
+
+    /**
+     * Called when entering a node.
+     *
+     * Return value semantics:
+     *  * null:      $node stays as-is
+     *  * otherwise: $node is set to the return value
+     *
+     * @param PHPParser_Node $node Node
+     *
+     * @return null|PHPParser_Node Node
+     */
+    public function enterNode(PHPParser_Node $node)
+    {
+        if ( $node instanceof PHPParser_Node_Stmt_Class
+            || $node instanceof PHPParser_Node_Stmt_Interface )
+        {
+            $this->declaringNamespace = $this->extractNamespaceName( $node );
+            $this->declaringType      = (string) $node->namespacedName;
+        }
     }
 
     /**
@@ -128,7 +156,6 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
                     $this->context,
                     $this->extractNamespaceName( $node ),
                     $extends
-
                 )
             );
         }
@@ -138,21 +165,12 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
-            // TODO Cleanup this code
-            $parts = explode( '::', $node->getAttribute( 'id' ) );
-            $parts = explode( '\\', array_shift( $parts ) );
-
-            $declaringType = join( '\\', $parts );
-            array_pop( $parts );
-
-            $namespace = join( '\\', $parts );
-
             return new PHP_Depend_AST_Method(
                 $node,
                 new PHP_Depend_AST_MethodRefs(
                     $this->context,
-                    $namespace,
-                    $declaringType
+                    $this->declaringNamespace,
+                    $this->declaringType
                 )
             );
         }
