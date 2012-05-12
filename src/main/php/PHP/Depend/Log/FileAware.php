@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -47,7 +47,7 @@
  */
 
 /**
- * Base interface for all PHP_Depend loggers.
+ * Marker interface for a log file aware logger.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -58,31 +58,14 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-interface PHP_Depend_Log_LoggerI
+interface PHP_Depend_Log_FileAware extends PHP_Depend_Log_Logger
 {
     /**
-     * Adds an analyzer to log. If this logger accepts the given analyzer it
-     * with return <b>true</b>, otherwise the return value is <b>false</b>.
+     * Sets the output log file.
      *
-     * @param PHP_Depend_Metrics_AnalyzerI $analyzer The analyzer to log.
-     * 
-     * @return boolean
-     */
-    function log(PHP_Depend_Metrics_AnalyzerI $analyzer);
-    
-    /**
-     * Closes the logger process and writes the output file.
+     * @param string $logFile
      *
      * @return void
-     * @throws PHP_Depend_Log_NoLogOutputException If the no log target exists.
      */
-    function close();
-    
-    /**
-     * Returns an <b>array</b> with accepted analyzer types. These types can be
-     * concrete analyzer classes or one of the descriptive analyzer interfaces. 
-     *
-     * @return array(string)
-     */
-    function getAcceptedAnalyzers();
+    public function setLogFile( $logFile );
 }

@@ -58,14 +58,13 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-interface PHP_Depend_Log_CodeAwareI extends PHP_Depend_Log_LoggerI
+interface PHP_Depend_Log_CodeAware extends PHP_Depend_Log_Logger
 {
     /**
      * Sets the context code nodes.
      *
-     * @param PHP_Depend_Code_NodeIterator $code The code nodes.
-     *
+     * @param PHP_Depend_AST_CompilationUnit[] $compilationUnits
      * @return void
      */
-    function setCode(PHP_Depend_Code_NodeIterator $code);
+    public function setCode( array $compilationUnits );
 }

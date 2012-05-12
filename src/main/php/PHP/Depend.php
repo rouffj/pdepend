@@ -208,11 +208,10 @@ class PHP_Depend
     /**
      * Adds a logger to the output list.
      *
-     * @param PHP_Depend_Log_LoggerI $logger The logger instance.
-     *
+     * @param PHP_Depend_Log_Logger $logger
      * @return void
      */
-    public function addLogger( PHP_Depend_Log_LoggerI $logger )
+    public function addLogger( PHP_Depend_Log_Logger $logger )
     {
         $this->_loggers[] = $logger;
     }

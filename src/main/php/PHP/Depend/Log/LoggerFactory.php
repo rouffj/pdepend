@@ -75,7 +75,7 @@ class PHP_Depend_Log_LoggerFactory
     /**
      * Set of created logger instances.
      *
-     * @var array(string=>PHP_Depend_Log_LoggerI) $instances
+     * @var PHP_Depend_Log_Logger[]
      */
     protected $instances = array();
 
@@ -83,19 +83,19 @@ class PHP_Depend_Log_LoggerFactory
      * Creates a new logger or returns an existing instance for the given
      * <b>$identifier</b>.
      *
-     * @param string $identifier The logger identifier.
-     * @param string $fileName   The log output file name.
-     *
-     * @return PHP_Depend_Log_LoggerI
+     * @param string $identifier
+     * @param string $fileName
+     * @return PHP_Depend_Log_Logger
      */
-    public function createLogger($identifier, $fileName)
+    public function createLogger( $identifier, $fileName )
     {
-        if (!isset($this->instances[$identifier])) {
+        if ( !isset( $this->instances[$identifier] ) )
+        {
             // Extract all parts from the logger identifier
-            $words = explode('-', $identifier);
+            $words = explode( '-', $identifier );
 
             // Change all words to upper case
-            $words = array_map('ucfirst', $words);
+            $words = array_map( 'ucfirst', $words );
 
             // By definition the logger class name must be a single word.
             // Everything else is part of the package name.
@@ -123,7 +123,7 @@ class PHP_Depend_Log_LoggerFactory
 
             // TODO: Refactor this into an external log configurator or a similar
             //       concept.
-            if ($logger instanceof PHP_Depend_Log_FileAwareI) {
+            if ( $logger instanceof PHP_Depend_Log_FileAware ) {
                 $logger->setLogFile($fileName);
             }
 

@@ -64,9 +64,9 @@ class PHP_Depend_Log_NoLogOutputException extends LogicException
     /**
      * Creates a new log target exception for the given log instance.
      *
-     * @param PHP_Depend_Log_LoggerI $logger The context log instance.
+     * @param PHP_Depend_Log_Logger $logger The context log instance.
      */
-    public function __construct(PHP_Depend_Log_LoggerI $logger)
+    public function __construct( PHP_Depend_Log_Logger $logger )
     {
         $className = get_class($logger);
         $message   = "The log target is not configured for '{$className}'.";
