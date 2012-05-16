@@ -92,44 +92,30 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * analyzed system. The array size is equal to the number of analyzed root
      * classes.
      *
-     * @var array(integer)
+     * @var array
      */
-    private $_rootClasses = null;
+    private $_rootClasses = array();
 
     /**
      * The maximum depth of inheritance tree value within the analyzed source code.
      *
      * @var integer $_maxDIT
      */
-    private $_maxDIT = 0;
-
-    /**
-     * The average number of derived classes.
-     *
-     * @var float
-     */
-    private $_andc = 0;
-
-    /**
-     * The average hierarchy height.
-     *
-     * @var float
-     */
-    private $_ahh = 0;
+    private $maxDIT = 0;
 
     /**
      * Total number of classes.
      *
      * @var integer
      */
-    private $_numberOfClasses = 0;
+    private $numberOfClasses = 0;
 
     /**
      * Total number of derived classes.
      *
      * @var integer
      */
-    private $_numberOfDerivedClasses = 0;
+    private $numberOfDerivedClasses = 0;
 
     /**
      * Metrics calculated for a single source node.
@@ -183,7 +169,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         return array(
             self::M_AVERAGE_NUMBER_DERIVED_CLASSES  => $this->getAverageNumberOfDerivedClasses(),
             self::M_AVERAGE_HIERARCHY_HEIGHT        => $this->getAverageHierarchyHeight(),
-            self::M_MAXIMUM_INHERITANCE_DEPTH       => $this->_maxDIT,
+            self::M_MAXIMUM_INHERITANCE_DEPTH       => $this->maxDIT,
         );
     }
 
@@ -194,9 +180,9 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      */
     private function getAverageNumberOfDerivedClasses()
     {
-        if ( $this->_numberOfClasses > 0 )
+        if ( $this->numberOfClasses > 0 )
         {
-            return $this->_numberOfDerivedClasses / $this->_numberOfClasses;
+            return $this->numberOfDerivedClasses / $this->numberOfClasses;
         }
         return 0.0;
     }
@@ -231,11 +217,11 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
 
         $this->fireStartClass( $class );
 
-        ++$this->_numberOfClasses;
+        ++$this->numberOfClasses;
 
         $this->_initNodeMetricsForClass( $class );
 
-        $this->_calculateNumberOfDerivedClasses( $class );
+        $this->calculateNumberOfDerivedClasses( $class );
         $this->_calculateNumberOfAddedAndOverwrittenMethods( $class );
         $this->_calculateDepthOfInheritanceTree( $class );
 
@@ -250,7 +236,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * @return void
      * @since 0.9.5
      */
-    private function _calculateNumberOfDerivedClasses( PHP_Depend_AST_Class $class )
+    private function calculateNumberOfDerivedClasses( PHP_Depend_AST_Class $class )
     {
         $uuid = $class->getId();
         if ( isset( $this->_derivedClasses[$uuid] ) === false )
@@ -263,7 +249,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         {
             $uuid = $parentClass->getId();
 
-            ++$this->_numberOfDerivedClasses;
+            ++$this->numberOfDerivedClasses;
             ++$this->metrics[$uuid][self::M_NUMBER_OF_DERIVED_CLASSES];
         }
     }
@@ -276,7 +262,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * @return void
      * @since 0.9.10
      */
-    private function _calculateDepthOfInheritanceTree( PHP_Depend_AST_Class $class )
+    private function calculateDepthOfInheritanceTree( PHP_Depend_AST_Class $class )
     {
         $dep  = 0;
         $dit  = 0;
@@ -301,7 +287,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         }
 
         // Collect max dit value
-        $this->_maxDIT = max( $this->_maxDIT, $dit );
+        $this->maxDIT = max( $this->maxDIT, $dit );
 
         if ( empty( $this->_rootClasses[$root] ) || $this->_rootClasses[$root] < $dep )
         {
@@ -319,7 +305,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * @return void
      * @since 0.9.10
      */
-    private function _calculateNumberOfAddedAndOverwrittenMethods( PHP_Depend_AST_Class $class )
+    private function calculateNumberOfAddedAndOverwrittenMethods( PHP_Depend_AST_Class $class )
     {
         $parentClass = $class->getParentClass();
         if ( $parentClass === null )
@@ -371,7 +357,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * @return void
      * @since 0.9.10
      */
-    private function _initNodeMetricsForClass( PHP_Depend_AST_Class $class )
+    private function initNodeMetricsForClass( PHP_Depend_AST_Class $class )
     {
         $uuid = $class->getId();
         if ( isset( $this->metrics[$uuid] ) )
