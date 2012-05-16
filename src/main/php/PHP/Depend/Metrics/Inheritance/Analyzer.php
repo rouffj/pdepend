@@ -86,7 +86,8 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         M_NUMBER_OF_OVERWRITTEN_METHODS    = 'noom',
         M_NUMBER_OF_DERIVED_CLASSES        = 'nocc',
         M_MAXIMUM_INHERITANCE_DEPTH        = 'maxDIT',
-        M_NUMBER_OF_ROOT_CLASSES           = 'roots';
+        M_NUMBER_OF_ROOT_CLASSES           = 'roots',
+        M_NUMBER_OF_LEAF_CLASSES           = 'leafs';
 
     /**
      * Contains the max inheritance depth for all root classes within the
@@ -96,6 +97,14 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * @var array
      */
     private $rootClasses = array();
+
+    /**
+     * Contains those classes that have at least one class that inherits from
+     * that class.
+     *
+     * @var array
+     */
+    private $noneLeafClasses = array();
 
     /**
      * The maximum depth of inheritance tree value within the analyzed source code.
@@ -171,7 +180,8 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
             self::M_AVERAGE_NUMBER_DERIVED_CLASSES  => $this->getAverageNumberOfDerivedClasses(),
             self::M_AVERAGE_HIERARCHY_HEIGHT        => $this->getAverageHierarchyHeight(),
             self::M_MAXIMUM_INHERITANCE_DEPTH       => $this->maxDIT,
-            self::M_NUMBER_OF_ROOT_CLASSES          => count( $this->rootClasses )
+            self::M_NUMBER_OF_LEAF_CLASSES          => $this->numberOfClasses - count( $this->noneLeafClasses ),
+            self::M_NUMBER_OF_ROOT_CLASSES          => count( $this->rootClasses ),
         );
     }
 
@@ -234,25 +244,27 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * Calculates the number of derived classes.
      *
      * @param PHP_Depend_AST_Class $class The current class node.
-     *
      * @return void
      * @since 0.9.5
      */
     private function calculateNumberOfDerivedClasses( PHP_Depend_AST_Class $class )
     {
         $parentClass = $class->getParentClass();
-        if ( $parentClass !== null && $parentClass->isUserDefined() )
+        if ( null === $parentClass || false === $parentClass->isUserDefined() )
         {
-            ++$this->numberOfDerivedClasses;
-            ++$this->metrics[$parentClass->getId()][self::M_NUMBER_OF_DERIVED_CLASSES];
+            return;
         }
+
+        ++$this->numberOfDerivedClasses;
+        ++$this->metrics[$parentClass->getId()][self::M_NUMBER_OF_DERIVED_CLASSES];
+
+        $this->noneLeafClasses[$parentClass->getId()] = true;
     }
 
     /**
      * Calculates the maximum HIT for the given class.
      *
      * @param PHP_Depend_AST_Class $class The context class instance.
-     *
      * @return void
      * @since 0.9.10
      */
@@ -295,7 +307,6 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * overwritten methods.
      *
      * @param PHP_Depend_AST_Class $class The context class instance.
-     *
      * @return void
      * @since 0.9.10
      */
@@ -337,17 +348,14 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
 
         $uuid = $class->getId();
 
-        $this->metrics[$uuid][self::M_NUMBER_OF_ADDED_METHODS]
-            = $numberOfAddedMethods;
-        $this->metrics[$uuid][self::M_NUMBER_OF_OVERWRITTEN_METHODS]
-            = $numberOfOverwrittenMethods;
+        $this->metrics[$uuid][self::M_NUMBER_OF_ADDED_METHODS]       = $numberOfAddedMethods;
+        $this->metrics[$uuid][self::M_NUMBER_OF_OVERWRITTEN_METHODS] = $numberOfOverwrittenMethods;
     }
 
     /**
      * Initializes a empty metric container for the given class node.
      *
      * @param PHP_Depend_AST_Class $class The context class instance.
-     *
      * @return void
      * @since 0.9.10
      */

@@ -67,20 +67,6 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
 class PHP_Depend_Metrics_Hierarchy_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
     /**
-     * testCalculatesExpectedNumberOfLeafClasses
-     *
-     * @return void
-     */
-    public function testCalculatesExpectedNumberOfLeafClasses()
-    {
-        $analyzer = new PHP_Depend_Metrics_Hierarchy_Analyzer();
-        $analyzer->analyze(self::parseTestCaseSource(__METHOD__));
-
-        $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals(2, $metrics['leafs']);
-    }
-
-    /**
      * testCalculatesExpectedNumberOfAbstractClasses
      *
      * @return void
@@ -106,20 +92,6 @@ class PHP_Depend_Metrics_Hierarchy_AnalyzerTest extends PHP_Depend_Metrics_Abstr
 
         $metrics = $analyzer->getProjectMetrics();
         self::assertEquals(2, $metrics['clsc']);
-    }
-
-    /**
-     * testCalculatedLeafsMetricDoesNotContainNotUserDefinedClasses
-     *
-     * @return void
-     */
-    public function testCalculatedLeafsMetricDoesNotContainNotUserDefinedClasses()
-    {
-        $analyzer = new PHP_Depend_Metrics_Hierarchy_Analyzer();
-        $analyzer->analyze(self::parseTestCaseSource(__METHOD__));
-
-        $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals(0, $metrics['leafs']);
     }
 
     /**

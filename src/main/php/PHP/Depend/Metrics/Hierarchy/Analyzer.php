@@ -85,8 +85,7 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer /* TODO 2.0
      * Metrics provided by the analyzer implementation.
      */
     const M_NUMBER_OF_ABSTRACT_CLASSES = 'clsa',
-          M_NUMBER_OF_CONCRETE_CLASSES = 'clsc',
-          M_NUMBER_OF_LEAF_CLASSES     = 'leafs';
+          M_NUMBER_OF_CONCRETE_CLASSES = 'clsc';
 
     /**
      * Number of all analyzed functions.
@@ -197,8 +196,6 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer /* TODO 2.0
         return array(
             self::M_NUMBER_OF_ABSTRACT_CLASSES  =>  $this->_clsa,
             self::M_NUMBER_OF_CONCRETE_CLASSES  =>  $this->_cls - $this->_clsa,
-            self::M_NUMBER_OF_ROOT_CLASSES      =>  count($this->_roots),
-            self::M_NUMBER_OF_LEAF_CLASSES      =>  $this->_cls - $noneLeafs,
         );
     }
 

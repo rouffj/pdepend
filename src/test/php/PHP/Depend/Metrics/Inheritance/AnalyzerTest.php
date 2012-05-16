@@ -81,19 +81,19 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
         $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
-        $this->assertEquals( array( 'andc', 'ahh', 'maxDIT', 'roots' ), array_keys( $metrics ) );
+        $this->assertEquals( array( 'andc', 'ahh', 'maxDIT', 'leafs', 'roots' ), array_keys( $metrics ) );
 
         return $metrics;
     }
 
     /**
-     * testCalculatesExpectedMaxDepthOfInheritanceTreeMetric
+     * testMaxDepthOfInheritanceTree
      *
      * @param array $metrics
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedMaxDepthOfInheritanceTreeMetric( array $metrics )
+    public function testMaxDepthOfInheritanceTree( array $metrics )
     {
         $this->assertEquals( 4, $metrics['maxDIT'] );
     }
@@ -106,7 +106,7 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testAnalyzerCalculatesCorrectANDCValue( array $metrics )
+    public function testAverageNumberOfDerivedClasses( array $metrics )
     {
         $this->assertEquals( 0.7368, $metrics['andc'], null, 0.0001 );
     }
@@ -118,9 +118,21 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testAnalyzerCalculatesCorrectAHHValue( array $metrics )
+    public function testAverageHierarchyHeight( array $metrics )
     {
         $this->assertEquals( 1, $metrics['ahh'] );
+    }
+
+    /**
+     * testNumberOfLeafClasses
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
+     */
+    public function testNumberOfLeafClasses( array $metrics )
+    {
+        $this->assertEquals( 11, $metrics['leafs'] );
     }
 
     /**
