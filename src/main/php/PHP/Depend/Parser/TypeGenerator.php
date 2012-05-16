@@ -81,16 +81,13 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
      */
     private $context;
 
+    /**
+     * Initializes the node context.
+     */
     public function __construct()
     {
         $this->context = new PHP_Depend_Context();
     }
-
-    public function beforeTraverse( array $nodes )
-    {
-        //var_dump($nodes[0]);
-    }
-
 
     /**
      * Called when entering a node.
@@ -201,6 +198,8 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {
+            $this->declaringPackage = null;
+
             return $this->wrapOptionalNamespace(
                 new PHP_Depend_AST_Function(
                     $node,
@@ -213,23 +212,42 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
         }
     }
 
+    /**
+     * Extracts the best matching namespace for the given node.
+     *
+     * This method first looks for a currently active namespace. If this exists
+     * it will return the namespace name. Then this method tries to extract a
+     * package tag from the node's doc comment. If it exists this tag is used.
+     * Then it tries to reuse a previously extracted package tag. And finally
+     * this method returns the pseudo global namespace.
+     *
+     * @param PHPParser_Node $node
+     * @return string
+     */
     private function extractNamespaceName( PHPParser_Node $node )
     {
         if ( is_string( $this->declaringNamespace ) )
         {
             return $this->declaringNamespace;
         }
-        else if ( is_string( $this->declaringPackage ) )
-        {
-            return $this->declaringPackage;
-        }
         else if ( preg_match( '(\*\s*@package\s+([^\s\*]+))', $node->getDocComment(), $match ) )
         {
             return ( $this->declaringPackage = $match[1] );
         }
+        else if ( is_string( $this->declaringPackage ) )
+        {
+            return $this->declaringPackage;
+        }
         return ( $this->declaringPackage = "+global" );
     }
 
+    /**
+     * This method will wrap the given node with a pseudo namespace object,
+     * when the node itself is not within a valid php namespace.
+     *
+     * @param PHP_Depend_AST_Node $node
+     * @return PHP_Depend_AST_Namespace|PHP_Depend_AST_Node
+     */
     private function wrapOptionalNamespace( PHP_Depend_AST_Node $node )
     {
         if ( is_string( $this->declaringNamespace ) )
@@ -241,7 +259,7 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
             new PHPParser_Node_Stmt_Namespace(
                 new PHPParser_Node_Name( $this->extractNamespaceName( $node ) ),
                 array( $node ),
-                array( 'id'  =>  $this->extractNamespaceName( $node ) )
+                array( 'id'  =>  $this->extractNamespaceName( $node ) . '#n' )
             ),
             new PHP_Depend_AST_NamespaceRefs( $this->context )
         );

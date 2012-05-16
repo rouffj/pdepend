@@ -251,28 +251,28 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
     public function testNodeAwareAnalyzer()
     {
         $metricsOne = array(
-            '+global'       => array( 'loc' => 42 ),
-            'pkg1'          => array( 'loc' => 101 ),
-            'pkg3'          => array( 'loc' => 42 ),
-            '\\bar()'       => array( 'loc' => 9 ),
-            '\\foo()'       => array( 'loc' => 9 ),
-            '\\Bar'         => array( 'loc' => 33 ),
-            '\\Bar::y()'    => array( 'loc' => 9 ),
-            '\\FooBar'      => array( 'loc' => 90 ),
-            '\\FooBar::x()' => array( 'loc' => 50 ),
-            '\\FooBar::y()' => array( 'loc' => 30 ),
+            '+global#n'     => array( 'loc' => 42 ),
+            'pkg1#n'        => array( 'loc' => 101 ),
+            'pkg3#n'        => array( 'loc' => 42 ),
+            'bar()#f'       => array( 'loc' => 9 ),
+            'foo()#f'       => array( 'loc' => 9 ),
+            'Bar#c'         => array( 'loc' => 33 ),
+            'Bar::y()#m'    => array( 'loc' => 9 ),
+            'FooBar#c'      => array( 'loc' => 90 ),
+            'FooBar::x()#m' => array( 'loc' => 50 ),
+            'FooBar::y()#m' => array( 'loc' => 30 ),
         );
         $metricsTwo = array(
-            '+global'       => array( 'ncloc' => 23 ),
-            'pkg1'          => array( 'ncloc' => 99 ),
-            'pkg3'          => array( 'ncloc' => 23 ),
-            '\\bar()'       => array( 'ncloc' => 7 ),
-            '\\foo()'       => array( 'ncloc' => 9 ),
-            '\\Bar'         => array( 'ncloc' => 20 ),
-            '\\Bar::y()'    => array( 'ncloc' => 7 ),
-            '\\FooBar'      => array( 'ncloc' => 80 ),
-            '\\FooBar::x()' => array( 'ncloc' => 45 ),
-            '\\FooBar::y()' => array( 'ncloc' => 22 ),
+            '+global#n'     => array( 'ncloc' => 23 ),
+            'pkg1#n'        => array( 'ncloc' => 99 ),
+            'pkg3#n'        => array( 'ncloc' => 23 ),
+            'bar()#f'       => array( 'ncloc' => 7 ),
+            'foo()#f'       => array( 'ncloc' => 9 ),
+            'Bar#c'         => array( 'ncloc' => 20 ),
+            'Bar::y()#m'    => array( 'ncloc' => 7 ),
+            'FooBar#c'      => array( 'ncloc' => 80 ),
+            'FooBar::x()#m' => array( 'ncloc' => 45 ),
+            'FooBar::y()#m' => array( 'ncloc' => 22 ),
         );
 
         $resultOne = new PHP_Depend_Log_Summary_AnalyzerNodeAwareDummy( $metricsOne );
@@ -296,6 +296,13 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
         );
     }
 
+    /**
+     * Returns an xml document with normalized file paths, so that we can compare
+     * the xml reports from different file system locations.
+     *
+     * @param string $fileName
+     * @return string
+     */
     protected function getNormalizedPathXml( $fileName )
     {
         return preg_replace(

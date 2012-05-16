@@ -117,9 +117,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
                 'C' => array( 'noc' => 1, 'noi' => 0, 'nom' => 0, 'nof' => 0 ),
             ),
             array(
-                'A'  =>  $analyzer->getNodeMetrics( 'A' ),
-                'B'  =>  $analyzer->getNodeMetrics( 'B' ),
-                'C'  =>  $analyzer->getNodeMetrics( 'C' ),
+                'A'  =>  $analyzer->getNodeMetrics( 'A#n' ),
+                'B'  =>  $analyzer->getNodeMetrics( 'B#n' ),
+                'C'  =>  $analyzer->getNodeMetrics( 'C#n' ),
             )
         );
     }
@@ -157,9 +157,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
                 'C' => array( 'noc' => 0, 'noi' => 3, 'nom' => 0, 'nof' => 0 ),
             ),
             array(
-                'A'  =>  $analyzer->getNodeMetrics( 'A' ),
-                'B'  =>  $analyzer->getNodeMetrics( 'B' ),
-                'C'  =>  $analyzer->getNodeMetrics( 'C' )
+                'A'  =>  $analyzer->getNodeMetrics( 'A#n' ),
+                'B'  =>  $analyzer->getNodeMetrics( 'B#n' ),
+                'C'  =>  $analyzer->getNodeMetrics( 'C#n' )
             )
         );
     }
@@ -198,9 +198,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
                 'C' => array( 'noc' => 0, 'noi' => 1, 'nom' => 2, 'nof' => 0 ),
             ),
             array(
-                'A'  =>  $analyzer->getNodeMetrics( 'A' ),
-                'B'  =>  $analyzer->getNodeMetrics( 'B' ),
-                'C'  =>  $analyzer->getNodeMetrics( 'C' )
+                'A'  =>  $analyzer->getNodeMetrics( 'A#n' ),
+                'B'  =>  $analyzer->getNodeMetrics( 'B#n' ),
+                'C'  =>  $analyzer->getNodeMetrics( 'C#n' )
             )
         );
     }
@@ -217,7 +217,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
     {
         $this->assertEquals(
             array( 'nom'  =>  3 ),
-            $analyzer->getNodeMetrics( 'B\\B3' )
+            $analyzer->getNodeMetrics( 'B\\B3#c' )
         );
     }
 
@@ -233,7 +233,7 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
     {
         $this->assertEquals(
             array( 'nom'  =>  2 ),
-            $analyzer->getNodeMetrics( 'C\\C1' )
+            $analyzer->getNodeMetrics( 'C\\C1#i' )
         );
     }
 
@@ -270,9 +270,9 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
                 'C' => array( 'noc' => 0, 'noi' => 0, 'nom' => 0, 'nof' => 1 ),
             ),
             array(
-                'A'  =>  $analyzer->getNodeMetrics( 'A' ),
-                'B'  =>  $analyzer->getNodeMetrics( 'B' ),
-                'C'  =>  $analyzer->getNodeMetrics( 'C' ),
+                'A'  =>  $analyzer->getNodeMetrics( 'A#n' ),
+                'B'  =>  $analyzer->getNodeMetrics( 'B#n' ),
+                'C'  =>  $analyzer->getNodeMetrics( 'C#n' ),
             )
         );
     }

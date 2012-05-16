@@ -106,8 +106,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_AnalyzerTest
                 'pdepend2' => array( 'ccn' => 7, 'ccn2' => 10 )
             ),
             array(
-                'pdepend1' => $analyzer->getNodeMetrics( '\\pdepend1()' ),
-                'pdepend2' => $analyzer->getNodeMetrics( '\\pdepend2()' )
+                'pdepend1' => $analyzer->getNodeMetrics( 'pdepend1()#f' ),
+                'pdepend2' => $analyzer->getNodeMetrics( 'pdepend2()#f' )
             )
         );
     }
@@ -146,8 +146,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_AnalyzerTest
                 'pdepend2' => array( 'ccn' => 7, 'ccn2' => 10 )
             ),
             array(
-                'pdepend1' => $analyzer->getNodeMetrics( '\\CCMethodClass::pdepend1()' ),
-                'pdepend2' => $analyzer->getNodeMetrics( '\\CCMethodClass::pdepend2()' )
+                'pdepend1' => $analyzer->getNodeMetrics( 'CCMethodClass::pdepend1()#m' ),
+                'pdepend2' => $analyzer->getNodeMetrics( 'CCMethodClass::pdepend2()#m' )
             )
         );
     }
@@ -181,7 +181,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_AnalyzerTest
         $processor->register( $analyzer = $this->_createAnalyzer() );
         $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
-        $this->assertEquals( 3, $analyzer->getCCN( '\\func()' ) );
+        $this->assertEquals( 3, $analyzer->getCCN( 'func()#f' ) );
         ;
     }
 
@@ -196,7 +196,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_AnalyzerTest
         $processor->register( $analyzer = $this->_createAnalyzer() );
         $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
-        $this->assertEquals( 3, $analyzer->getCCN2( '\\func()' ) );
+        $this->assertEquals( 3, $analyzer->getCCN2( 'func()#f' ) );
     }
 
     /**
