@@ -46,10 +46,10 @@
  * @link       http://pdepend.org/
  */
 
-require_once dirname(__FILE__) . '/../../AbstractTest.php';
-require_once dirname(__FILE__) . '/AnalyzerNodeAwareDummy.php';
-require_once dirname(__FILE__) . '/AnalyzerProjectAwareDummy.php';
-require_once dirname(__FILE__) . '/AnalyzerNodeAndProjectAwareDummy.php';
+require_once dirname( __FILE__ ) . '/../../AbstractTest.php';
+require_once dirname( __FILE__ ) . '/AnalyzerNodeAwareDummy.php';
+require_once dirname( __FILE__ ) . '/AnalyzerProjectAwareDummy.php';
+require_once dirname( __FILE__ ) . '/AnalyzerNodeAndProjectAwareDummy.php';
 
 /**
  * Test case for the xml summary log.
@@ -68,6 +68,7 @@ require_once dirname(__FILE__) . '/AnalyzerNodeAndProjectAwareDummy.php';
  * @group pdepend::log
  * @group pdepend::log::summary
  * @group unittest
+ * @group 2.0
  */
 class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
 {
@@ -108,8 +109,8 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
 
         $this->assertEquals(
             array(
-                'PHP_Depend_Metrics_NodeAware',
-                'PHP_Depend_Metrics_ProjectAware'
+                 'PHP_Depend_Metrics_NodeAware',
+                 'PHP_Depend_Metrics_ProjectAware'
             ),
             $logger->getAcceptedAnalyzers()
         );
@@ -153,9 +154,9 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
     public function testLogMethodReturnsTrueForAnalyzerOfTypeNodeAware()
     {
         $logger = new PHP_Depend_Log_Summary_Xml();
-        $actual = $logger->log($this->getMock('PHP_Depend_Metrics_NodeAware'));
+        $actual = $logger->log( $this->getMock( 'PHP_Depend_Metrics_NodeAware' ) );
 
-        $this->assertTrue($actual);
+        $this->assertTrue( $actual );
     }
 
     /**
@@ -178,8 +179,8 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
 
         $fileName = 'xml-log-without-metrics.xml';
         $this->assertXmlStringEqualsXmlString(
-            $this->getNormalizedPathXml(dirname(__FILE__) . "/_expected/{$fileName}"),
-            $this->getNormalizedPathXml($this->resultFile)
+            $this->getNormalizedPathXml( dirname( __FILE__ ) . "/_expected/{$fileName}" ),
+            $this->getNormalizedPathXml( $this->resultFile )
         );
     }
 
@@ -191,23 +192,25 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
      */
     public function testProjectAwareAnalyzerWithoutCode()
     {
-        $metricsOne = array('interfs'  =>  42, 'cls'  =>  23);
-        $resultOne  = new PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy($metricsOne);
+        $metricsOne = array( 'interfs' => 42,
+                             'cls'     => 23 );
+        $resultOne  = new PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy( $metricsOne );
 
-        $metricsTwo = array('ncloc'  =>  1742, 'loc'  =>  4217);
-        $resultTwo  = new PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy($metricsTwo);
+        $metricsTwo = array( 'ncloc' => 1742,
+                             'loc'   => 4217 );
+        $resultTwo  = new PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy( $metricsTwo );
 
         $log = new PHP_Depend_Log_Summary_Xml();
-        $log->setLogFile($this->resultFile);
-        $log->log($resultOne);
-        $log->log($resultTwo);
+        $log->setLogFile( $this->resultFile );
+        $log->log( $resultOne );
+        $log->log( $resultTwo );
 
         $log->close();
 
         $fileName = 'project-aware-result-set-without-code.xml';
         $this->assertXmlStringEqualsXmlString(
-            $this->getNormalizedPathXml(dirname(__FILE__) . "/_expected/{$fileName}"),
-            $this->getNormalizedPathXml($this->resultFile)
+            $this->getNormalizedPathXml( dirname( __FILE__ ) . "/_expected/{$fileName}" ),
+            $this->getNormalizedPathXml( $this->resultFile )
         );
     }
 
@@ -219,8 +222,8 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
     public function testAnalyzersThatImplementProjectAndNodeAwareAsExpected()
     {
         $analyzer = new PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy(
-            array('foo' => 42, 'bar' => 23),
-            array('baz' => 23, 'foobar' => 42)
+            array( 'foo' => 42, 'bar' => 23 ),
+            array( 'baz' => 23, 'foobar' => 42 )
         );
 
         $log = new PHP_Depend_Log_Summary_Xml();
@@ -235,8 +238,8 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
 
         $fileName = 'node-and-project-aware-result-set.xml';
         $this->assertXmlStringEqualsXmlString(
-            $this->getNormalizedPathXml(dirname(__FILE__) . "/_expected/{$fileName}"),
-            $this->getNormalizedPathXml($this->resultFile)
+            $this->getNormalizedPathXml( dirname( __FILE__ ) . "/_expected/{$fileName}" ),
+            $this->getNormalizedPathXml( $this->resultFile )
         );
     }
 
@@ -247,67 +250,58 @@ class PHP_Depend_Log_Summary_XmlTest extends PHP_Depend_AbstractTest
      */
     public function testNodeAwareAnalyzer()
     {
-        $this->markTestSkipped('');
-
-        $this->packages = self::parseCodeResourceForTest();
-
-        $input = array(
-            array('loc'  =>  42),  array('ncloc'  =>  23),
-            array('loc'  =>  9),   array('ncloc'  =>  7),
-            array('loc'  =>  101), array('ncloc'  =>  99),
-            array('loc'  =>  90),  array('ncloc'  =>  80),
-            array('loc'  =>  50),  array('ncloc'  =>  45),
-            array('loc'  =>  30),  array('ncloc'  =>  22),
-            array('loc'  =>  9),   array('ncloc'  =>  9),
-            array('loc'  =>  3),   array('ncloc'  =>  3),
-            array('loc'  =>  42),  array('ncloc'  =>  23),
-            array('loc'  =>  33),  array('ncloc'  =>  20),
-            array('loc'  =>  9),   array('ncloc'  =>  7),
+        $metricsOne = array(
+            '+global'       => array( 'loc' => 42 ),
+            'pkg1'          => array( 'loc' => 101 ),
+            'pkg3'          => array( 'loc' => 42 ),
+            '\\bar()'       => array( 'loc' => 9 ),
+            '\\foo()'       => array( 'loc' => 9 ),
+            '\\Bar'         => array( 'loc' => 33 ),
+            '\\Bar::y()'    => array( 'loc' => 9 ),
+            '\\FooBar'      => array( 'loc' => 90 ),
+            '\\FooBar::x()' => array( 'loc' => 50 ),
+            '\\FooBar::y()' => array( 'loc' => 30 ),
+        );
+        $metricsTwo = array(
+            '+global'       => array( 'ncloc' => 23 ),
+            'pkg1'          => array( 'ncloc' => 99 ),
+            'pkg3'          => array( 'ncloc' => 23 ),
+            '\\bar()'       => array( 'ncloc' => 7 ),
+            '\\foo()'       => array( 'ncloc' => 9 ),
+            '\\Bar'         => array( 'ncloc' => 20 ),
+            '\\Bar::y()'    => array( 'ncloc' => 7 ),
+            '\\FooBar'      => array( 'ncloc' => 80 ),
+            '\\FooBar::x()' => array( 'ncloc' => 45 ),
+            '\\FooBar::y()' => array( 'ncloc' => 22 ),
         );
 
-        $metricsOne = array();
-        $metricsTwo = array();
-        foreach ($this->packages as $package) {
-            $metricsOne[$package->getUUID()] = array_shift($input);
-            $metricsTwo[$package->getUUID()] = array_shift($input);
-            foreach ($package->getClasses() as $class) {
-                $metricsOne[$class->getUUID()] = array_shift($input);
-                $metricsTwo[$class->getUUID()] = array_shift($input);
-                foreach ($class->getMethods() as $method) {
-                    $metricsOne[$method->getUUID()] = array_shift($input);
-                    $metricsTwo[$method->getUUID()] = array_shift($input);
-                }
-            }
-            foreach ($package->getFunctions() as $function) {
-                $metricsOne[$function->getUUID()] = array_shift($input);
-                $metricsTwo[$function->getUUID()] = array_shift($input);
-            }
-        }
-
-        $resultOne = new PHP_Depend_Log_Summary_AnalyzerNodeAwareDummy($metricsOne);
-        $resultTwo = new PHP_Depend_Log_Summary_AnalyzerNodeAwareDummy($metricsTwo);
+        $resultOne = new PHP_Depend_Log_Summary_AnalyzerNodeAwareDummy( $metricsOne );
+        $resultTwo = new PHP_Depend_Log_Summary_AnalyzerNodeAwareDummy( $metricsTwo );
 
         $log = new PHP_Depend_Log_Summary_Xml();
-        $log->setLogFile($this->resultFile);
-        $log->setCode($this->packages);
-        $log->log($resultOne);
-        $log->log($resultTwo);
+        $log->setLogFile( $this->resultFile );
+        $log->log( $resultOne );
+        $log->log( $resultTwo );
+
+        $processor = new PHP_Depend_Log_Processor();
+        $processor->register( $log );
+        $processor->process( self::parseCodeResourceForTest() );
 
         $log->close();
 
         $fileName = 'node-aware-result-set.xml';
         $this->assertXmlStringEqualsXmlString(
-            $this->getNormalizedPathXml(dirname(__FILE__) . "/_expected/{$fileName}"),
-            $this->getNormalizedPathXml($this->resultFile)
+            $this->getNormalizedPathXml( dirname( __FILE__ ) . "/_expected/{$fileName}" ),
+            $this->getNormalizedPathXml( $this->resultFile )
         );
     }
 
-    protected function getNormalizedPathXml($fileName)
+    protected function getNormalizedPathXml( $fileName )
     {
         return preg_replace(
-            array('(file\s+name="[^"]+")', '(generated="[^"]*")'),
-            array('file name="' . __FILE__ . '"', 'generated=""'),
-             file_get_contents($fileName)
+            array( '(file\s+name="[^"]+")', '(generated="[^"]*")' ),
+            array( 'file name="' . __FILE__ . '"', 'generated=""' ),
+            file_get_contents( $fileName )
         );
     }
 }

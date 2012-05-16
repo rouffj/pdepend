@@ -68,9 +68,9 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-class PHP_Depend_Metrics_Hierarchy_Analyzer
+class PHP_Depend_Metrics_Hierarchy_Analyzer /* TODO 2.0
        extends PHP_Depend_Metrics_AbstractAnalyzer
-    /* TODO 2.0
+
    implements PHP_Depend_Metrics_Analyzer,
               PHP_Depend_Metrics_FilterAware,
               PHP_Depend_Metrics_NodeAware,

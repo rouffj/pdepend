@@ -88,7 +88,7 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
         {
-            array_push( $this->parts, $node->name );
+            array_push( $this->parts, "\\{$node->name}" );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
         {
@@ -148,10 +148,13 @@ class PHP_Depend_Parser_IdGenerator extends PHPParser_NodeVisitorAbstract
         {
             $node->setAttribute(
                 'id',
-                preg_replace(
-                    '([^\w\d:\(\)\.\$\\\\]+)i',
-                    '',
-                    $id
+                ltrim(
+                    preg_replace(
+                        '([^\w\d:\(\)\.\$\\\\]+)i',
+                        '',
+                        $id
+                    ),
+                    '\\'
                 )
             );
         }

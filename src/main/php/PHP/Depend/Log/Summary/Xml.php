@@ -229,8 +229,13 @@ class PHP_Depend_Log_Summary_Xml
         return $element;
     }
 
-    public function visitNamespaceAfter()
+    public function visitNamespaceAfter( PHP_Depend_AST_Namespace $ns, DOMElement $namespace )
     {
+        if ( 0 === $namespace->childNodes->length )
+        {
+            $this->document->documentElement->removeChild( $namespace );
+        }
+
         return array_pop( $this->elements );
     }
 
@@ -295,6 +300,11 @@ class PHP_Depend_Log_Summary_Xml
         $element->setAttribute( 'name', $function->name );
 
         $this->writeMetrics( $function, $element );
+
+        $file = $this->document->createElement( 'file' );
+        $file->setAttribute( 'name', $this->elements[0]->getAttribute( 'name' ) );
+
+        $element->appendChild( $file );
 
         $namespace->appendChild( $element );
 

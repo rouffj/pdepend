@@ -39,7 +39,7 @@ class PHP_Depend_AST_ClassRefs
 
     public function getNamespace()
     {
-        if ( $namespace = $this->context->getNode( $this->namespaceId ) )
+        if ( $namespace = $this->context->getNamespace( $this->namespaceId ) )
         {
             return $namespace;
         }
@@ -52,7 +52,7 @@ class PHP_Depend_AST_ClassRefs
         {
             return null;
         }
-        if ( $parentClass = $this->context->getNode( $this->parentClassId ) )
+        if ( $parentClass = $this->context->getClass( $this->parentClassId ) )
         {
             return $parentClass;
         }
@@ -67,7 +67,7 @@ class PHP_Depend_AST_ClassRefs
         $implementedInterfaces = array();
         foreach ( $this->implementedInterfaceIds as $interfaceId )
         {
-            if ( $interface = $this->context->getNode( $interfaceId ) )
+            if ( $interface = $this->context->getInterface( $interfaceId ) )
             {
                 $implementedInterfaces[] = $interface;
             }

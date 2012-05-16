@@ -97,7 +97,7 @@ class PHP_Depend_AST_MethodRefs
      */
     public function getNamespace()
     {
-        if ( $namespace = $this->context->getNode( $this->namespace ) )
+        if ( $namespace = $this->context->getNamespace( $this->namespace ) )
         {
             return $namespace;
         }
@@ -111,7 +111,7 @@ class PHP_Depend_AST_MethodRefs
      */
     public function getDeclaringType()
     {
-        if ( $declaringType = $this->context->getNode( $this->declaringType ) )
+        if ( $declaringType = $this->context->getType( $this->declaringType ) )
         {
             return $declaringType;
         }

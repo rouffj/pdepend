@@ -418,11 +418,12 @@ class PHP_Depend
      *
      * @return PHP_Depend_AST_CompilationUnit[]
      * @todo 2.0 Replace PHPParser_Error with custom exception
-     * @todo 2.0 What should we do with ignoreeAnnotations?
+     * @todo 2.0 What should we do with ignoreAnnotations?
      */
     private function processParsing()
     {
-        $parser = new PHP_Depend_Parser( new PHP_Depend_Tokenizer_VersionAll() );
+        $tokenizer = new PHP_Depend_Tokenizer_VersionAll();
+        $parser = new PHP_Depend_Parser( $tokenizer );
 
         // Reset list of thrown exceptions
         $this->_parseExceptions = array();
@@ -438,13 +439,12 @@ class PHP_Depend
             //if ($this->_withoutAnnotations === true) {
             //    $parser->setIgnoreAnnotations();
             //}
-            $tokenizer = new PHP_Depend_Tokenizer_VersionAll( $file );
 
             $this->fireStartFileParsing( $tokenizer );
 
             try
             {
-                $compilationUnits[] = $parser->parse( file_get_contents( $file ) );
+                $compilationUnits[] = $parser->parse( $file );
             }
             catch ( PHPParser_Error $e )
             {

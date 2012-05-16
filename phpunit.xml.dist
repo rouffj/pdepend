@@ -7,6 +7,13 @@
         </testsuite>
 	</testsuites>
 
+    <!-- TODO 2.0 Remove this temporary group -->
+    <groups>
+        <include>
+            <group>2.0</group>
+        </include>
+    </groups>
+
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/main/php/PHP</directory>
@@ -14,9 +21,8 @@
                 Exclude some interfaces that are marked as uncovered.
             -->
             <exclude>
-                <file>src/main/php/PHP/Depend/BuilderI.php</file>
                 <file>src/main/php/PHP/Depend/ProcessListenerI.php</file>
-                <file>src/main/php/PHP/Depend/TokenizerI.php</file>
+                <file>src/main/php/PHP/Depend/Tokenizer.php</file>
                 <file>src/main/php/PHP/Depend/VisitorI.php</file>
 
                 <file>src/main/php/PHP/Depend/Metrics/AggregateAnalyzerI.php</file>

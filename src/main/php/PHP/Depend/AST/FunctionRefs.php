@@ -20,7 +20,7 @@ class PHP_Depend_AST_FunctionRefs
 
     public function getNamespace()
     {
-        if ( $namespace = $this->context->getNode( $this->namespaceId ) )
+        if ( $namespace = $this->context->getNamespace( $this->namespaceId ) )
         {
             return $namespace;
         }
