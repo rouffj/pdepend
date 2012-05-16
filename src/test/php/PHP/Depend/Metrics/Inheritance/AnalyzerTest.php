@@ -142,7 +142,7 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNumberOfRootClasses( array $metrics )
+    public function testNumberOfRootClasses( array $metrics )
     {
         self::assertEquals( 5, $metrics['roots'] );
     }
