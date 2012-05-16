@@ -110,7 +110,7 @@ class PHP_Depend_Context
                 new PHPParser_Node_Stmt_Class(
                     $id,
                     array(),
-                    array( 'user_defined' => false )
+                    array( 'user_defined' => false, 'id' => $id )
                 ),
                 new PHP_Depend_AST_ClassRefs(
                     $this, '+global', null, array()

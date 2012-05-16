@@ -94,7 +94,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      *
      * @var array
      */
-    private $_rootClasses = array();
+    private $rootClasses = array();
 
     /**
      * The maximum depth of inheritance tree value within the analyzed source code.
@@ -194,9 +194,9 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      */
     private function getAverageHierarchyHeight()
     {
-        if ( ( $count = count( $this->_rootClasses ) ) > 0 )
+        if ( ( $count = count( $this->rootClasses ) ) > 0 )
         {
-            return array_sum( $this->_rootClasses ) / $count;
+            return array_sum( $this->rootClasses ) / $count;
         }
         return 0.0;
     }
@@ -219,11 +219,11 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
 
         ++$this->numberOfClasses;
 
-        $this->_initNodeMetricsForClass( $class );
+        $this->initNodeMetricsForClass( $class );
 
         $this->calculateNumberOfDerivedClasses( $class );
-        $this->_calculateNumberOfAddedAndOverwrittenMethods( $class );
-        $this->_calculateDepthOfInheritanceTree( $class );
+        $this->calculateNumberOfAddedAndOverwrittenMethods( $class );
+        $this->calculateDepthOfInheritanceTree( $class );
 
         $this->fireEndClass( $class );
     }
@@ -238,19 +238,11 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      */
     private function calculateNumberOfDerivedClasses( PHP_Depend_AST_Class $class )
     {
-        $uuid = $class->getId();
-        if ( isset( $this->_derivedClasses[$uuid] ) === false )
-        {
-            $this->_derivedClasses[$uuid] = 0;
-        }
-
         $parentClass = $class->getParentClass();
         if ( $parentClass !== null && $parentClass->isUserDefined() )
         {
-            $uuid = $parentClass->getId();
-
             ++$this->numberOfDerivedClasses;
-            ++$this->metrics[$uuid][self::M_NUMBER_OF_DERIVED_CLASSES];
+            ++$this->metrics[$parentClass->getId()][self::M_NUMBER_OF_DERIVED_CLASSES];
         }
     }
 
@@ -289,9 +281,9 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         // Collect max dit value
         $this->maxDIT = max( $this->maxDIT, $dit );
 
-        if ( empty( $this->_rootClasses[$root] ) || $this->_rootClasses[$root] < $dep )
+        if ( empty( $this->rootClasses[$root] ) || $this->rootClasses[$root] < $dep )
         {
-            $this->_rootClasses[$root] = $dep;
+            $this->rootClasses[$root] = $dep;
         }
         $this->metrics[$uuid][self::M_DEPTH_OF_INHERITANCE_TREE] = $dit;
     }
@@ -375,7 +367,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         $parent = $class;
         while ( $parent = $parent->getParentClass() )
         {
-            $this->_initNodeMetricsForClass( $parent );
+            $this->initNodeMetricsForClass( $parent );
         }
     }
 }
