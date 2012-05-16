@@ -86,7 +86,6 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer /* TODO 2.0
      */
     const M_NUMBER_OF_ABSTRACT_CLASSES = 'clsa',
           M_NUMBER_OF_CONCRETE_CLASSES = 'clsc',
-          M_NUMBER_OF_ROOT_CLASSES     = 'roots',
           M_NUMBER_OF_LEAF_CLASSES     = 'leafs';
 
     /**

@@ -85,7 +85,8 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         M_NUMBER_OF_ADDED_METHODS          = 'noam',
         M_NUMBER_OF_OVERWRITTEN_METHODS    = 'noom',
         M_NUMBER_OF_DERIVED_CLASSES        = 'nocc',
-        M_MAXIMUM_INHERITANCE_DEPTH        = 'maxDIT';
+        M_MAXIMUM_INHERITANCE_DEPTH        = 'maxDIT',
+        M_NUMBER_OF_ROOT_CLASSES           = 'roots';
 
     /**
      * Contains the max inheritance depth for all root classes within the
@@ -170,6 +171,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
             self::M_AVERAGE_NUMBER_DERIVED_CLASSES  => $this->getAverageNumberOfDerivedClasses(),
             self::M_AVERAGE_HIERARCHY_HEIGHT        => $this->getAverageHierarchyHeight(),
             self::M_MAXIMUM_INHERITANCE_DEPTH       => $this->maxDIT,
+            self::M_NUMBER_OF_ROOT_CLASSES          => count( $this->rootClasses )
         );
     }
 

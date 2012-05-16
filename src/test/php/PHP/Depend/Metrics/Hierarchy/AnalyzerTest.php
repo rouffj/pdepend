@@ -109,20 +109,6 @@ class PHP_Depend_Metrics_Hierarchy_AnalyzerTest extends PHP_Depend_Metrics_Abstr
     }
 
     /**
-     * testCalculatesExpectedNumberOfRootClasses
-     *
-     * @return void
-     */
-    public function testCalculatesExpectedNumberOfRootClasses()
-    {
-        $analyzer = new PHP_Depend_Metrics_Hierarchy_Analyzer();
-        $analyzer->analyze(self::parseTestCaseSource(__METHOD__));
-
-        $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals(1, $metrics['roots']);
-    }
-
-    /**
      * testCalculatedLeafsMetricDoesNotContainNotUserDefinedClasses
      *
      * @return void

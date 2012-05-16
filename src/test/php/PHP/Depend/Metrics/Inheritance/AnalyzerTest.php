@@ -81,7 +81,7 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
         $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
-        $this->assertEquals( array( 'andc', 'ahh', 'maxDIT' ), array_keys( $metrics ) );
+        $this->assertEquals( array( 'andc', 'ahh', 'maxDIT', 'roots' ), array_keys( $metrics ) );
 
         return $metrics;
     }
@@ -121,6 +121,18 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
     public function testAnalyzerCalculatesCorrectAHHValue( array $metrics )
     {
         $this->assertEquals( 1, $metrics['ahh'] );
+    }
+
+    /**
+     * testCalculatesExpectedNumberOfRootClasses
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
+     */
+    public function testCalculatesExpectedNumberOfRootClasses( array $metrics )
+    {
+        self::assertEquals( 5, $metrics['roots'] );
     }
 
     /**
