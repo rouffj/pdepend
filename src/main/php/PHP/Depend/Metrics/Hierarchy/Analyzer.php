@@ -82,12 +82,6 @@ class PHP_Depend_Metrics_Hierarchy_Analyzer /* TODO 2.0
     const CLAZZ = __CLASS__;
 
     /**
-     * Metrics provided by the analyzer implementation.
-     */
-    const M_NUMBER_OF_ABSTRACT_CLASSES = 'clsa',
-          M_NUMBER_OF_CONCRETE_CLASSES = 'clsc';
-
-    /**
      * Number of all analyzed functions.
      *
      * @var integer $_fcs

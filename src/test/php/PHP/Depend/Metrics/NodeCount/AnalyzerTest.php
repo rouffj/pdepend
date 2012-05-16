@@ -70,51 +70,156 @@ require_once dirname( __FILE__ ) . '/../AbstractTest.php';
 class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
     /**
-     * Tests that the analyzer calculates the correct number of packages value.
+     * testGetProjectMetricsReturnsExpectedSetOfMetrics
      *
-     * @return void
+     * @return array
      */
-    public function testCalculatesExpectedNumberOfPackages()
+    public function testGetProjectMetricsReturnsExpectedSetOfMetrics()
     {
         $processor = new PHP_Depend_Metrics_Processor();
         $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
         $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
         $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals( 3, $metrics['nop'] );
+        $this->assertEquals(
+            array(
+                'nop',
+                'noc',
+                'noi',
+                'nom',
+                'nof',
+                'clsa',
+                'clsc'
+            ),
+            array_keys( $metrics )
+        );
+
+        return $metrics;
+    }
+
+    /**
+     * Tests that the analyzer calculates the correct number of packages value.
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
+     */
+    public function testCalculatesExpectedNumberOfPackages( array $metrics )
+    {
+        $this->assertEquals( 3, $metrics['nop'] );
     }
 
     /**
      * testCalculatesExpectedNumberOfClassesInProject
      *
+     * @param array $metrics
      * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNumberOfClassesInProject()
+    public function testCalculatesExpectedNumberOfClassesInProject( array $metrics )
     {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals( 6, $metrics['noc'] );
+        $this->assertEquals( 6, $metrics['noc'] );
     }
 
     /**
-     * testCalculatesExpectedNumberOfClassesInPackages
+     * testCalculatesExpectedNumberOfInterfacesInProject
      *
+     * @param array $metrics
      * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNumberOfClassesInPackages()
+    public function testCalculatesExpectedNumberOfInterfacesInProject( array $metrics )
+    {
+        $this->assertEquals( 8, $metrics['noi'] );
+    }
+
+    /**
+     * testCalculatesExpectedNumberOfFunctionsInProject
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
+     */
+    public function testCalculatesExpectedNumberOfFunctionsInProject( array $metrics )
+    {
+        $this->assertEquals( 6, $metrics['nof'] );
+    }
+
+    /**
+     * testCalculatesExpectedNumberOfMethodsInProject
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
+     */
+    public function testCalculatesExpectedNumberOfMethodsInProject( array $metrics )
+    {
+        $this->assertEquals( 13, $metrics['nom'] );
+    }
+
+    /**
+     * testCalculatesExpectedNumberOfAbstractClasses
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
+     */
+    public function testCalculatesExpectedNumberOfAbstractClasses( array $metrics )
+    {
+        $this->assertEquals( 4, $metrics['clsa'] );
+    }
+
+    /**
+     * testCalculatesExpectedNumberOfConcreteClasses
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
+     */
+    public function testCalculatesExpectedNumberOfConcreteClasses( array $metrics )
+    {
+        $this->assertEquals( 2, $metrics['clsc'] );
+    }
+
+    /**
+     * testGetNodeMetricsOnNamespace
+     *
+     * @return PHP_Depend_Metrics_NodeCount_Analyzer
+     */
+    public function testGetNodeMetricsOnNamespace()
     {
         $processor = new PHP_Depend_Metrics_Processor();
         $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
         $processor->process( self::parseTestCaseSource( __METHOD__ ) );
 
+        $metrics = $analyzer->getNodeMetrics( 'A#n' );
+        $this->assertEquals(
+            array(
+                'noc',
+                'noi',
+                'nom',
+                'nof'
+            ),
+            array_keys( $metrics )
+        );
+
+        return $analyzer;
+    }
+
+    /**
+     * testNamespaceMetrics
+     *
+     * @param PHP_Depend_Metrics_NodeCount_Analyzer $analyzer
+     * @return void
+     * @depends testGetNodeMetricsOnNamespace
+     */
+    public function testNamespaceMetrics( $analyzer )
+    {
         self::assertEquals(
             array(
-                'A' => array( 'noc' => 3, 'noi' => 0, 'nom' => 0, 'nof' => 0 ),
-                'B' => array( 'noc' => 2, 'noi' => 0, 'nom' => 0, 'nof' => 0 ),
-                'C' => array( 'noc' => 1, 'noi' => 0, 'nom' => 0, 'nof' => 0 ),
+                'A' => array( 'noc' => 3, 'noi' => 1, 'nom' => 4, 'nof' => 3 ),
+                'B' => array( 'noc' => 2, 'noi' => 2, 'nom' => 3, 'nof' => 2 ),
+                'C' => array( 'noc' => 1, 'noi' => 3, 'nom' => 2, 'nof' => 1 ),
             ),
             array(
                 'A'  =>  $analyzer->getNodeMetrics( 'A#n' ),
@@ -122,102 +227,22 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
                 'C'  =>  $analyzer->getNodeMetrics( 'C#n' ),
             )
         );
-    }
-
-    /**
-     * testCalculatesExpectedNumberOfInterfacesInProject
-     *
-     * @return void
-     */
-    public function testCalculatesExpectedNumberOfInterfacesInProject()
-    {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals( 9, $metrics['noi'] );
-    }
-
-    /**
-     * testCalculatesExpectedNumberOfInterfacesInPackages
-     *
-     * @return void
-     */
-    public function testCalculatesExpectedNumberOfInterfacesInPackages()
-    {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        self::assertEquals(
-            array(
-                'A' => array( 'noc' => 0, 'noi' => 1, 'nom' => 0, 'nof' => 0 ),
-                'B' => array( 'noc' => 0, 'noi' => 2, 'nom' => 0, 'nof' => 0 ),
-                'C' => array( 'noc' => 0, 'noi' => 3, 'nom' => 0, 'nof' => 0 ),
-            ),
-            array(
-                'A'  =>  $analyzer->getNodeMetrics( 'A#n' ),
-                'B'  =>  $analyzer->getNodeMetrics( 'B#n' ),
-                'C'  =>  $analyzer->getNodeMetrics( 'C#n' )
-            )
-        );
-    }
-
-    /**
-     * testNumberOfMethodsInProject
-     *
-     * @return PHP_Depend_Metrics_NodeCount_Analyzer
-     */
-    public function testNumberOfMethodsInProject()
-    {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getProjectMetrics();
-        $this->assertEquals( 12, $metrics['nom'] );
 
         return $analyzer;
-    }
-
-    /**
-     * testNumberOfMethodsInPackages
-     *
-     * @param PHP_Depend_Metrics_NodeCount_Analyzer $analyzer
-     *
-     * @return void
-     * @depends testNumberOfMethodsInProject
-     */
-    public function testNumberOfMethodsInPackages( PHP_Depend_Metrics_NodeCount_Analyzer $analyzer )
-    {
-        $this->assertEquals(
-            array(
-                'A' => array( 'noc' => 2, 'noi' => 1, 'nom' => 4, 'nof' => 0 ),
-                'B' => array( 'noc' => 1, 'noi' => 2, 'nom' => 6, 'nof' => 0 ),
-                'C' => array( 'noc' => 0, 'noi' => 1, 'nom' => 2, 'nof' => 0 ),
-            ),
-            array(
-                'A'  =>  $analyzer->getNodeMetrics( 'A#n' ),
-                'B'  =>  $analyzer->getNodeMetrics( 'B#n' ),
-                'C'  =>  $analyzer->getNodeMetrics( 'C#n' )
-            )
-        );
     }
 
     /**
      * testNumberOfMethodsInClass
      *
      * @param PHP_Depend_Metrics_NodeCount_Analyzer $analyzer
-     *
      * @return void
-     * @depends testNumberOfMethodsInProject
+     * @depends testNamespaceMetrics
      */
     public function testNumberOfMethodsInClass( PHP_Depend_Metrics_NodeCount_Analyzer $analyzer )
     {
         $this->assertEquals(
-            array( 'nom'  =>  3 ),
-            $analyzer->getNodeMetrics( 'B\\B3#c' )
+            array( 'nom'  =>  2 ),
+            $analyzer->getNodeMetrics( 'A\\A1#c' )
         );
     }
 
@@ -225,55 +250,14 @@ class PHP_Depend_Metrics_NodeCount_AnalyzerTest extends PHP_Depend_Metrics_Abstr
      * testNumberOfMethodsInInterface
      *
      * @param PHP_Depend_Metrics_NodeCount_Analyzer $analyzer
-     *
      * @return void
-     * @depends testNumberOfMethodsInProject
+     * @depends testNamespaceMetrics
      */
     public function testNumberOfMethodsInInterface( PHP_Depend_Metrics_NodeCount_Analyzer $analyzer )
     {
         $this->assertEquals(
             array( 'nom'  =>  2 ),
-            $analyzer->getNodeMetrics( 'C\\C1#i' )
-        );
-    }
-
-    /**
-     * testCalculatesExpectedNumberOfFunctionsInProject
-     *
-     * @return void
-     */
-    public function testCalculatesExpectedNumberOfFunctionsInProject()
-    {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getProjectMetrics();
-        $this->assertEquals( 6, $metrics['nof'] );
-    }
-
-    /**
-     * testCalculatesExpectedNumberOfFunctionsInPackages
-     *
-     * @return void
-     */
-    public function testCalculatesExpectedNumberOfFunctionsInPackages()
-    {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_NodeCount_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        self::assertEquals(
-            array(
-                'A' => array( 'noc' => 0, 'noi' => 0, 'nom' => 0, 'nof' => 3 ),
-                'B' => array( 'noc' => 0, 'noi' => 0, 'nom' => 0, 'nof' => 2 ),
-                'C' => array( 'noc' => 0, 'noi' => 0, 'nom' => 0, 'nof' => 1 ),
-            ),
-            array(
-                'A'  =>  $analyzer->getNodeMetrics( 'A#n' ),
-                'B'  =>  $analyzer->getNodeMetrics( 'B#n' ),
-                'C'  =>  $analyzer->getNodeMetrics( 'C#n' ),
-            )
+            $analyzer->getNodeMetrics( 'B\\I1#i' )
         );
     }
 }

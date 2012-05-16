@@ -151,6 +151,16 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
     }
 
     /**
+     * Returns <b>true</b> when this class was declared as abstract.
+     *
+     * @return boolean
+     */
+    public function isAbstract()
+    {
+        return ( ( $this->type & self::MODIFIER_ABSTRACT ) === self::MODIFIER_ABSTRACT );
+    }
+
+    /**
      * Magic wake up method that will register this object in the global node
      * reference context.
      *

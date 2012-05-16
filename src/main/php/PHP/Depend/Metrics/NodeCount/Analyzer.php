@@ -69,11 +69,13 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
     /**
      * Metrics provided by the analyzer implementation.
      */
-    const M_NUMBER_OF_PACKAGES = 'nop',
-        M_NUMBER_OF_CLASSES    = 'noc',
-        M_NUMBER_OF_INTERFACES = 'noi',
-        M_NUMBER_OF_METHODS    = 'nom',
-        M_NUMBER_OF_FUNCTIONS  = 'nof';
+    const M_NUMBER_OF_PACKAGES       = 'nop',
+        M_NUMBER_OF_CLASSES          = 'noc',
+        M_NUMBER_OF_INTERFACES       = 'noi',
+        M_NUMBER_OF_METHODS          = 'nom',
+        M_NUMBER_OF_FUNCTIONS        = 'nof',
+        M_NUMBER_OF_ABSTRACT_CLASSES = 'clsa',
+        M_NUMBER_OF_CONCRETE_CLASSES = 'clsc';
 
     /**
      * Number Of Packages.
@@ -88,6 +90,13 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
      * @var integer
      */
     private $numberOfClasses = 0;
+
+    /**
+     * Number of abstract classes.
+     *
+     * @var integer
+     */
+    private $numberOfAbstractClasses = 0;
 
     /**
      * Number Of Interfaces.
@@ -163,11 +172,13 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
     public function getProjectMetrics()
     {
         return array(
-            self::M_NUMBER_OF_PACKAGES => $this->numberOfPackages,
-            self::M_NUMBER_OF_CLASSES => $this->numberOfClasses,
-            self::M_NUMBER_OF_INTERFACES => $this->numberOfInterfaces,
-            self::M_NUMBER_OF_METHODS => $this->numberOfMethods,
-            self::M_NUMBER_OF_FUNCTIONS => $this->numberOfFunctions
+            self::M_NUMBER_OF_PACKAGES         => $this->numberOfPackages,
+            self::M_NUMBER_OF_CLASSES          => $this->numberOfClasses,
+            self::M_NUMBER_OF_INTERFACES       => $this->numberOfInterfaces,
+            self::M_NUMBER_OF_METHODS          => $this->numberOfMethods,
+            self::M_NUMBER_OF_FUNCTIONS        => $this->numberOfFunctions,
+            self::M_NUMBER_OF_ABSTRACT_CLASSES => $this->numberOfAbstractClasses,
+            self::M_NUMBER_OF_CONCRETE_CLASSES => ( $this->numberOfClasses - $this->numberOfAbstractClasses )
         );
     }
 
@@ -183,6 +194,11 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
         $this->fireStartClass( $class );
 
         ++$this->numberOfClasses;
+
+        if ( $class->isAbstract() )
+        {
+            ++$this->numberOfAbstractClasses;
+        }
 
         $this->metrics[$class->getId()] = array( self::M_NUMBER_OF_METHODS => 0 );
 
@@ -221,6 +237,7 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
      * @param PHP_Depend_AST_Method $method
      * @param mixed $data
      * @return mixed
+     * @todo Do not count methods declared in an interface
      */
     public function visitMethodBefore( PHP_Depend_AST_Method $method, $data = null )
     {

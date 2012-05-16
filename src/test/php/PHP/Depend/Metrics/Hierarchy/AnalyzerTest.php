@@ -66,33 +66,6 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  */
 class PHP_Depend_Metrics_Hierarchy_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
-    /**
-     * testCalculatesExpectedNumberOfAbstractClasses
-     *
-     * @return void
-     */
-    public function testCalculatesExpectedNumberOfAbstractClasses()
-    {
-        $analyzer = new PHP_Depend_Metrics_Hierarchy_Analyzer();
-        $analyzer->analyze(self::parseTestCaseSource(__METHOD__));
-
-        $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals(1, $metrics['clsa']);
-    }
-
-    /**
-     * testCalculatesExpectedNumberOfConcreteClasses
-     *
-     * @return void
-     */
-    public function testCalculatesExpectedNumberOfConcreteClasses()
-    {
-        $analyzer = new PHP_Depend_Metrics_Hierarchy_Analyzer();
-        $analyzer->analyze(self::parseTestCaseSource(__METHOD__));
-
-        $metrics = $analyzer->getProjectMetrics();
-        self::assertEquals(2, $metrics['clsc']);
-    }
 
     /**
      * testAnalyzerIgnoresClassesThatAreNotUserDefined
