@@ -1,6 +1,6 @@
 <?php
-interface I {}
+interface testCalculateDITMetricOneLevelInheritanceInterface {}
 
-class A extends B {}    // DIT = 1
-class B implements I {} // DIT = 0
+class testCalculateDITMetricOneLevelInheritance extends testCalculateDITMetricOneLevelInheritanceParent {}             // DIT = 1
+class testCalculateDITMetricOneLevelInheritanceParent implements testCalculateDITMetricOneLevelInheritanceInterface {} // DIT = 0
 ?>

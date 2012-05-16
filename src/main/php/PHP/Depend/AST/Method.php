@@ -124,6 +124,16 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
     }
 
     /**
+     * Returns <b>true</b> when this method was declared as abstract.
+     *
+     * @return boolean
+     */
+    public function isAbstract()
+    {
+        return ( ( $this->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT ) === PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT );
+    }
+
+    /**
      * Magic wake up method that will register this object in the global node
      * reference context.
      *

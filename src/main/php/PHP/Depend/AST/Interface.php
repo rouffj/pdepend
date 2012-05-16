@@ -112,6 +112,24 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
     }
 
     /**
+     * Returns all methods declared by this interface.
+     *
+     * @return PHP_Depend_AST_Method[]
+     */
+    public function getMethods()
+    {
+        $methods = array();
+        foreach ( $this->stmts as $stmt )
+        {
+            if ( $stmt instanceof PHP_Depend_AST_Method )
+            {
+                $methods[] = $stmt;
+            }
+        }
+        return $methods;
+    }
+
+    /**
      * Magic wake up method that will register this object in the global node
      * reference context.
      *

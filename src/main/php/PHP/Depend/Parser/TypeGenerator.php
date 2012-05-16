@@ -154,7 +154,7 @@ class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
                         $this->context,
                         $this->extractNamespaceName( $node ),
                         $parentClassId,
-                        array()
+                        $implemented
                     )
                 )
             );

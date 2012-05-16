@@ -66,27 +66,26 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Metrics_Inheritance_Analyzer
-       extends PHP_Depend_Metrics_AbstractAnalyzer
-    /* TODO 2.0
-   implements PHP_Depend_Metrics_NodeAware,
-              PHP_Depend_Metrics_FilterAware,
-              PHP_Depend_Metrics_ProjectAware*/
+    extends PHP_Depend_Metrics_AbstractAnalyzer
+    implements PHP_Depend_Metrics_NodeAware,
+    PHP_Depend_Metrics_FilterAware,
+    PHP_Depend_Metrics_ProjectAware
 {
-   /**
-    * Type of this analyzer class.
-    */
+    /**
+     * Type of this analyzer class.
+     */
     const CLAZZ = __CLASS__;
 
     /**
      * Metrics provided by the analyzer implementation.
      */
     const M_AVERAGE_NUMBER_DERIVED_CLASSES = 'andc',
-          M_AVERAGE_HIERARCHY_HEIGHT       = 'ahh',
-          M_DEPTH_OF_INHERITANCE_TREE      = 'dit',
-          M_NUMBER_OF_ADDED_METHODS        = 'noam',
-          M_NUMBER_OF_OVERWRITTEN_METHODS  = 'noom',
-          M_NUMBER_OF_DERIVED_CLASSES      = 'nocc',
-          M_MAXIMUM_INHERITANCE_DEPTH      = 'maxDIT';
+        M_AVERAGE_HIERARCHY_HEIGHT         = 'ahh',
+        M_DEPTH_OF_INHERITANCE_TREE        = 'dit',
+        M_NUMBER_OF_ADDED_METHODS          = 'noam',
+        M_NUMBER_OF_OVERWRITTEN_METHODS    = 'noom',
+        M_NUMBER_OF_DERIVED_CLASSES        = 'nocc',
+        M_MAXIMUM_INHERITANCE_DEPTH        = 'maxDIT';
 
     /**
      * Contains the max inheritance depth for all root classes within the
@@ -135,23 +134,34 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
     /**
      * Metrics calculated for a single source node.
      *
-     * @var array(string=>array)
+     * @var array
      */
-    private $_nodeMetrics = null;
+    private $metrics = null;
 
     /**
      * This method will return an <b>array</b> with all generated metric values
-     * for the given <b>$node</b>. If there are no metrics for the requested
-     * node, this method will return an empty <b>array</b>.
+     * for the given node or node identifier. If there are no metrics for the
+     * requested node, this method will return an empty <b>array</b>.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * <code>
+     * array(
+     *     'noc'  =>  23,
+     *     'nom'  =>  17,
+     *     'nof'  =>  42
+     * )
+     * </code>
      *
-     * @return array(string=>mixed)
+     * @param PHP_Depend_AST_Node|string $node The context node instance.
+     *
+     * @return array
      */
-    public function getNodeMetrics($node)
+    public function getNodeMetrics( $node )
     {
-        if (isset($this->_nodeMetrics[$node->getUUID()])) {
-            return $this->_nodeMetrics[$node->getUUID()];
+        $nodeId = (string) is_object( $node ) ? $node->getId() : $node;
+
+        if ( isset( $this->metrics[$nodeId] ) )
+        {
+            return $this->metrics[$nodeId];
         }
         return array();
     }
@@ -171,207 +181,215 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
     public function getProjectMetrics()
     {
         return array(
-            self::M_AVERAGE_NUMBER_DERIVED_CLASSES  =>  $this->_andc,
-            self::M_AVERAGE_HIERARCHY_HEIGHT        =>  $this->_ahh,
-            self::M_MAXIMUM_INHERITANCE_DEPTH       =>  $this->_maxDIT,
+            self::M_AVERAGE_NUMBER_DERIVED_CLASSES  => $this->getAverageNumberOfDerivedClasses(),
+            self::M_AVERAGE_HIERARCHY_HEIGHT        => $this->getAverageHierarchyHeight(),
+            self::M_MAXIMUM_INHERITANCE_DEPTH       => $this->_maxDIT,
         );
     }
 
     /**
-     * Processes all {@link PHP_Depend_Code_Package} code nodes.
+     * Returns the average number of derived classes.
      *
-     * @param PHP_Depend_Code_NodeIterator $packages All code packages.
-     *
-     * @return void
+     * @return float
      */
-    public function analyze(PHP_Depend_Code_NodeIterator $packages)
+    private function getAverageNumberOfDerivedClasses()
     {
-        if ($this->_nodeMetrics === null) {
-            $this->_nodeMetrics = array();
-
-            $this->fireStartAnalyzer();
-            $this->_analyze($packages);
-            $this->fireEndAnalyzer();
+        if ( $this->_numberOfClasses > 0 )
+        {
+            return $this->_numberOfDerivedClasses / $this->_numberOfClasses;
         }
+        return 0.0;
     }
 
     /**
-     * Calculates several inheritance related metrics for the given source
-     * packages.
+     * Returns the average inheritance hierarchy height.
      *
-     * @param PHP_Depend_Code_NodeIterator $packages The source packages.
-     *
-     * @return void
-     * @since 0.9.10
+     * @return float
      */
-    private function _analyze(PHP_Depend_Code_NodeIterator $packages)
+    private function getAverageHierarchyHeight()
     {
-        // Process all packages
-        foreach ($packages as $package) {
-            $package->accept($this);
+        if ( ( $count = count( $this->_rootClasses ) ) > 0 )
+        {
+            return array_sum( $this->_rootClasses ) / $count;
         }
-
-        if ($this->_numberOfClasses > 0) {
-            $this->_andc = $this->_numberOfDerivedClasses / $this->_numberOfClasses;
-        }
-        if (($count = count($this->_rootClasses)) > 0) {
-            $this->_ahh = array_sum($this->_rootClasses) / $count;
-        }
+        return 0.0;
     }
 
     /**
      * Visits a class node.
      *
-     * @param PHP_Depend_Code_Class $class The current class node.
+     * @param PHP_Depend_AST_Class $class The current class node.
      *
      * @return void
-     * @see PHP_Depend_Visitor_AbstractVisitor::visitClass()
      */
-    public function visitClass(PHP_Depend_AST_Class $class)
+    public function visitClassBefore( PHP_Depend_AST_Class $class )
     {
-        if (!$class->isUserDefined()) {
+        if ( !$class->isUserDefined() )
+        {
             return;
         }
 
-        $this->fireStartClass($class);
+        $this->fireStartClass( $class );
 
-        $this->_initNodeMetricsForClass($class);
-        
-        $this->_calculateNumberOfDerivedClasses($class);
-        $this->_calculateNumberOfAddedAndOverwrittenMethods($class);
-        $this->_calculateDepthOfInheritanceTree($class);
+        ++$this->_numberOfClasses;
 
-        $this->fireEndClass($class);
+        $this->_initNodeMetricsForClass( $class );
+
+        $this->_calculateNumberOfDerivedClasses( $class );
+        $this->_calculateNumberOfAddedAndOverwrittenMethods( $class );
+        $this->_calculateDepthOfInheritanceTree( $class );
+
+        $this->fireEndClass( $class );
     }
 
     /**
      * Calculates the number of derived classes.
      *
-     * @param PHP_Depend_Code_Class $class The current class node.
+     * @param PHP_Depend_AST_Class $class The current class node.
      *
      * @return void
      * @since 0.9.5
      */
-    private function _calculateNumberOfDerivedClasses(PHP_Depend_Code_Class $class)
+    private function _calculateNumberOfDerivedClasses( PHP_Depend_AST_Class $class )
     {
-        $uuid = $class->getUUID();
-        if (isset($this->_derivedClasses[$uuid]) === false) {
+        $uuid = $class->getId();
+        if ( isset( $this->_derivedClasses[$uuid] ) === false )
+        {
             $this->_derivedClasses[$uuid] = 0;
         }
 
         $parentClass = $class->getParentClass();
-        if ($parentClass !== null && $parentClass->isUserDefined()) {
-            $uuid = $parentClass->getUUID();
+        if ( $parentClass !== null && $parentClass->isUserDefined() )
+        {
+            $uuid = $parentClass->getId();
 
             ++$this->_numberOfDerivedClasses;
-            ++$this->_nodeMetrics[$uuid][self::M_NUMBER_OF_DERIVED_CLASSES];
+            ++$this->metrics[$uuid][self::M_NUMBER_OF_DERIVED_CLASSES];
         }
     }
 
     /**
      * Calculates the maximum HIT for the given class.
      *
-     * @param PHP_Depend_Code_Class $class The context class instance.
+     * @param PHP_Depend_AST_Class $class The context class instance.
      *
      * @return void
      * @since 0.9.10
      */
-    private function _calculateDepthOfInheritanceTree(PHP_Depend_Code_Class $class)
+    private function _calculateDepthOfInheritanceTree( PHP_Depend_AST_Class $class )
     {
+        $dep  = 0;
         $dit  = 0;
-        $uuid = $class->getUUID();
-        $root = $class->getUUID();
+        $uuid = $class->getId();
+        $root = $class->getId();
 
-        foreach ($class->getParentClasses() as $parent) {
-            if (!$parent->isUserDefined()) {
-                ++$dit;
-            }
+        $parent = $class;
+        while ( $parent = $parent->getParentClass() )
+        {
             ++$dit;
-            $root = $parent->getUUID();
-        }
-        
-        // Collect max dit value
-        $this->_maxDIT = max($this->_maxDIT, $dit);
 
-        if (empty($this->_rootClasses[$root]) || $this->_rootClasses[$root] < $dit) {
-            $this->_rootClasses[$root] = $dit;
+            if ( $parent->isUserDefined() )
+            {
+                ++$dep;
+                $root = $parent->getId();
+            }
+            else
+            {
+                ++$dit;
+                break;
+            }
         }
-        $this->_nodeMetrics[$uuid][self::M_DEPTH_OF_INHERITANCE_TREE] = $dit;
+
+        // Collect max dit value
+        $this->_maxDIT = max( $this->_maxDIT, $dit );
+
+        if ( empty( $this->_rootClasses[$root] ) || $this->_rootClasses[$root] < $dep )
+        {
+            $this->_rootClasses[$root] = $dep;
+        }
+        $this->metrics[$uuid][self::M_DEPTH_OF_INHERITANCE_TREE] = $dit;
     }
 
     /**
      * Calculates two metrics. The number of added methods and the number of
      * overwritten methods.
      *
-     * @param PHP_Depend_Code_Class $class The context class instance.
+     * @param PHP_Depend_AST_Class $class The context class instance.
      *
      * @return void
      * @since 0.9.10
      */
-    private function _calculateNumberOfAddedAndOverwrittenMethods(
-        PHP_Depend_Code_Class $class
-    ) {
+    private function _calculateNumberOfAddedAndOverwrittenMethods( PHP_Depend_AST_Class $class )
+    {
         $parentClass = $class->getParentClass();
-        if ($parentClass === null) {
+        if ( $parentClass === null )
+        {
             return;
         }
 
         $parentMethodNames = array();
-        foreach ($parentClass->getAllMethods() as $method) {
-            $parentMethodNames[$method->getName()] = $method->isAbstract();
+
+        $parent = $class;
+        while ( $parent = $parent->getParentClass() )
+        {
+            foreach ( $parent->getMethods() as $method )
+            {
+                $parentMethodNames[$method->name] = $method->isAbstract();
+            }
         }
 
         $numberOfAddedMethods       = 0;
         $numberOfOverwrittenMethods = 0;
 
-        foreach ($class->getAllMethods() as $method) {
-            if ($method->getParent() !== $class) {
-                continue;
-            }
-            
-            if (isset($parentMethodNames[$method->getName()])) {
-                if (!$parentMethodNames[$method->getName()]) {
+        foreach ( $class->getMethods() as $method )
+        {
+            if ( isset( $parentMethodNames[$method->name] ) )
+            {
+                if ( !$parentMethodNames[$method->name] )
+                {
                     ++$numberOfOverwrittenMethods;
                 }
-            } else {
+            } else
+            {
                 ++$numberOfAddedMethods;
             }
         }
 
-        $uuid = $class->getUUID();
+        $uuid = $class->getId();
 
-        $this->_nodeMetrics[$uuid][self::M_NUMBER_OF_ADDED_METHODS]
+        $this->metrics[$uuid][self::M_NUMBER_OF_ADDED_METHODS]
             = $numberOfAddedMethods;
-        $this->_nodeMetrics[$uuid][self::M_NUMBER_OF_OVERWRITTEN_METHODS]
+        $this->metrics[$uuid][self::M_NUMBER_OF_OVERWRITTEN_METHODS]
             = $numberOfOverwrittenMethods;
     }
 
     /**
      * Initializes a empty metric container for the given class node.
      *
-     * @param PHP_Depend_Code_Class $class The context class instance.
+     * @param PHP_Depend_AST_Class $class The context class instance.
      *
      * @return void
      * @since 0.9.10
      */
-    private function _initNodeMetricsForClass(PHP_Depend_Code_Class $class)
+    private function _initNodeMetricsForClass( PHP_Depend_AST_Class $class )
     {
-        $uuid = $class->getUUID();
-        if (isset($this->_nodeMetrics[$uuid])) {
+        $uuid = $class->getId();
+        if ( isset( $this->metrics[$uuid] ) )
+        {
             return;
         }
 
-        ++$this->_numberOfClasses;
-
-        $this->_nodeMetrics[$uuid] = array(
+        $this->metrics[$uuid] = array(
             self::M_DEPTH_OF_INHERITANCE_TREE     => 0,
             self::M_NUMBER_OF_ADDED_METHODS       => 0,
             self::M_NUMBER_OF_DERIVED_CLASSES     => 0,
             self::M_NUMBER_OF_OVERWRITTEN_METHODS => 0
         );
 
-        foreach ($class->getParentClasses() as $parent) {
-            $this->_initNodeMetricsForClass($parent);
+        $parent = $class;
+        while ( $parent = $parent->getParentClass() )
+        {
+            $this->_initNodeMetricsForClass( $parent );
         }
     }
 }

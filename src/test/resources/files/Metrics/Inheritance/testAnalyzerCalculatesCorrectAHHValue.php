@@ -1,7 +1,7 @@
 <?php
-namespace library {
-    class Q {}
-}
+//namespace library {
+//    class Q {}
+//}
 
 namespace system {
     class A {}
@@ -29,4 +29,3 @@ namespace system {
     interface T {}
     class U implements T {}
 }
-?>

@@ -98,7 +98,25 @@ class PHP_Depend_Context
      */
     public function getClass( $id )
     {
-        return $this->getNode( "{$id}#c" );
+        if ( $class = $this->getNode( "{$id}#c" ) )
+        {
+            return $class;
+        }
+
+        if ( $id )
+        {
+            // TODO 2.0 extract name/namespace from id.
+            return new PHP_Depend_AST_Class(
+                new PHPParser_Node_Stmt_Class(
+                    $id,
+                    array(),
+                    array( 'user_defined' => false )
+                ),
+                new PHP_Depend_AST_ClassRefs(
+                    $this, '+global', null, array()
+                )
+            );
+        }
     }
 
     /**

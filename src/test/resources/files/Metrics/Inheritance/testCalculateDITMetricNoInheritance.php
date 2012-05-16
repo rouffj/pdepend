@@ -1,5 +1,5 @@
 <?php
-interface I {}
+interface testCalculateDITMetricNoInheritanceInterface {}
 
-class A implements I {} // DIT = 0
+class testCalculateDITMetricNoInheritance implements testCalculateDITMetricNoInheritanceInterface {} // DIT = 0
 ?>
