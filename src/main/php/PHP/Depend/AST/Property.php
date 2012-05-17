@@ -47,7 +47,7 @@
  */
 
 /**
- * Parser used to translate a given source file into an abstract syntax tree.
+ * Custom AST node that represents a PHP property.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -58,54 +58,98 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  * @since      2.0.0
+ *
+ * @property PHPParser_Node_Name $type
  */
-class PHP_Depend_Parser
+class PHP_Depend_AST_Property extends PHPParser_Node_Stmt_PropertyProperty implements PHP_Depend_AST_Node
 {
     /**
-     * @var PHPParser_Parser
-     */
-    private $parser;
-
-    /**
-     * @var PHP_Depend_Parser_IdGenerator
-     */
-    private $idGenerator;
-
-    /**
-     * Constructs a new parser instance.
+     * Will be true when this object was restored from cache.
      *
-     * @param PHP_Depend_Tokenizer $tokenizer
+     * @var boolean
      */
-    public function __construct( PHP_Depend_Tokenizer $tokenizer )
+    public $cached = false;
+
+    /**
+     * Reference context used to retrieve referenced nodes.
+     *
+     * @var PHP_Depend_AST_PropertyRefs
+     */
+    private $refs;
+
+    /**
+     * Constructs a new property AST node.
+     *
+     * @param PHPParser_Node_Stmt_PropertyProperty $property
+     * @param PHP_Depend_AST_PropertyRefs $refs
+     */
+    public function __construct( PHPParser_Node_Stmt_PropertyProperty $property, PHP_Depend_AST_PropertyRefs $refs )
     {
-        $this->parser = new PHPParser_Parser( $tokenizer );
+        parent::__construct(
+            $property->name,
+            $property->default,
+            $property->attributes
+        );
 
-        $this->idGenerator = new PHP_Depend_Parser_IdGenerator();
+        $this->refs           = $refs;
+        $this->type           = $property->type;
+        $this->namespacedName = $property->namespacedName;
 
-        $this->traverser = new PHPParser_NodeTraverser();
-        $this->traverser->addVisitor( new PHPParser_NodeVisitor_NameResolver() );
-        $this->traverser->addVisitor( $this->idGenerator );
-        $this->traverser->addVisitor( new PHP_Depend_Parser_NodeGenerator() );
-        $this->traverser->addVisitor( new PHP_Depend_Parser_AnnotationExtractor() );
+        $this->refs->initialize( $this );
     }
 
     /**
-     * Transforms the given token stream into an abstract syntax tree.
+     * Returns the global identifier for this node.
      *
-     * @param string $file
-     * @return PHP_Depend_AST_CompilationUnit
+     * @return string
      */
-    public function parse( $file )
+    public function getId()
     {
-        $nodes = $this->traverser->traverse(
-            array(
-                new PHP_Depend_AST_CompilationUnit(
-                    $file,
-                    $this->parser->parse( file_get_contents( $file ) )
-                )
-            )
-        );
+        return $this->getAttribute( 'id' );
+    }
 
-        return $nodes[0];
+    /**
+     * Returns the namespace where this property is declared.
+     *
+     * @return PHP_Depend_AST_Namespace
+     */
+    public function getNamespace()
+    {
+        return $this->refs->getNamespace();
+    }
+
+    /**
+     * Returns the declaring type for this property.
+     *
+     * @return PHP_Depend_AST_Type
+     */
+    public function getDeclaringType()
+    {
+        return $this->refs->getDeclaringType();
+    }
+
+    /**
+     * Returns <b>true</b> when this property instance was restored from cache,
+     * otherwise this method will return <b>false</b>.
+     *
+     * @return boolean
+     */
+    public function isCached()
+    {
+        return $this->cached;
+    }
+
+    /**
+     * Magic wake up method that will register this object in the global node
+     * reference context.
+     *
+     * @return void
+     * @access private
+     */
+    public function __wakeup()
+    {
+        $this->cached = true;
+
+        $this->refs->initialize( $this );
     }
 }

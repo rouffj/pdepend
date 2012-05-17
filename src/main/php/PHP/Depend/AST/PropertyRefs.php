@@ -47,7 +47,7 @@
  */
 
 /**
- * Parser used to translate a given source file into an abstract syntax tree.
+ * Container class that holds nodes referenced by a property.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -59,53 +59,89 @@
  * @link       http://pdepend.org/
  * @since      2.0.0
  */
-class PHP_Depend_Parser
+class PHP_Depend_AST_PropertyRefs
 {
     /**
-     * @var PHPParser_Parser
+     * @var PHP_Depend_Context
      */
-    private $parser;
+    private $context;
 
     /**
-     * @var PHP_Depend_Parser_IdGenerator
+     * @var string
      */
-    private $idGenerator;
+    private $namespace;
 
     /**
-     * Constructs a new parser instance.
+     * @var string
+     */
+    private $declaringType;
+
+    /**
+     * @var string
+     */
+    private $type;
+
+    /**
+     * Constructs a new reference context for an object property.
      *
-     * @param PHP_Depend_Tokenizer $tokenizer
+     * @param PHP_Depend_Context $context
+     * @param string $namespace
+     * @param string $declaringType
+     * @param string $type
      */
-    public function __construct( PHP_Depend_Tokenizer $tokenizer )
+    public function __construct( PHP_Depend_Context $context, $namespace, $declaringType, $type = null )
     {
-        $this->parser = new PHPParser_Parser( $tokenizer );
-
-        $this->idGenerator = new PHP_Depend_Parser_IdGenerator();
-
-        $this->traverser = new PHPParser_NodeTraverser();
-        $this->traverser->addVisitor( new PHPParser_NodeVisitor_NameResolver() );
-        $this->traverser->addVisitor( $this->idGenerator );
-        $this->traverser->addVisitor( new PHP_Depend_Parser_NodeGenerator() );
-        $this->traverser->addVisitor( new PHP_Depend_Parser_AnnotationExtractor() );
+        $this->type          = $type ? $type : null;
+        $this->context       = $context;
+        $this->namespace     = $namespace;
+        $this->declaringType = $declaringType;
     }
 
     /**
-     * Transforms the given token stream into an abstract syntax tree.
+     * Returns the namespace for the context interface.
      *
-     * @param string $file
-     * @return PHP_Depend_AST_CompilationUnit
+     * @return PHP_Depend_AST_Namespace
      */
-    public function parse( $file )
+    public function getNamespace()
     {
-        $nodes = $this->traverser->traverse(
-            array(
-                new PHP_Depend_AST_CompilationUnit(
-                    $file,
-                    $this->parser->parse( file_get_contents( $file ) )
-                )
-            )
-        );
+        if ( $namespace = $this->context->getNamespace( $this->namespace ) )
+        {
+            return $namespace;
+        }
+        // TODO Return dummy namespace
+    }
 
-        return $nodes[0];
+    /**
+     * Returns the declaring type for the context method.
+     *
+     * @return PHP_Depend_AST_Type
+     */
+    public function getDeclaringType()
+    {
+        if ( $declaringType = $this->context->getType( $this->declaringType ) )
+        {
+            return $declaringType;
+        }
+        // TODO Return dummy class
+    }
+
+    public function getType()
+    {
+        if ( $this->type )
+        {
+            return $this->context->getType( $this->type );
+        }
+        return null;
+    }
+
+    /**
+     * Initializes this reference instance for the given property.
+     *
+     * @param PHP_Depend_AST_Property $property
+     * @return void
+     */
+    public function initialize( PHP_Depend_AST_Property $property )
+    {
+        $this->context->registerNode( $property );
     }
 }

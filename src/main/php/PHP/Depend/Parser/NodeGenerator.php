@@ -122,19 +122,17 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
      */
     public function leaveNode( PHPParser_Node $node )
     {
+        $newNode = null;
         if ( $node instanceof PHPParser_Node_Stmt_Namespace )
         {
-            $this->declaringNamespace = null;
-
-            return new PHP_Depend_AST_Namespace(
+            $newNode = new PHP_Depend_AST_Namespace(
                 $node, new PHP_Depend_AST_NamespaceRefs( $this->context )
             );
+
+            $this->declaringNamespace = null;
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Class )
         {
-            $this->declaringType    = null;
-            $this->declaringPackage = null;
-
             $parentClassId = null;
             if ( $node->extends )
             {
@@ -147,7 +145,7 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                 $implemented[] = (string) $implements;
             }
 
-            return $this->wrapOptionalNamespace(
+            $newNode = $this->wrapOptionalNamespace(
                 new PHP_Depend_AST_Class(
                     $node,
                     new PHP_Depend_AST_ClassRefs(
@@ -158,19 +156,19 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                     )
                 )
             );
+
+            $this->declaringType    = null;
+            $this->declaringPackage = null;
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Interface )
         {
-            $this->declaringType    = null;
-            $this->declaringPackage = null;
-
             $extends = array();
             foreach ( $node->extends as $extend )
             {
                 $extends[] = (string) $extend;
             }
 
-            return $this->wrapOptionalNamespace(
+            $newNode = $this->wrapOptionalNamespace(
                 new PHP_Depend_AST_Interface(
                     $node,
                     new PHP_Depend_AST_InterfaceRefs(
@@ -180,14 +178,25 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                     )
                 )
             );
+
+            $this->declaringType    = null;
+            $this->declaringPackage = null;
         }
         else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
         {
-
+            $newNode = new PHP_Depend_AST_Property(
+                $node,
+                new PHP_Depend_AST_PropertyRefs(
+                    $this->context,
+                    $this->extractNamespaceName( $node ),
+                    $this->declaringType,
+                    (string) $node->type
+                )
+            );
         }
         else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
-            return new PHP_Depend_AST_Method(
+            $newNode = new PHP_Depend_AST_Method(
                 $node,
                 new PHP_Depend_AST_MethodRefs(
                     $this->context,
@@ -198,9 +207,7 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {
-            $this->declaringPackage = null;
-
-            return $this->wrapOptionalNamespace(
+            $newNode = $this->wrapOptionalNamespace(
                 new PHP_Depend_AST_Function(
                     $node,
                     new PHP_Depend_AST_FunctionRefs(
@@ -209,7 +216,11 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                     )
                 )
             );
+
+            $this->declaringPackage = null;
         }
+
+        return $newNode;
     }
 
     /**
