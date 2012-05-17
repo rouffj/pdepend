@@ -64,7 +64,7 @@ class PHP_Depend_Context
      *
      * @var PHP_Depend_AST_Node[]
      */
-    public static $nodes = array();
+    private static $nodes = array();
 
     /**
      * Registers the given node in the global context.
