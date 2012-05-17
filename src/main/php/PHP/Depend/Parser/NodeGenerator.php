@@ -59,7 +59,7 @@
  * @link       http://pdepend.org/
  * @since      2.0.0
  */
-class PHP_Depend_Parser_TypeGenerator extends PHPParser_NodeVisitorAbstract
+class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
 {
     /**
      * @var string
