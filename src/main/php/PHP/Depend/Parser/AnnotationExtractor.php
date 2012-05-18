@@ -136,6 +136,7 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
             || $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
             $node->returnType = $this->extractType( $node, 'return' );
+            $node->exceptions = $this->extractTypes( $node, 'throws' );
         }
     }
 
@@ -161,25 +162,47 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
      * @param PHPParser_Node $node
      * @param string $tag
      * @return null|PHPParser_Node_Name|PHPParser_Node_Name_FullyQualified
-     * @todo 2.0 Handle special doc comments like TypeA|TypeB|..., Type[], array(Type)
      */
     private function extractType( PHPParser_Node $node, $tag )
     {
+        if ( count( $names = $this->extractTypes( $node, $tag ) ) > 0 )
+        {
+            return reset( $names );
+        }
+        return null;
+    }
+
+    /**
+     * Extracts additional types from the doc comment block of the given
+     * <b>$node</b>.
+     *
+     * @param PHPParser_Node $node
+     * @param $tag
+     * @return PHPParser_Node_Name[]
+     * @todo 2.0 Handle special doc comments like TypeA|TypeB|..., Type[], array(Type)
+     */
+    private function extractTypes( PHPParser_Node $node, $tag )
+    {
         if ( !$node->getDocComment() )
         {
-            return null;
+            return array();
         }
         $regexp = sprintf( '(\*\s*@%s\s+([^\s]+))', $tag );
-        if ( 0 === preg_match( $regexp, $node->getDocComment(), $match ) )
+        if ( 0 === preg_match_all( $regexp, $node->getDocComment(), $matches ) )
         {
-            return null;
-        }
-        if ( PHP_Depend_Util_Type::isScalarType( $match[1] ) )
-        {
-            return null;
+            return array();
         }
 
-        return $this->resolveClassName( new PHPParser_Node_Name( $match[1] ) );
+        $names = array();
+        foreach ( $matches[1] as $match )
+        {
+            if ( false === PHP_Depend_Util_Type::isScalarType( $match ) )
+            {
+                $names[] = $this->resolveClassName( new PHPParser_Node_Name( $match ) );
+            }
+        }
+
+        return array_filter( $names );
     }
 
     /**
