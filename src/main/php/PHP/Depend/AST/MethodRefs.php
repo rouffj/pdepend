@@ -77,17 +77,24 @@ class PHP_Depend_AST_MethodRefs
     private $declaringType;
 
     /**
+     * @var string
+     */
+    private $returnType;
+
+    /**
      * Constructs a new reference context for an interface.
      *
      * @param PHP_Depend_Context $context
      * @param string $namespace
      * @param string $declaringType
+     * @param string $returnType
      */
-    public function __construct( PHP_Depend_Context $context, $namespace, $declaringType )
+    public function __construct( PHP_Depend_Context $context, $namespace, $declaringType, $returnType )
     {
         $this->context       = $context;
         $this->namespace     = $namespace;
         $this->declaringType = $declaringType;
+        $this->returnType    = $returnType;
     }
 
     /**
@@ -116,6 +123,17 @@ class PHP_Depend_AST_MethodRefs
             return $declaringType;
         }
         // TODO Return dummy class
+    }
+
+    /**
+     * Returns the type returned by the context method or <b>NULL</b> when the
+     * context method does not return a type.
+     *
+     * @return PHP_Depend_AST_Type|null
+     */
+    public function getReturnType()
+    {
+        return $this->context->getType( $this->returnType );
     }
 
     /**

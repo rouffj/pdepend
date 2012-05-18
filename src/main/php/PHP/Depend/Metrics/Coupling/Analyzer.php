@@ -279,7 +279,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     }
 
     /**
-     * Visits the given function and initializes it's dependency data.
+     * Visits the given function and calculates it's dependency data.
      *
      * @param PHP_Depend_AST_Function $function
      * @return void
@@ -326,18 +326,34 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     }
 
     /**
-     * Visit method for classes that will be called by PHP_Depend during the
-     * analysis phase with the current context class.
+     * Visits the given method and calculates it's dependency data.
      *
-     * @param PHP_Depend_Code_Class $class The currently analyzed class.
-     *
+     * @param PHP_Depend_AST_Method $method
      * @return void
-     * @since 0.10.2
      */
-    public function visitClass( PHP_Depend_AST_Class $class )
+    public function visitMethodBefore( PHP_Depend_AST_Method $method )
     {
-        $this->_initDependencyMap( $class );
-        return parent::visitClass( $class );
+        $this->fireStartMethod( $method );
+
+        $declaringType = $method->getDeclaringType();
+
+        $this->_calculateCoupling( $declaringType, $method->getReturnType() );
+
+        /*
+        foreach ( $method->getExceptionClasses() as $type )
+        {
+            $this->_calculateCoupling( $declaringClass, $type );
+        }
+        foreach ( $method->getDependencies() as $type )
+        {
+            $this->_calculateCoupling( $declaringClass, $type );
+        }
+        */
+
+        // TODO 2.0 enable call count
+        //$this->_countCalls( $function );
+
+        $this->fireEndMethod( $method );
     }
 
     /**
@@ -353,38 +369,6 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     {
         $this->_initDependencyMap( $interface );
         return parent::visitInterface( $interface );
-    }
-
-    /**
-     * Visits a method node.
-     *
-     * @param PHP_Depend_Code_Method $method The method class node.
-     *
-     * @return void
-     */
-    public function visitMethod( PHP_Depend_AST_Method $method )
-    {
-        $this->fireStartMethod( $method );
-
-        $declaringClass = $method->getParent();
-
-        $this->_calculateCoupling(
-            $declaringClass,
-            $method->getReturnClass()
-        );
-
-        foreach ( $method->getExceptionClasses() as $type )
-        {
-            $this->_calculateCoupling( $declaringClass, $type );
-        }
-        foreach ( $method->getDependencies() as $type )
-        {
-            $this->_calculateCoupling( $declaringClass, $type );
-        }
-
-        $this->_countCalls( $method );
-
-        $this->fireEndMethod( $method );
     }
 
     /**

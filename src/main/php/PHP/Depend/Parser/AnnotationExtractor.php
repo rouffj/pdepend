@@ -89,6 +89,14 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
         $this->type      = null;
     }
 
+    /**
+     * Sets some additional information about dependent types onto class, method,
+     * function etc. nodes.
+     *
+     * @param PHPParser_Node $node
+     * @return void
+     * @throws PHPParser_Error
+     */
     public function enterNode( PHPParser_Node $node )
     {
         if ( $node instanceof PHPParser_Node_Stmt_Namespace )
@@ -124,12 +132,19 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
             }
             $node->type = $type;
         }
-        else if ( $node instanceof PHPParser_Node_Stmt_Function )
+        else if ( $node instanceof PHPParser_Node_Stmt_Function
+            || $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
             $node->returnType = $this->extractType( $node, 'return' );
         }
     }
 
+    /**
+     * This post visit method resets some internal state properties.
+     *
+     * @param PHPParser_Node $node
+     * @return void
+     */
     public function leaveNode( PHPParser_Node $node )
     {
         if ( $node instanceof PHPParser_Node_Stmt_Property
@@ -140,6 +155,9 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
     }
 
     /**
+     * Extracts additional types from the doc comment block of the given
+     * <b>$node</b>.
+     *
      * @param PHPParser_Node $node
      * @param string $tag
      * @return null|PHPParser_Node_Name|PHPParser_Node_Name_FullyQualified
@@ -164,6 +182,15 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
         return $this->resolveClassName( new PHPParser_Node_Name( $match[1] ) );
     }
 
+    /**
+     * Resolves the full qualified name for the given name.
+     *
+     * The code of this method was taken from the NameResolver visitor shipped
+     * with the PHPParser project.
+     *
+     * @param PHPParser_Node_Name $name
+     * @return PHPParser_Node_Name|PHPParser_Node_Name_FullyQualified
+     */
     protected function resolveClassName( PHPParser_Node_Name $name )
     {
         // don't resolve special class names

@@ -120,8 +120,8 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
     }
 
     /**
-     * Returns a type that will returned by the context function or <b>NULL</b>
-     * when the function does not return a type.
+     * Returns a type that will be returned by this function or <b>NULL</b>
+     * when this function does not return a type.
      *
      * @return PHP_Depend_AST_Type|null
      */

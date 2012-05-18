@@ -201,7 +201,8 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                 new PHP_Depend_AST_MethodRefs(
                     $this->context,
                     $this->extractNamespaceName( $node ),
-                    $this->declaringType
+                    $this->declaringType,
+                    (string) $node->returnType
                 )
             );
         }

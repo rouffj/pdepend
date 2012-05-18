@@ -179,11 +179,11 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaForFunctionReturnType
+     * testCaMetricWithFunctionReturnTypeReference
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCaForFunctionReturnType()
+    public function testCaMetricWithFunctionReturnTypeReference()
     {
         $processor = new PHP_Depend_Metrics_Processor();
         $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
@@ -191,8 +191,47 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
 
         $metrics = $analyzer->getNodeMetrics( 'ClassWithReturnTypeReference#c' );
         $this->assertEquals( 1, $metrics['ca'] );
+    }
+
+    /**
+     * testCaMetricWithMethodReturnTypeReference
+     *
+     * @return array
+     */
+    public function testCaMetricWithMethodReturnTypeReference()
+    {
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
+
+        $metrics = $analyzer->getNodeMetrics( 'ClassMethodWithReturnTypeReference#c' );
+        $this->assertEquals( 1, $metrics['ca'] );
 
         return $metrics;
+    }
+
+    /**
+     * testCboMetricWithMethodReturnTypeReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaMetricWithMethodReturnTypeReference
+     */
+    public function testCboMetricWithMethodReturnTypeReference( array $metrics )
+    {
+        $this->assertEquals( 2, $metrics['cbo'] );
+    }
+
+    /**
+     * testCeMetricWithMethodReturnTypeReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaMetricWithMethodReturnTypeReference
+     */
+    public function testCeMetricWithMethodReturnTypeReference( array $metrics )
+    {
+        $this->assertEquals( 2, $metrics['ce'] );
     }
 
     /**
