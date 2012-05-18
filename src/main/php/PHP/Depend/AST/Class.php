@@ -161,6 +161,33 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
     }
 
     /**
+     * Checks if this type is a subtype of the given <b>$type</b>.
+     *
+     * @param PHP_Depend_AST_Type $type
+     * @return boolean
+     * @todo 2.0 Move this method into PHP_Depend_AST_Type
+     */
+    public function isSubtypeOf( PHP_Depend_AST_Type $type )
+    {
+        if ( $type->namespacedName === $this->namespacedName )
+        {
+            return true;
+        }
+        if ( $this->extends && $type->isSubtypeOf( $this->refs->getParentClass() ) )
+        {
+            return true;
+        }
+        foreach ( $this->refs->getImplementedInterfaces() as $interface )
+        {
+            if ( $type->isSubtypeOf( $interface ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Magic wake up method that will register this object in the global node
      * reference context.
      *
