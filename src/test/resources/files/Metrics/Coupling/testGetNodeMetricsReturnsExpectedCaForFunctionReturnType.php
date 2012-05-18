@@ -1,13 +1,13 @@
 <?php
 /**
- * @return testGetNodeMetricsReturnsExpectedCaForFunctionReturnType
+ * @return ClassWithReturnTypeReference
  */
 function foo()
 {
 
 }
 
-class testGetNodeMetricsReturnsExpectedCaForFunctionReturnType
+class ClassWithReturnTypeReference
 {
     
 }

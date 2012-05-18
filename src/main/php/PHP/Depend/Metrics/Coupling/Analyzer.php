@@ -267,30 +267,34 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->_dependencyMap = array();
     }
 
-    public function visitClassBefore( PHP_Depend_AST_Class $class, $data = null )
+    /**
+     * Visits the given class and initializes it's dependencies.
+     *
+     * @param PHP_Depend_AST_Class $class
+     * @return void
+     */
+    public function visitClassBefore( PHP_Depend_AST_Class $class )
     {
         $this->_initDependencyMap( $class );
-
-        return $data;
     }
 
     /**
-     * Visits a function node.
+     * Visits the given function and initializes it's dependency data.
      *
-     * @param PHP_Depend_Code_Function $function The current function node.
-     *
+     * @param PHP_Depend_AST_Function $function
      * @return void
      */
-    public function visitFunction( PHP_Depend_AST_Function $function )
+    public function visitFunctionBefore( PHP_Depend_AST_Function $function )
     {
         $this->fireStartFunction( $function );
 
         $fanouts = array();
-        if ( ( $type = $function->getReturnClass() ) !== null )
+        if ( ( $type = $function->getReturnType() ) !== null )
         {
             $fanouts[] = $type;
             ++$this->_fanout;
         }
+        /*
         foreach ( $function->getExceptionClasses() as $type )
         {
             if ( in_array( $type, $fanouts, true ) === false )
@@ -307,7 +311,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
                 ++$this->_fanout;
             }
         }
-
+        */
         foreach ( $fanouts as $fanout )
         {
             $this->_initDependencyMap( $fanout );
@@ -315,7 +319,8 @@ class PHP_Depend_Metrics_Coupling_Analyzer
             $this->_dependencyMap[$fanout->getId()][self::M_CA][$function->getId()] = true;
         }
 
-        $this->_countCalls( $function );
+        // TODO 2.0 enable call count
+        //$this->_countCalls( $function );
 
         $this->fireEndFunction( $function );
     }
@@ -405,10 +410,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * @return void
      * @since 0.10.2
      */
-    private function _calculateCoupling(
-        PHP_Depend_AST_Type $declaringType,
-        PHP_Depend_AST_Type $coupledType = null
-    )
+    private function _calculateCoupling( PHP_Depend_AST_Type $declaringType, PHP_Depend_AST_Type $coupledType = null )
     {
         $this->_initDependencyMap( $declaringType );
 

@@ -71,12 +71,22 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
      */
     protected $aliases;
 
+    /**
+     * @var PHPParser_Node_Name|PHPParser_Node_Name_FullyQualified
+     */
     protected $type;
 
+    /**
+     * Resets some internal state properties.
+     *
+     * @param PHPParser_Node[] $nodes
+     * @return void
+     */
     public function beforeTraverse( array $nodes )
     {
         $this->namespace = null;
         $this->aliases   = array();
+        $this->type      = null;
     }
 
     public function enterNode( PHPParser_Node $node )
@@ -114,6 +124,10 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
             }
             $node->type = $type;
         }
+        else if ( $node instanceof PHPParser_Node_Stmt_Function )
+        {
+            $node->returnType = $this->extractType( $node, 'return' );
+        }
     }
 
     public function leaveNode( PHPParser_Node $node )
@@ -125,6 +139,12 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
         }
     }
 
+    /**
+     * @param PHPParser_Node $node
+     * @param string $tag
+     * @return null|PHPParser_Node_Name|PHPParser_Node_Name_FullyQualified
+     * @todo 2.0 Handle special doc comments like TypeA|TypeB|..., Type[], array(Type)
+     */
     private function extractType( PHPParser_Node $node, $tag )
     {
         if ( !$node->getDocComment() )
