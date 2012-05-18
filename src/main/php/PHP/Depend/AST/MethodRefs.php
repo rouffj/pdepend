@@ -91,7 +91,7 @@ class PHP_Depend_AST_MethodRefs
     }
 
     /**
-     * Returns the namespace for the context interface.
+     * Returns the namespace for the context method.
      *
      * @return PHP_Depend_AST_Namespace
      */
