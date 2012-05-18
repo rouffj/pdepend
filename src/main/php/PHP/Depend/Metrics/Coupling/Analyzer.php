@@ -385,18 +385,14 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     /**
      * Visits a property node.
      *
-     * @param PHP_Depend_Code_Property $property The property class node.
-     *
+     * @param PHP_Depend_AST_Property $property
      * @return void
      */
-    public function visitProperty( PHP_Depend_AST_Property $property )
+    public function visitPropertyBefore( PHP_Depend_AST_Property $property )
     {
         $this->fireStartProperty( $property );
 
-        $this->_calculateCoupling(
-            $property->getDeclaringClass(),
-            $property->getClass()
-        );
+        $this->_calculateCoupling( $property->getDeclaringType(), $property->getType() );
 
         $this->fireEndProperty( $property );
     }
@@ -404,17 +400,14 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     /**
      * Calculates the coupling between the given types.
      *
-     * @param PHP_Depend_Code_AbstractType $declaringType The declaring type
-     *        or the context type.
-     * @param PHP_Depend_Code_AbstractType $coupledType   The type that is used
-     *        by the declaring type or <b>null</b> when no type is defined.
-     *
+     * @param PHP_Depend_AST_Type $declaringType
+     * @param PHP_Depend_AST_Type $coupledType
      * @return void
      * @since 0.10.2
      */
     private function _calculateCoupling(
-        PHP_Depend_Code_AbstractType $declaringType,
-        PHP_Depend_Code_AbstractType $coupledType = null
+        PHP_Depend_AST_Type $declaringType,
+        PHP_Depend_AST_Type $coupledType = null
     )
     {
         $this->_initDependencyMap( $declaringType );
@@ -423,9 +416,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         {
             return;
         }
-        if ( $coupledType->isSubtypeOf( $declaringType )
-            || $declaringType->isSubtypeOf( $coupledType )
-        )
+        if ( $coupledType->isSubtypeOf( $declaringType ) || $declaringType->isSubtypeOf( $coupledType ) )
         {
             return;
         }
@@ -433,7 +424,6 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->_initDependencyMap( $coupledType );
 
         $this->_dependencyMap[$declaringType->getId()][self::M_CE][$coupledType->getId()] = true;
-
         $this->_dependencyMap[$coupledType->getId()][self::M_CA][$declaringType->getId()] = true;
     }
 
@@ -441,9 +431,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * This method will initialize a temporary coupling container for the given
      * given class or interface instance.
      *
-     * @param PHP_Depend_Code_AbstractType $type The currently
-     *        visited/traversed class or interface instance.
-     *
+     * @param PHP_Depend_AST_Type $type
      * @return void
      * @since 0.10.2
      */

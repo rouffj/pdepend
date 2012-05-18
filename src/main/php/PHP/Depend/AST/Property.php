@@ -129,6 +129,17 @@ class PHP_Depend_AST_Property extends PHPParser_Node_Stmt_PropertyProperty imple
     }
 
     /**
+     * Returns the type of this property or <b>NULL</b> when this property does
+     * not reference another none scalar type.
+     *
+     * @return PHP_Depend_AST_Type
+     */
+    public function getType()
+    {
+        return $this->refs->getType();
+    }
+
+    /**
      * Returns <b>true</b> when this property instance was restored from cache,
      * otherwise this method will return <b>false</b>.
      *
