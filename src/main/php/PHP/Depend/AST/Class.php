@@ -165,7 +165,6 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
      *
      * @param PHP_Depend_AST_Type $type
      * @return boolean
-     * @todo 2.0 Move this method into PHP_Depend_AST_Type
      */
     public function isSubtypeOf( PHP_Depend_AST_Type $type )
     {

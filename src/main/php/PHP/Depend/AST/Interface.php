@@ -130,6 +130,28 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
     }
 
     /**
+     * Checks if this type is a subtype of the given <b>$type</b>.
+     *
+     * @param PHP_Depend_AST_Type $type
+     * @return boolean
+     */
+    public function isSubtypeOf( PHP_Depend_AST_Type $type )
+    {
+        if ( $type->namespacedName === $this->namespacedName )
+        {
+            return true;
+        }
+        foreach ( $this->refs->getParentInterfaces() as $interface )
+        {
+            if ( $type->isSubtypeOf( $interface ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Magic wake up method that will register this object in the global node
      * reference context.
      *
