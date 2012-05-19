@@ -196,8 +196,17 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
         {
+            $thrownExceptions = array();
+            foreach ( $node->exceptions as $exception )
+            {
+                $thrownExceptions[] = new PHP_Depend_AST_TypeRef( $this->context, (string) $exception );
+            }
+
             $newNode = new PHP_Depend_AST_Method(
                 $node,
+                array(
+                    'thrownExceptions'  =>  $thrownExceptions
+                ),
                 new PHP_Depend_AST_MethodRefs(
                     $this->context,
                     $this->extractNamespaceName( $node ),
@@ -208,9 +217,18 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Function )
         {
+            $thrownExceptions = array();
+            foreach ( $node->exceptions as $exception )
+            {
+                $thrownExceptions[] = new PHP_Depend_AST_TypeRef( $this->context, (string) $exception );
+            }
+
             $newNode = $this->wrapOptionalNamespace(
                 new PHP_Depend_AST_Function(
                     $node,
+                    array(
+                        'thrownExceptions' => $thrownExceptions
+                    ),
                     new PHP_Depend_AST_FunctionRefs(
                         $this->context,
                         $this->extractNamespaceName( $node ),

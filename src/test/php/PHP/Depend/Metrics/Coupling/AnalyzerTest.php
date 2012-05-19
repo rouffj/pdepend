@@ -235,6 +235,62 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     }
 
     /**
+     * testCaMetricWithClassMethodExceptionReference
+     *
+     * @return array
+     */
+    public function testCaMetricWithClassMethodExceptionReference()
+    {
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
+
+        $metrics = $analyzer->getNodeMetrics( 'ClassMethodWithExceptionReference#c' );
+        $this->assertEquals( 2, $metrics['ca'] );
+
+        return $metrics;
+    }
+
+    /**
+     * testCboMetricWithClassMethodExceptionReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaMetricWithClassMethodExceptionReference
+     */
+    public function testCboMetricWithClassMethodExceptionReference( array $metrics )
+    {
+        $this->assertEquals( 3, $metrics['cbo'] );
+    }
+
+    /**
+     * testCeMetricWithClassMethodExceptionReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaMetricWithClassMethodExceptionReference
+     */
+    public function testCeMetricWithClassMethodExceptionReference( array $metrics )
+    {
+        $this->assertEquals( 3, $metrics['ce'] );
+    }
+
+    /**
+     * testCaMetricWithFunctionExceptionReference
+     *
+     * @return void
+     */
+    public function testCaMetricWithFunctionExceptionReference()
+    {
+        $processor = new PHP_Depend_Metrics_Processor();
+        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
+        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
+
+        $metrics = $analyzer->getNodeMetrics( 'ExceptionReferencedByFunction#c' );
+        $this->assertEquals( 2, $metrics['ca'] );
+    }
+
+    /**
      * testGetNodeMetricsReturnsExpectedCaWithObjectInstantiation
      *
      * @return void
@@ -262,16 +318,6 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     public function testGetNodeMetricsReturnsExpectedCaWithReturnReference()
     {
         self::assertEquals( 1, $this->_calculateTypeMetric( 'ca' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCaWithExceptionReference
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCaWithExceptionReference()
-    {
-        self::assertEquals( 2, $this->_calculateTypeMetric( 'ca' ) );
     }
 
     /**
@@ -320,16 +366,6 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      * @return void
      */
     public function testGetNodeMetricsReturnsExpectedCaForFunctionReference()
-    {
-        self::assertEquals( 1, $this->_calculateTypeMetric( 'ca' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCaForFunctionException
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCaForFunctionException()
     {
         self::assertEquals( 1, $this->_calculateTypeMetric( 'ca' ) );
     }
@@ -392,16 +428,6 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     public function testGetNodeMetricsReturnsExpectedCboWithReturnReference()
     {
         self::assertEquals( 1, $this->_calculateTypeMetric( 'cbo' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCboWithExceptionReference
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCboWithExceptionReference()
-    {
-        self::assertEquals( 2, $this->_calculateTypeMetric( 'cbo' ) );
     }
 
     /**
@@ -492,16 +518,6 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     public function testGetNodeMetricsReturnsExpectedCeWithReturnReference()
     {
         self::assertEquals( 1, $this->_calculateTypeMetric( 'ce' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCeWithExceptionReference
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCeWithExceptionReference()
-    {
-        self::assertEquals( 2, $this->_calculateTypeMetric( 'ce' ) );
     }
 
     /**

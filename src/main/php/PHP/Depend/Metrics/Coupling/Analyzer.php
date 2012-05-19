@@ -294,8 +294,10 @@ class PHP_Depend_Metrics_Coupling_Analyzer
             $fanouts[] = $type;
             ++$this->_fanout;
         }
-        /*
-        foreach ( $function->getExceptionClasses() as $type )
+if (!is_array($function->thrownExceptions)) {
+    var_dump($function, $function->thrownExceptions);exit;
+}
+        foreach ( $function->thrownExceptions as $type )
         {
             if ( in_array( $type, $fanouts, true ) === false )
             {
@@ -303,6 +305,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
                 ++$this->_fanout;
             }
         }
+        /*
         foreach ( $function->getDependencies() as $type )
         {
             if ( in_array( $type, $fanouts, true ) === false )
@@ -339,11 +342,11 @@ class PHP_Depend_Metrics_Coupling_Analyzer
 
         $this->_calculateCoupling( $declaringType, $method->getReturnType() );
 
-        /*
-        foreach ( $method->getExceptionClasses() as $type )
+        foreach ( $method->thrownExceptions as $type )
         {
-            $this->_calculateCoupling( $declaringClass, $type );
+            $this->_calculateCoupling( $declaringType, $type );
         }
+        /*
         foreach ( $method->getDependencies() as $type )
         {
             $this->_calculateCoupling( $declaringClass, $type );

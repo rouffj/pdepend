@@ -91,10 +91,10 @@ class PHP_Depend_AST_MethodRefs
      */
     public function __construct( PHP_Depend_Context $context, $namespace, $declaringType, $returnType )
     {
-        $this->context       = $context;
-        $this->namespace     = $namespace;
-        $this->declaringType = $declaringType;
-        $this->returnType    = $returnType;
+        $this->context          = $context;
+        $this->namespace        = $namespace;
+        $this->declaringType    = $declaringType;
+        $this->returnType       = $returnType;
     }
 
     /**

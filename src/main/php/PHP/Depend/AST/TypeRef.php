@@ -47,7 +47,7 @@
  */
 
 /**
- * Custom AST node that represents a PHP method.
+ * Proxy ast node that represents a concrete type with in the AST.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -59,44 +59,34 @@
  * @link       http://pdepend.org/
  * @since      2.0.0
  *
- * @property PHP_Depend_AST_Type[] $thrownExceptions
+ * @property PHPParser_Node_Name $namespacedName
  */
-class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements PHP_Depend_AST_Node
+class PHP_Depend_AST_TypeRef extends PHPParser_NodeAbstract implements PHP_Depend_AST_Type
 {
     /**
-     * Reference context used to retrieve referenced nodes.
-     *
-     * @var PHP_Depend_AST_MethodRefs
+     * @var string
      */
-    public $refs;
+    private $name;
 
     /**
-     * Construct a new custom method node instance.
-     *
-     * @param PHPParser_Node_Stmt_ClassMethod $method
-     * @param PHPParser_Node[] $subNodes
-     * @param PHP_Depend_AST_MethodRefs $refs
+     * @var PHP_Depend_Context
      */
-    public function __construct( PHPParser_Node_Stmt_ClassMethod $method, array $subNodes, PHP_Depend_AST_MethodRefs $refs )
+    private $context;
+
+    /**
+     * Constructs a new type reference.
+     *
+     * @param PHP_Depend_Context $context
+     * @param string $name
+     */
+    public function __construct( PHP_Depend_Context $context, $name )
     {
         parent::__construct(
-            $method->name,
-            array_merge(
-                array(
-                    'type'   => $method->type,
-                    'byRef'  => $method->byRef,
-                    'params' => $method->params,
-                    'stmts'  => $method->stmts,
-                ),
-                $subNodes
-            ),
-            $method->attributes
+            array( 'namespacedName'  =>  new PHPParser_Node_Name( $name ) )
         );
 
-        $this->refs = $refs;
-
-
-        $this->refs->initialize( $this );
+        $this->name    = $name;
+        $this->context = $context;
     }
 
     /**
@@ -106,7 +96,17 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
      */
     public function getId()
     {
-        return $this->getAttribute( 'id' );
+        return $this->context->getType( $this->name )->getId();
+    }
+
+    /**
+     * Returns all methods declared by this type.
+     *
+     * @return PHP_Depend_AST_Method[]
+     */
+    public function getMethods()
+    {
+        return $this->context->getType( $this->name )->getMethods();
     }
 
     /**
@@ -116,49 +116,18 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
      */
     public function getNamespace()
     {
-        return $this->refs->getNamespace();
+        return $this->context->getType( $this->name )->getNamespace();
     }
 
     /**
-     * Returns the declaring type for this method.
+     * Checks if this type is a subtype of the given <b>$type</b>.
      *
-     * @return PHP_Depend_AST_Type
-     */
-    public function getDeclaringType()
-    {
-        return $this->refs->getDeclaringType();
-    }
-
-    /**
-     * Returns a type that will be returned by this method or <b>NULL</b> when
-     * this method does not return a type.
-     *
-     * @return PHP_Depend_AST_Type|null
-     */
-    public function getReturnType()
-    {
-        return $this->refs->getReturnType();
-    }
-
-    /**
-     * Returns <b>true</b> when this method was declared as abstract.
-     *
+     * @param PHP_Depend_AST_Type $type
      * @return boolean
+     * @todo 2.0 Move this method into PHP_Depend_AST_Type
      */
-    public function isAbstract()
+    public function isSubtypeOf( PHP_Depend_AST_Type $type )
     {
-        return ( ( $this->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT ) === PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT );
-    }
-
-    /**
-     * Magic wake up method that will register this object in the global node
-     * reference context.
-     *
-     * @return void
-     * @access private
-     */
-    public function __wakeup()
-    {
-        $this->refs->initialize( $this );
+        return $this->context->getType( $this->name )->isSubtypeOf( $type );
     }
 }

@@ -58,6 +58,8 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  * @since      2.0.0
+ *
+ * @property PHP_Depend_AST_Type[] $thrownExceptions
  */
 class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PHP_Depend_AST_Node
 {
@@ -79,16 +81,20 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
      * Constructs a new function AST node.
      *
      * @param PHPParser_Node_Stmt_Function $function
+     * @param PHPParser_Node[] $subNodes
      * @param PHP_Depend_AST_FunctionRefs $refs
      */
-    public function __construct( PHPParser_Node_Stmt_Function $function, PHP_Depend_AST_FunctionRefs $refs )
+    public function __construct( PHPParser_Node_Stmt_Function $function, array $subNodes, PHP_Depend_AST_FunctionRefs $refs )
     {
         parent::__construct(
             $function->name,
-            array(
-                'byRef'  => $function->byRef,
-                'params' => $function->params,
-                'stmts'  => $function->stmts,
+            array_merge(
+                array(
+                    'byRef'  => $function->byRef,
+                    'params' => $function->params,
+                    'stmts'  => $function->stmts
+                ),
+                $subNodes
             ),
             $function->attributes
         );
