@@ -361,7 +361,7 @@ class PHP_Depend_TextUI_Command
      */
     protected function printVersion()
     {
-        echo 'PHP_Depend @package_version@ by Manuel Pichler', PHP_EOL, PHP_EOL;
+        echo 'PHP_Depend @package_version@', PHP_EOL, PHP_EOL;
     }
 
     /**
