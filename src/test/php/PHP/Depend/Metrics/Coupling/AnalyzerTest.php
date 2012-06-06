@@ -649,10 +649,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testAnalyzerGetProjectMetricsReturnsArrayWithExpectedKeys()
     {
-        $expected = array( 'calls', 'fanout' );
-        $actual   = array_keys( $this->_calculateProjectMetrics() );
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals(
+            array( 'calls', 'fanout' ),
+            array_keys( $this->_calculateProjectMetrics() )
+        );
     }
 
     /**
@@ -663,11 +663,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testAnalyzerCalculatesCorrectFunctionCoupling()
     {
-        $expected = array( 'calls'  => 10,
-                           'fanout' => 7 );
-        $actual   = $this->_calculateProjectMetrics();
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals(
+            array( 'calls' => 10, 'fanout' => 7 ),
+            $this->_calculateProjectMetrics()
+        );
     }
 
     /**
@@ -678,11 +677,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testAnalyzerCalculatesCorrectMethodCoupling()
     {
-        $expected = array( 'calls'  => 10,
-                           'fanout' => 9 );
-        $actual   = $this->_calculateProjectMetrics();
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals(
+            array( 'calls' => 10, 'fanout' => 9 ),
+            $this->_calculateProjectMetrics()
+        );
     }
 
     /**
@@ -693,10 +691,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testAnalyzerCalculatesCorrectPropertyCoupling()
     {
-        $expected = array( 'calls' => 0, 'fanout' => 3 );
-        $actual   = $this->_calculateProjectMetrics();
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals(
+            array( 'calls' => 0, 'fanout' => 3 ),
+            $this->_calculateProjectMetrics()
+        );
     }
 
     /**
@@ -707,10 +705,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testAnalyzerCalculatesCorrectClassCoupling()
     {
-        $expected = array( 'calls' => 10, 'fanout' => 12 );
-        $actual   = $this->_calculateProjectMetrics();
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals(
+            array( 'calls' => 10, 'fanout' => 12 ),
+            $this->_calculateProjectMetrics()
+        );
     }
 
     /**
@@ -721,11 +719,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testAnalyzerCalculatesCorrectCoupling()
     {
-        $expected = array( 'calls'  => 30,
-                           'fanout' => 31 );
-        $actual   = $this->_calculateProjectMetrics();
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals(
+            array( 'calls' => 30, 'fanout' => 31 ),
+            $this->_calculateProjectMetrics()
+        );
     }
 
     /**
