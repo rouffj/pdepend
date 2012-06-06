@@ -1,5 +1,5 @@
 <?php
-class testGetNodeMetricsReturnsExpectedCboForParentTypeReference
+class testGetNodeMetricsReturnsExpectedCaForParentTypeReference
 {
     public function bar()
     {

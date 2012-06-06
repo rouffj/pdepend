@@ -239,6 +239,36 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
 
             $this->declaringPackage = null;
         }
+        else if ( $node instanceof PHPParser_Node_Stmt_Catch )
+        {
+            $node->typeRef = new PHP_Depend_AST_TypeRef( $this->context, (string) $node->type );
+        }
+        else if ($node instanceof PHPParser_Node_Expr_StaticCall
+            || $node instanceof PHPParser_Node_Expr_StaticPropertyFetch
+            || $node instanceof PHPParser_Node_Expr_ClassConstFetch
+            || $node instanceof PHPParser_Node_Expr_New
+            || $node instanceof PHPParser_Node_Expr_Instanceof )
+        {
+            if ( $node->class instanceof PHPParser_Node_Name )
+            {
+                $node->typeRef = new PHP_Depend_AST_TypeRef( $this->context, (string) $node->class );
+            }
+            else
+            {
+                $node->typeRef = null;
+            }
+        }
+        else if ( $node instanceof PHPParser_Node_Param )
+        {
+            if ( $node->type instanceof PHPParser_Node_Name )
+            {
+                $node->typeRef = new PHP_Depend_AST_TypeRef( $this->context, (string) $node->type );
+            }
+            else
+            {
+                $node->typeRef = null;
+            }
+        }
 
         return $newNode;
     }

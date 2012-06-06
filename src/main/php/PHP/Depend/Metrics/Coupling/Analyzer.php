@@ -96,12 +96,18 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         M_CE      = 'ce';
 
     /**
-     * Has this analyzer already processed the source under test?
+     * Stack of context nodes.
      *
-     * @var boolean
-     * @since 0.10.2
+     * @var PHP_Depend_AST_Node[]
      */
-    private $_uninitialized = true;
+    private $nodeStack = array();
+
+    /**
+     * Currently active context nodes.
+     *
+     * @var PHP_Depend_AST_Node
+     */
+    private $currentNode;
 
     /**
      * The number of method or function calls.
@@ -188,60 +194,6 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     }
 
     /**
-     * Processes all {@link PHP_Depend_Code_Package} code nodes.
-     *
-     * @param PHP_Depend_Code_NodeIterator $packages All code packages.
-     *
-     * @return void
-     */
-    public function analyze( PHP_Depend_Code_NodeIterator $packages )
-    {
-        if ( $this->_uninitialized )
-        {
-            $this->_analyze( $packages );
-            $this->_uninitialized = false;
-        }
-    }
-
-    /**
-     * This method traverses all packages in the given iterator and calculates
-     * the coupling metrics for them.
-     *
-     * @param PHP_Depend_Code_NodeIterator $packages All parsed code packages.
-     *
-     * @return void
-     * @since 0.10.2
-     */
-    private function _analyze( PHP_Depend_Code_NodeIterator $packages )
-    {
-        $this->fireStartAnalyzer();
-        $this->_reset();
-
-        foreach ( $packages as $package )
-        {
-            $package->accept( $this );
-        }
-
-        $this->_postProcessTemporaryCouplingMap();
-        $this->fireEndAnalyzer();
-    }
-
-    /**
-     * This method resets all internal state variables before the analyzer can
-     * start the object tree traversal.
-     *
-     * @return void
-     * @since 0.10.2
-     */
-    private function _reset()
-    {
-        $this->_calls         = 0;
-        $this->_fanout        = 0;
-        $this->metrics        = array();
-        $this->_dependencyMap = array();
-    }
-
-    /**
      * This method takes the temporary coupling map with node UUIDs and calculates
      * the concrete node metrics.
      *
@@ -267,15 +219,15 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->_dependencyMap = array();
     }
 
-    /**
-     * Visits the given class and initializes it's dependencies.
-     *
-     * @param PHP_Depend_AST_Class $class
-     * @return void
-     */
-    public function visitClassBefore( PHP_Depend_AST_Class $class )
+    public function visitCompilationUnitBefore( PHP_Depend_AST_CompilationUnit $unit )
     {
-        $this->_initDependencyMap( $class );
+        $this->nodeStack[] = $this->currentNode = $unit;
+    }
+
+    public function visitCompilationUnitAfter()
+    {
+        $this->nodeStack   = array();
+        $this->currentNode = null;
     }
 
     /**
@@ -286,46 +238,62 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      */
     public function visitFunctionBefore( PHP_Depend_AST_Function $function )
     {
+        $this->nodeStack[] = $this->currentNode = $function;
+
         $this->fireStartFunction( $function );
 
-        $fanouts = array();
-        if ( ( $type = $function->getReturnType() ) !== null )
-        {
-            $fanouts[] = $type;
-            ++$this->_fanout;
-        }
-if (!is_array($function->thrownExceptions)) {
-    var_dump($function, $function->thrownExceptions);exit;
-}
+        $this->_calculateCoupling( $function->getReturnType() );
+
         foreach ( $function->thrownExceptions as $type )
         {
-            if ( in_array( $type, $fanouts, true ) === false )
-            {
-                $fanouts[] = $type;
-                ++$this->_fanout;
-            }
-        }
-        /*
-        foreach ( $function->getDependencies() as $type )
-        {
-            if ( in_array( $type, $fanouts, true ) === false )
-            {
-                $fanouts[] = $type;
-                ++$this->_fanout;
-            }
-        }
-        */
-        foreach ( $fanouts as $fanout )
-        {
-            $this->_initDependencyMap( $fanout );
-
-            $this->_dependencyMap[$fanout->getId()][self::M_CA][$function->getId()] = true;
+            $this->_calculateCoupling( $type );
         }
 
         // TODO 2.0 enable call count
         //$this->_countCalls( $function );
 
         $this->fireEndFunction( $function );
+    }
+
+    public function visitFunctionAfter()
+    {
+        array_pop( $this->nodeStack );
+
+        $this->currentNode = end( $this->nodeStack );
+    }
+
+    /**
+     * Visits the given class and initializes it's dependencies.
+     *
+     * @param PHP_Depend_AST_Class $class
+     * @return void
+     */
+    public function visitClassBefore( PHP_Depend_AST_Class $class )
+    {
+        $this->nodeStack[] = $this->currentNode = $class;
+
+        $this->_initDependencyMap( $class );
+    }
+
+    public function visitClassAfter()
+    {
+        array_pop( $this->nodeStack );
+
+        $this->currentNode = end( $this->nodeStack );
+    }
+
+    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface )
+    {
+        $this->nodeStack[] = $this->currentNode = $interface;
+
+        $this->_initDependencyMap( $interface );
+    }
+
+    public function visitInterfaceAfter()
+    {
+        array_pop( $this->nodeStack );
+
+        $this->currentNode = end( $this->nodeStack );
     }
 
     /**
@@ -338,40 +306,17 @@ if (!is_array($function->thrownExceptions)) {
     {
         $this->fireStartMethod( $method );
 
-        $declaringType = $method->getDeclaringType();
-
-        $this->_calculateCoupling( $declaringType, $method->getReturnType() );
+        $this->_calculateCoupling( $method->getReturnType() );
 
         foreach ( $method->thrownExceptions as $type )
         {
-            $this->_calculateCoupling( $declaringType, $type );
+            $this->_calculateCoupling( $type );
         }
-        /*
-        foreach ( $method->getDependencies() as $type )
-        {
-            $this->_calculateCoupling( $declaringClass, $type );
-        }
-        */
 
         // TODO 2.0 enable call count
         //$this->_countCalls( $function );
 
         $this->fireEndMethod( $method );
-    }
-
-    /**
-     * Visit method for interfaces that will be called by PHP_Depend during the
-     * analysis phase with the current context interface.
-     *
-     * @param PHP_Depend_Code_Interface $interface The currently analyzed interface.
-     *
-     * @return void
-     * @since 0.10.2
-     */
-    public function visitInterface( PHP_Depend_AST_Interface $interface )
-    {
-        $this->_initDependencyMap( $interface );
-        return parent::visitInterface( $interface );
     }
 
     /**
@@ -384,36 +329,56 @@ if (!is_array($function->thrownExceptions)) {
     {
         $this->fireStartProperty( $property );
 
-        $this->_calculateCoupling( $property->getDeclaringType(), $property->getType() );
+        $this->_calculateCoupling( $property->getType() );
 
         $this->fireEndProperty( $property );
+    }
+
+    public function visitStmtCatchBefore( PHPParser_Node_Stmt_Catch $catch )
+    {
+        $this->_calculateCoupling( $catch->typeRef );
+    }
+
+    public function visitExprNewBefore( PHPParser_Node_Expr_New $new )
+    {
+        $this->_calculateCoupling( $new->typeRef );
+    }
+
+    public function visitExprStaticCallBefore( PHPParser_Node_Expr_StaticCall $call )
+    {
+        $this->_calculateCoupling( $call->typeRef );
     }
 
     /**
      * Calculates the coupling between the given types.
      *
-     * @param PHP_Depend_AST_Type $declaringType
      * @param PHP_Depend_AST_Type $coupledType
      * @return void
      * @since 0.10.2
      */
-    private function _calculateCoupling( PHP_Depend_AST_Type $declaringType, PHP_Depend_AST_Type $coupledType = null )
+    private function _calculateCoupling( PHP_Depend_AST_Type $coupledType = null )
     {
-        $this->_initDependencyMap( $declaringType );
-
         if ( null === $coupledType )
-        {
-            return;
-        }
-        if ( $coupledType->isSubtypeOf( $declaringType ) || $declaringType->isSubtypeOf( $coupledType ) )
         {
             return;
         }
 
         $this->_initDependencyMap( $coupledType );
+        if ( !isset( $this->_dependencyMap[$coupledType->getId()][self::M_CA][$this->currentNode->getId()] ) )
+        {
+            $this->_dependencyMap[$coupledType->getId()][self::M_CA][$this->currentNode->getId()] = true;
+            ++$this->_fanout;
+        }
 
-        $this->_dependencyMap[$declaringType->getId()][self::M_CE][$coupledType->getId()] = true;
-        $this->_dependencyMap[$coupledType->getId()][self::M_CA][$declaringType->getId()] = true;
+        if ( !( $this->currentNode instanceof PHP_Depend_AST_Type ) ||
+            $coupledType->isSubtypeOf( $this->currentNode ) ||
+            $this->currentNode->isSubtypeOf( $coupledType ) )
+        {
+            return;
+        }
+
+        $this->_dependencyMap[$this->currentNode->getId()][self::M_CE][$coupledType->getId()] = true;
+
     }
 
     /**

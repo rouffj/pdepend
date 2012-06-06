@@ -145,7 +145,11 @@ class PHP_Depend_Context
         {
             return $type;
         }
-        return $this->getNode( "{$id}#c" );
+        else if ( $type = $this->getNode( "{$id}#c" ) )
+        {
+            return $type;
+        }
+        return $this->getClass( $id );
     }
 
     /**
