@@ -1,5 +1,5 @@
 <?php
-class testGetNodeMetricsReturnsExpectedCeForChildTypeReference_factory
+class testGetNodeMetricsReturnsExpectedCeForChildTypeReference
 {
     public static function create($type)
     {
@@ -20,13 +20,13 @@ class testGetNodeMetricsReturnsExpectedCeForChildTypeReference_factory
 }
 
 class testGetNodeMetricsReturnsExpectedCeForChildTypeReference_foo
-    extends testGetNodeMetricsReturnsExpectedCeForChildTypeReference_factory
+    extends testGetNodeMetricsReturnsExpectedCeForChildTypeReference
 {
 
 }
 
 class testGetNodeMetricsReturnsExpectedCeForChildTypeReference_bar
-    extends testGetNodeMetricsReturnsExpectedCeForChildTypeReference_factory
+    extends testGetNodeMetricsReturnsExpectedCeForChildTypeReference
 {
 
 }

@@ -488,7 +488,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testGetNodeMetricsReturnsExpectedCboForParameterTypes()
     {
-        $this->assertEquals( 3, $this->_calculateTypeMetric( 'cbo' ) );
+        $this->assertEquals( 3, $this->_calculateTypeMetric( 'cbo', 'i' ) );
     }
 
     /**
@@ -578,7 +578,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testGetNodeMetricsReturnsExpectedCeForParameterTypes()
     {
-        $this->assertEquals( 3, $this->_calculateTypeMetric( 'ce' ) );
+        $this->assertEquals( 3, $this->_calculateTypeMetric( 'ce', 'i' ) );
     }
 
     /**

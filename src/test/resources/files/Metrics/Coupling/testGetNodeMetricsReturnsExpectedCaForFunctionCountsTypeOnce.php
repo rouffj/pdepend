@@ -1,29 +1,29 @@
 <?php
-class testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce extends Exception
+class testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce extends Exception
 {
 
 }
 
 /**
- * @throws testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce
- * @param testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce $o
- * @return testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce
+ * @throws testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce
+ * @param testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce $o
+ * @return testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce
  */
-function foo(testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce $o)
+function foo(testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce $o)
 {
-    if ($o instanceof testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce) {
-        throw new testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce();
+    if ($o instanceof testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce) {
+        throw new testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce();
     }
-    return new testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce();
+    return new testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce();
 }
 
 /**
  * @return void
- * @throws testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce
+ * @throws testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce
  */
-function bar(testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce $o)
+function bar(testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce $o)
 {
-    if ($o instanceof testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce) {
-        throw new testGetNodeMetricsReturnsExpectedCaForCountsSameTypeOnlyOnce();
+    if ($o instanceof testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce) {
+        throw new testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce();
     }
 }
