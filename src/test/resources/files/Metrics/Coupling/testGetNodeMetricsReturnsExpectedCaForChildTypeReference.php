@@ -1,5 +1,5 @@
 <?php
-class testGetNodeMetricsReturnsExpectedCaForChildTypeReference_factory
+class testGetNodeMetricsReturnsExpectedCaForChildTypeReference
 {
     public static function create($type)
     {
@@ -20,9 +20,9 @@ class testGetNodeMetricsReturnsExpectedCaForChildTypeReference_factory
 }
 
 class testGetNodeMetricsReturnsExpectedCaForChildTypeReference_foo
-    extends testGetNodeMetricsReturnsExpectedCaForChildTypeReference_factory
+    extends testGetNodeMetricsReturnsExpectedCaForChildTypeReference
 {
-    public function setFactory(testGetNodeMetricsReturnsExpectedCaForChildTypeReference_factory $factory)
+    public function setFactory(testGetNodeMetricsReturnsExpectedCaForChildTypeReference $factory)
     {
 
     }
@@ -30,7 +30,7 @@ class testGetNodeMetricsReturnsExpectedCaForChildTypeReference_foo
 
 class testGetNodeMetricsReturnsExpectedCaForChildTypeReference_bar
 {
-    public function setFactory(testGetNodeMetricsReturnsExpectedCaForChildTypeReference_factory $factory)
+    public function setFactory(testGetNodeMetricsReturnsExpectedCaForChildTypeReference $factory)
     {
 
     }
@@ -38,7 +38,7 @@ class testGetNodeMetricsReturnsExpectedCaForChildTypeReference_bar
 
 class testGetNodeMetricsReturnsExpectedCaForChildTypeReference_baz
 {
-    public function setFactory(testGetNodeMetricsReturnsExpectedCaForChildTypeReference_factory $factory)
+    public function setFactory(testGetNodeMetricsReturnsExpectedCaForChildTypeReference $factory)
     {
 
     }
