@@ -518,7 +518,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testGetNodeMetricsReturnsExpectedCboForUseInSameNamespace()
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'cbo' ) );
+        $this->assertEquals(
+            1,
+            $this->getMetricForClass( 'cbo', 'Com\Example\ServiceManager' )
+        );
     }
 
     /**
@@ -528,7 +531,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testGetNodeMetricsReturnsExpectedCboForUseInPartialSameNamespace()
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'cbo' ) );
+        $this->assertEquals(
+            1,
+            $this->getMetricForClass( 'cbo', 'Com\Example\ServiceManager' )
+        );
     }
 
     /**
@@ -608,7 +614,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testGetNodeMetricsReturnsExpectedCeForUseInSameNamespace()
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ce' ) );
+        $this->assertEquals(
+            1,
+            $this->getMetricForClass( 'ce', 'Com\Example\ServiceManager' )
+        );
     }
 
     /**
@@ -618,7 +627,10 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testGetNodeMetricsReturnsExpectedCeForUseInPartialSameNamespace()
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ce' ) );
+        $this->assertEquals(
+            1,
+            $this->getMetricForClass( 'ce', 'Com\Example\ServiceManager' )
+        );
     }
 
     /**
@@ -632,11 +644,21 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     private function _calculateTypeMetric( $metric, $type = 'c' )
     {
+        list( , $name ) = explode( '::', self::getCallingTestMethod() );
+
+        return $this->getMetricForClassAndType( $metric, $name, $type );
+    }
+
+    private function getMetricForClass( $metric, $name )
+    {
+        return $this->getMetricForClassAndType( $metric, $name, 'c' );
+    }
+
+    private function getMetricForClassAndType( $metric, $name, $type )
+    {
         $processor = new PHP_Depend_Metrics_Processor();
         $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
         $processor->process( self::parseTestCaseSource( self::getCallingTestMethod() ) );
-
-        list( , $name ) = explode( '::', self::getCallingTestMethod() );
 
         $metrics = $analyzer->getNodeMetrics( "{$name}#{$type}" );
         return $metrics[$metric];
