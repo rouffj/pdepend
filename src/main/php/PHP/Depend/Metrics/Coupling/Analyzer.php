@@ -248,7 +248,10 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         {
             $this->_calculateCoupling( $type );
         }
-
+        foreach ( $function->params as $param )
+        {
+            $this->_calculateCoupling( $param->typeRef );
+        }
         // TODO 2.0 enable call count
         //$this->_countCalls( $function );
 
@@ -311,6 +314,10 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         foreach ( $method->thrownExceptions as $type )
         {
             $this->_calculateCoupling( $type );
+        }
+        foreach ( $method->params as $param )
+        {
+            $this->_calculateCoupling( $param->typeRef );
         }
 
         // TODO 2.0 enable call count
