@@ -242,15 +242,15 @@ class PHP_Depend_Metrics_Coupling_Analyzer
 
         $this->fireStartFunction( $function );
 
-        $this->_calculateCoupling( $function->getReturnType() );
+        $this->calculateCoupling( $function->getReturnType() );
 
         foreach ( $function->thrownExceptions as $type )
         {
-            $this->_calculateCoupling( $type );
+            $this->calculateCoupling( $type );
         }
         foreach ( $function->params as $param )
         {
-            $this->_calculateCoupling( $param->typeRef );
+            $this->calculateCoupling( $param->typeRef );
         }
         // TODO 2.0 enable call count
         //$this->_countCalls( $function );
@@ -309,15 +309,15 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     {
         $this->fireStartMethod( $method );
 
-        $this->_calculateCoupling( $method->getReturnType() );
+        $this->calculateCoupling( $method->getReturnType() );
 
         foreach ( $method->thrownExceptions as $type )
         {
-            $this->_calculateCoupling( $type );
+            $this->calculateCoupling( $type );
         }
         foreach ( $method->params as $param )
         {
-            $this->_calculateCoupling( $param->typeRef );
+            $this->calculateCoupling( $param->typeRef );
         }
 
         // TODO 2.0 enable call count
@@ -336,24 +336,30 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     {
         $this->fireStartProperty( $property );
 
-        $this->_calculateCoupling( $property->getType() );
+        $this->calculateCoupling( $property->getType() );
 
         $this->fireEndProperty( $property );
     }
 
     public function visitStmtCatchBefore( PHPParser_Node_Stmt_Catch $catch )
     {
-        $this->_calculateCoupling( $catch->typeRef );
+        $this->calculateCoupling( $catch->typeRef );
     }
 
     public function visitExprNewBefore( PHPParser_Node_Expr_New $new )
     {
-        $this->_calculateCoupling( $new->typeRef );
+        $this->calculateCoupling( $new->typeRef );
     }
 
+    /**
+     * Visits a static method call node.
+     *
+     * @param PHPParser_Node_Expr_StaticCall $call
+     * @return void
+     */
     public function visitExprStaticCallBefore( PHPParser_Node_Expr_StaticCall $call )
     {
-        $this->_calculateCoupling( $call->typeRef );
+        $this->calculateCoupling( $call->typeRef );
     }
 
     /**
@@ -363,12 +369,20 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * @return void
      * @since 0.10.2
      */
-    private function _calculateCoupling( PHP_Depend_AST_Type $coupledType = null )
+    private function calculateCoupling( PHP_Depend_AST_Type $coupledType = null )
     {
         if ( null === $coupledType )
         {
             return;
         }
+
+        if ( $this->currentNode instanceof PHP_Depend_AST_Type && (
+            $coupledType->isSubtypeOf( $this->currentNode ) ||
+            $this->currentNode->isSubtypeOf( $coupledType ) ) )
+        {
+            return;
+        }
+
 
         $this->_initDependencyMap( $coupledType );
         if ( !isset( $this->_dependencyMap[$coupledType->getId()][self::M_CA][$this->currentNode->getId()] ) )
@@ -377,9 +391,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
             ++$this->_fanout;
         }
 
-        if ( !( $this->currentNode instanceof PHP_Depend_AST_Type ) ||
-            $coupledType->isSubtypeOf( $this->currentNode ) ||
-            $this->currentNode->isSubtypeOf( $coupledType ) )
+        if ( !( $this->currentNode instanceof PHP_Depend_AST_Type ) )
         {
             return;
         }
