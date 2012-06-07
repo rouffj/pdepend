@@ -219,11 +219,22 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->_dependencyMap = array();
     }
 
+    /**
+     * Visits the given compilation unit ast node.
+     *
+     * @param PHP_Depend_AST_CompilationUnit $unit
+     * @return void
+     */
     public function visitCompilationUnitBefore( PHP_Depend_AST_CompilationUnit $unit )
     {
         $this->nodeStack[] = $this->currentNode = $unit;
     }
 
+    /**
+     * Visits the given compilation unit.
+     *
+     * @return void
+     */
     public function visitCompilationUnitAfter()
     {
         $this->nodeStack   = array();
@@ -258,6 +269,11 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->fireEndFunction( $function );
     }
 
+    /**
+     * Visits the given function ast node.
+     *
+     * @return void
+     */
     public function visitFunctionAfter()
     {
         array_pop( $this->nodeStack );
@@ -278,6 +294,11 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->_initDependencyMap( $class );
     }
 
+    /**
+     * Visits the given class ast node.
+     *
+     * @return void
+     */
     public function visitClassAfter()
     {
         array_pop( $this->nodeStack );
@@ -285,6 +306,12 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->currentNode = end( $this->nodeStack );
     }
 
+    /**
+     * Visits a interface ast node.
+     *
+     * @param PHP_Depend_AST_Interface $interface
+     * @return mixed
+     */
     public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface )
     {
         $this->nodeStack[] = $this->currentNode = $interface;
@@ -292,6 +319,11 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->_initDependencyMap( $interface );
     }
 
+    /**
+     * Visits a interface ast node.
+     *
+     * @return void
+     */
     public function visitInterfaceAfter()
     {
         array_pop( $this->nodeStack );
@@ -341,11 +373,23 @@ class PHP_Depend_Metrics_Coupling_Analyzer
         $this->fireEndProperty( $property );
     }
 
+    /**
+     * Visits a catch statement that will contain a class reference.
+     *
+     * @param PHPParser_Node_Stmt_Catch $catch
+     * @return void
+     */
     public function visitStmtCatchBefore( PHPParser_Node_Stmt_Catch $catch )
     {
         $this->calculateCoupling( $catch->typeRef );
     }
 
+    /**
+     * Visits an instance allocation node.
+     *
+     * @param PHPParser_Node_Expr_New $new
+     * @return void
+     */
     public function visitExprNewBefore( PHPParser_Node_Expr_New $new )
     {
         $this->calculateCoupling( $new->typeRef );
