@@ -148,7 +148,6 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * </code>
      *
      * @param PHP_Depend_AST_Node|string $node The context node instance.
-     *
      * @return array
      */
     public function getNodeMetrics( $node )
@@ -172,7 +171,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * )
      * </code>
      *
-     * @return array(string=>mixed)
+     * @return number[]
      */
     public function getProjectMetrics()
     {
@@ -217,7 +216,6 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * Visits a class node.
      *
      * @param PHP_Depend_AST_Class $class The current class node.
-     *
      * @return void
      */
     public function visitClassBefore( PHP_Depend_AST_Class $class )
