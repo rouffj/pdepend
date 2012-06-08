@@ -131,6 +131,13 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     private $fanout = 0;
 
     /**
+     * Strings identifying the calls done within a class.
+     *
+     * @var array
+     */
+    private $invokes = array();
+
+    /**
      * Temporary map that is used to hold the uuid combinations of dependee and
      * depender.
      *
@@ -426,32 +433,60 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     {
         $this->calculateCoupling( $call->typeRef );
 
-        $this->visitInvoke( $call );
+        $this->updateInvokes( $call );
     }
 
+    /**
+     * Visits the given class property fetch ast node.
+     *
+     * @param PHPParser_Node_Expr_StaticPropertyFetch $fetch
+     * @return void
+     */
     public function visitExprStaticPropertyFetchBefore( PHPParser_Node_Expr_StaticPropertyFetch $fetch )
     {
         $this->calculateCoupling( $fetch->typeRef );
     }
 
+    /**
+     * Visits the given class constant fetch ast node.
+     *
+     * @param PHPParser_Node_Expr_ClassConstFetch $fetch
+     * @return void
+     */
     public function visitExprClassConstFetchBefore( PHPParser_Node_Expr_ClassConstFetch $fetch )
     {
         $this->calculateCoupling( $fetch->typeRef );
     }
 
-    private $invokes = array();
-
+    /**
+     * Visits a function call ast node.
+     *
+     * @param PHPParser_Node_Expr_FuncCall $call
+     * @return void
+     */
     public function visitExprFuncCallBefore( PHPParser_Node_Expr_FuncCall $call )
     {
-        $this->visitInvoke( $call );
+        $this->updateInvokes( $call );
     }
 
+    /**
+     * Visits an object method call.
+     *
+     * @param PHPParser_Node_Expr_MethodCall $call
+     * @return void
+     */
     public function visitExprMethodCallBefore( PHPParser_Node_Expr_MethodCall $call )
     {
-        $this->visitInvoke( $call );
+        $this->updateInvokes( $call );
     }
 
-    private function visitInvoke( PHPParser_Node_Expr $expr )
+    /**
+     * Updates the number of invokes.
+     *
+     * @param PHPParser_Node_Expr $expr
+     * @return void
+     */
+    private function updateInvokes( PHPParser_Node_Expr $expr )
     {
         $clone = clone $expr;
         $clone->args = array();
@@ -517,43 +552,5 @@ class PHP_Depend_Metrics_Coupling_Analyzer
             self::M_CE => array(),
             self::M_CA => array()
         );
-    }
-
-    /**
-     * Counts all calls within the given <b>$callable</b>
-     *
-     * @param PHP_Depend_Code_AbstractCallable $callable Context callable.
-     *
-     * @return void
-     */
-    private function _countCalls( PHP_Depend_Code_AbstractCallable $callable )
-    {
-        $invocations = $callable->findChildrenOfType(
-            PHP_Depend_Code_ASTInvocation::CLAZZ
-        );
-
-        $invoked = array();
-
-        foreach ( $invocations as $invocation )
-        {
-            $parents = $invocation->getParentsOfType(
-                PHP_Depend_Code_ASTMemberPrimaryPrefix::CLAZZ
-            );
-
-            $image = '';
-            foreach ( $parents as $parent )
-            {
-                $child = $parent->getChild( 0 );
-                if ( $child !== $invocation )
-                {
-                    $image .= $child->getImage() . '.';
-                }
-            }
-            $image .= $invocation->getImage() . '()';
-
-            $invoked[$image] = $image;
-        }
-
-        $this->calls += count( $invoked );
     }
 }

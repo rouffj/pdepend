@@ -177,7 +177,7 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
      * <b>$node</b>.
      *
      * @param PHPParser_Node $node
-     * @param $tag
+     * @param string $tag
      * @return PHPParser_Node_Name[]
      * @todo 2.0 Handle special doc comments like TypeA|TypeB|..., Type[], array(Type)
      */
