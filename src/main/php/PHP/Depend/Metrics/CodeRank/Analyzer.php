@@ -182,17 +182,27 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
 
     /**
      * This method will return an <b>array</b> with all generated metric values
-     * for the given <b>$node</b>. If there are no metrics for the requested
-     * node, this method will return an empty <b>array</b>.
+     * for the given node or node identifier. If there are no metrics for the
+     * requested node, this method will return an empty <b>array</b>.
      *
-     * @param PHP_Depend_Code_NodeI $node The context node instance.
+     * <code>
+     * array(
+     *     'noc'  =>  23,
+     *     'nom'  =>  17,
+     *     'nof'  =>  42
+     * )
+     * </code>
      *
-     * @return array(string=>mixed)
+     * @param PHP_Depend_AST_Node|string $node The context node instance.
+     * @return array
      */
-    public function getNodeMetrics($node)
+    public function getNodeMetrics( $node )
     {
-        if (isset($this->_nodeMetrics[$node->getUUID()])) {
-            return $this->_nodeMetrics[$node->getUUID()];
+        $nodeId = (string) is_object( $node ) ? $node->getId() : $node;
+
+        if ( isset( $this->metrics[$nodeId] ) )
+        {
+            return $this->metrics[$nodeId];
         }
         return array();
     }
