@@ -700,7 +700,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     public function testAnalyzerCalculatesCorrectMethodCoupling()
     {
         $this->assertEquals(
-            array( 'calls' => 10, 'fanout' => 9 ),
+            array( 'calls' => 8, 'fanout' => 9 ),
             $this->_calculateProjectMetrics()
         );
     }
@@ -728,7 +728,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     public function testAnalyzerCalculatesCorrectClassCoupling()
     {
         $this->assertEquals(
-            array( 'calls' => 10, 'fanout' => 12 ),
+            array( 'calls' => 8, 'fanout' => 12 ),
             $this->_calculateProjectMetrics()
         );
     }
@@ -742,7 +742,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     public function testAnalyzerCalculatesCorrectCoupling()
     {
         $this->assertEquals(
-            array( 'calls' => 30, 'fanout' => 31 ),
+            array( 'calls' => 26, 'fanout' => 31 ),
             $this->_calculateProjectMetrics()
         );
     }
@@ -926,8 +926,6 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     private function _calculateProjectMetrics( $testCase = null )
     {
-        $this->markTestSkipped( 'TODO 2.0' );
-
         $testCase = ( $testCase ? $testCase : self::getCallingTestMethod() );
 
         $processor = new PHP_Depend_Metrics_Processor();

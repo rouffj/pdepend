@@ -55,7 +55,7 @@ class MyCouplingClass
     /**
      * Simple test comment.
      *
-     * @var array(integer => MyObjectItem) $items
+     * @var MyObjectItem[] $items
      */
     protected $items = array();
 

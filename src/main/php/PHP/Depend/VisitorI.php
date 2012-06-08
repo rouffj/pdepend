@@ -56,7 +56,7 @@
  * @version   Release: @package_version@
  * @link      http://pdepend.org/
  *
- * @method mixed visitInterfaceBefore() visitInterfaceBefore( PHP_Depend_AST_Interface $interface, mixed $data )
+ * @method mixed visitInterfaceBefore( PHP_Depend_AST_Interface $interface, mixed $data = null )
  */
 interface PHP_Depend_VisitorI
 {

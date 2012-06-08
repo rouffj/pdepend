@@ -674,7 +674,7 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
     private static function _initVersionCompatibility()
     {
         $reflection = new ReflectionClass('Iterator');
-        $extension  = strtolower($reflection->getExtensionName());
+        $extension  = strtolower( $reflection->getExtensionName() );
         $extension  = ($extension === '' ? 'standard' : $extension);
 
         if (defined('CORE_PACKAGE') === false ) {

@@ -196,6 +196,8 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
         $names = array();
         foreach ( $matches[1] as $match )
         {
+            $match = rtrim( $match, '[]' );
+
             if ( false === PHP_Depend_Util_Type::isScalarType( $match ) )
             {
                 $names[] = $this->resolveClassName( new PHPParser_Node_Name( $match ) );
