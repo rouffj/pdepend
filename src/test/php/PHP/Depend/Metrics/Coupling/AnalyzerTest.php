@@ -567,6 +567,43 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     }
 
     /**
+     * testCaForInstanceOfReference
+     *
+     * @return array
+     */
+    public function testCaForInstanceOfReference()
+    {
+        $metrics = $this->getMetricsForClass( __FUNCTION__ );
+        $this->assertEquals( 2, $metrics['ca'] );
+
+        return $metrics;
+    }
+
+    /**
+     * testCboForInstanceOfReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaForInstanceOfReference
+     */
+    public function testCboForInstanceOfReference( array $metrics )
+    {
+        $this->assertEquals( 1, $metrics['cbo'] );
+    }
+
+    /**
+     * testCeForInstanceOfReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaForInstanceOfReference
+     */
+    public function testCeForInstanceOfReference( array $metrics )
+    {
+        $this->assertEquals( 1, $metrics['ce'] );
+    }
+
+    /**
      * testCaFromFunctionWithObjectInstantiation
      *
      * @return void

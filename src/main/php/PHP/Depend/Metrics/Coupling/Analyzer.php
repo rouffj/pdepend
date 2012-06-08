@@ -424,6 +424,17 @@ class PHP_Depend_Metrics_Coupling_Analyzer
     }
 
     /**
+     * Visits an instanceof ast node.
+     *
+     * @param PHPParser_Node_Expr_Instanceof $instanceof
+     * @return void
+     */
+    public function visitExprInstanceofBefore( PHPParser_Node_Expr_Instanceof $instanceof )
+    {
+        $this->calculateCoupling( $instanceof->typeRef );
+    }
+
+    /**
      * Visits a static method call node.
      *
      * @param PHPParser_Node_Expr_StaticCall $call
