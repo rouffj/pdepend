@@ -305,7 +305,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
 
         $this->currentNode = end( $this->nodeStack );
 
-        $this->calls  += count( array_unique( $this->invokes ) );
+        $this->calls += count( array_unique( $this->invokes ) );
         $this->invokes = array();
     }
 
@@ -333,7 +333,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
 
         $this->currentNode = end( $this->nodeStack );
 
-        $this->calls  += count( array_unique( $this->invokes ) );
+        $this->calls += count( array_unique( $this->invokes ) );
         $this->invokes = array();
     }
 
@@ -499,7 +499,7 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      */
     private function updateInvokes( PHPParser_Node_Expr $expr )
     {
-        $clone = clone $expr;
+        $clone       = clone $expr;
         $clone->args = array();
 
         $this->invokes[] = $this->serializer->prettyPrintExpr( $clone );
@@ -521,7 +521,8 @@ class PHP_Depend_Metrics_Coupling_Analyzer
 
         if ( $this->currentNode instanceof PHP_Depend_AST_Type && (
             $afferentType->isSubtypeOf( $this->currentNode ) ||
-            $this->currentNode->isSubtypeOf( $afferentType ) ) )
+                $this->currentNode->isSubtypeOf( $afferentType ) )
+        )
         {
             return;
         }

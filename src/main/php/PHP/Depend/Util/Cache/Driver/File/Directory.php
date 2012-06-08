@@ -79,11 +79,12 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      *
      * @param string $cacheDir The cache root directory.
      */
-    public function __construct($cacheDir)
+    public function __construct( $cacheDir )
     {
-        $this->cacheDir = $this->ensureExists($cacheDir);
+        $this->cacheDir = $this->ensureExists( $cacheDir );
 
-        if (false === $this->isValidVersion()) {
+        if ( false === $this->isValidVersion() )
+        {
             $this->flush();
         }
     }
@@ -96,9 +97,9 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      *
      * @return string
      */
-    public function createCacheDirectory($key)
+    public function createCacheDirectory( $key )
     {
-        return $this->createOrReturnCacheDirectory($key);
+        return $this->createOrReturnCacheDirectory( $key );
     }
 
     /**
@@ -110,11 +111,12 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      *
      * @return string
      */
-    protected function createOrReturnCacheDirectory($key)
+    protected function createOrReturnCacheDirectory( $key )
     {
-        $path = $this->getCacheDir() . '/' . substr($key, 0, 2);
-        if (false === file_exists($path)) {
-            mkdir($path, 0775, true);
+        $path = $this->getCacheDir() . '/' . substr( $key, 0, 2 );
+        if ( false === file_exists( $path ) )
+        {
+            mkdir( $path, 0775, true );
         }
         return $path;
     }
@@ -126,10 +128,11 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      *
      * @return string
      */
-    protected function ensureExists($cacheDir)
+    protected function ensureExists( $cacheDir )
     {
-        if (false === file_exists($cacheDir)) {
-            mkdir($cacheDir, 0775, true);
+        if ( false === file_exists( $cacheDir ) )
+        {
+            mkdir( $cacheDir, 0775, true );
         }
         return $cacheDir;
     }
@@ -142,7 +145,7 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      */
     protected function isValidVersion()
     {
-        return (self::VERSION === $this->readVersion());
+        return ( self::VERSION === $this->readVersion() );
     }
 
     /**
@@ -152,8 +155,9 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      */
     protected function readVersion()
     {
-        if (file_exists($this->getVersionFile())) {
-            return trim(file_get_contents($this->getVersionFile()));
+        if ( file_exists( $this->getVersionFile() ) )
+        {
+            return trim( file_get_contents( $this->getVersionFile() ) );
         }
         return null;
     }
@@ -166,7 +170,7 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      */
     protected function writeVersion()
     {
-        file_put_contents($this->getVersionFile(), self::VERSION);
+        file_put_contents( $this->getVersionFile(), self::VERSION );
     }
 
     /**
@@ -197,7 +201,7 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      */
     protected function flush()
     {
-        $this->flushDirectory($this->getCacheDir());
+        $this->flushDirectory( $this->getCacheDir() );
         $this->writeVersion();
     }
 
@@ -208,10 +212,11 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      *
      * @return void
      */
-    protected function flushDirectory($cacheDir)
+    protected function flushDirectory( $cacheDir )
     {
-        foreach (new DirectoryIterator($cacheDir) as $child) {
-            $this->flushEntry($child);
+        foreach ( new DirectoryIterator( $cacheDir ) as $child )
+        {
+            $this->flushEntry( $child );
         }
     }
 
@@ -224,16 +229,21 @@ class PHP_Depend_Util_Cache_Driver_File_Directory
      *
      * @return void
      */
-    protected function flushEntry(SplFileInfo $file)
+    protected function flushEntry( SplFileInfo $file )
     {
         $path = $file->getRealPath();
-        if ($file->isDot()) {
+        if ( $file->isDot() )
+        {
             return;
-        } else if ($file->isFile()) {
-            unlink($path);
-        } else {
-            $this->flushDirectory($path);
-            rmdir($path);
+        }
+        else if ( $file->isFile() )
+        {
+            unlink( $path );
+        }
+        else
+        {
+            $this->flushDirectory( $path );
+            rmdir( $path );
         }
     }
 }

@@ -59,9 +59,9 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Log_Jdepend_Chart
-       extends PHP_Depend_Visitor_AbstractVisitor
+    extends PHP_Depend_Visitor_AbstractVisitor
     implements PHP_Depend_Log_CodeAware,
-               PHP_Depend_Log_FileAware
+    PHP_Depend_Log_FileAware
 {
     /**
      * The type of this class.
@@ -96,7 +96,7 @@ class PHP_Depend_Log_Jdepend_Chart
      *
      * @return void
      */
-    public function setLogFile($logFile)
+    public function setLogFile( $logFile )
     {
         $this->_logFile = $logFile;
     }
@@ -109,7 +109,7 @@ class PHP_Depend_Log_Jdepend_Chart
      */
     public function getAcceptedAnalyzers()
     {
-        return array(PHP_Depend_Metrics_Dependency_Analyzer::CLAZZ);
+        return array( PHP_Depend_Metrics_Dependency_Analyzer::CLAZZ );
     }
 
     /**
@@ -119,7 +119,7 @@ class PHP_Depend_Log_Jdepend_Chart
      *
      * @return void
      */
-    public function setCode(PHP_Depend_Code_NodeIterator $code)
+    public function setCode( PHP_Depend_Code_NodeIterator $code )
     {
         $this->_code = $code;
     }
@@ -132,9 +132,10 @@ class PHP_Depend_Log_Jdepend_Chart
      *
      * @return boolean
      */
-    public function log(PHP_Depend_Metrics_Analyzer $analyzer)
+    public function log( PHP_Depend_Metrics_Analyzer $analyzer )
     {
-        if ($analyzer instanceof PHP_Depend_Metrics_Dependency_Analyzer) {
+        if ( $analyzer instanceof PHP_Depend_Metrics_Dependency_Analyzer )
+        {
             $this->_analyzer = $analyzer;
 
             return true;
@@ -151,95 +152,107 @@ class PHP_Depend_Log_Jdepend_Chart
     public function close()
     {
         // Check for configured log file
-        if ($this->_logFile === null) {
-            throw new PHP_Depend_Log_NoLogOutputException($this);
+        if ( $this->_logFile === null )
+        {
+            throw new PHP_Depend_Log_NoLogOutputException( $this );
         }
 
         $bias = 0.1;
 
-        $svg = new DOMDocument('1.0', 'UTF-8');
-        $svg->load(dirname(__FILE__) . '/chart.svg');
+        $svg = new DOMDocument( '1.0', 'UTF-8' );
+        $svg->load( dirname( __FILE__ ) . '/chart.svg' );
 
-        $bad   = $svg->getElementById('jdepend.bad');
-        $good  = $svg->getElementById('jdepend.good');
-        $layer = $svg->getElementById('jdepend.layer');
+        $bad   = $svg->getElementById( 'jdepend.bad' );
+        $good  = $svg->getElementById( 'jdepend.good' );
+        $layer = $svg->getElementById( 'jdepend.layer' );
 
         $max = 0;
         $min = 0;
 
         $items = array();
-        foreach ($this->_code as $package) {
+        foreach ( $this->_code as $package )
+        {
 
-            if (!$package->isUserDefined()) {
+            if ( !$package->isUserDefined() )
+            {
                 continue;
             }
 
-            $metrics = $this->_analyzer->getStats($package);
+            $metrics = $this->_analyzer->getStats( $package );
 
-            if (count($metrics) === 0) {
+            if ( count( $metrics ) === 0 )
+            {
                 continue;
             }
 
             $size = $metrics['cc'] + $metrics['ac'];
-            if ($size > $max) {
+            if ( $size > $max )
+            {
                 $max = $size;
-            } else if ($min === 0 || $size < $min) {
+            }
+            else if ( $min === 0 || $size < $min )
+            {
                 $min = $size;
             }
 
             $items[] = array(
-                'size'         =>  $size,
-                'abstraction'  =>  $metrics['a'],
-                'instability'  =>  $metrics['i'],
-                'distance'     =>  $metrics['d'],
-                'name'         =>  $package->getName()
+                'size'         => $size,
+                'abstraction'  => $metrics['a'],
+                'instability'  => $metrics['i'],
+                'distance'     => $metrics['d'],
+                'name'         => $package->getName()
             );
         }
 
-        $diff = (($max - $min) / 10);
+        $diff = ( ( $max - $min ) / 10 );
 
         // Sort items by size
         usort(
             $items,
-            create_function('$a, $b', 'return ($a["size"] - $b["size"]);')
+            create_function( '$a, $b', 'return ($a["size"] - $b["size"]);' )
         );
 
-        foreach ($items as $item) {
-            if ($item['distance'] < $bias) {
-                $ellipse = $good->cloneNode(true);
-            } else {
-                $ellipse = $bad->cloneNode(true);
+        foreach ( $items as $item )
+        {
+            if ( $item['distance'] < $bias )
+            {
+                $ellipse = $good->cloneNode( true );
+            }
+            else
+            {
+                $ellipse = $bad->cloneNode( true );
             }
             $r = 15;
-            if ($diff !== 0) {
-                $r = 5 + (($item['size'] - $min) / $diff);
+            if ( $diff !== 0 )
+            {
+                $r = 5 + ( ( $item['size'] - $min ) / $diff );
             }
 
             $a = $r / 15;
-            $e = (50 - $r) + ($item['abstraction'] * 320);
-            $f = (20 - $r + 190) - ($item['instability'] * 190);
+            $e = ( 50 - $r ) + ( $item['abstraction'] * 320 );
+            $f = ( 20 - $r + 190 ) - ( $item['instability'] * 190 );
 
             $transform = "matrix({$a}, 0, 0, {$a}, {$e}, {$f})";
 
-            $ellipse->removeAttribute('xml:id');
-            $ellipse->setAttribute('id', uniqid('pdepend_'));
-            $ellipse->setAttribute('title', $item['name']);
-            $ellipse->setAttribute('transform', $transform);
+            $ellipse->removeAttribute( 'xml:id' );
+            $ellipse->setAttribute( 'id', uniqid( 'pdepend_' ) );
+            $ellipse->setAttribute( 'title', $item['name'] );
+            $ellipse->setAttribute( 'transform', $transform );
 
-            $layer->appendChild($ellipse);
+            $layer->appendChild( $ellipse );
         }
 
-        $bad->parentNode->removeChild($bad);
-        $good->parentNode->removeChild($good);
+        $bad->parentNode->removeChild( $bad );
+        $good->parentNode->removeChild( $good );
 
-        $temp  = PHP_Depend_Util_FileUtil::getSysTempDir();
-        $temp .= '/' . uniqid('pdepend_') . '.svg';
-        $svg->save($temp);
+        $temp = PHP_Depend_Util_FileUtil::getSysTempDir();
+        $temp .= '/' . uniqid( 'pdepend_' ) . '.svg';
+        $svg->save( $temp );
 
-        PHP_Depend_Util_ImageConvert::convert($temp, $this->_logFile);
+        PHP_Depend_Util_ImageConvert::convert( $temp, $this->_logFile );
 
         // Remove temp file
-        unlink($temp);
+        unlink( $temp );
     }
 
 }

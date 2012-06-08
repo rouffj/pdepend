@@ -100,7 +100,7 @@ class PHP_Depend_Metrics_CodeRank_StrategyFactory
      */
     public function createDefaultStrategy()
     {
-        return $this->createStrategy($this->_defaultStrategy);
+        return $this->createStrategy( $this->_defaultStrategy );
     }
 
     /**
@@ -112,16 +112,17 @@ class PHP_Depend_Metrics_CodeRank_StrategyFactory
      * @throws InvalidArgumentException If the given <b>$id</b> is not valid or
      *                                  no matching class declaration exists.
      */
-    public function createStrategy($strategyName)
+    public function createStrategy( $strategyName )
     {
-        if (in_array($strategyName, $this->_validStrategies) === false) {
+        if ( in_array( $strategyName, $this->_validStrategies ) === false )
+        {
             throw new InvalidArgumentException(
-                sprintf('Cannot load file for identifier "%s".', $strategyName)
+                sprintf( 'Cannot load file for identifier "%s".', $strategyName )
             );
         }
 
         // Prepare identifier
-        $name = ucfirst(strtolower($strategyName));
+        $name = ucfirst( strtolower( $strategyName ) );
 
         $fileName  = "PHP/Depend/Metrics/CodeRank/{$name}Strategy.php";
         $className = "PHP_Depend_Metrics_CodeRank_{$name}Strategy";

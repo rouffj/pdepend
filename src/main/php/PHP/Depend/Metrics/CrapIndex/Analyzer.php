@@ -61,14 +61,14 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Metrics_CrapIndex_Analyzer
-       extends PHP_Depend_Metrics_AbstractAnalyzer
+    extends PHP_Depend_Metrics_AbstractAnalyzer
     /* TODO 2.0
    implements PHP_Depend_Metrics_AggregateAnalyzerI,
               PHP_Depend_Metrics_NodeAware*/
 {
-   /**
-    * Type of this analyzer class.
-    */
+    /**
+     * Type of this analyzer class.
+     */
     const CLAZZ = __CLASS__;
 
     /**
@@ -109,7 +109,7 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      */
     public function isEnabled()
     {
-        return isset($this->options[self::REPORT_OPTION]);
+        return isset( $this->options[self::REPORT_OPTION] );
     }
 
     /**
@@ -120,9 +120,10 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return array(string=>float)
      */
-    public function getNodeMetrics($node)
+    public function getNodeMetrics( $node )
     {
-        if (isset($this->_metrics[$node->getUUID()])) {
+        if ( isset( $this->_metrics[$node->getUUID()] ) )
+        {
             return $this->_metrics[$node->getUUID()];
         }
         return array();
@@ -136,7 +137,7 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      */
     public function getRequiredAnalyzers()
     {
-        return array(PHP_Depend_Metrics_CyclomaticComplexity_Analyzer::CLAZZ);
+        return array( PHP_Depend_Metrics_CyclomaticComplexity_Analyzer::CLAZZ );
     }
 
     /**
@@ -147,7 +148,7 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return void
      */
-    public function addAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
+    public function addAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer )
     {
         $this->_ccnAnalyzer = $analyzer;
     }
@@ -159,10 +160,11 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return void
      */
-    public function analyze(PHP_Depend_Code_NodeIterator $packages)
+    public function analyze( PHP_Depend_Code_NodeIterator $packages )
     {
-        if ($this->isEnabled() && $this->_metrics === null) {
-            $this->_analyze($packages);
+        if ( $this->isEnabled() && $this->_metrics === null )
+        {
+            $this->_analyze( $packages );
         }
     }
 
@@ -173,16 +175,17 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return void
      */
-    private function _analyze(PHP_Depend_Code_NodeIterator $packages)
+    private function _analyze( PHP_Depend_Code_NodeIterator $packages )
     {
         $this->_metrics = array();
-        
-        $this->_ccnAnalyzer->analyze($packages);
+
+        $this->_ccnAnalyzer->analyze( $packages );
 
         $this->fireStartAnalyzer();
 
-        foreach ($packages as $package) {
-            $package->accept($this);
+        foreach ( $packages as $package )
+        {
+            $package->accept( $this );
         }
 
         $this->fireEndAnalyzer();
@@ -195,10 +198,11 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return void
      */
-    public function visitMethod(PHP_Depend_AST_Method $method)
+    public function visitMethod( PHP_Depend_AST_Method $method )
     {
-        if ($method->isAbstract() === false) {
-            $this->_visitCallable($method);
+        if ( $method->isAbstract() === false )
+        {
+            $this->_visitCallable( $method );
         }
     }
 
@@ -209,9 +213,9 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return void
      */
-    public function visitFunction(PHP_Depend_AST_Function $function)
+    public function visitFunction( PHP_Depend_AST_Function $function )
     {
-        $this->_visitCallable($function);
+        $this->_visitCallable( $function );
     }
 
     /**
@@ -221,10 +225,10 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return void
      */
-    private function _visitCallable(PHP_Depend_Code_AbstractCallable $callable)
+    private function _visitCallable( PHP_Depend_Code_AbstractCallable $callable )
     {
         $this->_metrics[$callable->getUUID()] = array(
-            self::M_CRAP_INDEX => $this->_calculateCrapIndex($callable)
+            self::M_CRAP_INDEX => $this->_calculateCrapIndex( $callable )
         );
     }
 
@@ -235,19 +239,22 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      *
      * @return float
      */
-    private function _calculateCrapIndex(PHP_Depend_Code_AbstractCallable $callable)
+    private function _calculateCrapIndex( PHP_Depend_Code_AbstractCallable $callable )
     {
         $report = $this->_createOrReturnCoverageReport();
 
-        $complexity = $this->_ccnAnalyzer->getCCN2($callable);
-        $coverage   = $report->getCoverage($callable);
+        $complexity = $this->_ccnAnalyzer->getCCN2( $callable );
+        $coverage   = $report->getCoverage( $callable );
 
-        if ($coverage == 0) {
-            return pow($complexity, 2) + $complexity;
-        } else if ($coverage > 99.5) {
+        if ( $coverage == 0 )
+        {
+            return pow( $complexity, 2 ) + $complexity;
+        }
+        else if ( $coverage > 99.5 )
+        {
             return $complexity;
         }
-        return pow($complexity, 2) * pow(1 - $coverage / 100, 3) + $complexity;
+        return pow( $complexity, 2 ) * pow( 1 - $coverage / 100, 3 ) + $complexity;
     }
 
     /**
@@ -258,7 +265,8 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
      */
     private function _createOrReturnCoverageReport()
     {
-        if ($this->_report === null) {
+        if ( $this->_report === null )
+        {
             $this->_report = $this->_createCoverageReport();
         }
         return $this->_report;
@@ -272,6 +280,6 @@ class PHP_Depend_Metrics_CrapIndex_Analyzer
     private function _createCoverageReport()
     {
         $factory = new PHP_Depend_Util_Coverage_Factory();
-        return $factory->create($this->options['coverage-report']);
+        return $factory->create( $this->options['coverage-report'] );
     }
 }

@@ -67,7 +67,7 @@ class PHP_Depend_Autoload
      */
     public function register()
     {
-        spl_autoload_register(array($this, 'autoload'));
+        spl_autoload_register( array( $this, 'autoload' ) );
     }
 
     /**
@@ -78,10 +78,11 @@ class PHP_Depend_Autoload
      *
      * @return void
      */
-    public function autoload($className)
+    public function autoload( $className )
     {
-        if (strpos($className, 'PHP_Depend') === 0) {
-            include strtr($className, '_', DIRECTORY_SEPARATOR) . '.php';
+        if ( strpos( $className, 'PHP_Depend' ) === 0 )
+        {
+            include strtr( $className, '_', DIRECTORY_SEPARATOR ) . '.php';
         }
     }
 }

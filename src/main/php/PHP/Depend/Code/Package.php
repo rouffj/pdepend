@@ -109,10 +109,10 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      *
      * @param string $name The package name.
      */
-    public function __construct($name)
+    public function __construct( $name )
     {
         $this->name = $name;
-        $this->uuid = spl_object_hash($this);
+        $this->uuid = spl_object_hash( $this );
     }
 
     /**
@@ -145,7 +145,8 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      */
     public function isUserDefined()
     {
-        if ($this->_userDefined === null) {
+        if ( $this->_userDefined === null )
+        {
             $this->_userDefined = $this->_isUserDefined();
         }
         return $this->_userDefined;
@@ -161,12 +162,14 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      */
     private function _isUserDefined()
     {
-        foreach ($this->types as $type) {
-            if ($type->isUserDefined()) {
+        foreach ( $this->types as $type )
+        {
+            if ( $type->isUserDefined() )
+            {
                 return true;
             }
         }
-        return (count($this->functions) > 0);
+        return ( count( $this->functions ) > 0 );
     }
 
     /**
@@ -178,7 +181,7 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      */
     public function getTraits()
     {
-        return $this->_getTypesOfType(PHP_Depend__Code__Trait::CLAZZ);
+        return $this->_getTypesOfType( PHP_Depend__Code__Trait::CLAZZ );
     }
 
     /**
@@ -189,7 +192,7 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      */
     public function getClasses()
     {
-        return $this->_getTypesOfType(PHP_Depend_Code_Class::CLAZZ);
+        return $this->_getTypesOfType( PHP_Depend_Code_Class::CLAZZ );
     }
 
     /**
@@ -200,7 +203,7 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      */
     public function getInterfaces()
     {
-        return $this->_getTypesOfType(PHP_Depend_Code_Interface::CLAZZ);
+        return $this->_getTypesOfType( PHP_Depend_Code_Interface::CLAZZ );
     }
 
     /**
@@ -212,15 +215,17 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      * @return PHP_Depend_Code_NodeIterator
      * @since 1.0.0
      */
-    private function _getTypesOfType($className)
+    private function _getTypesOfType( $className )
     {
         $types = array();
-        foreach ($this->types as $type) {
-            if ($type instanceof $className) {
+        foreach ( $this->types as $type )
+        {
+            if ( $type instanceof $className )
+            {
                 $types[] = $type;
             }
         }
-        return new PHP_Depend_Code_NodeIterator($types);
+        return new PHP_Depend_Code_NodeIterator( $types );
     }
 
     /**
@@ -231,7 +236,7 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      */
     public function getTypes()
     {
-        return new PHP_Depend_Code_NodeIterator($this->types);
+        return new PHP_Depend_Code_NodeIterator( $this->types );
     }
 
     /**
@@ -241,19 +246,21 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      *
      * @return PHP_Depend_Code_AbstractType
      */
-    public function addType(PHP_Depend_Code_AbstractType $type)
+    public function addType( PHP_Depend_Code_AbstractType $type )
     {
         // Skip if this package already contains this type
-        if (in_array($type, $this->types, true)) {
+        if ( in_array( $type, $this->types, true ) )
+        {
             return $type;
         }
 
-        if ($type->getPackage() !== null) {
-            $type->getPackage()->removeType($type);
+        if ( $type->getPackage() !== null )
+        {
+            $type->getPackage()->removeType( $type );
         }
 
         // Set this as class package
-        $type->setPackage($this);
+        $type->setPackage( $this );
         // Append class to internal list
         $this->types[$type->getUUID()] = $type;
 
@@ -267,11 +274,12 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      *
      * @return void
      */
-    public function removeType(PHP_Depend_Code_AbstractType $type)
+    public function removeType( PHP_Depend_Code_AbstractType $type )
     {
-        if (($index = array_search($type, $this->types, true)) !== false) {
+        if ( ( $index = array_search( $type, $this->types, true ) ) !== false )
+        {
             // Remove class from internal list
-            unset($this->types[$index]);
+            unset( $this->types[$index] );
             // Remove this as parent
             $type->unsetPackage();
         }
@@ -284,7 +292,7 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      */
     public function getFunctions()
     {
-        return new PHP_Depend_Code_NodeIterator($this->functions);
+        return new PHP_Depend_Code_NodeIterator( $this->functions );
     }
 
     /**
@@ -294,14 +302,15 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      *
      * @return PHP_Depend_Code_Function
      */
-    public function addFunction(PHP_Depend_Code_Function $function)
+    public function addFunction( PHP_Depend_Code_Function $function )
     {
-        if ($function->getPackage() !== null) {
-            $function->getPackage()->removeFunction($function);
+        if ( $function->getPackage() !== null )
+        {
+            $function->getPackage()->removeFunction( $function );
         }
 
         // Set this as function package
-        $function->setPackage($this);
+        $function->setPackage( $this );
         // Append function to internal list
         $this->functions[$function->getUUID()] = $function;
 
@@ -315,11 +324,12 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      *
      * @return void
      */
-    public function removeFunction(PHP_Depend_Code_Function $function)
+    public function removeFunction( PHP_Depend_Code_Function $function )
     {
-        if (($index = array_search($function, $this->functions, true)) !== false) {
+        if ( ( $index = array_search( $function, $this->functions, true ) ) !== false )
+        {
             // Remove function from internal list
-            unset($this->functions[$index]);
+            unset( $this->functions[$index] );
             // Remove this as parent
             $function->unsetPackage();
         }
@@ -333,8 +343,8 @@ class PHP_Depend_Code_Package implements PHP_Depend_Code_NodeI
      *
      * @return void
      */
-    public function accept(PHP_Depend_VisitorI $visitor)
+    public function accept( PHP_Depend_VisitorI $visitor )
     {
-        $visitor->visitPackage($this);
+        $visitor->visitPackage( $this );
     }
 }

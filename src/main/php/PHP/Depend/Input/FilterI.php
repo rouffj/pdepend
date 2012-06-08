@@ -68,5 +68,5 @@ interface PHP_Depend_Input_FilterI
      *
      * @return boolean
      */
-    function accept($relative, $absolute);
+    function accept( $relative, $absolute );
 }

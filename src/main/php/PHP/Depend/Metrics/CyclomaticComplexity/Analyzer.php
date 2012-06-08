@@ -63,10 +63,10 @@
  * @todo 2.0 Generate trait method ccn
  */
 class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
-       extends PHP_Depend_Metrics_AbstractCachingAnalyzer
+    extends PHP_Depend_Metrics_AbstractCachingAnalyzer
     implements PHP_Depend_Metrics_FilterAware,
-               PHP_Depend_Metrics_NodeAware,
-               PHP_Depend_Metrics_ProjectAware
+    PHP_Depend_Metrics_NodeAware,
+    PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Type of this analyzer class.
@@ -77,7 +77,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      * Metrics provided by the analyzer implementation.
      */
     const M_CYCLOMATIC_COMPLEXITY_1 = 'ccn',
-          M_CYCLOMATIC_COMPLEXITY_2 = 'ccn2';
+        M_CYCLOMATIC_COMPLEXITY_2   = 'ccn2';
 
     /**
      * The project Cyclomatic Complexity Number.
@@ -160,8 +160,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
     public function getProjectMetrics()
     {
         return array(
-            self::M_CYCLOMATIC_COMPLEXITY_1  =>  $this->_ccn,
-            self::M_CYCLOMATIC_COMPLEXITY_2  =>  $this->_ccn2
+            self::M_CYCLOMATIC_COMPLEXITY_1  => $this->_ccn,
+            self::M_CYCLOMATIC_COMPLEXITY_2  => $this->_ccn2
         );
     }
 
@@ -179,8 +179,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
         $this->data[] = $data;
 
         return array(
-            self::M_CYCLOMATIC_COMPLEXITY_1  =>  1,
-            self::M_CYCLOMATIC_COMPLEXITY_2  =>  1
+            self::M_CYCLOMATIC_COMPLEXITY_1  => 1,
+            self::M_CYCLOMATIC_COMPLEXITY_2  => 1
         );
     }
 
@@ -216,8 +216,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
         $this->data[] = $data;
 
         return array(
-            self::M_CYCLOMATIC_COMPLEXITY_1  =>  1,
-            self::M_CYCLOMATIC_COMPLEXITY_2  =>  1
+            self::M_CYCLOMATIC_COMPLEXITY_1  => 1,
+            self::M_CYCLOMATIC_COMPLEXITY_2  => 1
         );
     }
 
@@ -248,9 +248,9 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      * @param string $nodeId Identifier of the analyzed item.
      * @return void
      */
-    private function _updateProjectMetrics($nodeId)
+    private function _updateProjectMetrics( $nodeId )
     {
-        $this->_ccn  += $this->metrics[$nodeId][self::M_CYCLOMATIC_COMPLEXITY_1];
+        $this->_ccn += $this->metrics[$nodeId][self::M_CYCLOMATIC_COMPLEXITY_1];
         $this->_ccn2 += $this->metrics[$nodeId][self::M_CYCLOMATIC_COMPLEXITY_2];
     }
 
@@ -290,7 +290,8 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
     public function visitStmtCaseBefore( PHPParser_Node_Stmt_Case $node, $data )
     {
 
-        if ($node->cond) {
+        if ( $node->cond )
+        {
             ++$data[self::M_CYCLOMATIC_COMPLEXITY_1];
             ++$data[self::M_CYCLOMATIC_COMPLEXITY_2];
         }
@@ -319,7 +320,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      * @param array $data
      * @return array
      */
-    public function visitStmtElseIfBefore( PHPParser_Node_Stmt_ElseIf $node, $data)
+    public function visitStmtElseIfBefore( PHPParser_Node_Stmt_ElseIf $node, $data )
     {
         ++$data[self::M_CYCLOMATIC_COMPLEXITY_1];
         ++$data[self::M_CYCLOMATIC_COMPLEXITY_2];
@@ -379,7 +380,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      * @param array $data
      * @return array
      */
-    public function visitExprLogicalAndBefore( PHPParser_Node_Expr_LogicalAnd $node, $data)
+    public function visitExprLogicalAndBefore( PHPParser_Node_Expr_LogicalAnd $node, $data )
     {
         ++$data[self::M_CYCLOMATIC_COMPLEXITY_2];
         return $data;
@@ -392,7 +393,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      * @param array $data
      * @return array
      */
-    public function visitExprLogicalOrBefore( PHPParser_Node_Expr_LogicalOr $node, $data)
+    public function visitExprLogicalOrBefore( PHPParser_Node_Expr_LogicalOr $node, $data )
     {
         ++$data[self::M_CYCLOMATIC_COMPLEXITY_2];
         return $data;
@@ -420,7 +421,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      * @param array $data
      * @return array
      */
-    public function visitStmtWhileBefore( PHPParser_Node_Stmt_While $node, $data)
+    public function visitStmtWhileBefore( PHPParser_Node_Stmt_While $node, $data )
     {
         ++$data[self::M_CYCLOMATIC_COMPLEXITY_1];
         ++$data[self::M_CYCLOMATIC_COMPLEXITY_2];
@@ -435,7 +436,7 @@ class PHP_Depend_Metrics_CyclomaticComplexity_Analyzer
      * @param array $data
      * @return array
      */
-    public function visitStmtDoBefore( PHPParser_Node_Stmt_Do $node, $data)
+    public function visitStmtDoBefore( PHPParser_Node_Stmt_Do $node, $data )
     {
         ++$data[self::M_CYCLOMATIC_COMPLEXITY_1];
         ++$data[self::M_CYCLOMATIC_COMPLEXITY_2];

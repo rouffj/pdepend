@@ -61,16 +61,16 @@
  * @link       http://www.pdepend.org/
  */
 class PHP_Depend_Metrics_NPathComplexity_Analyzer
-       extends PHP_Depend_Metrics_AbstractCachingAnalyzer
+    extends PHP_Depend_Metrics_AbstractCachingAnalyzer
     /* TODO 2.0
    implements PHP_Depend_Metrics_Analyzer,
               PHP_Depend_Metrics_FilterAware,
               PHP_Depend_Metrics_NodeAware,
               PHP_Depend_Code_ASTVisitor*/
 {
-   /**
-    * Type of this analyzer class.
-    */
+    /**
+     * Type of this analyzer class.
+     */
     const CLAZZ = __CLASS__;
 
     /**
@@ -85,15 +85,17 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      *
      * @return void
      */
-    public function analyze(PHP_Depend_Code_NodeIterator $packages)
+    public function analyze( PHP_Depend_Code_NodeIterator $packages )
     {
-        if ($this->metrics === null) {
+        if ( $this->metrics === null )
+        {
             $this->loadCache();
             $this->fireStartAnalyzer();
 
             $this->metrics = array();
-            foreach ($packages as $package) {
-                $package->accept($this);
+            foreach ( $packages as $package )
+            {
+                $package->accept( $this );
             }
 
             $this->fireEndAnalyzer();
@@ -116,12 +118,13 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      *
      * @return array
      */
-    public function getNodeMetrics($node)
+    public function getNodeMetrics( $node )
     {
         $metric = array();
-        if (isset($this->metrics[$node->getUUID()])) {
+        if ( isset( $this->metrics[$node->getUUID()] ) )
+        {
             $metric = array(
-                self::M_NPATH_COMPLEXITY  =>  $this->metrics[$node->getUUID()]
+                self::M_NPATH_COMPLEXITY  => $this->metrics[$node->getUUID()]
             );
         }
         return $metric;
@@ -134,7 +137,7 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      *
      * @return void
      */
-    public function visitInterface(PHP_Depend_AST_Interface $interface)
+    public function visitInterface( PHP_Depend_AST_Interface $interface )
     {
         // Empty visit method, we don't want interface metrics
     }
@@ -146,15 +149,16 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      *
      * @return void
      */
-    public function visitFunction(PHP_Depend_AST_Function $function)
+    public function visitFunction( PHP_Depend_AST_Function $function )
     {
-        $this->fireStartFunction($function);
+        $this->fireStartFunction( $function );
 
-        if (false === $this->restoreFromCache($function)) {
-            $this->calculateComplexity($function);
+        if ( false === $this->restoreFromCache( $function ) )
+        {
+            $this->calculateComplexity( $function );
         }
 
-        $this->fireEndFunction($function);
+        $this->fireEndFunction( $function );
     }
 
     /**
@@ -164,15 +168,16 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      *
      * @return void
      */
-    public function visitMethod(PHP_Depend_AST_Method $method)
+    public function visitMethod( PHP_Depend_AST_Method $method )
     {
-        $this->fireStartMethod($method);
+        $this->fireStartMethod( $method );
 
-        if (false === $this->restoreFromCache($method)) {
-            $this->calculateComplexity($method);
+        if ( false === $this->restoreFromCache( $method ) )
+        {
+            $this->calculateComplexity( $method );
         }
 
-        $this->fireEndMethod($method);
+        $this->fireEndMethod( $method );
     }
 
     /**
@@ -186,11 +191,13 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      */
     protected function calculateComplexity(
         PHP_Depend_Code_AbstractCallable $callable
-    ) {
+    )
+    {
         $npath = '1';
-        foreach ($callable->getChildren() as $child) {
-            $stmt  = $child->accept($this, $npath);
-            $npath = PHP_Depend_Util_MathUtil::mul($npath, $stmt);
+        foreach ( $callable->getChildren() as $child )
+        {
+            $stmt  = $child->accept( $this, $npath );
+            $npath = PHP_Depend_Util_MathUtil::mul( $npath, $stmt );
         }
 
         $this->metrics[$callable->getUUID()] = $npath;
@@ -206,11 +213,12 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return mixed
      * @since 0.9.12
      */
-    public function __call($method, $args)
+    public function __call( $method, $args )
     {
         $value = $args[1];
-        foreach ($args[0]->getChildren() as $child) {
-            $value = $child->accept($this, $value);
+        foreach ( $args[0]->getChildren() as $child )
+        {
+            $value = $child->accept( $this, $value );
         }
         return $value;
     }
@@ -231,23 +239,28 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitConditionalExpression($node, $data)
+    public function visitConditionalExpression( $node, $data )
     {
         // New PHP 5.3 ifsetor-operator $x ?: $y
-        if (count($node->getChildren()) === 1) {
+        if ( count( $node->getChildren() ) === 1 )
+        {
             $npath = '4';
-        } else {
+        }
+        else
+        {
             $npath = '3';
         }
 
-        foreach ($node->getChildren() as $child) {
-            if (($cn = $this->sumComplexity($child)) === '0') {
+        foreach ( $node->getChildren() as $child )
+        {
+            if ( ( $cn = $this->sumComplexity( $child ) ) === '0' )
+            {
                 $cn = '1';
             }
-            $npath = PHP_Depend_Util_MathUtil::add($npath, $cn);
+            $npath = PHP_Depend_Util_MathUtil::add( $npath, $cn );
         }
 
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -269,15 +282,15 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitDoWhileStatement($node, $data)
+    public function visitDoWhileStatement( $node, $data )
     {
-        $stmt = $node->getChild(0)->accept($this, 1);
-        $expr = $this->sumComplexity($node->getChild(1));
+        $stmt = $node->getChild( 0 )->accept( $this, 1 );
+        $expr = $this->sumComplexity( $node->getChild( 1 ) );
 
-        $npath = PHP_Depend_Util_MathUtil::add($expr, $stmt);
-        $npath = PHP_Depend_Util_MathUtil::add($npath, '1');
+        $npath = PHP_Depend_Util_MathUtil::add( $expr, $stmt );
+        $npath = PHP_Depend_Util_MathUtil::add( $npath, '1' );
 
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -307,21 +320,24 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitElseIfStatement($node, $data)
+    public function visitElseIfStatement( $node, $data )
     {
-        $npath = $this->sumComplexity($node->getChild(0));
-        foreach ($node->getChildren() as $child) {
-            if ($child instanceof PHP_Depend_Code_ASTStatement) {
-                $expr  = $child->accept($this, 1);
-                $npath = PHP_Depend_Util_MathUtil::add($npath, $expr);
+        $npath = $this->sumComplexity( $node->getChild( 0 ) );
+        foreach ( $node->getChildren() as $child )
+        {
+            if ( $child instanceof PHP_Depend_Code_ASTStatement )
+            {
+                $expr  = $child->accept( $this, 1 );
+                $npath = PHP_Depend_Util_MathUtil::add( $npath, $expr );
             }
         }
 
-        if (!$node->hasElse()) {
-            $npath = PHP_Depend_Util_MathUtil::add($npath, '1');
+        if ( !$node->hasElse() )
+        {
+            $npath = PHP_Depend_Util_MathUtil::add( $npath, '1' );
         }
 
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -342,20 +358,24 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitForStatement($node, $data)
+    public function visitForStatement( $node, $data )
     {
         $npath = '1';
-        foreach ($node->getChildren() as $child) {
-            if ($child instanceof PHP_Depend_Code_ASTStatement) {
-                $stmt  = $child->accept($this, 1);
-                $npath = PHP_Depend_Util_MathUtil::add($npath, $stmt);
-            } else if ($child instanceof PHP_Depend_Code_ASTExpression) {
-                $expr  = $this->sumComplexity($child);
-                $npath = PHP_Depend_Util_MathUtil::add($npath, $expr);
+        foreach ( $node->getChildren() as $child )
+        {
+            if ( $child instanceof PHP_Depend_Code_ASTStatement )
+            {
+                $stmt  = $child->accept( $this, 1 );
+                $npath = PHP_Depend_Util_MathUtil::add( $npath, $stmt );
+            }
+            else if ( $child instanceof PHP_Depend_Code_ASTExpression )
+            {
+                $expr  = $this->sumComplexity( $child );
+                $npath = PHP_Depend_Util_MathUtil::add( $npath, $expr );
             }
         }
 
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -376,19 +396,21 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitForeachStatement($node, $data)
+    public function visitForeachStatement( $node, $data )
     {
-        $npath = $this->sumComplexity($node->getChild(0));
-        $npath = PHP_Depend_Util_MathUtil::add($npath, '1');
+        $npath = $this->sumComplexity( $node->getChild( 0 ) );
+        $npath = PHP_Depend_Util_MathUtil::add( $npath, '1' );
 
-        foreach ($node->getChildren() as $child) {
-            if ($child instanceof PHP_Depend_Code_ASTStatement) {
-                $stmt  = $child->accept($this, 1);
-                $npath = PHP_Depend_Util_MathUtil::add($npath, $stmt);
+        foreach ( $node->getChildren() as $child )
+        {
+            if ( $child instanceof PHP_Depend_Code_ASTStatement )
+            {
+                $stmt  = $child->accept( $this, 1 );
+                $npath = PHP_Depend_Util_MathUtil::add( $npath, $stmt );
             }
         }
 
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -418,22 +440,25 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitIfStatement($node, $data)
+    public function visitIfStatement( $node, $data )
     {
-        $npath = $this->sumComplexity($node->getChild(0));
+        $npath = $this->sumComplexity( $node->getChild( 0 ) );
 
-        foreach ($node->getChildren() as $child) {
-            if ($child instanceof PHP_Depend_Code_ASTStatement) {
-                $stmt  = $child->accept($this, 1);
-                $npath = PHP_Depend_Util_MathUtil::add($npath, $stmt);
+        foreach ( $node->getChildren() as $child )
+        {
+            if ( $child instanceof PHP_Depend_Code_ASTStatement )
+            {
+                $stmt  = $child->accept( $this, 1 );
+                $npath = PHP_Depend_Util_MathUtil::add( $npath, $stmt );
             }
         }
 
-        if (!$node->hasElse()) {
-            $npath = PHP_Depend_Util_MathUtil::add($npath, '1');
+        if ( !$node->hasElse() )
+        {
+            $npath = PHP_Depend_Util_MathUtil::add( $npath, '1' );
         }
 
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -452,12 +477,13 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitReturnStatement($node, $data)
+    public function visitReturnStatement( $node, $data )
     {
-        if (($npath = $this->sumComplexity($node)) === '0') {
+        if ( ( $npath = $this->sumComplexity( $node ) ) === '0' )
+        {
             return $data;
         }
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -480,16 +506,18 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitSwitchStatement($node, $data)
+    public function visitSwitchStatement( $node, $data )
     {
-        $npath = $this->sumComplexity($node->getChild(0));
-        foreach ($node->getChildren() as $child) {
-            if ($child instanceof PHP_Depend_Code_ASTSwitchLabel) {
-                $label = $child->accept($this, 1);
-                $npath = PHP_Depend_Util_MathUtil::add($npath, $label);
+        $npath = $this->sumComplexity( $node->getChild( 0 ) );
+        foreach ( $node->getChildren() as $child )
+        {
+            if ( $child instanceof PHP_Depend_Code_ASTSwitchLabel )
+            {
+                $label = $child->accept( $this, 1 );
+                $npath = PHP_Depend_Util_MathUtil::add( $npath, $label );
             }
         }
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -522,16 +550,18 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitTryStatement($node, $data)
+    public function visitTryStatement( $node, $data )
     {
         $npath = '0';
-        foreach ($node->getChildren() as $child) {
-            if ($child instanceof PHP_Depend_Code_ASTStatement) {
-                $stmt  = $child->accept($this, 1);
-                $npath = PHP_Depend_Util_MathUtil::add($npath, $stmt);
+        foreach ( $node->getChildren() as $child )
+        {
+            if ( $child instanceof PHP_Depend_Code_ASTStatement )
+            {
+                $stmt  = $child->accept( $this, 1 );
+                $npath = PHP_Depend_Util_MathUtil::add( $npath, $stmt );
             }
         }
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -552,15 +582,15 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      * @return string
      * @since 0.9.12
      */
-    public function visitWhileStatement($node, $data)
+    public function visitWhileStatement( $node, $data )
     {
-        $expr = $this->sumComplexity($node->getChild(0));
-        $stmt = $node->getChild(1)->accept($this, 1);
+        $expr = $this->sumComplexity( $node->getChild( 0 ) );
+        $stmt = $node->getChild( 1 )->accept( $this, 1 );
 
-        $npath = PHP_Depend_Util_MathUtil::add($expr, $stmt);
-        $npath = PHP_Depend_Util_MathUtil::add($npath, '1');
+        $npath = PHP_Depend_Util_MathUtil::add( $expr, $stmt );
+        $npath = PHP_Depend_Util_MathUtil::add( $npath, '1' );
 
-        return PHP_Depend_Util_MathUtil::mul($npath, $data);
+        return PHP_Depend_Util_MathUtil::mul( $npath, $data );
     }
 
     /**
@@ -574,22 +604,28 @@ class PHP_Depend_Metrics_NPathComplexity_Analyzer
      *       implement this method with more visitor behavior for the boolean
      *       and logical expressions.
      */
-    public function sumComplexity($node)
+    public function sumComplexity( $node )
     {
         $sum = '0';
-        if ($node instanceof PHP_Depend_Code_ASTConditionalExpression) {
-            $sum = PHP_Depend_Util_MathUtil::add($sum, $node->accept($this, 1));
-        } else if ($node instanceof PHP_Depend_Code_ASTBooleanAndExpression
+        if ( $node instanceof PHP_Depend_Code_ASTConditionalExpression )
+        {
+            $sum = PHP_Depend_Util_MathUtil::add( $sum, $node->accept( $this, 1 ) );
+        }
+        else if ( $node instanceof PHP_Depend_Code_ASTBooleanAndExpression
             || $node instanceof PHP_Depend_Code_ASTBooleanOrExpression
             || $node instanceof PHP_Depend_Code_ASTLogicalAndExpression
             || $node instanceof PHP_Depend_Code_ASTLogicalOrExpression
             || $node instanceof PHP_Depend_Code_ASTLogicalXorExpression
-        ) {
-            $sum = PHP_Depend_Util_MathUtil::add($sum, '1');
-        } else {
-            foreach ($node->getChildren() as $child) {
-                $expr = $this->sumComplexity($child);
-                $sum  = PHP_Depend_Util_MathUtil::add($sum, $expr);
+        )
+        {
+            $sum = PHP_Depend_Util_MathUtil::add( $sum, '1' );
+        }
+        else
+        {
+            foreach ( $node->getChildren() as $child )
+            {
+                $expr = $this->sumComplexity( $child );
+                $sum  = PHP_Depend_Util_MathUtil::add( $sum, $expr );
             }
         }
         return $sum;

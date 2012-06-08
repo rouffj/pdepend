@@ -59,22 +59,22 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Metrics_CodeRank_Analyzer
-       extends PHP_Depend_Metrics_AbstractAnalyzer
+    extends PHP_Depend_Metrics_AbstractAnalyzer
     /* TODO 2.0
    implements PHP_Depend_Metrics_Analyzer,
               PHP_Depend_Metrics_NodeAware
    */
 {
-   /**
-    * Type of this analyzer class.
-    */
+    /**
+     * Type of this analyzer class.
+     */
     const CLAZZ = __CLASS__;
 
     /**
      * Metrics provided by the analyzer implementation.
      */
-    const M_CODE_RANK         = 'cr',
-          M_REVERSE_CODE_RANK = 'rcr';
+    const M_CODE_RANK       = 'cr',
+        M_REVERSE_CODE_RANK = 'rcr';
 
     /**
      * The used damping factor.
@@ -134,40 +134,50 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
      *
      * @return void
      */
-    public function analyze(PHP_Depend_Code_NodeIterator $packages)
+    public function analyze( PHP_Depend_Code_NodeIterator $packages )
     {
-        if ($this->_nodeMetrics === null) {
+        if ( $this->_nodeMetrics === null )
+        {
 
             $this->fireStartAnalyzer();
 
             $factory = new PHP_Depend_Metrics_CodeRank_StrategyFactory();
-            if (isset($this->options[self::STRATEGY_OPTION])) {
-                foreach ($this->options[self::STRATEGY_OPTION] as $identifier) {
-                    $this->_strategies[] = $factory->createStrategy($identifier);
+            if ( isset( $this->options[self::STRATEGY_OPTION] ) )
+            {
+                foreach ( $this->options[self::STRATEGY_OPTION] as $identifier )
+                {
+                    $this->_strategies[] = $factory->createStrategy( $identifier );
                 }
-            } else {
+            }
+            else
+            {
                 $this->_strategies[] = $factory->createDefaultStrategy();
             }
 
             // Register all listeners
-            foreach ($this->getVisitListeners() as $listener) {
-                foreach ($this->_strategies as $strategy) {
-                    $strategy->addVisitListener($listener);
+            foreach ( $this->getVisitListeners() as $listener )
+            {
+                foreach ( $this->_strategies as $strategy )
+                {
+                    $strategy->addVisitListener( $listener );
                 }
             }
 
             // First traverse package tree
-            foreach ($packages as $package) {
+            foreach ( $packages as $package )
+            {
                 // Traverse all strategies
-                foreach ($this->_strategies as $strategy) {
-                    $package->accept($strategy);
+                foreach ( $this->_strategies as $strategy )
+                {
+                    $package->accept( $strategy );
                 }
             }
 
             // Collect all nodes
-            foreach ($this->_strategies as $strategy) {
+            foreach ( $this->_strategies as $strategy )
+            {
                 $collected    = $strategy->getCollectedNodes();
-                $this->_nodes = array_merge_recursive($collected, $this->_nodes);
+                $this->_nodes = array_merge_recursive( $collected, $this->_nodes );
             }
 
             // Init node metrics
@@ -214,16 +224,19 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
      */
     protected function buildCodeRankMetrics()
     {
-        foreach (array_keys($this->_nodes) as $uuid) {
+        foreach ( array_keys( $this->_nodes ) as $uuid )
+        {
             $this->_nodeMetrics[$uuid] = array(
-                self::M_CODE_RANK          =>  0,
-                self::M_REVERSE_CODE_RANK  =>  0
+                self::M_CODE_RANK          => 0,
+                self::M_REVERSE_CODE_RANK  => 0
             );
         }
-        foreach ($this->computeCodeRank('out', 'in') as $uuid => $rank) {
+        foreach ( $this->computeCodeRank( 'out', 'in' ) as $uuid => $rank )
+        {
             $this->_nodeMetrics[$uuid][self::M_CODE_RANK] = $rank;
         }
-        foreach ($this->computeCodeRank('in', 'out') as $uuid => $rank) {
+        foreach ( $this->computeCodeRank( 'in', 'out' ) as $uuid => $rank )
+        {
             $this->_nodeMetrics[$uuid][self::M_REVERSE_CODE_RANK] = $rank;
         }
     }
@@ -236,26 +249,30 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
      *
      * @return array(string=>float)
      */
-    protected function computeCodeRank($id1, $id2)
+    protected function computeCodeRank( $id1, $id2 )
     {
         $dampingFactory = self::DAMPING_FACTOR;
 
         $ranks = array();
 
-        foreach (array_keys($this->_nodes) as $name) {
+        foreach ( array_keys( $this->_nodes ) as $name )
+        {
             $ranks[$name] = 1;
         }
 
-        for ($i = 0; $i < self::ALGORITHM_LOOPS; $i++) {
-            foreach ($this->_nodes as $name => $info) {
+        for ( $i = 0; $i < self::ALGORITHM_LOOPS; $i++ )
+        {
+            foreach ( $this->_nodes as $name => $info )
+            {
                 $rank = 0;
-                foreach ($info[$id1] as $ref) {
+                foreach ( $info[$id1] as $ref )
+                {
                     $previousRank = $ranks[$ref];
-                    $refCount     = count($this->_nodes[$ref][$id2]);
+                    $refCount     = count( $this->_nodes[$ref][$id2] );
 
-                    $rank += ($previousRank / $refCount);
+                    $rank += ( $previousRank / $refCount );
                 }
-                $ranks[$name] = ((1 - $dampingFactory)) + $dampingFactory * $rank;
+                $ranks[$name] = ( ( 1 - $dampingFactory ) ) + $dampingFactory * $rank;
             }
         }
         return $ranks;

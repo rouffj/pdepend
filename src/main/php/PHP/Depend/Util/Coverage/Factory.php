@@ -71,15 +71,16 @@ class PHP_Depend_Util_Coverage_Factory
      * @throws RuntimeException When the given path name does not point to a
      *         valid coverage file or onto an unsupported coverage format.
      */
-    public function create($pathName)
+    public function create( $pathName )
     {
-        $sxml = $this->_loadXml($pathName);
-        if ($sxml->project) {
+        $sxml = $this->_loadXml( $pathName );
+        if ( $sxml->project )
+        {
             include_once 'PHP/Depend/Util/Coverage/CloverReport.php';
 
-            return new PHP_Depend_Util_Coverage_CloverReport($sxml);
+            return new PHP_Depend_Util_Coverage_CloverReport( $sxml );
         }
-        throw new RuntimeException('Unsupported coverage report format.');
+        throw new RuntimeException( 'Unsupported coverage report format.' );
     }
 
     /**
@@ -92,14 +93,15 @@ class PHP_Depend_Util_Coverage_Factory
      * @throws RuntimeException When the given path name does not point to a
      *         valid xml file.
      */
-    private function _loadXml($pathName)
+    private function _loadXml( $pathName )
     {
-        $mode = libxml_use_internal_errors(true);
-        $sxml = simplexml_load_file($pathName);
-        libxml_use_internal_errors($mode);
+        $mode = libxml_use_internal_errors( true );
+        $sxml = simplexml_load_file( $pathName );
+        libxml_use_internal_errors( $mode );
 
-        if ($sxml === false) {
-            throw new RuntimeException(trim(libxml_get_last_error()->message));
+        if ( $sxml === false )
+        {
+            throw new RuntimeException( trim( libxml_get_last_error()->message ) );
         }
         return $sxml;
     }

@@ -59,7 +59,7 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Metrics_CodeRank_InheritanceStrategy
-       extends PHP_Depend_Visitor_AbstractVisitor
+    extends PHP_Depend_Visitor_AbstractVisitor
     implements PHP_Depend_Metrics_CodeRank_CodeRankStrategyI
 {
     /**
@@ -88,11 +88,11 @@ class PHP_Depend_Metrics_CodeRank_InheritanceStrategy
      * @see PHP_Depend_VisitorI::visitClass()
      * @see PHP_Depend_Metrics_CodeRank_Analyzer::visitType()
      */
-    public function visitClass(PHP_Depend_AST_Class $class)
+    public function visitClass( PHP_Depend_AST_Class $class )
     {
-        $this->fireStartClass($class);
-        $this->visitType($class);
-        $this->fireEndClass($class);
+        $this->fireStartClass( $class );
+        $this->visitType( $class );
+        $this->fireEndClass( $class );
     }
 
     /**
@@ -104,11 +104,11 @@ class PHP_Depend_Metrics_CodeRank_InheritanceStrategy
      * @see PHP_Depend_VisitorI::visitInterface()
      * @see PHP_Depend_Metrics_CodeRank_Analyzer::visitType()
      */
-    public function visitInterface(PHP_Depend_AST_Interface $interface)
+    public function visitInterface( PHP_Depend_AST_Interface $interface )
     {
-        $this->fireStartInterface($interface);
-        $this->visitType($interface);
-        $this->fireEndInterface($interface);
+        $this->fireStartInterface( $interface );
+        $this->visitType( $interface );
+        $this->fireEndInterface( $interface );
     }
 
     /**
@@ -120,25 +120,27 @@ class PHP_Depend_Metrics_CodeRank_InheritanceStrategy
      *
      * @return void
      */
-    protected function visitType(PHP_Depend_Code_AbstractClassOrInterface $type)
+    protected function visitType( PHP_Depend_Code_AbstractClassOrInterface $type )
     {
         $pkg = $type->getPackage();
 
-        $this->initNode($pkg);
-        $this->initNode($type);
+        $this->initNode( $pkg );
+        $this->initNode( $type );
 
-        foreach ($type->getDependencies() as $dep) {
+        foreach ( $type->getDependencies() as $dep )
+        {
 
             $depPkg = $dep->getPackage();
 
-            $this->initNode($dep);
-            $this->initNode($depPkg);
+            $this->initNode( $dep );
+            $this->initNode( $depPkg );
 
             $this->_nodes[$type->getUUID()]['in'][] = $dep->getUUID();
             $this->_nodes[$dep->getUUID()]['out'][] = $type->getUUID();
 
             // No self references
-            if ($pkg !== $depPkg) {
+            if ( $pkg !== $depPkg )
+            {
                 $this->_nodes[$pkg->getUUID()]['in'][]     = $depPkg->getUUID();
                 $this->_nodes[$depPkg->getUUID()]['out'][] = $pkg->getUUID();
             }
@@ -152,14 +154,15 @@ class PHP_Depend_Metrics_CodeRank_InheritanceStrategy
      *
      * @return void
      */
-    protected function initNode(PHP_Depend_Code_NodeI $node)
+    protected function initNode( PHP_Depend_Code_NodeI $node )
     {
-        if (!isset($this->_nodes[$node->getUUID()])) {
+        if ( !isset( $this->_nodes[$node->getUUID()] ) )
+        {
             $this->_nodes[$node->getUUID()] = array(
-                'in'    =>  array(),
-                'out'   =>  array(),
-                'name'  =>  $node->getName(),
-                'type'  =>  get_class($node)
+                'in'    => array(),
+                'out'   => array(),
+                'name'  => $node->getName(),
+                'type'  => get_class( $node )
             );
         }
     }

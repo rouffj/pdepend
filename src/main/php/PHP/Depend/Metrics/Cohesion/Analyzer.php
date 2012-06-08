@@ -60,19 +60,19 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Metrics_Cohesion_Analyzer
-       extends PHP_Depend_Metrics_AbstractAnalyzer
+    extends PHP_Depend_Metrics_AbstractAnalyzer
     /* TODO 2.0
    implements PHP_Depend_Metrics_NodeAware*/
 {
-   /**
-    * Type of this analyzer class.
-    */
+    /**
+     * Type of this analyzer class.
+     */
     const CLAZZ = __CLASS__;
 
     /**
      * Metrics provided by the analyzer implementation.
      */
-    const M_LCOM4  = 'lcom4';
+    const M_LCOM4 = 'lcom4';
 
     /**
      * Collected cohesion metrics for classes.
@@ -98,9 +98,10 @@ class PHP_Depend_Metrics_Cohesion_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics($node)
+    public function getNodeMetrics( $node )
     {
-        if (isset($this->_nodeMetrics[$node->getUUID()])) {
+        if ( isset( $this->_nodeMetrics[$node->getUUID()] ) )
+        {
             return $this->_nodeMetrics[$node->getUUID()];
         }
         return array();
@@ -113,12 +114,13 @@ class PHP_Depend_Metrics_Cohesion_Analyzer
      *
      * @return void
      */
-    public function analyze(PHP_Depend_Code_NodeIterator $packages)
+    public function analyze( PHP_Depend_Code_NodeIterator $packages )
     {
         $this->fireStartAnalyzer();
 
-        foreach ($packages as $package) {
-            $package->accept($this);
+        foreach ( $packages as $package )
+        {
+            $package->accept( $this );
         }
 
         $this->fireEndAnalyzer();

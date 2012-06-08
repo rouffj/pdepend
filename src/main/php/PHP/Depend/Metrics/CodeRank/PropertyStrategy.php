@@ -59,7 +59,7 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Metrics_CodeRank_PropertyStrategy
-       extends PHP_Depend_Visitor_AbstractVisitor
+    extends PHP_Depend_Visitor_AbstractVisitor
     implements PHP_Depend_Metrics_CodeRank_CodeRankStrategyI
 {
     /**
@@ -87,12 +87,13 @@ class PHP_Depend_Metrics_CodeRank_PropertyStrategy
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitProperty()
      */
-    public function visitProperty(PHP_Depend_AST_Property $property)
+    public function visitProperty( PHP_Depend_AST_Property $property )
     {
-        $this->fireStartProperty($property);
+        $this->fireStartProperty( $property );
 
-        if (($depClass = $property->getClass()) === null) {
-            $this->fireEndProperty($property);
+        if ( ( $depClass = $property->getClass() ) === null )
+        {
+            $this->fireEndProperty( $property );
             return;
         }
 
@@ -101,23 +102,25 @@ class PHP_Depend_Metrics_CodeRank_PropertyStrategy
         $class   = $property->getDeclaringClass();
         $package = $class->getPackage();
 
-        if ($depClass !== $class) {
-            $this->initNode($class);
-            $this->initNode($depClass);
+        if ( $depClass !== $class )
+        {
+            $this->initNode( $class );
+            $this->initNode( $depClass );
 
             $this->_nodes[$class->getUUID()]['in'][]     = $depClass->getUUID();
             $this->_nodes[$depClass->getUUID()]['out'][] = $class->getUUID();
         }
 
-        if ($depPackage !== $package) {
-            $this->initNode($package);
-            $this->initNode($depPackage);
+        if ( $depPackage !== $package )
+        {
+            $this->initNode( $package );
+            $this->initNode( $depPackage );
 
             $this->_nodes[$package->getUUID()]['in'][]     = $depPackage->getUUID();
             $this->_nodes[$depPackage->getUUID()]['out'][] = $package->getUUID();
         }
 
-        $this->fireEndProperty($property);
+        $this->fireEndProperty( $property );
     }
 
     /**
@@ -127,14 +130,15 @@ class PHP_Depend_Metrics_CodeRank_PropertyStrategy
      *
      * @return void
      */
-    protected function initNode(PHP_Depend_Code_NodeI $node)
+    protected function initNode( PHP_Depend_Code_NodeI $node )
     {
-        if (!isset($this->_nodes[$node->getUUID()])) {
+        if ( !isset( $this->_nodes[$node->getUUID()] ) )
+        {
             $this->_nodes[$node->getUUID()] = array(
-                'in'   =>  array(),
-                'out'  =>  array(),
-                'name'  =>  $node->getName(),
-                'type'  =>  get_class($node)
+                'in'    => array(),
+                'out'   => array(),
+                'name'  => $node->getName(),
+                'type'  => get_class( $node )
             );
         }
     }

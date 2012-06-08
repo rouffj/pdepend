@@ -99,10 +99,11 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
      * @param PHPParser_Node $node
      * @return null|PHPParser_Node
      */
-    public function enterNode(PHPParser_Node $node)
+    public function enterNode( PHPParser_Node $node )
     {
         if ( $node instanceof PHPParser_Node_Stmt_Class
-            || $node instanceof PHPParser_Node_Stmt_Interface )
+            || $node instanceof PHPParser_Node_Stmt_Interface
+        )
         {
             $this->declaringType    = (string) $node->namespacedName;
             $this->declaringPackage = $this->extractNamespaceName( $node );
@@ -205,7 +206,7 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
             $newNode = new PHP_Depend_AST_Method(
                 $node,
                 array(
-                    'thrownExceptions'  =>  $thrownExceptions
+                    'thrownExceptions'  => $thrownExceptions
                 ),
                 new PHP_Depend_AST_MethodRefs(
                     $this->context,
@@ -243,11 +244,12 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
         {
             $node->typeRef = new PHP_Depend_AST_TypeRef( $this->context, (string) $node->type );
         }
-        else if ($node instanceof PHPParser_Node_Expr_StaticCall
+        else if ( $node instanceof PHPParser_Node_Expr_StaticCall
             || $node instanceof PHPParser_Node_Expr_StaticPropertyFetch
             || $node instanceof PHPParser_Node_Expr_ClassConstFetch
             || $node instanceof PHPParser_Node_Expr_New
-            || $node instanceof PHPParser_Node_Expr_Instanceof )
+            || $node instanceof PHPParser_Node_Expr_Instanceof
+        )
         {
             if ( $node->class instanceof PHPParser_Node_Name )
             {
@@ -320,7 +322,7 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
             new PHPParser_Node_Stmt_Namespace(
                 new PHPParser_Node_Name( $this->extractNamespaceName( $node ) ),
                 array( $node ),
-                array( 'id'  =>  $this->extractNamespaceName( $node ) . '#n' )
+                array( 'id'  => $this->extractNamespaceName( $node ) . '#n' )
             ),
             new PHP_Depend_AST_NamespaceRefs( $this->context )
         );

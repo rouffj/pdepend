@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -48,7 +48,7 @@
 
 /**
  * This type of exception is thrown, if a required log target/log file wasn't
- * configured for the current logger instance.  
+ * configured for the current logger instance.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -68,9 +68,9 @@ class PHP_Depend_Log_NoLogOutputException extends LogicException
      */
     public function __construct( PHP_Depend_Log_Logger $logger )
     {
-        $className = get_class($logger);
+        $className = get_class( $logger );
         $message   = "The log target is not configured for '{$className}'.";
-        
-        parent::__construct($message);
+
+        parent::__construct( $message );
     }
 }

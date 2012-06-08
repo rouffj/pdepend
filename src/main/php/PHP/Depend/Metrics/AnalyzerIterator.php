@@ -68,9 +68,9 @@ class PHP_Depend_Metrics_AnalyzerIterator extends FilterIterator
      *
      * @param PHP_Depend_Metrics_Analyzer[] $analyzers List of found analyzers.
      */
-    public function __construct(array $analyzers)
+    public function __construct( array $analyzers )
     {
-        parent::__construct(new ArrayIterator($analyzers));
+        parent::__construct( new ArrayIterator( $analyzers ) );
     }
 
     /**

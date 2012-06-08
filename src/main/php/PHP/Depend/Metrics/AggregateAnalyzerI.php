@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -48,7 +48,7 @@
 
 /**
  * This analyzer interface provides a specialized form that allows an analyzer
- * to aggregate metrics calculated by other analyzers. 
+ * to aggregate metrics calculated by other analyzers.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend
@@ -68,13 +68,13 @@ interface PHP_Depend_Metrics_AggregateAnalyzerI extends PHP_Depend_Metrics_Analy
      * @return array(string)
      */
     function getRequiredAnalyzers();
-    
+
     /**
      * Adds a required sub analyzer.
      *
      * @param PHP_Depend_Metrics_Analyzer $analyzer The sub analyzer instance.
-     * 
+     *
      * @return void
      */
-    function addAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
+    function addAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer );
 }

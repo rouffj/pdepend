@@ -117,14 +117,14 @@ class PHP_Depend_Log_Overview_Pyramid implements PHP_Depend_Log_FileAware
      * @var array(string => array) $_thresholds
      */
     private $_thresholds = array(
-        'cyclo-loc'     =>  array(0.16, 0.20, 0.24),
-        'loc-nom'       =>  array(7, 10, 13),
-        'nom-noc'       =>  array(4, 7, 10),
-        'noc-nop'       =>  array(6, 17, 26),
-        'calls-nom'     =>  array(2.01, 2.62, 3.2),
-        'fanout-calls'  =>  array(0.56, 0.62, 0.68),
-        'andc'          =>  array(0.25, 0.41, 0.57),
-        'ahh'           =>  array(0.09, 0.21, 0.32)
+        'cyclo-loc'     => array( 0.16, 0.20, 0.24 ),
+        'loc-nom'       => array( 7, 10, 13 ),
+        'nom-noc'       => array( 4, 7, 10 ),
+        'noc-nop'       => array( 6, 17, 26 ),
+        'calls-nom'     => array( 2.01, 2.62, 3.2 ),
+        'fanout-calls'  => array( 0.56, 0.62, 0.68 ),
+        'andc'          => array( 0.25, 0.41, 0.57 ),
+        'ahh'           => array( 0.09, 0.21, 0.32 )
     );
 
     /**
@@ -134,7 +134,7 @@ class PHP_Depend_Log_Overview_Pyramid implements PHP_Depend_Log_FileAware
      *
      * @return void
      */
-    public function setLogFile($logFile)
+    public function setLogFile( $logFile )
     {
         $this->_logFile = $logFile;
     }
@@ -164,19 +164,30 @@ class PHP_Depend_Log_Overview_Pyramid implements PHP_Depend_Log_FileAware
      *
      * @return boolean
      */
-    public function log(PHP_Depend_Metrics_Analyzer $analyzer)
+    public function log( PHP_Depend_Metrics_Analyzer $analyzer )
     {
-        if ($analyzer instanceof PHP_Depend_Metrics_CyclomaticComplexity_Analyzer) {
+        if ( $analyzer instanceof PHP_Depend_Metrics_CyclomaticComplexity_Analyzer )
+        {
             $this->_cyclomaticComplexity = $analyzer;
-        } else if ($analyzer instanceof PHP_Depend_Metrics_Coupling_Analyzer) {
+        }
+        else if ( $analyzer instanceof PHP_Depend_Metrics_Coupling_Analyzer )
+        {
             $this->_coupling = $analyzer;
-        } else if ($analyzer instanceof PHP_Depend_Metrics_Inheritance_Analyzer) {
+        }
+        else if ( $analyzer instanceof PHP_Depend_Metrics_Inheritance_Analyzer )
+        {
             $this->_inheritance = $analyzer;
-        } else if ($analyzer instanceof PHP_Depend_Metrics_NodeCount_Analyzer) {
+        }
+        else if ( $analyzer instanceof PHP_Depend_Metrics_NodeCount_Analyzer )
+        {
             $this->_nodeCount = $analyzer;
-        } else if ($analyzer instanceof PHP_Depend_Metrics_NodeLoc_Analyzer) {
+        }
+        else if ( $analyzer instanceof PHP_Depend_Metrics_NodeLoc_Analyzer )
+        {
             $this->_nodeLoc = $analyzer;
-        } else {
+        }
+        else
+        {
             return false;
         }
         return true;
@@ -190,44 +201,49 @@ class PHP_Depend_Log_Overview_Pyramid implements PHP_Depend_Log_FileAware
     public function close()
     {
         // Check for configured log file
-        if ($this->_logFile === null) {
-            throw new PHP_Depend_Log_NoLogOutputException($this);
+        if ( $this->_logFile === null )
+        {
+            throw new PHP_Depend_Log_NoLogOutputException( $this );
         }
 
         $metrics     = $this->_collectMetrics();
-        $proportions = $this->_computeProportions($metrics);
+        $proportions = $this->_computeProportions( $metrics );
 
-        $svg = new DOMDocument('1.0', 'UTF-8');
-        $svg->load(dirname(__FILE__) . '/pyramid.svg');
+        $svg = new DOMDocument( '1.0', 'UTF-8' );
+        $svg->load( dirname( __FILE__ ) . '/pyramid.svg' );
 
-        $items = array_merge($metrics, $proportions);
-        foreach ($items as $name => $value) {
-            $svg->getElementById("pdepend.{$name}")->nodeValue = $value;
+        $items = array_merge( $metrics, $proportions );
+        foreach ( $items as $name => $value )
+        {
+            $svg->getElementById( "pdepend.{$name}" )->nodeValue = $value;
 
-            if (($threshold = $this->_computeThreshold($name, $value)) === null) {
+            if ( ( $threshold = $this->_computeThreshold( $name, $value ) ) === null )
+            {
                 continue;
             }
-            if (($color = $svg->getElementById("threshold.{$threshold}")) === null) {
+            if ( ( $color = $svg->getElementById( "threshold.{$threshold}" ) ) === null )
+            {
                 continue;
             }
-            if (($rect = $svg->getElementById("rect.{$name}")) === null) {
+            if ( ( $rect = $svg->getElementById( "rect.{$name}" ) ) === null )
+            {
                 continue;
             }
-            preg_match('/fill:(#[^;"]+)/', $color->getAttribute('style'), $match);
+            preg_match( '/fill:(#[^;"]+)/', $color->getAttribute( 'style' ), $match );
 
-            $style = $rect->getAttribute('style');
-            $style = preg_replace('/fill:#[^;"]+/', "fill:{$match[1]}", $style);
-            $rect->setAttribute('style', $style);
+            $style = $rect->getAttribute( 'style' );
+            $style = preg_replace( '/fill:#[^;"]+/', "fill:{$match[1]}", $style );
+            $rect->setAttribute( 'style', $style );
         }
 
-        $temp  = PHP_Depend_Util_FileUtil::getSysTempDir();
-        $temp .= '/' . uniqid('pdepend_') . '.svg';
-        $svg->save($temp);
+        $temp = PHP_Depend_Util_FileUtil::getSysTempDir();
+        $temp .= '/' . uniqid( 'pdepend_' ) . '.svg';
+        $svg->save( $temp );
 
-        PHP_Depend_Util_ImageConvert::convert($temp, $this->_logFile);
+        PHP_Depend_Util_ImageConvert::convert( $temp, $this->_logFile );
 
         // Remove temp file
-        unlink($temp);
+        unlink( $temp );
     }
 
     /**
@@ -240,22 +256,29 @@ class PHP_Depend_Log_Overview_Pyramid implements PHP_Depend_Log_FileAware
      *
      * @return string
      */
-    private function _computeThreshold($name, $value)
+    private function _computeThreshold( $name, $value )
     {
-        if (!isset($this->_thresholds[$name])) {
+        if ( !isset( $this->_thresholds[$name] ) )
+        {
             return null;
         }
 
         $threshold = $this->_thresholds[$name];
-        if ($value <= $threshold[0]) {
+        if ( $value <= $threshold[0] )
+        {
             return 'low';
-        } else if ($value >= $threshold[2]) {
+        }
+        else if ( $value >= $threshold[2] )
+        {
             return 'high';
-        } else {
+        }
+        else
+        {
             $low = $value - $threshold[0];
             $avg = $threshold[1] - $value;
 
-            if ($low < $avg) {
+            if ( $low < $avg )
+            {
                 return 'low';
             }
         }
@@ -269,24 +292,27 @@ class PHP_Depend_Log_Overview_Pyramid implements PHP_Depend_Log_FileAware
      *
      * @return array(string => float)
      */
-    private function _computeProportions(array $metrics)
+    private function _computeProportions( array $metrics )
     {
         $orders = array(
-            array('cyclo', 'loc', 'nom', 'noc', 'nop'),
-            array('fanout', 'calls', 'nom')
+            array( 'cyclo', 'loc', 'nom', 'noc', 'nop' ),
+            array( 'fanout', 'calls', 'nom' )
         );
 
         $proportions = array();
-        foreach ($orders as $names) {
-            for ($i = 1, $c = count($names); $i < $c; ++$i) {
+        foreach ( $orders as $names )
+        {
+            for ( $i = 1, $c = count( $names ); $i < $c; ++$i )
+            {
                 $value1 = $metrics[$names[$i]];
                 $value2 = $metrics[$names[$i - 1]];
 
                 $identifier = "{$names[$i - 1]}-{$names[$i]}";
 
                 $proportions[$identifier] = 0;
-                if ($value1 > 0) {
-                    $proportions[$identifier] = round($value2 / $value1, 3);
+                if ( $value1 > 0 )
+                {
+                    $proportions[$identifier] = round( $value2 / $value1, 3 );
                 }
             }
         }
@@ -302,20 +328,25 @@ class PHP_Depend_Log_Overview_Pyramid implements PHP_Depend_Log_FileAware
      */
     private function _collectMetrics()
     {
-        if ($this->_coupling === null) {
-            throw new RuntimeException('Missing Coupling analyzer.');
+        if ( $this->_coupling === null )
+        {
+            throw new RuntimeException( 'Missing Coupling analyzer.' );
         }
-        if ($this->_cyclomaticComplexity === null) {
-            throw new RuntimeException('Missing Cyclomatic Complexity analyzer.');
+        if ( $this->_cyclomaticComplexity === null )
+        {
+            throw new RuntimeException( 'Missing Cyclomatic Complexity analyzer.' );
         }
-        if ($this->_inheritance === null) {
-            throw new RuntimeException('Missing Inheritance analyzer.');
+        if ( $this->_inheritance === null )
+        {
+            throw new RuntimeException( 'Missing Inheritance analyzer.' );
         }
-        if ($this->_nodeCount === null) {
-            throw new RuntimeException('Missing Node Count analyzer.');
+        if ( $this->_nodeCount === null )
+        {
+            throw new RuntimeException( 'Missing Node Count analyzer.' );
         }
-        if ($this->_nodeLoc === null) {
-            throw new RuntimeException('Missing Node LOC analyzer.');
+        if ( $this->_nodeLoc === null )
+        {
+            throw new RuntimeException( 'Missing Node LOC analyzer.' );
         }
 
         $coupling    = $this->_coupling->getProjectMetrics();
@@ -325,15 +356,15 @@ class PHP_Depend_Log_Overview_Pyramid implements PHP_Depend_Log_FileAware
         $nodeLoc     = $this->_nodeLoc->getProjectMetrics();
 
         return array(
-            'cyclo'   =>  $cyclomatic['ccn2'],
-            'loc'     =>  $nodeLoc['eloc'],
-            'nom'     =>  ($nodeCount['nom'] + $nodeCount['nof']),
-            'noc'     =>  $nodeCount['noc'],
-            'nop'     =>  $nodeCount['nop'],
-            'ahh'     =>  round($inheritance['ahh'], 3),
-            'andc'    =>  round($inheritance['andc'], 3),
-            'fanout'  =>  $coupling['fanout'],
-            'calls'   =>  $coupling['calls']
+            'cyclo'   => $cyclomatic['ccn2'],
+            'loc'     => $nodeLoc['eloc'],
+            'nom'     => ( $nodeCount['nom'] + $nodeCount['nof'] ),
+            'noc'     => $nodeCount['noc'],
+            'nop'     => $nodeCount['nop'],
+            'ahh'     => round( $inheritance['ahh'], 3 ),
+            'andc'    => round( $inheritance['andc'], 3 ),
+            'fanout'  => $coupling['fanout'],
+            'calls'   => $coupling['calls']
         );
     }
 }

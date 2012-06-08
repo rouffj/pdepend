@@ -423,7 +423,7 @@ class PHP_Depend
     private function processParsing()
     {
         $tokenizer = new PHP_Depend_Tokenizer_VersionAll();
-        $parser = new PHP_Depend_Parser( $tokenizer );
+        $parser    = new PHP_Depend_Parser( $tokenizer );
 
         // Reset list of thrown exceptions
         $this->_parseExceptions = array();
@@ -593,9 +593,10 @@ class PHP_Depend
             if ( is_string( $file ) )
             {
                 $files[$file] = $file;
-            } else
+            }
+            else
             {
-                $pathname = realpath( $file->getPathname() );
+                $pathname         = realpath( $file->getPathname() );
                 $files[$pathname] = $pathname;
             }
         }

@@ -285,10 +285,10 @@ class PHP_Depend_Metrics_NodeCount_Analyzer extends PHP_Depend_Metrics_AbstractA
         if ( false === isset( $this->metrics[$ns->getId()] ) )
         {
             $this->metrics[$ns->getId()] = array(
-                self::M_NUMBER_OF_CLASSES     =>  0,
-                self::M_NUMBER_OF_INTERFACES  =>  0,
-                self::M_NUMBER_OF_METHODS     =>  0,
-                self::M_NUMBER_OF_FUNCTIONS   =>  0
+                self::M_NUMBER_OF_CLASSES     => 0,
+                self::M_NUMBER_OF_INTERFACES  => 0,
+                self::M_NUMBER_OF_METHODS     => 0,
+                self::M_NUMBER_OF_FUNCTIONS   => 0
             );
 
             ++$this->numberOfPackages;

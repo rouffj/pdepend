@@ -140,10 +140,11 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      *
      * @param string $fileName The source file name/path.
      */
-    public function __construct($fileName)
+    public function __construct( $fileName )
     {
-        if ($fileName !== null) {
-            $this->fileName = realpath($fileName);
+        if ( $fileName !== null )
+        {
+            $this->fileName = realpath( $fileName );
         }
     }
 
@@ -185,7 +186,7 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      * @return void
      * @since 0.9.12
      */
-    public function setUUID($uuid)
+    public function setUUID( $uuid )
     {
         $this->uuid = $uuid;
     }
@@ -198,7 +199,7 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      * @return PHP_Depend_Code_File
      * @since 0.10.0
      */
-    public function setCache(PHP_Depend_Util_Cache_Driver $cache)
+    public function setCache( PHP_Depend_Util_Cache_Driver $cache )
     {
         $this->cache = $cache;
         return $this;
@@ -223,8 +224,8 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
     public function getTokens()
     {
         return (array) $this->cache
-            ->type('tokens')
-            ->restore($this->getUUID());
+            ->type( 'tokens' )
+            ->restore( $this->getUUID() );
     }
 
     /**
@@ -234,11 +235,11 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      *
      * @return void
      */
-    public function setTokens(array $tokens)
+    public function setTokens( array $tokens )
     {
         return $this->cache
-            ->type('tokens')
-            ->store($this->getUUID(), $tokens);
+            ->type( 'tokens' )
+            ->store( $this->getUUID(), $tokens );
     }
 
     /**
@@ -258,7 +259,7 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      *
      * @return void
      */
-    public function setDocComment($docComment)
+    public function setDocComment( $docComment )
     {
         $this->docComment = $docComment;
     }
@@ -271,7 +272,7 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      * @return void
      * @since 0.10.0
      */
-    public function addChild(PHP_Depend_Code_AbstractItem $item)
+    public function addChild( PHP_Depend_Code_AbstractItem $item )
     {
         $this->childNodes[$item->getUUID()] = $item;
     }
@@ -286,7 +287,8 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      */
     public function getStartLine()
     {
-        if ($this->startLine === 0) {
+        if ( $this->startLine === 0 )
+        {
             $this->readSource();
         }
         return $this->startLine;
@@ -302,7 +304,8 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      */
     public function getEndLine()
     {
-        if ($this->endLine === 0) {
+        if ( $this->endLine === 0 )
+        {
             $this->readSource();
         }
         return $this->endLine;
@@ -329,9 +332,9 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      *
      * @return void
      */
-    public function accept(PHP_Depend_VisitorI $visitor)
+    public function accept( PHP_Depend_VisitorI $visitor )
     {
-        $visitor->visitFile($this);
+        $visitor->visitFile( $this );
     }
 
     /**
@@ -369,8 +372,9 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
     {
         $this->cached = true;
 
-        foreach ($this->childNodes as $childNode) {
-            $childNode->setSourceFile($this);
+        foreach ( $this->childNodes as $childNode )
+        {
+            $childNode->setSourceFile( $this );
         }
     }
 
@@ -381,7 +385,7 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      */
     public function __toString()
     {
-        return ($this->fileName === null ? '' : $this->fileName);
+        return ( $this->fileName === null ? '' : $this->fileName );
     }
 
     /**
@@ -391,13 +395,14 @@ class PHP_Depend_Code_File implements PHP_Depend_Code_NodeI
      */
     protected function readSource()
     {
-        if ($this->_source === null && file_exists($this->fileName)) {
-            $source = file_get_contents($this->fileName);
+        if ( $this->_source === null && file_exists( $this->fileName ) )
+        {
+            $source = file_get_contents( $this->fileName );
 
-            $this->_source = str_replace(array("\r\n", "\r"), "\n", $source);
+            $this->_source = str_replace( array( "\r\n", "\r" ), "\n", $source );
 
             $this->startLine = 1;
-            $this->endLine   = substr_count($this->_source, "\n") + 1;
+            $this->endLine   = substr_count( $this->_source, "\n" ) + 1;
         }
     }
 }

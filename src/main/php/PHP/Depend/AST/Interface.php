@@ -79,8 +79,8 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
         parent::__construct(
             $interface->name,
             array(
-                'extends'  =>  $interface->extends,
-                'stmts'    =>  $interface->stmts
+                'extends'  => $interface->extends,
+                'stmts'    => $interface->stmts
             ),
             $interface->attributes
         );

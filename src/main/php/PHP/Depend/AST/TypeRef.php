@@ -82,7 +82,7 @@ class PHP_Depend_AST_TypeRef extends PHPParser_NodeAbstract implements PHP_Depen
     public function __construct( PHP_Depend_Context $context, $name )
     {
         parent::__construct(
-            array( 'namespacedName'  =>  new PHPParser_Node_Name( $name ) )
+            array( 'namespacedName'  => new PHPParser_Node_Name( $name ) )
         );
 
         $this->name    = $name;

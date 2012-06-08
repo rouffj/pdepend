@@ -110,7 +110,8 @@ abstract class PHP_Depend_Metrics_AbstractCachingAnalyzer
     protected function restoreFromCache( PHP_Depend_AST_Node $node )
     {
         $id = $node->getId();
-        if ( $node->isCached() && isset( $this->_metricsCached[$id] ) ) {
+        if ( $node->isCached() && isset( $this->_metricsCached[$id] ) )
+        {
             $this->metrics[$id] = $this->_metricsCached[$id];
             return true;
         }

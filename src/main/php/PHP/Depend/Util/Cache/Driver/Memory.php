@@ -109,7 +109,7 @@ class PHP_Depend_Util_Cache_Driver_Memory implements PHP_Depend_Util_Cache_Drive
      */
     public function __construct()
     {
-        $this->staticId = sha1(uniqid(rand(0, PHP_INT_MAX)));
+        $this->staticId = sha1( uniqid( rand( 0, PHP_INT_MAX ) ) );
     }
 
     /**
@@ -124,7 +124,7 @@ class PHP_Depend_Util_Cache_Driver_Memory implements PHP_Depend_Util_Cache_Drive
      *
      * @return PHP_Depend_Util_Cache_Driver
      */
-    public function type($type)
+    public function type( $type )
     {
         $this->type = $type;
         return $this;
@@ -143,9 +143,9 @@ class PHP_Depend_Util_Cache_Driver_Memory implements PHP_Depend_Util_Cache_Drive
      *
      * @return  void
      */
-    public function store($key, $data, $hash = null)
+    public function store( $key, $data, $hash = null )
     {
-        $this->cache[$this->getCacheKey($key)] = array($hash, $data);
+        $this->cache[$this->getCacheKey( $key )] = array( $hash, $data );
     }
 
     /**
@@ -160,10 +160,11 @@ class PHP_Depend_Util_Cache_Driver_Memory implements PHP_Depend_Util_Cache_Drive
      *
      * @return mixed
      */
-    public function restore($key, $hash = null)
+    public function restore( $key, $hash = null )
     {
-        $cacheKey = $this->getCacheKey($key);
-        if (isset($this->cache[$cacheKey]) && $this->cache[$cacheKey][0] === $hash) {
+        $cacheKey = $this->getCacheKey( $key );
+        if ( isset( $this->cache[$cacheKey] ) && $this->cache[$cacheKey][0] === $hash )
+        {
             return $this->cache[$cacheKey][1];
         }
         return null;
@@ -179,11 +180,13 @@ class PHP_Depend_Util_Cache_Driver_Memory implements PHP_Depend_Util_Cache_Drive
      *
      * @return void
      */
-    public function remove($pattern)
+    public function remove( $pattern )
     {
-        foreach (array_keys($this->cache) as $key) {
-            if (0 === strpos($key, $pattern)) {
-                unset($this->cache[$key]);
+        foreach ( array_keys( $this->cache ) as $key )
+        {
+            if ( 0 === strpos( $key, $pattern ) )
+            {
+                unset( $this->cache[$key] );
             }
         }
     }
@@ -197,7 +200,7 @@ class PHP_Depend_Util_Cache_Driver_Memory implements PHP_Depend_Util_Cache_Drive
      *
      * @return string
      */
-    protected function getCacheKey($key)
+    protected function getCacheKey( $key )
     {
         $type       = $this->type;
         $this->type = self::ENTRY_TYPE;
@@ -215,7 +218,7 @@ class PHP_Depend_Util_Cache_Driver_Memory implements PHP_Depend_Util_Cache_Drive
     {
         self::$staticCache[$this->staticId] = $this->cache;
 
-        return array('staticId');
+        return array( 'staticId' );
     }
 
     /**

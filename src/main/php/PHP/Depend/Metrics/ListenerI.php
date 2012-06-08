@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -66,17 +66,17 @@ interface PHP_Depend_Metrics_ListenerI
      * This method is called when the analyzer starts code processing.
      *
      * @param PHP_Depend_Metrics_Analyzer $analyzer The context analyzer instance.
-     * 
+     *
      * @return void
      */
-    function startAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
-    
+    function startAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer );
+
     /**
      * This method is called when the analyzer has finished code processing.
      *
      * @param PHP_Depend_Metrics_Analyzer $analyzer The context analyzer instance.
-     * 
+     *
      * @return void
      */
-    function endAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
+    function endAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer );
 }

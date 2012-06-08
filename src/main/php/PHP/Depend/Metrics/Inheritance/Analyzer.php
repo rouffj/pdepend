@@ -338,7 +338,8 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
                 {
                     ++$numberOfOverwrittenMethods;
                 }
-            } else
+            }
+            else
             {
                 ++$numberOfAddedMethods;
             }

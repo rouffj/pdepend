@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -47,7 +47,7 @@
  */
 
 /**
- * The code rank strategy provides an interface for dependency collection. 
+ * The code rank strategy provides an interface for dependency collection.
  *
  * @category   QualityAssurance
  * @package    PHP_Depend

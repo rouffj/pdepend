@@ -142,7 +142,8 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      */
     public function beforeTraverse( array $nodes )
     {
-        foreach ( array_keys( $this->data ) as $class ) {
+        foreach ( array_keys( $this->data ) as $class )
+        {
             $this->data[$class] = null;
         }
     }
@@ -194,7 +195,8 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      */
     public function afterTraverse( array $nodes )
     {
-        foreach ( array_keys( $this->data ) as $class ) {
+        foreach ( array_keys( $this->data ) as $class )
+        {
             $this->data[$class] = null;
         }
     }
@@ -216,11 +218,13 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
             $eventType
         );
 
-        if ( false === isset( $this->callbacks[$callback] ) ) {
+        if ( false === isset( $this->callbacks[$callback] ) )
+        {
             return;
         }
 
-        foreach ( $this->callbacks[$callback] as $class ) {
+        foreach ( $this->callbacks[$callback] as $class )
+        {
             $this->data[$class] = $this->nodeVisitors[$class]->$callback( $node, $this->data[$class] );
         }
     }

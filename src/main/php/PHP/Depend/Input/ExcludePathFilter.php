@@ -82,12 +82,12 @@ class PHP_Depend_Input_ExcludePathFilter implements PHP_Depend_Input_FilterI
      *
      * @param array $patterns List of exclude file path patterns.
      */
-    public function __construct(array $patterns)
+    public function __construct( array $patterns )
     {
-        $quoted = array_map('preg_quote', $patterns);
+        $quoted = array_map( 'preg_quote', $patterns );
 
-        $this->relative = '(' . str_replace('\*', '.*', join('|', $quoted)) . ')i';
-        $this->absolute = '(^' . str_replace('\*', '.*', join('|^', $quoted)) . ')i';
+        $this->relative = '(' . str_replace( '\*', '.*', join( '|', $quoted ) ) . ')i';
+        $this->absolute = '(^' . str_replace( '\*', '.*', join( '|^', $quoted ) ) . ')i';
     }
 
     /**
@@ -98,9 +98,9 @@ class PHP_Depend_Input_ExcludePathFilter implements PHP_Depend_Input_FilterI
      *
      * @return boolean
      */
-    public function accept($relative, $absolute)
+    public function accept( $relative, $absolute )
     {
-        return ($this->notRelative($relative) && $this->notAbsolute($absolute));
+        return ( $this->notRelative( $relative ) && $this->notAbsolute( $absolute ) );
     }
 
     /**
@@ -112,9 +112,9 @@ class PHP_Depend_Input_ExcludePathFilter implements PHP_Depend_Input_FilterI
      * @return boolean
      * @since 0.10.0
      */
-    protected function notAbsolute($path)
+    protected function notAbsolute( $path )
     {
-        return (preg_match($this->absolute, $path) === 0);
+        return ( preg_match( $this->absolute, $path ) === 0 );
     }
 
     /**
@@ -126,8 +126,8 @@ class PHP_Depend_Input_ExcludePathFilter implements PHP_Depend_Input_FilterI
      * @return boolean
      * @since 0.10.0
      */
-    protected function notRelative($path)
+    protected function notRelative( $path )
     {
-        return (preg_match($this->relative, $path) === 0);
+        return ( preg_match( $this->relative, $path ) === 0 );
     }
 }

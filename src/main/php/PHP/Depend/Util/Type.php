@@ -63,74 +63,74 @@ final class PHP_Depend_Util_Type
     /**
      * Constants for valid php data types.
      */
-    const PHP_TYPE_ARRAY   = 'array',
-          PHP_TYPE_BOOLEAN = 'boolean',
-          PHP_TYPE_FLOAT   = 'float',
-          PHP_TYPE_INTEGER = 'integer',
-          PHP_TYPE_STRING  = 'string';
+    const PHP_TYPE_ARRAY = 'array',
+        PHP_TYPE_BOOLEAN = 'boolean',
+        PHP_TYPE_FLOAT   = 'float',
+        PHP_TYPE_INTEGER = 'integer',
+        PHP_TYPE_STRING  = 'string';
     /**
      * Constants with valid php data type identifiers.
-     */         
-    const IMAGE_ARRAY    = 'array',
-          IMAGE_BOOL     = 'bool',
-          IMAGE_BOOLEAN  = 'boolean',
-          IMAGE_DOUBLE   = 'double',
-          IMAGE_FLOAT    = 'float',
-          IMAGE_INT      = 'int',
-          IMAGE_INTEGER  = 'integer',
-          IMAGE_MIXED    = 'mixed',
-          IMAGE_REAL     = 'real',
-          IMAGE_RESOURCE = 'resource',
-          IMAGE_OBJECT   = 'object',
-          IMAGE_STRING   = 'string',
-          IMAGE_STDCLASS = 'stdclass',
-          IMAGE_VOID     = 'void';
+     */
+    const IMAGE_ARRAY  = 'array',
+        IMAGE_BOOL     = 'bool',
+        IMAGE_BOOLEAN  = 'boolean',
+        IMAGE_DOUBLE   = 'double',
+        IMAGE_FLOAT    = 'float',
+        IMAGE_INT      = 'int',
+        IMAGE_INTEGER  = 'integer',
+        IMAGE_MIXED    = 'mixed',
+        IMAGE_REAL     = 'real',
+        IMAGE_RESOURCE = 'resource',
+        IMAGE_OBJECT   = 'object',
+        IMAGE_STRING   = 'string',
+        IMAGE_STDCLASS = 'stdclass',
+        IMAGE_VOID     = 'void';
 
     /**
      * Constants with the metaphone representation of multiple php data types.
      */
-    const IMAGE_METAPHONE_ARRAY        = 'AR',
-          IMAGE_METAPHONE_BOOL         = 'BL',
-          IMAGE_METAPHONE_BOOLEAN      = 'BLN',
-          IMAGE_METAPHONE_DOUBLE       = 'TBL',
-          IMAGE_METAPHONE_FLOAT        = 'FLT',
-          IMAGE_METAPHONE_INT          = 'INT',
-          IMAGE_METAPHONE_INTEGER      = 'INTJR',
-          IMAGE_METAPHONE_MIXED        = 'MKST',
-          IMAGE_METAPHONE_REAL         = 'RL',
-          IMAGE_METAPHONE_RESOURCE     = 'RSRS',
-          IMAGE_METAPHONE_OBJECT       = 'OBJKT',
-          IMAGE_METAPHONE_STRING       = 'STRNK',
-          IMAGE_METAPHONE_STDCLASS     = 'STTKLS',
-          IMAGE_METAPHONE_UNKNOWN      = 'UNKNN',
-          IMAGE_METAPHONE_UNKNOWN_TYPE = 'UNKNNTP';
+    const IMAGE_METAPHONE_ARRAY      = 'AR',
+        IMAGE_METAPHONE_BOOL         = 'BL',
+        IMAGE_METAPHONE_BOOLEAN      = 'BLN',
+        IMAGE_METAPHONE_DOUBLE       = 'TBL',
+        IMAGE_METAPHONE_FLOAT        = 'FLT',
+        IMAGE_METAPHONE_INT          = 'INT',
+        IMAGE_METAPHONE_INTEGER      = 'INTJR',
+        IMAGE_METAPHONE_MIXED        = 'MKST',
+        IMAGE_METAPHONE_REAL         = 'RL',
+        IMAGE_METAPHONE_RESOURCE     = 'RSRS',
+        IMAGE_METAPHONE_OBJECT       = 'OBJKT',
+        IMAGE_METAPHONE_STRING       = 'STRNK',
+        IMAGE_METAPHONE_STDCLASS     = 'STTKLS',
+        IMAGE_METAPHONE_UNKNOWN      = 'UNKNN',
+        IMAGE_METAPHONE_UNKNOWN_TYPE = 'UNKNNTP';
 
     /**
      * Constants with the soundex representation of multiple php data types.
      */
-    const IMAGE_SOUNDEX_ARRAY        = 'A600',
-          IMAGE_SOUNDEX_BOOL         = 'B450',
-          IMAGE_SOUNDEX_BOOLEAN      = 'B400',
-          IMAGE_SOUNDEX_DOUBLE       = 'D140',
-          IMAGE_SOUNDEX_FLOAT        = 'F430',
-          IMAGE_SOUNDEX_INT          = 'I530',
-          IMAGE_SOUNDEX_INTEGER      = 'I532',
-          IMAGE_SOUNDEX_MIXED        = 'M230',
-          IMAGE_SOUNDEX_REAL         = 'R400',
-          IMAGE_SOUNDEX_RESOURCE     = 'R262',
-          IMAGE_SOUNDEX_OBJECT       = 'O122',
-          IMAGE_SOUNDEX_STRING       = 'S365',
-          IMAGE_SOUNDEX_STDCLASS     = 'S324',
-          IMAGE_SOUNDEX_UNKNOWN      = 'U525';
- 
+    const IMAGE_SOUNDEX_ARRAY  = 'A600',
+        IMAGE_SOUNDEX_BOOL     = 'B450',
+        IMAGE_SOUNDEX_BOOLEAN  = 'B400',
+        IMAGE_SOUNDEX_DOUBLE   = 'D140',
+        IMAGE_SOUNDEX_FLOAT    = 'F430',
+        IMAGE_SOUNDEX_INT      = 'I530',
+        IMAGE_SOUNDEX_INTEGER  = 'I532',
+        IMAGE_SOUNDEX_MIXED    = 'M230',
+        IMAGE_SOUNDEX_REAL     = 'R400',
+        IMAGE_SOUNDEX_RESOURCE = 'R262',
+        IMAGE_SOUNDEX_OBJECT   = 'O122',
+        IMAGE_SOUNDEX_STRING   = 'S365',
+        IMAGE_SOUNDEX_STDCLASS = 'S324',
+        IMAGE_SOUNDEX_UNKNOWN  = 'U525';
+
     /**
      * Constants for other types/keywords frequently used.
      */
-    const IMAGE_OTHER_NULL         = 'null',
-          IMAGE_OTHER_FALSE        = 'false',
-          IMAGE_OTHER_TRUE         = 'true',
-          IMAGE_OTHER_UNKNOWN      = 'unknown',
-          IMAGE_OTHER_UNKNOWN_TYPE = 'unknown_type';
+    const IMAGE_OTHER_NULL       = 'null',
+        IMAGE_OTHER_FALSE        = 'false',
+        IMAGE_OTHER_TRUE         = 'true',
+        IMAGE_OTHER_UNKNOWN      = 'unknown',
+        IMAGE_OTHER_UNKNOWN_TYPE = 'unknown_type';
 
     /**
      * This property contains a mapping between a unified lower case type name
@@ -155,54 +155,54 @@ final class PHP_Depend_Util_Type
      * @var array(string) $_scalarTypes
      */
     private static $_scalarTypes = array(
-        self::IMAGE_ARRAY                   =>  true,
-        self::IMAGE_BOOL                    =>  true,
-        self::IMAGE_BOOLEAN                 =>  true,
-        self::IMAGE_DOUBLE                  =>  true,
-        self::IMAGE_FLOAT                   =>  true,
-        self::IMAGE_INT                     =>  true,
-        self::IMAGE_INTEGER                 =>  true,
-        self::IMAGE_MIXED                   =>  true,
-        self::IMAGE_REAL                    =>  true,
-        self::IMAGE_RESOURCE                =>  true,
-        self::IMAGE_OBJECT                  =>  true,
-        self::IMAGE_STRING                  =>  true,
-        self::IMAGE_STDCLASS                =>  true,
-        self::IMAGE_VOID                    =>  true,
-        self::IMAGE_OTHER_NULL              =>  true,
-        self::IMAGE_OTHER_FALSE             =>  true,
-        self::IMAGE_OTHER_TRUE              =>  true,
-        self::IMAGE_OTHER_UNKNOWN           =>  true,
-        self::IMAGE_OTHER_UNKNOWN_TYPE      =>  true,
-        self::IMAGE_METAPHONE_ARRAY         =>  true,
-        self::IMAGE_METAPHONE_BOOL          =>  true,
-        self::IMAGE_METAPHONE_BOOLEAN       =>  true,
-        self::IMAGE_METAPHONE_DOUBLE        =>  true,
-        self::IMAGE_METAPHONE_FLOAT         =>  true,
-        self::IMAGE_METAPHONE_INT           =>  true,
-        self::IMAGE_METAPHONE_INTEGER       =>  true,
-        self::IMAGE_METAPHONE_MIXED         =>  true,
-        self::IMAGE_METAPHONE_OBJECT        =>  true,
-        self::IMAGE_METAPHONE_REAL          =>  true,
-        self::IMAGE_METAPHONE_RESOURCE      =>  true,
-        self::IMAGE_METAPHONE_STRING        =>  true,
-        self::IMAGE_METAPHONE_STDCLASS      =>  true,
-        self::IMAGE_METAPHONE_UNKNOWN       =>  true,
-        self::IMAGE_METAPHONE_UNKNOWN_TYPE  =>  true,
-        self::IMAGE_SOUNDEX_ARRAY           =>  true,
-        self::IMAGE_SOUNDEX_BOOL            =>  true,
-        self::IMAGE_SOUNDEX_BOOLEAN         =>  true,
-        self::IMAGE_SOUNDEX_DOUBLE          =>  true,
-        self::IMAGE_SOUNDEX_FLOAT           =>  true,
-        self::IMAGE_SOUNDEX_INT             =>  true,
-        self::IMAGE_SOUNDEX_INTEGER         =>  true,
-        self::IMAGE_SOUNDEX_MIXED           =>  true,
-        self::IMAGE_SOUNDEX_REAL            =>  true,
-        self::IMAGE_SOUNDEX_RESOURCE        =>  true,
-        self::IMAGE_SOUNDEX_OBJECT          =>  true,
-        self::IMAGE_SOUNDEX_STRING          =>  true,
-        self::IMAGE_SOUNDEX_STDCLASS        =>  true,
-        self::IMAGE_SOUNDEX_UNKNOWN         =>  true,
+        self::IMAGE_ARRAY                   => true,
+        self::IMAGE_BOOL                    => true,
+        self::IMAGE_BOOLEAN                 => true,
+        self::IMAGE_DOUBLE                  => true,
+        self::IMAGE_FLOAT                   => true,
+        self::IMAGE_INT                     => true,
+        self::IMAGE_INTEGER                 => true,
+        self::IMAGE_MIXED                   => true,
+        self::IMAGE_REAL                    => true,
+        self::IMAGE_RESOURCE                => true,
+        self::IMAGE_OBJECT                  => true,
+        self::IMAGE_STRING                  => true,
+        self::IMAGE_STDCLASS                => true,
+        self::IMAGE_VOID                    => true,
+        self::IMAGE_OTHER_NULL              => true,
+        self::IMAGE_OTHER_FALSE             => true,
+        self::IMAGE_OTHER_TRUE              => true,
+        self::IMAGE_OTHER_UNKNOWN           => true,
+        self::IMAGE_OTHER_UNKNOWN_TYPE      => true,
+        self::IMAGE_METAPHONE_ARRAY         => true,
+        self::IMAGE_METAPHONE_BOOL          => true,
+        self::IMAGE_METAPHONE_BOOLEAN       => true,
+        self::IMAGE_METAPHONE_DOUBLE        => true,
+        self::IMAGE_METAPHONE_FLOAT         => true,
+        self::IMAGE_METAPHONE_INT           => true,
+        self::IMAGE_METAPHONE_INTEGER       => true,
+        self::IMAGE_METAPHONE_MIXED         => true,
+        self::IMAGE_METAPHONE_OBJECT        => true,
+        self::IMAGE_METAPHONE_REAL          => true,
+        self::IMAGE_METAPHONE_RESOURCE      => true,
+        self::IMAGE_METAPHONE_STRING        => true,
+        self::IMAGE_METAPHONE_STDCLASS      => true,
+        self::IMAGE_METAPHONE_UNKNOWN       => true,
+        self::IMAGE_METAPHONE_UNKNOWN_TYPE  => true,
+        self::IMAGE_SOUNDEX_ARRAY           => true,
+        self::IMAGE_SOUNDEX_BOOL            => true,
+        self::IMAGE_SOUNDEX_BOOLEAN         => true,
+        self::IMAGE_SOUNDEX_DOUBLE          => true,
+        self::IMAGE_SOUNDEX_FLOAT           => true,
+        self::IMAGE_SOUNDEX_INT             => true,
+        self::IMAGE_SOUNDEX_INTEGER         => true,
+        self::IMAGE_SOUNDEX_MIXED           => true,
+        self::IMAGE_SOUNDEX_REAL            => true,
+        self::IMAGE_SOUNDEX_RESOURCE        => true,
+        self::IMAGE_SOUNDEX_OBJECT          => true,
+        self::IMAGE_SOUNDEX_STRING          => true,
+        self::IMAGE_SOUNDEX_STDCLASS        => true,
+        self::IMAGE_SOUNDEX_UNKNOWN         => true,
     );
 
     /**
@@ -211,32 +211,32 @@ final class PHP_Depend_Util_Type
      * @var array(string=>string) $_primitiveTypes
      */
     private static $_primitiveTypes = array(
-        self::IMAGE_BOOL               =>  self::PHP_TYPE_BOOLEAN,
-        self::IMAGE_BOOLEAN            =>  self::PHP_TYPE_BOOLEAN,
-        self::IMAGE_SOUNDEX_BOOL       =>  self::PHP_TYPE_BOOLEAN,
-        self::IMAGE_SOUNDEX_BOOLEAN    =>  self::PHP_TYPE_BOOLEAN,
-        self::IMAGE_OTHER_FALSE        =>  self::PHP_TYPE_BOOLEAN,
-        self::IMAGE_OTHER_TRUE         =>  self::PHP_TYPE_BOOLEAN,
-        self::IMAGE_METAPHONE_BOOL     =>  self::PHP_TYPE_BOOLEAN,
-        self::IMAGE_METAPHONE_BOOLEAN  =>  self::PHP_TYPE_BOOLEAN,
-        self::IMAGE_REAL               =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_FLOAT              =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_DOUBLE             =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_METAPHONE_REAL     =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_METAPHONE_FLOAT    =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_METAPHONE_DOUBLE   =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_SOUNDEX_DOUBLE     =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_SOUNDEX_FLOAT      =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_SOUNDEX_REAL       =>  self::PHP_TYPE_FLOAT,
-        self::IMAGE_INT                =>  self::PHP_TYPE_INTEGER,
-        self::IMAGE_INTEGER            =>  self::PHP_TYPE_INTEGER,
-        self::IMAGE_METAPHONE_INT      =>  self::PHP_TYPE_INTEGER,
-        self::IMAGE_METAPHONE_INTEGER  =>  self::PHP_TYPE_INTEGER,
-        self::IMAGE_SOUNDEX_INT        =>  self::PHP_TYPE_INTEGER,
-        self::IMAGE_SOUNDEX_INTEGER    =>  self::PHP_TYPE_INTEGER,
-        self::IMAGE_STRING             =>  self::PHP_TYPE_STRING,
-        self::IMAGE_METAPHONE_STRING   =>  self::PHP_TYPE_STRING,
-        self::IMAGE_SOUNDEX_STRING     =>  self::PHP_TYPE_STRING,
+        self::IMAGE_BOOL               => self::PHP_TYPE_BOOLEAN,
+        self::IMAGE_BOOLEAN            => self::PHP_TYPE_BOOLEAN,
+        self::IMAGE_SOUNDEX_BOOL       => self::PHP_TYPE_BOOLEAN,
+        self::IMAGE_SOUNDEX_BOOLEAN    => self::PHP_TYPE_BOOLEAN,
+        self::IMAGE_OTHER_FALSE        => self::PHP_TYPE_BOOLEAN,
+        self::IMAGE_OTHER_TRUE         => self::PHP_TYPE_BOOLEAN,
+        self::IMAGE_METAPHONE_BOOL     => self::PHP_TYPE_BOOLEAN,
+        self::IMAGE_METAPHONE_BOOLEAN  => self::PHP_TYPE_BOOLEAN,
+        self::IMAGE_REAL               => self::PHP_TYPE_FLOAT,
+        self::IMAGE_FLOAT              => self::PHP_TYPE_FLOAT,
+        self::IMAGE_DOUBLE             => self::PHP_TYPE_FLOAT,
+        self::IMAGE_METAPHONE_REAL     => self::PHP_TYPE_FLOAT,
+        self::IMAGE_METAPHONE_FLOAT    => self::PHP_TYPE_FLOAT,
+        self::IMAGE_METAPHONE_DOUBLE   => self::PHP_TYPE_FLOAT,
+        self::IMAGE_SOUNDEX_DOUBLE     => self::PHP_TYPE_FLOAT,
+        self::IMAGE_SOUNDEX_FLOAT      => self::PHP_TYPE_FLOAT,
+        self::IMAGE_SOUNDEX_REAL       => self::PHP_TYPE_FLOAT,
+        self::IMAGE_INT                => self::PHP_TYPE_INTEGER,
+        self::IMAGE_INTEGER            => self::PHP_TYPE_INTEGER,
+        self::IMAGE_METAPHONE_INT      => self::PHP_TYPE_INTEGER,
+        self::IMAGE_METAPHONE_INTEGER  => self::PHP_TYPE_INTEGER,
+        self::IMAGE_SOUNDEX_INT        => self::PHP_TYPE_INTEGER,
+        self::IMAGE_SOUNDEX_INTEGER    => self::PHP_TYPE_INTEGER,
+        self::IMAGE_STRING             => self::PHP_TYPE_STRING,
+        self::IMAGE_METAPHONE_STRING   => self::PHP_TYPE_STRING,
+        self::IMAGE_SOUNDEX_STRING     => self::PHP_TYPE_STRING,
     );
 
     /**
@@ -247,14 +247,14 @@ final class PHP_Depend_Util_Type
      *
      * @return boolean
      */
-    public static function isInternalType($typeName)
+    public static function isInternalType( $typeName )
     {
         self::_initTypeToExtension();
 
-        $normalizedName = ltrim($typeName, '\\');
-        $normalizedName = strtolower($normalizedName);
+        $normalizedName = ltrim( $typeName, '\\' );
+        $normalizedName = strtolower( $normalizedName );
 
-        return isset(self::$_typeNameToExtension[$normalizedName]);
+        return isset( self::$_typeNameToExtension[$normalizedName] );
     }
 
     /**
@@ -265,13 +265,14 @@ final class PHP_Depend_Util_Type
      *
      * @return string
      */
-    public static function getTypePackage($typeName)
+    public static function getTypePackage( $typeName )
     {
         self::_initTypeToExtension();
 
-        $normalizedName = ltrim($typeName, '\\');
-        $normalizedName = strtolower($normalizedName);
-        if (isset(self::$_typeNameToExtension[$normalizedName])) {
+        $normalizedName = ltrim( $typeName, '\\' );
+        $normalizedName = strtolower( $normalizedName );
+        if ( isset( self::$_typeNameToExtension[$normalizedName] ) )
+        {
             return self::$_typeNameToExtension[$normalizedName];
         }
         return null;
@@ -284,11 +285,12 @@ final class PHP_Depend_Util_Type
      */
     public static function getInternalPackages()
     {
-        if (self::$_internalPackages === null) {
-            $extensions = array_values(self::_initTypeToExtension());
-            $extensions = array_unique($extensions);
+        if ( self::$_internalPackages === null )
+        {
+            $extensions = array_values( self::_initTypeToExtension() );
+            $extensions = array_unique( $extensions );
 
-            self::$_internalPackages = array_combine($extensions, $extensions);
+            self::$_internalPackages = array_combine( $extensions, $extensions );
         }
         return self::$_internalPackages;
     }
@@ -301,10 +303,10 @@ final class PHP_Depend_Util_Type
      *
      * @return boolean
      */
-    public static function isInternalPackage($packageName)
+    public static function isInternalPackage( $packageName )
     {
         $packageNames = self::getInternalPackages();
-        return isset($packageNames[strtolower($packageName)]);
+        return isset( $packageNames[strtolower( $packageName )] );
     }
 
     /**
@@ -315,17 +317,19 @@ final class PHP_Depend_Util_Type
      *
      * @return boolean
      */
-    public static function isScalarType($image)
+    public static function isScalarType( $image )
     {
-        $image = strtolower($image);
-        if (isset(self::$_scalarTypes[$image]) === true) {
+        $image = strtolower( $image );
+        if ( isset( self::$_scalarTypes[$image] ) === true )
+        {
             return true;
         }
-        $image = metaphone($image);
-        if (isset(self::$_scalarTypes[$image]) === true) {
+        $image = metaphone( $image );
+        if ( isset( self::$_scalarTypes[$image] ) === true )
+        {
             return true;
         }
-        return isset(self::$_scalarTypes[soundex($image)]);
+        return isset( self::$_scalarTypes[soundex( $image )] );
     }
 
     /**
@@ -337,9 +341,9 @@ final class PHP_Depend_Util_Type
      * @return boolean
      * @since 0.9.6
      */
-    public static function isPrimitiveType($image)
+    public static function isPrimitiveType( $image )
     {
-        return (self::getPrimitiveType($image) !== null);
+        return ( self::getPrimitiveType( $image ) !== null );
     }
 
     /**
@@ -351,18 +355,21 @@ final class PHP_Depend_Util_Type
      * @return string
      * @since 0.9.6
      */
-    public static function getPrimitiveType($image)
+    public static function getPrimitiveType( $image )
     {
-        $image = strtolower($image);
-        if (isset(self::$_primitiveTypes[$image]) === true) {
+        $image = strtolower( $image );
+        if ( isset( self::$_primitiveTypes[$image] ) === true )
+        {
             return self::$_primitiveTypes[$image];
         }
-        $image = metaphone($image);
-        if (isset(self::$_primitiveTypes[$image]) === true) {
+        $image = metaphone( $image );
+        if ( isset( self::$_primitiveTypes[$image] ) === true )
+        {
             return self::$_primitiveTypes[$image];
         }
-        $image = soundex($image);
-        if (isset(self::$_primitiveTypes[$image]) === true) {
+        $image = soundex( $image );
+        if ( isset( self::$_primitiveTypes[$image] ) === true )
+        {
             return self::$_primitiveTypes[$image];
         }
         return null;
@@ -377,9 +384,9 @@ final class PHP_Depend_Util_Type
      * @return boolean
      * @since 0.9.6
      */
-    public static function isArrayType($image)
+    public static function isArrayType( $image )
     {
-        return (strtolower($image) === 'array');
+        return ( strtolower( $image ) === 'array' );
     }
 
     /**
@@ -392,22 +399,25 @@ final class PHP_Depend_Util_Type
     private static function _initTypeToExtension()
     {
         // Skip when already done.
-        if (self::$_typeNameToExtension !== null) {
+        if ( self::$_typeNameToExtension !== null )
+        {
             return self::$_typeNameToExtension;
         }
 
-        self::$_typeNameToExtension = array('iterator' => '+standard');
+        self::$_typeNameToExtension = array( 'iterator' => '+standard' );
 
         $extensionNames = get_loaded_extensions();
-        $extensionNames = array_map('strtolower', $extensionNames);
+        $extensionNames = array_map( 'strtolower', $extensionNames );
 
-        foreach ($extensionNames as $extensionName) {
-            $extension = new ReflectionExtension($extensionName);
+        foreach ( $extensionNames as $extensionName )
+        {
+            $extension = new ReflectionExtension( $extensionName );
 
             $classNames = $extension->getClassNames();
-            $classNames = array_map('strtolower', $classNames);
+            $classNames = array_map( 'strtolower', $classNames );
 
-            foreach ($classNames as $className) {
+            foreach ( $classNames as $className )
+            {
                 self::$_typeNameToExtension[$className] = '+' . $extensionName;
             }
         }

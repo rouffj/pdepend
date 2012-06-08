@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -70,7 +70,8 @@ final class PHP_Depend_Util_FileUtil
     public static function getUserHomeDirOrSysTempDir()
     {
         $home = self::getUserHomeDir();
-        if (file_exists($home) && is_writable($home)) {
+        if ( file_exists( $home ) && is_writable( $home ) )
+        {
             return $home;
         }
         return self::getSysTempDir();
@@ -94,9 +95,10 @@ final class PHP_Depend_Util_FileUtil
      */
     public static function getUserHomeDir()
     {
-        if (false === stripos(PHP_OS, 'win')) {
-            return getenv('HOME');
+        if ( false === stripos( PHP_OS, 'win' ) )
+        {
+            return getenv( 'HOME' );
         }
-        return getenv('HOMEDRIVE') . getenv('HOMEPATH');
+        return getenv( 'HOMEDRIVE' ) . getenv( 'HOMEPATH' );
     }
 }

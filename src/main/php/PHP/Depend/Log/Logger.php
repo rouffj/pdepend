@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -68,7 +68,7 @@ interface PHP_Depend_Log_Logger
      * @return boolean
      */
     public function log( PHP_Depend_Metrics_Analyzer $analyzer );
-    
+
     /**
      * Closes the logger process and writes the output file.
      *
@@ -76,10 +76,10 @@ interface PHP_Depend_Log_Logger
      * @throws PHP_Depend_Log_NoLogOutputException If the no log target exists.
      */
     public function close();
-    
+
     /**
      * Returns an <b>array</b> with accepted analyzer types. These types can be
-     * concrete analyzer classes or one of the descriptive analyzer interfaces. 
+     * concrete analyzer classes or one of the descriptive analyzer interfaces.
      *
      * @return string[]
      */

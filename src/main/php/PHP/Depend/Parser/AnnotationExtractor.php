@@ -133,7 +133,8 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
             $node->type = $type;
         }
         else if ( $node instanceof PHPParser_Node_Stmt_Function
-            || $node instanceof PHPParser_Node_Stmt_ClassMethod )
+            || $node instanceof PHPParser_Node_Stmt_ClassMethod
+        )
         {
             $node->returnType = $this->extractType( $node, 'return' );
             $node->exceptions = $this->extractTypes( $node, 'throws' );
@@ -149,7 +150,8 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
     public function leaveNode( PHPParser_Node $node )
     {
         if ( $node instanceof PHPParser_Node_Stmt_Property
-            || $node instanceof PHPParser_Node_Stmt_PropertyProperty )
+            || $node instanceof PHPParser_Node_Stmt_PropertyProperty
+        )
         {
             $this->type = null;
         }

@@ -59,7 +59,7 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_TextUI_ResultPrinter
-       extends PHP_Depend_Visitor_AbstractListener
+    extends PHP_Depend_Visitor_AbstractListener
     implements PHP_Depend_ProcessListener
 {
     /**
@@ -81,7 +81,7 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    public function startParseProcess(PHP_Depend_Parser $parser)
+    public function startParseProcess( PHP_Depend_Parser $parser )
     {
         $this->_count = 0;
 
@@ -95,7 +95,7 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    public function endParseProcess(PHP_Depend_Parser $parser)
+    public function endParseProcess( PHP_Depend_Parser $parser )
     {
         $this->finish();
     }
@@ -107,7 +107,7 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    public function startFileParsing(PHP_Depend_Tokenizer $tokenizer)
+    public function startFileParsing( PHP_Depend_Tokenizer $tokenizer )
     {
         $this->step();
     }
@@ -119,7 +119,7 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    public function endFileParsing(PHP_Depend_Tokenizer $tokenizer)
+    public function endFileParsing( PHP_Depend_Tokenizer $tokenizer )
     {
 
     }
@@ -171,11 +171,11 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    public function startAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
+    public function startAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer )
     {
         $this->_count = 0;
 
-        $name = substr(get_class($analyzer), 19, -9);
+        $name = substr( get_class( $analyzer ), 19, -9 );
         echo "Executing {$name}-Analyzer:\n";
     }
 
@@ -186,9 +186,9 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    public function endAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
+    public function endAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer )
     {
-        $this->finish(self::STEP_SIZE);
+        $this->finish( self::STEP_SIZE );
     }
 
     /**
@@ -198,9 +198,9 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    public function startVisitNode(PHP_Depend_AST_Node $node)
+    public function startVisitNode( PHP_Depend_AST_Node $node )
     {
-        $this->step(self::STEP_SIZE);
+        $this->step( self::STEP_SIZE );
     }
 
     /**
@@ -210,13 +210,15 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    protected function step($size = 1)
+    protected function step( $size = 1 )
     {
-        if ($this->_count > 0 && $this->_count % $size === 0) {
+        if ( $this->_count > 0 && $this->_count % $size === 0 )
+        {
             echo '.';
         }
-        if ($this->_count > 0 && $this->_count % ($size * 60) === 0) {
-            printf("% 6s\n", $this->_count);
+        if ( $this->_count > 0 && $this->_count % ( $size * 60 ) === 0 )
+        {
+            printf( "% 6s\n", $this->_count );
         }
         ++$this->_count;
     }
@@ -228,18 +230,23 @@ class PHP_Depend_TextUI_ResultPrinter
      *
      * @return void
      */
-    protected function finish($size = 1)
+    protected function finish( $size = 1 )
     {
-        $diff = ($this->_count % ($size * 60));
+        $diff = ( $this->_count % ( $size * 60 ) );
 
-        if ($diff === 0) {
-            printf(".% 6s\n\n", $this->_count);
-        } else if ($size === 1) {
-            $indent = 66 - ceil($diff / $size);
-            printf(".% {$indent}s\n\n", $this->_count);
-        } else {
-            $indent = 66 - ceil($diff / $size) + 1;
-            printf("% {$indent}s\n\n", $this->_count);
+        if ( $diff === 0 )
+        {
+            printf( ".% 6s\n\n", $this->_count );
+        }
+        else if ( $size === 1 )
+        {
+            $indent = 66 - ceil( $diff / $size );
+            printf( ".% {$indent}s\n\n", $this->_count );
+        }
+        else
+        {
+            $indent = 66 - ceil( $diff / $size ) + 1;
+            printf( "% {$indent}s\n\n", $this->_count );
         }
     }
 }

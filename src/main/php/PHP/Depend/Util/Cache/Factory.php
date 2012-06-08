@@ -81,7 +81,7 @@ class PHP_Depend_Util_Cache_Factory
      *
      * @param PHP_Depend_Util_Configuration $configuration The system configuration.
      */
-    public function __construct(PHP_Depend_Util_Configuration $configuration)
+    public function __construct( PHP_Depend_Util_Configuration $configuration )
     {
         $this->configuration = $configuration;
     }
@@ -94,10 +94,11 @@ class PHP_Depend_Util_Cache_Factory
      *
      * @return PHP_Depend_Util_Cache_Driver
      */
-    public function create($cacheKey = null)
+    public function create( $cacheKey = null )
     {
-        if (false === isset($this->caches[$cacheKey])) {
-            $this->caches[$cacheKey] = $this->createCache($cacheKey);
+        if ( false === isset( $this->caches[$cacheKey] ) )
+        {
+            $this->caches[$cacheKey] = $this->createCache( $cacheKey );
         }
         return $this->caches[$cacheKey];
     }
@@ -110,18 +111,19 @@ class PHP_Depend_Util_Cache_Factory
      * @return PHP_Depend_Util_Cache_Driver
      * @throws InvalidArgumentException If the configured cache driver is unknown.
      */
-    protected function createCache($cacheKey)
+    protected function createCache( $cacheKey )
     {
-        switch ($this->configuration->cache->driver) {
+        switch ( $this->configuration->cache->driver )
+        {
 
-        case 'file':
-            return $this->createFileCache(
-                $this->configuration->cache->location,
-                $cacheKey
-            );
+            case 'file':
+                return $this->createFileCache(
+                    $this->configuration->cache->location,
+                    $cacheKey
+                );
 
-        case 'memory':
-            return $this->createMemoryCache();
+            case 'memory':
+                return $this->createMemoryCache();
         }
         throw new InvalidArgumentException(
             "Unknown cache driver '{$this->configuration->cache->driver}' given."
@@ -136,9 +138,9 @@ class PHP_Depend_Util_Cache_Factory
      *
      * @return PHP_Depend_Util_Cache_Driver_File
      */
-    protected function createFileCache($location, $cacheKey)
+    protected function createFileCache( $location, $cacheKey )
     {
-        return new PHP_Depend_Util_Cache_Driver_File($location, $cacheKey);
+        return new PHP_Depend_Util_Cache_Driver_File( $location, $cacheKey );
     }
 
     /**

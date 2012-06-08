@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -68,23 +68,23 @@ interface PHP_Depend_Code_NodeI
      * @return string
      */
     function getName();
-    
+
     /**
      * Returns a uuid for this code node.
      *
      * @return string
      */
     function getUUID();
-    
+
     /**
      * Visitor method for node tree traversal.
      *
-     * @param PHP_Depend_VisitorI $visitor The context visitor 
+     * @param PHP_Depend_VisitorI $visitor The context visitor
      *                                              implementation.
-     * 
+     *
      * @return void
      */
-    function accept(PHP_Depend_VisitorI $visitor);
+    function accept( PHP_Depend_VisitorI $visitor );
 }
 
 // @codeCoverageIgnoreEnd

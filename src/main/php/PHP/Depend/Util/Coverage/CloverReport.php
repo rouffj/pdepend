@@ -78,9 +78,9 @@ class PHP_Depend_Util_Coverage_CloverReport
      *
      * @param SimpleXMLElement $sxml The context simple xml element.
      */
-    public function __construct(SimpleXMLElement $sxml)
+    public function __construct( SimpleXMLElement $sxml )
     {
-        $this->_readProjectCoverage($sxml->project);
+        $this->_readProjectCoverage( $sxml->project );
     }
 
     /**
@@ -90,11 +90,12 @@ class PHP_Depend_Util_Coverage_CloverReport
      *
      * @return void
      */
-    private function _readProjectCoverage(SimpleXMLElement $sxml)
+    private function _readProjectCoverage( SimpleXMLElement $sxml )
     {
-        $this->_readFileCoverage($sxml);
-        foreach ($sxml->package as $package) {
-            $this->_readFileCoverage($package);
+        $this->_readFileCoverage( $sxml );
+        foreach ( $sxml->package as $package )
+        {
+            $this->_readFileCoverage( $package );
         }
     }
 
@@ -106,12 +107,14 @@ class PHP_Depend_Util_Coverage_CloverReport
      *
      * @return void
      */
-    private function _readFileCoverage(SimpleXMLElement $sxml)
+    private function _readFileCoverage( SimpleXMLElement $sxml )
     {
-        foreach ($sxml->file as $file) {
+        foreach ( $sxml->file as $file )
+        {
             $lines = array();
-            foreach ($file->line as $line) {
-                $lines[(int) $line['num']] = (0 < (int) $line['count']);
+            foreach ( $file->line as $line )
+            {
+                $lines[(int) $line['num']] = ( 0 < (int) $line['count'] );
             }
             $this->_fileLineCoverage[(string) $file['name']] = $lines;
         }
@@ -124,28 +127,32 @@ class PHP_Depend_Util_Coverage_CloverReport
      *
      * @return float
      */
-    public function getCoverage(PHP_Depend_Code_AbstractItem $item)
+    public function getCoverage( PHP_Depend_Code_AbstractItem $item )
     {
-        $lines = $this->_getLines((string) $item->getSourceFile());
+        $lines = $this->_getLines( (string) $item->getSourceFile() );
 
         $startLine = $item->getStartLine();
         $endLine   = $item->getEndLine();
 
         $executable = 0;
         $executed   = 0;
-        for ($i = $startLine; $i <= $endLine; ++$i) {
-            if (!isset($lines[$i])) {
+        for ( $i = $startLine; $i <= $endLine; ++$i )
+        {
+            if ( !isset( $lines[$i] ) )
+            {
                 continue;
             }
             ++$executable;
-            if ($lines[$i]) {
+            if ( $lines[$i] )
+            {
                 ++$executed;
             }
         }
-        if ($executed === 0) {
+        if ( $executed === 0 )
+        {
             return 0;
         }
-        return (($executed / $executable) * 100);
+        return ( ( $executed / $executable ) * 100 );
     }
 
     /**
@@ -155,9 +162,10 @@ class PHP_Depend_Util_Coverage_CloverReport
      *
      * @return array(boolean)
      */
-    private function _getLines($fileName)
+    private function _getLines( $fileName )
     {
-        if (isset($this->_fileLineCoverage[$fileName])) {
+        if ( isset( $this->_fileLineCoverage[$fileName] ) )
+        {
             return $this->_fileLineCoverage[$fileName];
         }
         return array();

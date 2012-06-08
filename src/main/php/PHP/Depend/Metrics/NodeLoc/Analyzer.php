@@ -75,26 +75,26 @@
  * @link       http://pdepend.org/
  */
 class PHP_Depend_Metrics_NodeLoc_Analyzer
-       extends PHP_Depend_Metrics_AbstractCachingAnalyzer
+    extends PHP_Depend_Metrics_AbstractCachingAnalyzer
     /* TODO 2.0
    implements PHP_Depend_Metrics_Analyzer,
               PHP_Depend_Metrics_NodeAware,
               PHP_Depend_Metrics_FilterAware,
               PHP_Depend_Metrics_ProjectAware*/
 {
-   /**
-    * Type of this analyzer class.
-    */
+    /**
+     * Type of this analyzer class.
+     */
     const CLAZZ = __CLASS__;
 
     /**
      * Metrics provided by the analyzer implementation.
      */
-    const M_LINES_OF_CODE             = 'loc',
-          M_COMMENT_LINES_OF_CODE     = 'cloc',
-          M_EXECUTABLE_LINES_OF_CODE  = 'eloc',
-          M_LOGICAL_LINES_OF_CODE     = 'lloc',
-          M_NON_COMMENT_LINES_OF_CODE = 'ncloc';
+    const M_LINES_OF_CODE           = 'loc',
+        M_COMMENT_LINES_OF_CODE     = 'cloc',
+        M_EXECUTABLE_LINES_OF_CODE  = 'eloc',
+        M_LOGICAL_LINES_OF_CODE     = 'lloc',
+        M_NON_COMMENT_LINES_OF_CODE = 'ncloc';
 
     /**
      * Collected project metrics.
@@ -102,11 +102,11 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      * @var array(string=>integer)
      */
     private $_projectMetrics = array(
-        self::M_LINES_OF_CODE              =>  0,
-        self::M_COMMENT_LINES_OF_CODE      =>  0,
-        self::M_EXECUTABLE_LINES_OF_CODE   =>  0,
-        self::M_LOGICAL_LINES_OF_CODE      =>  0,
-        self::M_NON_COMMENT_LINES_OF_CODE  =>  0
+        self::M_LINES_OF_CODE              => 0,
+        self::M_COMMENT_LINES_OF_CODE      => 0,
+        self::M_EXECUTABLE_LINES_OF_CODE   => 0,
+        self::M_LOGICAL_LINES_OF_CODE      => 0,
+        self::M_NON_COMMENT_LINES_OF_CODE  => 0
     );
 
     /**
@@ -145,10 +145,11 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return array
      */
-    public function getNodeMetrics($node)
+    public function getNodeMetrics( $node )
     {
         $metrics = array();
-        if (isset($this->metrics[$node->getUUID()])) {
+        if ( isset( $this->metrics[$node->getUUID()] ) )
+        {
             $metrics = $this->metrics[$node->getUUID()];
         }
         return $metrics;
@@ -179,15 +180,17 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return void
      */
-    public function analyze(PHP_Depend_Code_NodeIterator $packages)
+    public function analyze( PHP_Depend_Code_NodeIterator $packages )
     {
-        if ($this->metrics === null) {
+        if ( $this->metrics === null )
+        {
             $this->loadCache();
             $this->fireStartAnalyzer();
 
             $this->metrics = array();
-            foreach ($packages as $package) {
-                $package->accept($this);
+            foreach ( $packages as $package )
+            {
+                $package->accept( $this );
             }
 
             $this->fireEndAnalyzer();
@@ -203,37 +206,39 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitClass()
      */
-    public function visitClass(PHP_Depend_AST_Class $class)
+    public function visitClass( PHP_Depend_AST_Class $class )
     {
-        $this->fireStartClass($class);
+        $this->fireStartClass( $class );
 
-        $class->getSourceFile()->accept($this);
+        $class->getSourceFile()->accept( $this );
 
         $this->_classExecutableLines = 0;
         $this->_classLogicalLines    = 0;
 
-        foreach ($class->getMethods() as $method) {
-            $method->accept($this);
+        foreach ( $class->getMethods() as $method )
+        {
+            $method->accept( $this );
         }
 
-        if ($this->restoreFromCache($class)) {
-            return $this->fireEndClass($class);
+        if ( $this->restoreFromCache( $class ) )
+        {
+            return $this->fireEndClass( $class );
         }
 
-        list($cloc) = $this->_linesOfCode($class->getTokens(), true);
+        list( $cloc ) = $this->_linesOfCode( $class->getTokens(), true );
 
         $loc   = $class->getEndLine() - $class->getStartLine() + 1;
         $ncloc = $loc - $cloc;
 
         $this->metrics[$class->getUUID()] = array(
-            self::M_LINES_OF_CODE              =>  $loc,
-            self::M_COMMENT_LINES_OF_CODE      =>  $cloc,
-            self::M_EXECUTABLE_LINES_OF_CODE   =>  $this->_classExecutableLines,
-            self::M_LOGICAL_LINES_OF_CODE      =>  $this->_classLogicalLines,
-            self::M_NON_COMMENT_LINES_OF_CODE  =>  $ncloc,
+            self::M_LINES_OF_CODE              => $loc,
+            self::M_COMMENT_LINES_OF_CODE      => $cloc,
+            self::M_EXECUTABLE_LINES_OF_CODE   => $this->_classExecutableLines,
+            self::M_LOGICAL_LINES_OF_CODE      => $this->_classLogicalLines,
+            self::M_NON_COMMENT_LINES_OF_CODE  => $ncloc,
         );
 
-        $this->fireEndClass($class);
+        $this->fireEndClass( $class );
     }
 
     /**
@@ -244,41 +249,44 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitFile()
      */
-    public function visitFile(PHP_Depend_AST_File $file)
+    public function visitFile( PHP_Depend_AST_File $file )
     {
         // Skip for dummy files
-        if ($file->getFileName() === null) {
+        if ( $file->getFileName() === null )
+        {
             return;
         }
         // Check for initial file
         $uuid = $file->getUUID();
-        if (isset($this->metrics[$uuid])) {
+        if ( isset( $this->metrics[$uuid] ) )
+        {
             return;
         }
 
-        $this->fireStartFile($file);
+        $this->fireStartFile( $file );
 
-        if ($this->restoreFromCache($file)) {
-            $this->_updateProjectMetrics($uuid);
-            return $this->fireEndFile($file);
+        if ( $this->restoreFromCache( $file ) )
+        {
+            $this->_updateProjectMetrics( $uuid );
+            return $this->fireEndFile( $file );
         }
 
-        list($cloc, $eloc, $lloc) = $this->_linesOfCode($file->getTokens());
+        list( $cloc, $eloc, $lloc ) = $this->_linesOfCode( $file->getTokens() );
 
         $loc   = $file->getEndLine();
         $ncloc = $loc - $cloc;
 
         $this->metrics[$uuid] = array(
-            self::M_LINES_OF_CODE              =>  $loc,
-            self::M_COMMENT_LINES_OF_CODE      =>  $cloc,
-            self::M_EXECUTABLE_LINES_OF_CODE   =>  $eloc,
-            self::M_LOGICAL_LINES_OF_CODE      =>  $lloc,
-            self::M_NON_COMMENT_LINES_OF_CODE  =>  $ncloc
+            self::M_LINES_OF_CODE              => $loc,
+            self::M_COMMENT_LINES_OF_CODE      => $cloc,
+            self::M_EXECUTABLE_LINES_OF_CODE   => $eloc,
+            self::M_LOGICAL_LINES_OF_CODE      => $lloc,
+            self::M_NON_COMMENT_LINES_OF_CODE  => $ncloc
         );
 
-        $this->_updateProjectMetrics($uuid);
+        $this->_updateProjectMetrics( $uuid );
 
-        $this->fireEndFile($file);
+        $this->fireEndFile( $file );
     }
 
     /**
@@ -289,17 +297,18 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      * @return void
      * @see PHP_Depend_Visitor_AbstractVisitor::visitFunction()
      */
-    public function visitFunction(PHP_Depend_AST_Function $function)
+    public function visitFunction( PHP_Depend_AST_Function $function )
     {
-        $this->fireStartFunction($function);
+        $this->fireStartFunction( $function );
 
-        $function->getSourceFile()->accept($this);
+        $function->getSourceFile()->accept( $this );
 
-        if ($this->restoreFromCache($function)) {
-            return $this->fireEndFunction($function);
+        if ( $this->restoreFromCache( $function ) )
+        {
+            return $this->fireEndFunction( $function );
         }
 
-        list($cloc, $eloc, $lloc) = $this->_linesOfCode(
+        list( $cloc, $eloc, $lloc ) = $this->_linesOfCode(
             $function->getTokens(),
             true
         );
@@ -308,14 +317,14 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
         $ncloc = $loc - $cloc;
 
         $this->metrics[$function->getUUID()] = array(
-            self::M_LINES_OF_CODE              =>  $loc,
-            self::M_COMMENT_LINES_OF_CODE      =>  $cloc,
-            self::M_EXECUTABLE_LINES_OF_CODE   =>  $eloc,
-            self::M_LOGICAL_LINES_OF_CODE      =>  $lloc,
-            self::M_NON_COMMENT_LINES_OF_CODE  =>  $ncloc
+            self::M_LINES_OF_CODE              => $loc,
+            self::M_COMMENT_LINES_OF_CODE      => $cloc,
+            self::M_EXECUTABLE_LINES_OF_CODE   => $eloc,
+            self::M_LOGICAL_LINES_OF_CODE      => $lloc,
+            self::M_NON_COMMENT_LINES_OF_CODE  => $ncloc
         );
 
-        $this->fireEndFunction($function);
+        $this->fireEndFunction( $function );
     }
 
     /**
@@ -325,34 +334,36 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return void
      */
-    public function visitInterface(PHP_Depend_AST_Interface $interface)
+    public function visitInterface( PHP_Depend_AST_Interface $interface )
     {
-        $this->fireStartInterface($interface);
+        $this->fireStartInterface( $interface );
 
-        $interface->getSourceFile()->accept($this);
+        $interface->getSourceFile()->accept( $this );
 
-        foreach ($interface->getMethods() as $method) {
-            $method->accept($this);
+        foreach ( $interface->getMethods() as $method )
+        {
+            $method->accept( $this );
         }
 
-        if ($this->restoreFromCache($interface)) {
-            return $this->fireEndInterface($interface);
+        if ( $this->restoreFromCache( $interface ) )
+        {
+            return $this->fireEndInterface( $interface );
         }
 
-        list($cloc) = $this->_linesOfCode($interface->getTokens(), true);
+        list( $cloc ) = $this->_linesOfCode( $interface->getTokens(), true );
 
         $loc   = $interface->getEndLine() - $interface->getStartLine() + 1;
         $ncloc = $loc - $cloc;
 
         $this->metrics[$interface->getUUID()] = array(
-            self::M_LINES_OF_CODE              =>  $loc,
-            self::M_COMMENT_LINES_OF_CODE      =>  $cloc,
-            self::M_EXECUTABLE_LINES_OF_CODE   =>  0,
-            self::M_LOGICAL_LINES_OF_CODE      =>  0,
-            self::M_NON_COMMENT_LINES_OF_CODE  =>  $ncloc
+            self::M_LINES_OF_CODE              => $loc,
+            self::M_COMMENT_LINES_OF_CODE      => $cloc,
+            self::M_EXECUTABLE_LINES_OF_CODE   => 0,
+            self::M_LOGICAL_LINES_OF_CODE      => 0,
+            self::M_NON_COMMENT_LINES_OF_CODE  => $ncloc
         );
 
-        $this->fireEndInterface($interface);
+        $this->fireEndInterface( $interface );
     }
 
     /**
@@ -362,20 +373,24 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return void
      */
-    public function visitMethod(PHP_Depend_AST_Method $method)
+    public function visitMethod( PHP_Depend_AST_Method $method )
     {
-        $this->fireStartMethod($method);
+        $this->fireStartMethod( $method );
 
-        if ($this->restoreFromCache($method)) {
-            return $this->fireEndMethod($method);
+        if ( $this->restoreFromCache( $method ) )
+        {
+            return $this->fireEndMethod( $method );
         }
-        
-        if ($method->isAbstract()) {
+
+        if ( $method->isAbstract() )
+        {
             $cloc = 0;
             $eloc = 0;
             $lloc = 0;
-        } else {
-            list($cloc, $eloc, $lloc) = $this->_linesOfCode(
+        }
+        else
+        {
+            list( $cloc, $eloc, $lloc ) = $this->_linesOfCode(
                 $method->getTokens(),
                 true
             );
@@ -384,17 +399,17 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
         $ncloc = $loc - $cloc;
 
         $this->metrics[$method->getUUID()] = array(
-            self::M_LINES_OF_CODE              =>  $loc,
-            self::M_COMMENT_LINES_OF_CODE      =>  $cloc,
-            self::M_EXECUTABLE_LINES_OF_CODE   =>  $eloc,
-            self::M_LOGICAL_LINES_OF_CODE      =>  $lloc,
-            self::M_NON_COMMENT_LINES_OF_CODE  =>  $ncloc
+            self::M_LINES_OF_CODE              => $loc,
+            self::M_COMMENT_LINES_OF_CODE      => $cloc,
+            self::M_EXECUTABLE_LINES_OF_CODE   => $eloc,
+            self::M_LOGICAL_LINES_OF_CODE      => $lloc,
+            self::M_NON_COMMENT_LINES_OF_CODE  => $ncloc
         );
 
         $this->_classExecutableLines += $eloc;
-        $this->_classLogicalLines    += $lloc;
+        $this->_classLogicalLines += $lloc;
 
-        $this->fireEndMethod($method);
+        $this->fireEndMethod( $method );
     }
 
     /**
@@ -405,9 +420,10 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return void
      */
-    private function _updateProjectMetrics($uuid)
+    private function _updateProjectMetrics( $uuid )
     {
-        foreach ($this->metrics[$uuid] as $metric => $value) {
+        foreach ( $this->metrics[$uuid] as $metric => $value )
+        {
             $this->_projectMetrics[$metric] += $value;
         }
     }
@@ -430,73 +446,87 @@ class PHP_Depend_Metrics_NodeLoc_Analyzer
      *
      * @return array
      */
-    private function _linesOfCode(array $tokens, $search = false)
+    private function _linesOfCode( array $tokens, $search = false )
     {
         $clines = array();
         $elines = array();
         $llines = 0;
 
-        $count = count($tokens);
-        if ($search === true) {
-            for ($i = 0; $i < $count; ++$i) {
+        $count = count( $tokens );
+        if ( $search === true )
+        {
+            for ( $i = 0; $i < $count; ++$i )
+            {
                 $token = $tokens[$i];
 
-                if ($token->type === PHP_Depend_TokenizerI::T_CURLY_BRACE_OPEN) {
+                if ( $token->type === PHP_Depend_TokenizerI::T_CURLY_BRACE_OPEN )
+                {
                     break;
                 }
             }
-        } else {
+        }
+        else
+        {
             $i = 0;
         }
 
-        for (; $i < $count; ++$i) {
+        for ( ; $i < $count; ++$i )
+        {
             $token = $tokens[$i];
 
-            if ($token->type === PHP_Depend_TokenizerI::T_COMMENT
+            if ( $token->type === PHP_Depend_TokenizerI::T_COMMENT
                 || $token->type === PHP_Depend_TokenizerI::T_DOC_COMMENT
-            ) {
+            )
+            {
                 $lines =& $clines;
-            } else {
+            }
+            else
+            {
                 $lines =& $elines;
             }
 
-            switch ($token->type) {
+            switch ( $token->type )
+            {
 
-            // These statement are terminated by a semicolon
-            //case PHP_Depend_TokenizerI::T_RETURN:
-            //case PHP_Depend_TokenizerI::T_THROW:
+                // These statement are terminated by a semicolon
+                //case PHP_Depend_TokenizerI::T_RETURN:
+                //case PHP_Depend_TokenizerI::T_THROW:
 
-            case PHP_Depend_TokenizerI::T_IF:
-            case PHP_Depend_TokenizerI::T_TRY:
-            case PHP_Depend_TokenizerI::T_CASE:
-            case PHP_Depend_TokenizerI::T_GOTO:
-            case PHP_Depend_TokenizerI::T_CATCH:
-            case PHP_Depend_TokenizerI::T_WHILE:
-            case PHP_Depend_TokenizerI::T_ELSEIF:
-            case PHP_Depend_TokenizerI::T_SWITCH:
-            case PHP_Depend_TokenizerI::T_DEFAULT:
-            case PHP_Depend_TokenizerI::T_FOREACH:
-            case PHP_Depend_TokenizerI::T_FUNCTION:
-            case PHP_Depend_TokenizerI::T_SEMICOLON:
-                ++$llines;
-                break;
+                case PHP_Depend_TokenizerI::T_IF:
+                case PHP_Depend_TokenizerI::T_TRY:
+                case PHP_Depend_TokenizerI::T_CASE:
+                case PHP_Depend_TokenizerI::T_GOTO:
+                case PHP_Depend_TokenizerI::T_CATCH:
+                case PHP_Depend_TokenizerI::T_WHILE:
+                case PHP_Depend_TokenizerI::T_ELSEIF:
+                case PHP_Depend_TokenizerI::T_SWITCH:
+                case PHP_Depend_TokenizerI::T_DEFAULT:
+                case PHP_Depend_TokenizerI::T_FOREACH:
+                case PHP_Depend_TokenizerI::T_FUNCTION:
+                case PHP_Depend_TokenizerI::T_SEMICOLON:
+                    ++$llines;
+                    break;
 
-            case PHP_Depend_TokenizerI::T_DO:
-            case PHP_Depend_TokenizerI::T_FOR:
-                // Because statements at least require one semicolon
-                --$llines;
-                break;
+                case PHP_Depend_TokenizerI::T_DO:
+                case PHP_Depend_TokenizerI::T_FOR:
+                    // Because statements at least require one semicolon
+                    --$llines;
+                    break;
             }
 
-            if ($token->startLine === $token->endLine) {
+            if ( $token->startLine === $token->endLine )
+            {
                 $lines[$token->startLine] = true;
-            } else {
-                for ($j = $token->startLine; $j <= $token->endLine; ++$j) {
+            }
+            else
+            {
+                for ( $j = $token->startLine; $j <= $token->endLine; ++$j )
+                {
                     $lines[$j] = true;
                 }
             }
-            unset($lines);
+            unset( $lines );
         }
-        return array(count($clines), count($elines), $llines);
+        return array( count( $clines ), count( $elines ), $llines );
     }
 }

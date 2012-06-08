@@ -73,7 +73,7 @@ class PHP_Depend_Input_ExtensionFilter implements PHP_Depend_Input_FilterI
      *
      * @param array $extensions List of allowed extension.
      */
-    public function __construct(array $extensions)
+    public function __construct( array $extensions )
     {
         $this->extensions = $extensions;
     }
@@ -86,10 +86,10 @@ class PHP_Depend_Input_ExtensionFilter implements PHP_Depend_Input_FilterI
      *
      * @return boolean
      */
-    public function accept($relative, $absolute)
+    public function accept( $relative, $absolute )
     {
-        $extension = pathinfo($relative, PATHINFO_EXTENSION);
+        $extension = pathinfo( $relative, PATHINFO_EXTENSION );
 
-        return in_array($extension, $this->extensions);
+        return in_array( $extension, $this->extensions );
     }
 }

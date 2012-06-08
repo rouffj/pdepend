@@ -67,7 +67,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function startVisitClass(PHP_Depend_AST_Class $class);
+    function startVisitClass( PHP_Depend_AST_Class $class );
 
     /**
      * Is called when the visitor ends with a class instance.
@@ -76,7 +76,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function endVisitClass(PHP_Depend_AST_Class $class);
+    function endVisitClass( PHP_Depend_AST_Class $class );
 
     /**
      * Is called when the visitor starts a new trait instance.
@@ -86,7 +86,7 @@ interface PHP_Depend_Visitor_ListenerI
      * @return void
      * @since 1.0.0
      */
-    function startVisitTrait(PHP_Depend_AST_Trait $trait);
+    function startVisitTrait( PHP_Depend_AST_Trait $trait );
 
     /**
      * Is called when the visitor ends with a trait instance.
@@ -96,7 +96,7 @@ interface PHP_Depend_Visitor_ListenerI
      * @return void
      * @since 1.0.0
      */
-    function endVisitTrait(PHP_Depend_AST_Trait $trait);
+    function endVisitTrait( PHP_Depend_AST_Trait $trait );
 
     /**
      * Is called when the visitor starts a new file instance.
@@ -105,7 +105,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function startVisitFile(PHP_Depend_AST_File $file);
+    function startVisitFile( PHP_Depend_AST_File $file );
 
     /**
      * Is called when the visitor ends with a file instance.
@@ -114,7 +114,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function endVisitFile(PHP_Depend_AST_File $file);
+    function endVisitFile( PHP_Depend_AST_File $file );
 
     /**
      * Is called when the visitor starts a new function instance.
@@ -123,7 +123,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function startVisitFunction(PHP_Depend_AST_Function $function);
+    function startVisitFunction( PHP_Depend_AST_Function $function );
 
     /**
      * Is called when the visitor ends with a function instance.
@@ -132,7 +132,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function endVisitFunction(PHP_Depend_AST_Function $function);
+    function endVisitFunction( PHP_Depend_AST_Function $function );
 
     /**
      * Is called when the visitor starts a new interface instance.
@@ -141,7 +141,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function startVisitInterface(PHP_Depend_AST_Interface $interface);
+    function startVisitInterface( PHP_Depend_AST_Interface $interface );
 
     /**
      * Is called when the visitor ends with an interface instance.
@@ -150,7 +150,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function endVisitInterface(PHP_Depend_AST_Interface $interface);
+    function endVisitInterface( PHP_Depend_AST_Interface $interface );
 
     /**
      * Is called when the visitor starts a new method instance.
@@ -159,7 +159,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function startVisitMethod(PHP_Depend_AST_Method $method);
+    function startVisitMethod( PHP_Depend_AST_Method $method );
 
     /**
      * Is called when the visitor ends with a method instance.
@@ -168,7 +168,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function endVisitMethod(PHP_Depend_AST_Method $method);
+    function endVisitMethod( PHP_Depend_AST_Method $method );
 
     /**
      * Is called when the visitor starts a new package instance.
@@ -177,7 +177,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function startVisitPackage(PHP_Depend_AST_Package $package);
+    function startVisitPackage( PHP_Depend_AST_Package $package );
 
     /**
      * Is called when the visitor ends with a package instance.
@@ -186,7 +186,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function endVisitPackage(PHP_Depend_AST_Package $package);
+    function endVisitPackage( PHP_Depend_AST_Package $package );
 
     /**
      * Is called when the visitor starts a new parameter instance.
@@ -195,7 +195,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function startVisitParameter(PHP_Depend_AST_Parameter $parameter);
+    function startVisitParameter( PHP_Depend_AST_Parameter $parameter );
 
     /**
      * Is called when the visitor ends with a parameter instance.
@@ -204,7 +204,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function endVisitParameter(PHP_Depend_AST_Parameter $parameter);
+    function endVisitParameter( PHP_Depend_AST_Parameter $parameter );
 
     /**
      * Is called when the visitor starts a new property instance.
@@ -213,7 +213,7 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function startVisitProperty(PHP_Depend_AST_Property $property);
+    function startVisitProperty( PHP_Depend_AST_Property $property );
 
     /**
      * Is called when the visitor ends with a property instance.
@@ -222,5 +222,5 @@ interface PHP_Depend_Visitor_ListenerI
      *
      * @return void
      */
-    function endVisitProperty(PHP_Depend_AST_Property $property);
+    function endVisitProperty( PHP_Depend_AST_Property $property );
 }

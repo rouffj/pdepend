@@ -99,22 +99,24 @@ class PHP_Depend_Log_LoggerFactory
 
             // By definition the logger class name must be a single word.
             // Everything else is part of the package name.
-            $class   = array_pop($words);
-            $package = implode('', $words);
+            $class   = array_pop( $words );
+            $package = implode( '', $words );
 
-            $className = sprintf('PHP_Depend_Log_%s_%s', $package, $class);
-            $classFile = sprintf('PHP/Depend/Log/%s/%s.php', $package, $class);
+            $className = sprintf( 'PHP_Depend_Log_%s_%s', $package, $class );
+            $classFile = sprintf( 'PHP/Depend/Log/%s/%s.php', $package, $class );
 
-            if (class_exists($className) === false) {
+            if ( class_exists( $className ) === false )
+            {
 
-                if (($handle = @fopen($classFile, 'r', true)) === false) {
+                if ( ( $handle = @fopen( $classFile, 'r', true ) ) === false )
+                {
                     throw new RuntimeException(
                         "Unknown logger class '{$className}'."
                     );
                 }
 
                 // Close file pointer and include class file
-                fclose($handle);
+                fclose( $handle );
                 include $classFile;
             }
 
@@ -123,8 +125,9 @@ class PHP_Depend_Log_LoggerFactory
 
             // TODO: Refactor this into an external log configurator or a similar
             //       concept.
-            if ( $logger instanceof PHP_Depend_Log_FileAware ) {
-                $logger->setLogFile($fileName);
+            if ( $logger instanceof PHP_Depend_Log_FileAware )
+            {
+                $logger->setLogFile( $fileName );
             }
 
             $this->instances[$identifier] = $logger;
