@@ -144,11 +144,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testCaMetricWithPropertyDependency()
     {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getNodeMetrics( 'ClassWithPropertyDependency#c' );
+        $metrics = $this->getMetricsForClass( 'ClassWithPropertyDependency' );
         $this->assertEquals( 1, $metrics['ca'] );
 
         return $metrics;
@@ -185,11 +181,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testCaMetricWithFunctionReturnTypeReference()
     {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getNodeMetrics( 'ClassWithReturnTypeReference#c' );
+        $metrics = $this->getMetricsForClass( 'ClassWithReturnTypeReference' );
         $this->assertEquals( 1, $metrics['ca'] );
     }
 
@@ -200,11 +192,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testCaMetricWithMethodReturnTypeReference()
     {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getNodeMetrics( 'ClassMethodWithReturnTypeReference#c' );
+        $metrics = $this->getMetricsForClass( 'ClassMethodWithReturnTypeReference' );
         $this->assertEquals( 1, $metrics['ca'] );
 
         return $metrics;
@@ -241,11 +229,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testCaMetricWithClassMethodExceptionReference()
     {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getNodeMetrics( 'ClassMethodWithExceptionReference#c' );
+        $metrics = $this->getMetricsForClass( 'ClassMethodWithExceptionReference' );
         $this->assertEquals( 2, $metrics['ca'] );
 
         return $metrics;
@@ -282,11 +266,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testCaMetricWithFunctionExceptionReference()
     {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getNodeMetrics( 'ExceptionReferencedByFunction#c' );
+        $metrics = $this->getMetricsForClass( 'ExceptionReferencedByFunction' );
         $this->assertEquals( 2, $metrics['ca'] );
     }
 
@@ -297,11 +277,7 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
      */
     public function testCaMetricWithCatchStatementReference()
     {
-        $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
-
-        $metrics = $analyzer->getNodeMetrics( 'ClassWithCatchStatementReference#c' );
+        $metrics = $this->getMetricsForClass( 'ClassWithCatchStatementReference' );
         $this->assertEquals( 2, $metrics['ca'] );
 
         return $metrics;
@@ -332,336 +308,395 @@ class PHP_Depend_Metrics_Coupling_AnalyzerTest extends PHP_Depend_Metrics_Abstra
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaWithObjectInstantiation
+     * testCaWithObjectInstantiation
      *
-     * @return void
+     * @return array
      */
-    public function testGetNodeMetricsReturnsExpectedCaWithObjectInstantiation()
+    public function testCaWithObjectInstantiation()
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ca' ) );
+        $metrics = $this->getMetricsForClass( __FUNCTION__ );
+        $this->assertEquals( 1, $metrics['ca'] );
+
+        return $metrics;
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaWithStaticReference
+     * testCboWithObjectInstantiation
      *
+     * @param array $metrics
      * @return void
+     * @depends testCaWithObjectInstantiation
      */
-    public function testGetNodeMetricsReturnsExpectedCaWithStaticReference()
+    public function testCboWithObjectInstantiation( array $metrics )
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ca' ) );
+        $this->assertEquals( 2, $metrics['cbo'] );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaWithReturnReference
+     * testCeWithObjectInstantiation
      *
+     * @param array $metrics
      * @return void
+     * @depends testCaWithObjectInstantiation
      */
-    public function testGetNodeMetricsReturnsExpectedCaWithReturnReference()
+    public function testCeWithObjectInstantiation( array $metrics )
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ca' ) );
+        $this->assertEquals( 2, $metrics['ce'] );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount
+     * testCaWithStaticMethodCall
      *
-     * @return void
+     * @return array
      */
-    public function testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount()
+    public function testCaWithStaticMethodCall()
     {
-        $this->assertEquals( 2, $this->_calculateTypeMetric( 'ca' ) );
+        $metrics = $this->getMetricsForClass( __FUNCTION__ );
+        $this->assertEquals( 2, $metrics['ca'] );
+
+        return $metrics;
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaForParameterTypes
+     * testCboWithStaticMethodCall
      *
+     * @param array $metrics
      * @return void
+     * @depends testCaWithStaticMethodCall
      */
-    public function testGetNodeMetricsReturnsExpectedCaForParameterTypes()
+    public function testCboWithStaticMethodCall( array $metrics )
     {
-        $this->assertEquals( 3, $this->_calculateTypeMetric( 'ca', 'i' ) );
+        $this->assertEquals( 1, $metrics['cbo'] );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaForParentTypeReference
+     * testCeWithStaticMethodCall
      *
+     * @param array $metrics
      * @return void
+     * @depends testCaWithStaticMethodCall
      */
-    public function testGetNodeMetricsReturnsExpectedCaForParentTypeReference()
+    public function testCeWithStaticMethodCall( array $metrics )
     {
-        $this->assertEquals( 0, $this->_calculateTypeMetric( 'ca' ) );
+        $this->assertEquals( 1, $metrics['ce'] );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaForChildTypeReference
+     * testCaWithReturnTypeReference
      *
-     * @return void
+     * @return array
      */
-    public function testGetNodeMetricsReturnsExpectedCaForChildTypeReference()
+    public function testCaWithReturnTypeReference()
     {
-        $this->assertEquals( 2, $this->_calculateTypeMetric( 'ca' ) );
+        $metrics = $this->getMetricsForClass( __FUNCTION__ );
+        $this->assertEquals( 1, $metrics['ca'] );
+
+        return $metrics;
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaForFunctionReference
+     * testCboWithReturnTypeReference
      *
+     * @param array $metrics
      * @return void
+     * @depends testCaWithReturnTypeReference
      */
-    public function testGetNodeMetricsReturnsExpectedCaForFunctionReference()
+    public function testCboWithReturnTypeReference( array $metrics )
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ca' ) );
+        $this->assertEquals( 2, $metrics['cbo'] );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaForFunctionParameter
+     * testCeWithReturnTypeReference
      *
+     * @param array $metrics
      * @return void
+     * @depends testCaWithReturnTypeReference
      */
-    public function testGetNodeMetricsReturnsExpectedCaForFunctionParameter()
+    public function testCeWithReturnTypeReference( array $metrics )
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ca' ) );
+        $this->assertEquals( 2, $metrics['ce'] );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaForFunctions
+     * testCaWithoutDuplicates
      *
-     * @return void
+     * @return array
      */
-    public function testGetNodeMetricsReturnsExpectedCaForFunctions()
+    public function testCaWithoutDuplicates()
     {
-        $this->assertEquals( 3, $this->_calculateTypeMetric( 'ca' ) );
+        $metrics = $this->getMetricsForClass( __FUNCTION__ );
+        $this->assertEquals( 2, $metrics['ca'] );
+
+        return $metrics;
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce
+     * testCboWithoutDuplicates
      *
+     * @param array $metrics
      * @return void
+     * @depends testCaWithoutDuplicates
      */
-    public function testGetNodeMetricsReturnsExpectedCaForFunctionCountsTypeOnce()
+    public function testCboWithoutDuplicates( array $metrics )
     {
-        $this->assertEquals( 2, $this->_calculateTypeMetric( 'ca' ) );
+        $this->assertEquals( 2, $metrics['cbo'] );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboWithObjectInstantiation
+     * testCeWithoutDuplicates
      *
+     * @param array $metrics
      * @return void
+     * @depends testCaWithoutDuplicates
      */
-    public function testGetNodeMetricsReturnsExpectedCboWithObjectInstantiation()
+    public function testCeWithoutDuplicates( array $metrics )
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'cbo' ) );
+        $this->assertEquals( 2, $metrics['ce'] );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboWithStaticReference
+     * testCaForParameterTypeReferences
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCboWithStaticReference()
+    public function testCaForParameterTypeReferences()
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'cbo' ) );
+        $metrics = $this->getMetricsForInterface( __FUNCTION__ );
+        $this->assertEquals( 3, $metrics['ca'] );
+
+        return $metrics;
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboWithReturnReference
+     * testCboForParameterTypeReferences
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaForParameterTypeReferences
+     */
+    public function testCboForParameterTypeReferences( array $metrics )
+    {
+        $this->assertEquals( 2, $metrics['cbo'] );
+    }
+
+    /**
+     * testCeForParameterTypeReferences
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaForParameterTypeReferences
+     */
+    public function testCeForParameterTypeReferences( array $metrics )
+    {
+        $this->assertEquals( 2, $metrics['ce'] );
+    }
+
+    /**
+     * testCaForParentTypeReference
+     *
+     * @return array
+     */
+    public function testCaForParentTypeReference()
+    {
+        $metrics = $this->getMetricsForClass( __FUNCTION__ );
+        $this->assertEquals( 0, $metrics['ca'] );
+
+        return $metrics;
+    }
+
+    /**
+     * testCboForParentTypeReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaForParentTypeReference
+     */
+    public function testCboForParentTypeReference( array $metrics )
+    {
+        $this->assertEquals( 0, $metrics['cbo'] );
+    }
+
+    /**
+     * testCeForParentTypeReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaForParentTypeReference
+     */
+    public function testCeForParentTypeReference( array $metrics )
+    {
+        $this->assertEquals( 0, $metrics['ce'] );
+    }
+
+    /**
+     * testCaForChildTypeReference
+     *
+     * @return array
+     */
+    public function testCaForChildTypeReference()
+    {
+        $metrics = $this->getMetricsForClass( __FUNCTION__ );
+        $this->assertEquals( 2, $metrics['ca'] );
+
+        return $metrics;
+    }
+
+    /**
+     * testCboForChildTypeReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaForChildTypeReference
+     */
+    public function testCboForChildTypeReference( array $metrics )
+    {
+        $this->assertEquals( 4, $metrics['cbo'] );
+    }
+
+    /**
+     * testCeForChildTypeReference
+     *
+     * @param array $metrics
+     * @return void
+     * @depends testCaForChildTypeReference
+     */
+    public function testCeForChildTypeReference( array $metrics )
+    {
+        $this->assertEquals( 4, $metrics['ce'] );
+    }
+
+    /**
+     * testCaFromFunctionWithObjectInstantiation
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCboWithReturnReference()
+    public function testCaFromFunctionWithObjectInstantiation()
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'cbo' ) );
+        $this->assertEquals( 1, $this->getMetricForClass( 'ca', __FUNCTION__ ) );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboWithoutDuplicateCount
+     * testCaFromFunctionParameter
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCboWithoutDuplicateCount()
+    public function testCaFromFunctionParameter()
     {
-        $this->assertEquals( 2, $this->_calculateTypeMetric( 'cbo' ) );
+        $this->assertEquals( 1, $this->getMetricForClass( 'ca', __FUNCTION__ ) );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboForParameterTypes
+     * testCaFromMultipleFunctions
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCboForParameterTypes()
+    public function testCaFromMultipleFunctions()
     {
-        $this->assertEquals( 3, $this->_calculateTypeMetric( 'cbo', 'i' ) );
+        $this->assertEquals( 4, $this->getMetricForClass( 'ca', __FUNCTION__ ) );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboForParentTypeReference
+     * testCaFromFunctionCountsTypeOnce
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCboForParentTypeReference()
+    public function testCaFromFunctionCountsTypeOnce()
     {
-        $this->assertEquals( 0, $this->_calculateTypeMetric( 'cbo' ) );
+        $this->assertEquals( 2, $this->getMetricForClass( 'ca', __FUNCTION__ ) );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboForChildTypeReference
+     * testCboForUseInSameNamespace
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCboForChildTypeReference()
+    public function testCboForUseInSameNamespace()
     {
-        $this->assertEquals( 2, $this->_calculateTypeMetric( 'cbo' ) );
+        $this->assertEquals( 1, $this->getMetricForClass( 'cbo', 'Com\Example\ServiceManager' ) );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboForUseInSameNamespace
+     * testCboForUseInPartialSameNamespace
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCboForUseInSameNamespace()
+    public function testCboForUseInPartialSameNamespace()
     {
-        $this->assertEquals(
-            1,
-            $this->getMetricForClass( 'cbo', 'Com\Example\ServiceManager' )
-        );
+        $this->assertEquals( 1, $this->getMetricForClass( 'cbo', 'Com\Example\ServiceManager' ) );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCboForUseInPartialSameNamespace
+     * testCeForUseInSameNamespace
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCboForUseInPartialSameNamespace()
+    public function testCeForUseInSameNamespace()
     {
-        $this->assertEquals(
-            1,
-            $this->getMetricForClass( 'cbo', 'Com\Example\ServiceManager' )
-        );
+        $this->assertEquals( 1, $this->getMetricForClass( 'ce', 'Com\Example\ServiceManager' ) );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCeWithObjectInstantiation
+     * testCeForUseInPartialSameNamespace
      *
      * @return void
      */
-    public function testGetNodeMetricsReturnsExpectedCeWithObjectInstantiation()
+    public function testCeForUseInPartialSameNamespace()
     {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ce' ) );
+        $this->assertEquals( 1, $this->getMetricForClass( 'ce', 'Com\Example\ServiceManager' ) );
     }
 
     /**
-     * testGetNodeMetricsReturnsExpectedCeWithStaticReference
+     * Returns the metric value identified by <b>$metric</b> for a class that
+     * matches the given <b>$name</b>.
      *
-     * @return void
+     * @param string $metric
+     * @param string $name
+     * @return integer
      */
-    public function testGetNodeMetricsReturnsExpectedCeWithStaticReference()
-    {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ce' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCeWithReturnReference
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCeWithReturnReference()
-    {
-        $this->assertEquals( 1, $this->_calculateTypeMetric( 'ce' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCeWithoutDuplicateCount
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCeWithoutDuplicateCount()
-    {
-        $this->assertEquals( 2, $this->_calculateTypeMetric( 'ce' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCeForParameterTypes
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCeForParameterTypes()
-    {
-        $this->assertEquals( 3, $this->_calculateTypeMetric( 'ce', 'i' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCeForParentTypeReference
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCeForParentTypeReference()
-    {
-        $this->assertEquals( 0, $this->_calculateTypeMetric( 'ce' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCeForChildTypeReference
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCeForChildTypeReference()
-    {
-        $this->assertEquals( 2, $this->_calculateTypeMetric( 'ce' ) );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCeForUseInSameNamespace
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCeForUseInSameNamespace()
-    {
-        $this->assertEquals(
-            1,
-            $this->getMetricForClass( 'ce', 'Com\Example\ServiceManager' )
-        );
-    }
-
-    /**
-     * testGetNodeMetricsReturnsExpectedCeForUseInPartialSameNamespace
-     *
-     * @return void
-     */
-    public function testGetNodeMetricsReturnsExpectedCeForUseInPartialSameNamespace()
-    {
-        $this->assertEquals(
-            1,
-            $this->getMetricForClass( 'ce', 'Com\Example\ServiceManager' )
-        );
-    }
-
-    /**
-     * Returns the specified node metric for the first type found in the
-     * analyzed test source and returns the metric value for the given <b>$name</b>.
-     *
-     * @param string $metric Name of the requested software metric.
-     * @param string $type Node type, defaults to 'c' for class.
-     *
-     * @return mixed
-     */
-    private function _calculateTypeMetric( $metric, $type = 'c' )
-    {
-        list( , $name ) = explode( '::', self::getCallingTestMethod() );
-
-        return $this->getMetricForClassAndType( $metric, $name, $type );
-    }
-
     private function getMetricForClass( $metric, $name )
     {
-        return $this->getMetricForClassAndType( $metric, $name, 'c' );
+        $metrics = $this->getMetricsForClass( $name );
+        return $metrics[$metric];
     }
 
-    private function getMetricForClassAndType( $metric, $name, $type )
+    /**
+     * Returns all metrics or a class that matches the given <b>$name</b>.
+     *
+     * @param string $name
+     * @return array
+     */
+    private function getMetricsForClass( $name )
+    {
+        return $this->getMetricsForTypeWithName( $name, 'c' );
+    }
+
+    /**
+     * Returns all metrics or an interface that matches the given <b>$name</b>.
+     *
+     * @param string $name
+     * @return array
+     */
+    private function getMetricsForInterface( $name )
+    {
+        return $this->getMetricsForTypeWithName( $name, 'i' );
+    }
+
+    /**
+     * Returns all metrics or a type that matches the given <b>$name</b> and
+     * <b>$type</b>.
+     *
+     * @param string $name
+     * @param string $type
+     * @return array
+     */
+    private function getMetricsForTypeWithName( $name, $type )
     {
         $processor = new PHP_Depend_Metrics_Processor();
         $processor->register( $analyzer = new PHP_Depend_Metrics_Coupling_Analyzer() );
         $processor->process( self::parseTestCaseSource( self::getCallingTestMethod() ) );
 
-        $metrics = $analyzer->getNodeMetrics( "{$name}#{$type}" );
-        return $metrics[$metric];
+        return $analyzer->getNodeMetrics( "{$name}#{$type}" );
     }
 
     /**

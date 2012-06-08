@@ -1,5 +1,5 @@
 <?php
-class testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount
+class testCaWithoutDuplicates
 {
     /**
      * @var SplObjectStorage
@@ -22,15 +22,15 @@ class testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount
     }
 }
 
-class testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount_duplicate1
+class testCaWithoutDuplicatesOne
 {
     /**
-     * @var testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount
+     * @var testCaWithoutDuplicates
      */
     protected $storage = null;
 
     /**
-     * @var testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount
+     * @var testCaWithoutDuplicates
      */
     protected $objects = null;
 
@@ -45,15 +45,15 @@ class testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount_duplicate1
     }
 }
 
-class testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount_duplicate2
+class testCaWithoutDuplicatesTwo
 {
     /**
-     * @var testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount
+     * @var testCaWithoutDuplicates
      */
     protected $storage = null;
 
     /**
-     * @var testGetNodeMetricsReturnsExpectedCaWithoutDuplicateCount
+     * @var testCaWithoutDuplicates
      */
     protected $objects = null;
 
