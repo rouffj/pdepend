@@ -1,2 +1,3 @@
 <?php
-class Foo { const namespace = 42; }
+class Foo
+{ const namespace = 42; }

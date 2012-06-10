@@ -20,5 +20,5 @@ class testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy_parent_parent
 class testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy_parent_parent_parent
     extends testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy
 {
-    
+
 }

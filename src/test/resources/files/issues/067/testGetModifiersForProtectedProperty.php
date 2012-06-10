@@ -1,5 +1,7 @@
 <?php
-class testGetModifiersForProtectedProperty {
+class testGetModifiersForProtectedProperty
+{
     protected $foo;
 }
+
 ?>

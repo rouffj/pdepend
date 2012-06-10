@@ -60,7 +60,7 @@
  */
 class PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy
     implements PHP_Depend_Metrics_Analyzer,
-               PHP_Depend_Metrics_ProjectAware
+    PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Dummy project metrics.
@@ -86,7 +86,8 @@ class PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy
      *
      * @return void
      */
-    public function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener) {
+    public function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener)
+    {
     }
 
     /**
@@ -96,7 +97,8 @@ class PHP_Depend_Log_Summary_AnalyzerProjectAwareDummy
      *
      * @return void
      */
-    public function removeAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener) {
+    public function removeAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener)
+    {
     }
 
     /**

@@ -20,7 +20,7 @@
         <name>Introduction</name>
         <path>introduction/</path>
     </directory>
-    <directory> 
+    <directory>
         <name>Reports</name>
         <path>reports/</path>
     </directory>

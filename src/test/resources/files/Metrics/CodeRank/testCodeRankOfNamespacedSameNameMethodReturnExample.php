@@ -6,5 +6,7 @@ class Foo
     /**
      * @return \Foo
      */
-    public function bar() {}
+    public function bar()
+    {
+    }
 }

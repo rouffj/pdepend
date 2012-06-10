@@ -60,8 +60,8 @@
  */
 class PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy
     implements PHP_Depend_Metrics_Analyzer,
-               PHP_Depend_Metrics_NodeAware,
-               PHP_Depend_Metrics_ProjectAware
+    PHP_Depend_Metrics_NodeAware,
+    PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Dummy project metrics.
@@ -96,7 +96,8 @@ class PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy
      *
      * @return void
      */
-    public function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener) {
+    public function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener)
+    {
     }
 
     /**
@@ -106,7 +107,8 @@ class PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy
      *
      * @return void
      */
-    public function removeAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener) {
+    public function removeAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener)
+    {
     }
 
     /**
@@ -146,6 +148,7 @@ class PHP_Depend_Log_Summary_AnalyzerNodeAndProjectAwareDummy
      * Returns an array with metrics for the requested node.
      *
      * @param PHP_Depend_AST_Node|string $node
+     *
      * @return array
      */
     public function getNodeMetrics($node)

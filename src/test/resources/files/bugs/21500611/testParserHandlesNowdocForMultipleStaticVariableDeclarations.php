@@ -13,4 +13,5 @@ BAR;
         echo $x, $y, PHP_EOL;
     }
 }
+
 testParserHandlesNowdocForMultipleStaticVariableDeclarationsClass::testParserHandlesNowdocForMultipleStaticVariableDeclarations();

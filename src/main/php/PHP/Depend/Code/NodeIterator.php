@@ -87,14 +87,12 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      *
      * @param array $nodes List of code nodes.
      */
-    public function __construct( array $nodes )
+    public function __construct(array $nodes)
     {
         $nodeKeys = array();
-        foreach ( $nodes as $node )
-        {
+        foreach ($nodes as $node) {
             $uuid = $node->getUUID();
-            if ( !isset( $nodeKeys[$uuid] ) && $filter->accept( $node ) )
-            {
+            if (!isset($nodeKeys[$uuid]) && $filter->accept($node)) {
                 $nodeKeys[$uuid] = $uuid;
                 $this->_nodes[]  = $node;
 
@@ -110,7 +108,7 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      */
     public function count()
     {
-        return count( $this->_nodes );
+        return count($this->_nodes);
     }
 
     /**
@@ -120,8 +118,7 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      */
     public function current()
     {
-        if ( $this->_offset >= $this->_count )
-        {
+        if ($this->_offset >= $this->_count) {
             return false;
         }
         return $this->_nodes[$this->_offset];
@@ -164,7 +161,7 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      */
     public function valid()
     {
-        return ( $this->_offset < $this->_count );
+        return ($this->_offset < $this->_count);
     }
 
     /**
@@ -174,12 +171,12 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      *
      * @return boolean Returns true on success or false on failure. The return
      *                 value will be casted to boolean if non-boolean was returned.
-     * @since 1.0.0
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     * @since          1.0.0
+     * @link           http://php.net/manual/en/arrayaccess.offsetexists.php
      */
-    public function offsetExists( $offset )
+    public function offsetExists($offset)
     {
-        return isset( $this->_nodes[$offset] );
+        return isset($this->_nodes[$offset]);
     }
 
     /**
@@ -189,15 +186,14 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      *
      * @return PHP_Depend_Code_NodeI Can return all value types.
      * @since 1.0.0
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     * @link  http://php.net/manual/en/arrayaccess.offsetget.php
      */
-    public function offsetGet( $offset )
+    public function offsetGet($offset)
     {
-        if ( isset( $this->_nodes[$offset] ) )
-        {
+        if (isset($this->_nodes[$offset])) {
             return $this->_nodes[$offset];
         }
-        throw new OutOfBoundsException( "The offset {$offset} does not exist." );
+        throw new OutOfBoundsException("The offset {$offset} does not exist.");
     }
 
     /**
@@ -208,11 +204,11 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      *
      * @return void
      * @since 1.0.0
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     * @link  http://php.net/manual/en/arrayaccess.offsetset.php
      */
-    public function offsetSet( $offset, $value )
+    public function offsetSet($offset, $value)
     {
-        throw new BadMethodCallException( 'Not supported operation.' );
+        throw new BadMethodCallException('Not supported operation.');
     }
 
     /**
@@ -222,10 +218,10 @@ class PHP_Depend_Code_NodeIterator implements ArrayAccess, Iterator, Countable
      *
      * @return void
      * @since 1.0.0
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     * @link  http://php.net/manual/en/arrayaccess.offsetunset.php
      */
-    public function offsetUnset( $offset )
+    public function offsetUnset($offset)
     {
-        throw new BadMethodCallException( 'Not supported operation.' );
+        throw new BadMethodCallException('Not supported operation.');
     }
 }

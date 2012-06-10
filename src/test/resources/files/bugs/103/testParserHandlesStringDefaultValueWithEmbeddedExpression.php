@@ -1,3 +1,4 @@
 <?php
-function foo($bar = "x (\$x) y") {
+function foo($bar = "x (\$x) y")
+{
 }

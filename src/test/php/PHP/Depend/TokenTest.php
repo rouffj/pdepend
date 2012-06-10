@@ -46,7 +46,7 @@
  */
 
 require_once dirname(__FILE__) . '/AbstractTest.php';
- 
+
 /**
  * Test case for the {@link PHP_Depend_Token} class.
  *
@@ -58,9 +58,9 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version   Release: @package_version@
  * @link      http://pdepend.org/
  *
- * @covers PHP_Depend_Token
- * @group pdepend
- * @group unittest
+ * @covers    PHP_Depend_Token
+ * @group     pdepend
+ * @group     unittest
  */
 class PHP_Depend_TokenTest extends PHP_Depend_AbstractTest
 {

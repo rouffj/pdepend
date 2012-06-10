@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_TextUI_Command
- * @group pdepend
- * @group pdepend::textui
- * @group unittest
+ * @covers     PHP_Depend_TextUI_Command
+ * @group      pdepend
+ * @group      pdepend::textui
+ * @group      unittest
  */
 class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
 {
@@ -99,7 +99,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
      */
     public function testPrintVersionReturnsExitCodeSuccess()
     {
-        list($exitCode, ) = $this->_executeCommand(array('--version'));
+        list($exitCode,) = $this->_executeCommand(array('--version'));
         self::assertEquals(PHP_Depend_TextUI_Runner::SUCCESS_EXIT, $exitCode);
     }
 
@@ -121,7 +121,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
      */
     public function testPrintUsageReturnsExitCodeSuccess()
     {
-        list($exitCode, ) = $this->_executeCommand(array('--usage'));
+        list($exitCode,) = $this->_executeCommand(array('--usage'));
         self::assertEquals(PHP_Depend_TextUI_Runner::SUCCESS_EXIT, $exitCode);
     }
 
@@ -143,7 +143,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
      */
     public function testPrintHelpReturnsExitCodeSuccess()
     {
-        list($exitCode, ) = $this->_executeCommand(array('--help'));
+        list($exitCode,) = $this->_executeCommand(array('--help'));
         self::assertEquals(PHP_Depend_TextUI_Runner::SUCCESS_EXIT, $exitCode);
     }
 
@@ -154,7 +154,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
      */
     public function testCommandCliReturnsErrorExitCodeIfNoArgvArrayExists()
     {
-        list($exitCode, ) = $this->_executeCommand();
+        list($exitCode,) = $this->_executeCommand();
         self::assertEquals(PHP_Depend_TextUI_Command::CLI_ERROR, $exitCode);
     }
 
@@ -188,7 +188,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
      */
     public function testCommandReturnsErrorExitCodeIfNoOptionsWereSpecified()
     {
-        list($exitCode, ) = $this->_executeCommand(array());
+        list($exitCode,) = $this->_executeCommand(array());
         self::assertEquals(PHP_Depend_TextUI_Command::CLI_ERROR, $exitCode);
     }
 
@@ -212,7 +212,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
             $resource
         );
 
-        list($exitCode, ) = $this->_executeCommand($argv);
+        list($exitCode,) = $this->_executeCommand($argv);
 
         self::assertEquals(PHP_Depend_TextUI_Runner::SUCCESS_EXIT, $exitCode);
         $this->assertFileExists($logFile);
@@ -232,7 +232,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
 
         $argv = array('--suffix=inc', '--dummy-logger=' . $logFile, $resource);
 
-        list($exitCode, ) = $this->_executeCommand($argv);
+        list($exitCode,) = $this->_executeCommand($argv);
         self::assertEquals(PHP_Depend_TextUI_Runner::SUCCESS_EXIT, $exitCode);
     }
 
@@ -243,7 +243,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
      */
     public function testCommandExitsWithCliErrorForUnknownOption()
     {
-        list($exitCode, ) = $this->_executeCommand(array('--unknown'));
+        list($exitCode,) = $this->_executeCommand(array('--unknown'));
         self::assertEquals(PHP_Depend_TextUI_Command::CLI_ERROR, $exitCode);
     }
 
@@ -256,17 +256,17 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
     public function testCommandHandlesWithoutAnnotationsOptionCorrect()
     {
         $expected = array(
-            'pdepend.test'  =>  array(
-                'functions'   =>  array('foo'),
-                'classes'     =>  array('MyException'),
-                'interfaces'  =>  array(),
-                'exceptions'  =>  array()
+            'pdepend.test'   => array(
+                'functions'   => array('foo'),
+                'classes'     => array('MyException'),
+                'interfaces'  => array(),
+                'exceptions'  => array()
             ),
-            'pdepend.test2'  =>  array(
-                'functions'   =>  array(),
-                'classes'     =>  array('YourException'),
-                'interfaces'  =>  array(),
-                'exceptions'  =>  array()
+            'pdepend.test2'  => array(
+                'functions'   => array(),
+                'classes'     => array('YourException'),
+                'interfaces'  => array(),
+                'exceptions'  => array()
             )
         );
 
@@ -290,9 +290,9 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
     public function testCommandHandlesBadDocumentedSourceCode()
     {
         $expected = array(
-            '+global'  =>  array(
-                'functions'   =>  array('pkg3_foo'),
-                'classes'     =>  array(
+            '+global'  => array(
+                'functions'   => array('pkg3_foo'),
+                'classes'     => array(
                     'Bar',
                     'pkg1Bar',
                     'pkg1Barfoo',
@@ -302,12 +302,12 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
                     'pkg2Barfoo',
                     'pkg2Foobar',
                 ),
-                'interfaces'  =>  array(
+                'interfaces'  => array(
                     'pkg1FooI',
                     'pkg2FooI',
                     'pkg3FooI'
                 ),
-                'exceptions'  =>  array()
+                'exceptions'  => array()
             )
         );
 
@@ -345,10 +345,10 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
         $actual = array();
         foreach ($code as $package) {
             $statistics = array(
-                'functions'   =>  array(),
-                'classes'     =>  array(),
-                'interfaces'  =>  array(),
-                'exceptions'  =>  array()
+                'functions'   => array(),
+                'classes'     => array(),
+                'interfaces'  => array(),
+                'exceptions'  => array()
             );
             foreach ($package->getFunctions() as $function) {
                 $statistics['functions'][] = $function->getName();
@@ -489,7 +489,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
             __FILE__,
         );
 
-        list($exitCode, ) = $this->_executeCommand($argv);
+        list($exitCode,) = $this->_executeCommand($argv);
 
         self::assertEquals(PHP_Depend_TextUI_Command::INPUT_ERROR, $exitCode);
     }
@@ -507,7 +507,7 @@ class PHP_Depend_TextUI_CommandTest extends PHP_Depend_AbstractTest
             __FILE__,
         );
 
-        list($exitCode, ) = $this->_executeCommand($argv);
+        list($exitCode,) = $this->_executeCommand($argv);
 
         self::assertEquals(PHP_Depend_TextUI_Runner::SUCCESS_EXIT, $exitCode);
     }

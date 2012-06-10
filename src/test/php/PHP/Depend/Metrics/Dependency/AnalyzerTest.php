@@ -58,11 +58,11 @@ require_once dirname(__FILE__) . '/../../AbstractTest.php';
  * @version   Release: @package_version@
  * @link      http://pdepend.org/
  *
- * @covers PHP_Depend_Metrics_Dependency_Analyzer
- * @group pdepend
- * @group pdepend::metrics
- * @group pdepend::metrics::dependency
- * @group unittest
+ * @covers    PHP_Depend_Metrics_Dependency_Analyzer
+ * @group     pdepend
+ * @group     pdepend::metrics
+ * @group     pdepend::metrics::dependency
+ * @group     unittest
  */
 class PHP_Depend_Metrics_Dependency_AnalyzerTest extends PHP_Depend_AbstractTest
 {
@@ -79,45 +79,45 @@ class PHP_Depend_Metrics_Dependency_AnalyzerTest extends PHP_Depend_AbstractTest
      * @var array(string=>array)
      */
     private $_input = array(
-        '+global'  =>  array(
-            'tc'  =>  0,
-            'cc'  =>  0,
-            'ac'  =>  0,
-            'ca'  =>  1,
-            'ce'  =>  0,
-            'a'   =>  0,
-            'i'   =>  0,
-            'd'   =>  1
+        '+global'  => array(
+            'tc'  => 0,
+            'cc'  => 0,
+            'ac'  => 0,
+            'ca'  => 1,
+            'ce'  => 0,
+            'a'   => 0,
+            'i'   => 0,
+            'd'   => 1
         ),
-        'pkg1'  =>  array(
-            'tc'  =>  1,
-            'cc'  =>  1,
-            'ac'  =>  0,
-            'ca'  =>  0,
-            'ce'  =>  2,
-            'a'   =>  0,
-            'i'   =>  1,
-            'd'   =>  0
+        'pkg1'     => array(
+            'tc'  => 1,
+            'cc'  => 1,
+            'ac'  => 0,
+            'ca'  => 0,
+            'ce'  => 2,
+            'a'   => 0,
+            'i'   => 1,
+            'd'   => 0
         ),
-        'pkg2'  =>  array(
-            'tc'  =>  1,
-            'cc'  =>  0,
-            'ac'  =>  1,
-            'ca'  =>  1,
-            'ce'  =>  0,
-            'a'   =>  1,
-            'i'   =>  0,
-            'd'   =>  0
+        'pkg2'     => array(
+            'tc'  => 1,
+            'cc'  => 0,
+            'ac'  => 1,
+            'ca'  => 1,
+            'ce'  => 0,
+            'a'   => 1,
+            'i'   => 0,
+            'd'   => 0
         ),
-        'pkg3'  =>  array(
-            'tc'  =>  1,
-            'cc'  =>  0,
-            'ac'  =>  1,
-            'ca'  =>  1,
-            'ce'  =>  1,
-            'a'   =>  1,
-            'i'   =>  0.5,
-            'd'   =>  0.5,
+        'pkg3'     => array(
+            'tc'  => 1,
+            'cc'  => 0,
+            'ac'  => 1,
+            'ca'  => 1,
+            'ce'  => 1,
+            'a'   => 1,
+            'i'   => 0.5,
+            'd'   => 0.5,
         ),
     );
 

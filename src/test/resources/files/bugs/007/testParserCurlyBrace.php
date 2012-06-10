@@ -5,12 +5,12 @@ class CurlyBraceClassBug11
     {
         $x = "{{$foo}";
     }
-    
+
     function y()
     {
         $x = "{$foo}}\"";
     }
-    
+
     function z()
     {
         $query = "
@@ -19,7 +19,7 @@ class CurlyBraceClassBug11
             VALUES
             ({$placeHolders})
         ";
-        
+
     }
 }
 

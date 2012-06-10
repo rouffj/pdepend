@@ -60,11 +60,11 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Metrics_CrapIndex_Analyzer
- * @group pdepend
- * @group pdepend::metrics
- * @group pdepend::metrics::crapindex
- * @group unittest
+ * @covers     PHP_Depend_Metrics_CrapIndex_Analyzer
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      pdepend::metrics::crapindex
+ * @group      unittest
  */
 class PHP_Depend_Metrics_CrapIndex_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
@@ -90,7 +90,7 @@ class PHP_Depend_Metrics_CrapIndex_AnalyzerTest extends PHP_Depend_Metrics_Abstr
     public function testAnalyzerIsEnabledReturnsFalseWhenNoCoverageReportFileWasSupplied()
     {
         $analyzer = new PHP_Depend_Metrics_CrapIndex_Analyzer();
-        
+
         self::assertFalse($analyzer->isEnabled());
     }
 
@@ -109,7 +109,7 @@ class PHP_Depend_Metrics_CrapIndex_AnalyzerTest extends PHP_Depend_Metrics_Abstr
 
     /**
      * testAnalyzerIgnoresAbstractMethods
-     * 
+     *
      * @return void
      */
     public function testAnalyzerIgnoresAbstractMethods()
@@ -120,7 +120,7 @@ class PHP_Depend_Metrics_CrapIndex_AnalyzerTest extends PHP_Depend_Metrics_Abstr
 
     /**
      * testAnalyzerIgnoresInterfaceMethods
-     * 
+     *
      * @return void
      */
     public function testAnalyzerIgnoresInterfaceMethods()
@@ -131,7 +131,7 @@ class PHP_Depend_Metrics_CrapIndex_AnalyzerTest extends PHP_Depend_Metrics_Abstr
 
     /**
      * testAnalyzerReturnsExpectedResultForMethodWithoutCoverage
-     * 
+     *
      * @return void
      */
     public function testAnalyzerReturnsExpectedResultForMethodWithoutCoverage()

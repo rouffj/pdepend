@@ -82,7 +82,7 @@ abstract class PHP_Depend_Metrics_AbstractAnalyzer
      * @param array(string=>mixed) $options Global option array, every analyzer
      *                                      can extract the required options.
      */
-    public function __construct( array $options = array() )
+    public function __construct(array $options = array())
     {
         $this->options = $options;
     }
@@ -94,10 +94,9 @@ abstract class PHP_Depend_Metrics_AbstractAnalyzer
      *
      * @return void
      */
-    public function addAnalyzeListener( PHP_Depend_Metrics_ListenerI $listener )
+    public function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener)
     {
-        if ( in_array( $listener, $this->_listeners, true ) === false )
-        {
+        if (in_array($listener, $this->_listeners, true) === false) {
             $this->_listeners[] = $listener;
         }
     }
@@ -127,9 +126,8 @@ abstract class PHP_Depend_Metrics_AbstractAnalyzer
      */
     protected function fireStartAnalyzer()
     {
-        foreach ( $this->_listeners as $listener )
-        {
-            $listener->startAnalyzer( $this );
+        foreach ($this->_listeners as $listener) {
+            $listener->startAnalyzer($this);
         }
     }
 
@@ -142,9 +140,8 @@ abstract class PHP_Depend_Metrics_AbstractAnalyzer
      */
     protected function fireEndAnalyzer()
     {
-        foreach ( $this->_listeners as $listener )
-        {
-            $listener->endAnalyzer( $this );
+        foreach ($this->_listeners as $listener) {
+            $listener->endAnalyzer($this);
         }
     }
 }

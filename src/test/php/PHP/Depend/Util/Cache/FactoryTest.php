@@ -60,11 +60,11 @@ require_once dirname(__FILE__) . '/../../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Util_Cache_Factory
- * @group pdepend
- * @group pdepend::util
- * @group pdepend::util::cache
- * @group unittest
+ * @covers     PHP_Depend_Util_Cache_Factory
+ * @group      pdepend
+ * @group      pdepend::util
+ * @group      pdepend::util::cache
+ * @group      unittest
  */
 class PHP_Depend_Util_Cache_FactoryTest extends PHP_Depend_AbstractTest
 {

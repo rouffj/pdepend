@@ -2,15 +2,22 @@
 /**
  * @package bar
  */
-class Foo {}
+class Foo
+{
+}
 
 /**
  * @package bar
  */
-class Bar extends Foo {}
+class Bar extends Foo
+{
+}
 
 /**
  * @package baz
  */
-class Foo {}
+class Foo
+{
+}
+
 ?>

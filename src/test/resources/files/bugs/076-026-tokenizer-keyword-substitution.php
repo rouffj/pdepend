@@ -1,2 +1,5 @@
 <?php
-class Foo { const true = 42; }
+class Foo
+{
+    const true = 42;
+}

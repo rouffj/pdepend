@@ -2,8 +2,11 @@
 class Foo
 {
     public
-    /** void */
+        /** void */
     static
-    function foo() {}
+    function foo()
+    {
+    }
 }
+
 ?>

@@ -3,4 +3,5 @@ class testGetModifiersForPublicProperty
 {
     public $foo;
 }
+
 ?>

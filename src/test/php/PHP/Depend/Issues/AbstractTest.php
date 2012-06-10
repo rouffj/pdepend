@@ -75,7 +75,7 @@ abstract class PHP_Depend_Issues_AbstractTest extends PHP_Depend_AbstractTest
             ->current()
             ->getParameters();
     }
-    
+
     /**
      * Parses the sourse for the calling test case.
      *

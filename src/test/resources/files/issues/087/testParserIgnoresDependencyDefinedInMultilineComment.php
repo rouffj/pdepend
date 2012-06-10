@@ -1,8 +1,10 @@
 <?php
-function foo() {
+function foo()
+{
     /*
      * @var $bar Bar
      */
     $bar = bar();
 }
+
 ?>

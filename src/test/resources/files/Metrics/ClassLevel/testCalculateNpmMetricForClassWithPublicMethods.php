@@ -13,6 +13,6 @@ class testCalculateNpmMetricForClassWithPublicMethods
 
     public function baz()
     {
-        
+
     }
 }

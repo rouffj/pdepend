@@ -83,13 +83,12 @@ class PHP_Depend_Metrics_AnalyzerClassFileSystemLocator
      *
      * @param string $classPath The root search directory.
      */
-    public function __construct( $classPath = null )
+    public function __construct($classPath = null)
     {
-        if ( $classPath === null )
-        {
-            $classPath = dirname( __FILE__ ) . '/../../../';
+        if ($classPath === null) {
+            $classPath = dirname(__FILE__) . '/../../../';
         }
-        $this->_classPath = realpath( $classPath ) . DIRECTORY_SEPARATOR;
+        $this->_classPath = realpath($classPath) . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -99,8 +98,7 @@ class PHP_Depend_Metrics_AnalyzerClassFileSystemLocator
      */
     public function findAll()
     {
-        if ( $this->_analyzers === null )
-        {
+        if ($this->_analyzers === null) {
             $this->_analyzers = $this->_find();
         }
         return $this->_analyzers;
@@ -116,53 +114,44 @@ class PHP_Depend_Metrics_AnalyzerClassFileSystemLocator
     {
         $result = array();
 
-        if ( 0 === stripos( PHP_OS, 'win' ) )
-        {
-            $paths = explode( PATH_SEPARATOR, get_include_path() );
-        }
-        else
-        {
-            preg_match_all( '(:?(([a-z]+://)?[^:]+):?)i', get_include_path(), $match );
+        if (0 === stripos(PHP_OS, 'win')) {
+            $paths = explode(PATH_SEPARATOR, get_include_path());
+        } else {
+            preg_match_all('(:?(([a-z]+://)?[^:]+):?)i', get_include_path(), $match);
             $paths = $match[1];
         }
 
-        foreach ( $paths as $path )
-        {
+        foreach ($paths as $path) {
             $dir = $path . '/PHP/Depend/Metrics/';
 
-            if ( !is_dir( $dir ) )
-            {
+            if (!is_dir($dir)) {
                 continue;
             }
 
             $this->_classPath = $dir;
 
             $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator( $dir )
+                new RecursiveDirectoryIterator($dir)
             );
 
-            foreach ( $iterator as $file )
-            {
-                if ( $file->getFilename() === 'Analyzer.php' )
-                {
+            foreach ($iterator as $file) {
+                if ($file->getFilename() === 'Analyzer.php') {
                     $className = $this->_createClassNameFromPath(
                         $dir, $file->getPathname()
                     );
-                    if ( !class_exists( $className ) )
-                    {
+                    if (!class_exists($className)) {
                         include_once $file->getPathname();
                     }
 
-                    if ( $this->_isAnalyzerClass( $className ) )
-                    {
-                        $result[$className] = new ReflectionClass( $className );
+                    if ($this->_isAnalyzerClass($className)) {
+                        $result[$className] = new ReflectionClass($className);
                     }
                 }
             }
         }
 
-        ksort( $result );
-        return array_values( $result );
+        ksort($result);
+        return array_values($result);
     }
 
     /**
@@ -174,10 +163,10 @@ class PHP_Depend_Metrics_AnalyzerClassFileSystemLocator
      *
      * @return string
      */
-    private function _createClassNameFromPath( $classPath, $path )
+    private function _createClassNameFromPath($classPath, $path)
     {
-        $localPath = substr( $path, strlen( $classPath ), -4 );
-        return 'PHP_Depend_Metrics_' . strtr( $localPath, DIRECTORY_SEPARATOR, '_' );
+        $localPath = substr($path, strlen($classPath), -4);
+        return 'PHP_Depend_Metrics_' . strtr($localPath, DIRECTORY_SEPARATOR, '_');
     }
 
     /**
@@ -187,9 +176,9 @@ class PHP_Depend_Metrics_AnalyzerClassFileSystemLocator
      *
      * @return boolean
      */
-    private function _isAnalyzerClass( $className )
+    private function _isAnalyzerClass($className)
     {
-        return class_exists( $className ) && $this->_implementsInterface( $className );
+        return class_exists($className) && $this->_implementsInterface($className);
     }
 
     /**
@@ -199,9 +188,9 @@ class PHP_Depend_Metrics_AnalyzerClassFileSystemLocator
      *
      * @return boolean
      */
-    private function _implementsInterface( $className )
+    private function _implementsInterface($className)
     {
         $expectedType = 'PHP_Depend_Metrics_Analyzer';
-        return in_array( $expectedType, class_implements( $className ) );
+        return in_array($expectedType, class_implements($className));
     }
 }

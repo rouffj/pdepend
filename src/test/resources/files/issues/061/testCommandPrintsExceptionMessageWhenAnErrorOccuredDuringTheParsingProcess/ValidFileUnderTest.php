@@ -2,7 +2,9 @@
 /**
  * @package issue061
  */
-class ValidFileUnderTest {
-    
+class ValidFileUnderTest
+{
+
 }
+
 ?>

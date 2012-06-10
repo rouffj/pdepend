@@ -1,6 +1,9 @@
 <?php
 class Foo extends Bar
 {
-    public function baz(parent $bar) {}
+    public function baz(parent $bar)
+    {
+    }
 }
+
 ?>

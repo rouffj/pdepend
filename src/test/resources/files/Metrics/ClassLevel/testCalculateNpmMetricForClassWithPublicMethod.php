@@ -3,6 +3,6 @@ class testCalculateNpmMetricForClassWithPublicMethod
 {
     public function foo()
     {
-        
+
     }
 }

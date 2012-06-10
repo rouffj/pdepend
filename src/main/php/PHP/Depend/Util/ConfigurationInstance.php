@@ -84,7 +84,7 @@ class PHP_Depend_Util_ConfigurationInstance
      *
      * @return void
      */
-    public static function set( PHP_Depend_Util_Configuration $configuration = null )
+    public static function set(PHP_Depend_Util_Configuration $configuration = null)
     {
         self::$_configuration = $configuration;
     }

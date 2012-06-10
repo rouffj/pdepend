@@ -1,3 +1,3 @@
 <?php
-class Foo extends 
+class Foo extends
 // No body

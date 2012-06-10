@@ -61,10 +61,10 @@ require_once dirname(__FILE__) . '/DummyFilter.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Input_CompositeFilter
- * @group pdepend
- * @group pdepend::input
- * @group unittest
+ * @covers     PHP_Depend_Input_CompositeFilter
+ * @group      pdepend
+ * @group      pdepend::input
+ * @group      unittest
  */
 class PHP_Depend_Input_CompositeFilterTest extends PHP_Depend_AbstractTest
 {

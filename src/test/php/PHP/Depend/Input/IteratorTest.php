@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Input_Iterator
- * @group pdepend
- * @group pdepend::input
- * @group unittest
+ * @covers     PHP_Depend_Input_Iterator
+ * @group      pdepend
+ * @group      pdepend::input
+ * @group      unittest
  */
 class PHP_Depend_Input_IteratorTest extends PHP_Depend_AbstractTest
 {
@@ -104,7 +104,7 @@ class PHP_Depend_Input_IteratorTest extends PHP_Depend_AbstractTest
         $filter->expects($this->once())
             ->method('accept')
             ->with(self::equalTo(DIRECTORY_SEPARATOR . basename(__FILE__)));
-        
+
         $iterator = new PHP_Depend_Input_Iterator(
             new ArrayIterator(array(new SplFileInfo(__FILE__))),
             $filter,
@@ -158,7 +158,7 @@ class PHP_Depend_Input_IteratorTest extends PHP_Depend_AbstractTest
      */
     protected function createFilteredFileList(array $extensions)
     {
-        $files  = new PHP_Depend_Input_Iterator(
+        $files = new PHP_Depend_Input_Iterator(
             new DirectoryIterator(self::createCodeResourceUriForTest()),
             new PHP_Depend_Input_ExtensionFilter($extensions)
         );

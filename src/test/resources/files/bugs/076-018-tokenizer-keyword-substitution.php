@@ -1,2 +1,3 @@
 <?php
-echo Foo::goto;
+echo Foo::
+goto;

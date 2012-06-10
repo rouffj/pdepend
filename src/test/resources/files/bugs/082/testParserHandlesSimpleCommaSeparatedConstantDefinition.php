@@ -2,6 +2,7 @@
 class Foo
 {
     const BAR = 42,
-          BAZ = 23;
+        BAZ   = 23;
 }
+
 ?>

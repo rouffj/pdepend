@@ -60,8 +60,8 @@
  */
 class PHP_Depend_Log_Dummy_Logger
     implements PHP_Depend_Log_Logger,
-               PHP_Depend_Log_CodeAware,
-               PHP_Depend_Log_FileAware
+    PHP_Depend_Log_CodeAware,
+    PHP_Depend_Log_FileAware
 {
     /**
      * The output file name.
@@ -76,8 +76,8 @@ class PHP_Depend_Log_Dummy_Logger
      * @var array(string=>mixed) $_input
      */
     private $_input = array(
-        'code'       =>  null,
-        'analyzers'  =>  array()
+        'code'       => null,
+        'analyzers'  => array()
     );
 
     /**

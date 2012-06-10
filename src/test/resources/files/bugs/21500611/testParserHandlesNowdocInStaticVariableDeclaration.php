@@ -9,4 +9,5 @@ XML;
         echo $foo;
     }
 }
+
 testParserHandlesNowdocInStaticVariableDeclarationClass::testParserHandlesNowdocInStaticVariableDeclaration();

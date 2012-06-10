@@ -1,9 +1,14 @@
 <?php
-interface IFoo {
+interface IFoo
+{
 }
-class Bar {
-    function foo($x) {
+
+class Bar
+{
+    function foo($x)
+    {
         return ($x instanceof IFoo);
     }
 }
+
 ?>

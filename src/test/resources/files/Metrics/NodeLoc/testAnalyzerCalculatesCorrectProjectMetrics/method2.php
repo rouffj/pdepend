@@ -15,6 +15,7 @@ interface MyInterface
 
     function method_without_comment(
     );
+
     // Wrong comment type
     function method_without_doc_comment();
 

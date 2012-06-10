@@ -56,7 +56,7 @@
  * @version   Release: @package_version@
  * @link      http://pdepend.org/
  *
- * @method mixed visitInterfaceBefore( PHP_Depend_AST_Interface $interface, mixed $data = null )
+ * @method mixed visitInterfaceBefore(PHP_Depend_AST_Interface $interface, mixed $data = null)
  */
 interface PHP_Depend_VisitorI
 {
@@ -72,7 +72,7 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function addVisitListener( PHP_Depend_Visitor_ListenerI $listener );
+    function addVisitListener(PHP_Depend_Visitor_ListenerI $listener);
 
     /**
      * Visits a class node.
@@ -81,7 +81,7 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function visitClass( PHP_Depend_AST_Class $class );
+    function visitClass(PHP_Depend_AST_Class $class);
 
     /**
      * Visits a trait node.
@@ -91,7 +91,7 @@ interface PHP_Depend_VisitorI
      * @return void
      * @since 1.0.0
      */
-    function visitTrait( PHP_Depend_AST_Trait $trait );
+    function visitTrait(PHP_Depend_AST_Trait $trait);
 
     /**
      * Visits a file node.
@@ -100,7 +100,7 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function visitFile( PHP_Depend_AST_File $file );
+    function visitFile(PHP_Depend_AST_File $file);
 
     /**
      * Visits a function node.
@@ -109,7 +109,7 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function visitFunction( PHP_Depend_AST_Function $function );
+    function visitFunction(PHP_Depend_AST_Function $function);
 
     /**
      * Visits a code interface object.
@@ -118,7 +118,7 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function visitInterface( PHP_Depend_AST_Interface $interface );
+    function visitInterface(PHP_Depend_AST_Interface $interface);
 
     /**
      * Visits a method node.
@@ -127,7 +127,7 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function visitMethod( PHP_Depend_AST_Method $method );
+    function visitMethod(PHP_Depend_AST_Method $method);
 
     /**
      * Visits a package node.
@@ -136,7 +136,7 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function visitPackage( PHP_Depend_AST_Package $package );
+    function visitPackage(PHP_Depend_AST_Package $package);
 
     /**
      * Visits a parameter node.
@@ -145,7 +145,7 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function visitParameter( PHP_Depend_AST_Parameter $parameter );
+    function visitParameter(PHP_Depend_AST_Parameter $parameter);
 
     /**
      * Visits a property node.
@@ -154,5 +154,5 @@ interface PHP_Depend_VisitorI
      *
      * @return void
      */
-    function visitProperty( PHP_Depend_AST_Property $property );
+    function visitProperty(PHP_Depend_AST_Property $property);
 }

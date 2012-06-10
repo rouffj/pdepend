@@ -1,2 +1,3 @@
 <?php
-class Foo { const use = 42; }
+class Foo
+{ const use = 42; }

@@ -85,11 +85,11 @@ class PHP_Depend_AST_PropertyRefs
      * Constructs a new reference context for an object property.
      *
      * @param PHP_Depend_Context $context
-     * @param string $namespace
-     * @param string $declaringType
-     * @param string $type
+     * @param string             $namespace
+     * @param string             $declaringType
+     * @param string             $type
      */
-    public function __construct( PHP_Depend_Context $context, $namespace, $declaringType, $type = null )
+    public function __construct(PHP_Depend_Context $context, $namespace, $declaringType, $type = null)
     {
         $this->type          = $type ? $type : null;
         $this->context       = $context;
@@ -104,8 +104,7 @@ class PHP_Depend_AST_PropertyRefs
      */
     public function getNamespace()
     {
-        if ( $namespace = $this->context->getNamespace( $this->namespace ) )
-        {
+        if ($namespace = $this->context->getNamespace($this->namespace)) {
             return $namespace;
         }
         // TODO Return dummy namespace
@@ -118,8 +117,7 @@ class PHP_Depend_AST_PropertyRefs
      */
     public function getDeclaringType()
     {
-        if ( $declaringType = $this->context->getType( $this->declaringType ) )
-        {
+        if ($declaringType = $this->context->getType($this->declaringType)) {
             return $declaringType;
         }
         // TODO Return dummy class
@@ -127,9 +125,8 @@ class PHP_Depend_AST_PropertyRefs
 
     public function getType()
     {
-        if ( $this->type )
-        {
-            return $this->context->getType( $this->type );
+        if ($this->type) {
+            return $this->context->getType($this->type);
         }
         return null;
     }
@@ -138,10 +135,11 @@ class PHP_Depend_AST_PropertyRefs
      * Initializes this reference instance for the given property.
      *
      * @param PHP_Depend_AST_Property $property
+     *
      * @return void
      */
-    public function initialize( PHP_Depend_AST_Property $property )
+    public function initialize(PHP_Depend_AST_Property $property)
     {
-        $this->context->registerNode( $property );
+        $this->context->registerNode($property);
     }
 }

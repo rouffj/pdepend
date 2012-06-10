@@ -60,7 +60,7 @@ require_once dirname(__FILE__) . '/../AbstractDriverTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Util_Cache_Driver_File
+ * @covers     PHP_Depend_Util_Cache_Driver_File
  */
 class PHP_Depend_Util_Cache_Driver_FileTest
     extends PHP_Depend_Util_Cache_AbstractDriverTest
@@ -74,7 +74,7 @@ class PHP_Depend_Util_Cache_Driver_FileTest
 
     /**
      * Initializes a temporary working directory.
-     * 
+     *
      * @return void
      */
     protected function setUp()

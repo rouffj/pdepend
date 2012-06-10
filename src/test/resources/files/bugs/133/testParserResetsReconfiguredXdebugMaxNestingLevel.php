@@ -3,6 +3,6 @@ class testParserResetsReconfiguredXdebugMaxNestingLevel
 {
     public function testParserResetsReconfiguredXdebugMaxNestingLevel()
     {
-        
+
     }
 }

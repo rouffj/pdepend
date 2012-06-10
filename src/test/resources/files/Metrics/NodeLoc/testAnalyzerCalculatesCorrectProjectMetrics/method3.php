@@ -6,7 +6,7 @@ class MyMethodClass3
 {
     /**
      * Comment...
-     * 
+     *
      * @throws RuntimeException
      */
     public function __construct()

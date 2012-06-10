@@ -1,19 +1,22 @@
 <?php
 namespace nspace;
 
-class Clazz {
+class Clazz
+{
     protected function method()
     {
-        if (Builder::get()) { }
+        if (Builder::get()) {
+        }
 
         $code = array_map(
-            function ($line) {
-                return $line ? '  '.$line : $line; 
+            function ($line)
+            {
+                return $line ? '  ' . $line : $line;
             },
             explode("\n", $code)
         );
         return sprintf(
-            "if (%s)\n{\n%s}\n", 
+            "if (%s)\n{\n%s}\n",
             implode(' && ', $conditions),
             $code
         );

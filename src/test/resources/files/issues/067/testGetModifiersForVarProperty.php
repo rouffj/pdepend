@@ -3,4 +3,5 @@ class testGetModifiersForVarProperty
 {
     var $foo;
 }
+
 ?>

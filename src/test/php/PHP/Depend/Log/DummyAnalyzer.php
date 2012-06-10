@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -58,10 +58,10 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-class PHP_Depend_Log_DummyAnalyzer 
+class PHP_Depend_Log_DummyAnalyzer
     implements PHP_Depend_Metrics_Analyzer,
-               PHP_Depend_Metrics_NodeAware,
-               PHP_Depend_Metrics_ProjectAware
+    PHP_Depend_Metrics_NodeAware,
+    PHP_Depend_Metrics_ProjectAware
 {
     /**
      * Test project metrics
@@ -69,14 +69,14 @@ class PHP_Depend_Log_DummyAnalyzer
      * @var array $projectMetrics
      */
     public $projectMetrics = array();
-    
+
     /**
      * Test node metrics.
      *
      * @var array $nodeMetrics
      */
     public $nodeMetrics = array();
-    
+
     /**
      * Constructs a new analyzer instance.
      *
@@ -85,9 +85,9 @@ class PHP_Depend_Log_DummyAnalyzer
      */
     public function __construct(array $options = array())
     {
-        
+
     }
-    
+
     /**
      * Returns the project metrics.
      *
@@ -97,12 +97,12 @@ class PHP_Depend_Log_DummyAnalyzer
     {
         return $this->projectMetrics;
     }
-    
+
     /**
      * Returns the node metrics.
      *
      * @param PHP_Depend_AST_Node|string $node context npde.
-     * 
+     *
      * @return array
      */
     public function getNodeMetrics($node)
@@ -112,32 +112,34 @@ class PHP_Depend_Log_DummyAnalyzer
         }
         return array();
     }
-    
+
     /**
      * Adds a listener to this analyzer.
      *
      * @param PHP_Depend_Metrics_ListenerI $listener The listener instance.
-     * 
+     *
      * @return void
      */
-    public function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener) {
+    public function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener)
+    {
     }
-    
+
     /**
      * Removes the listener from this analyzer.
      *
      * @param PHP_Depend_Metrics_ListenerI $listener The listener instance.
-     * 
+     *
      * @return void
      */
-    public function removeAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener) {
+    public function removeAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener)
+    {
     }
-    
+
     /**
      * Processes all {@link PHP_Depend_Code_Package} code nodes.
      *
      * @param PHP_Depend_Code_NodeIterator $packages All code packages.
-     * 
+     *
      * @return void
      */
     public function analyze(PHP_Depend_Code_NodeIterator $packages)

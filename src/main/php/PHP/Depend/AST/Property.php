@@ -81,9 +81,9 @@ class PHP_Depend_AST_Property extends PHPParser_Node_Stmt_PropertyProperty imple
      * Constructs a new property AST node.
      *
      * @param PHPParser_Node_Stmt_PropertyProperty $property
-     * @param PHP_Depend_AST_PropertyRefs $refs
+     * @param PHP_Depend_AST_PropertyRefs          $refs
      */
-    public function __construct( PHPParser_Node_Stmt_PropertyProperty $property, PHP_Depend_AST_PropertyRefs $refs )
+    public function __construct(PHPParser_Node_Stmt_PropertyProperty $property, PHP_Depend_AST_PropertyRefs $refs)
     {
         parent::__construct(
             $property->name,
@@ -95,7 +95,7 @@ class PHP_Depend_AST_Property extends PHPParser_Node_Stmt_PropertyProperty imple
         $this->type           = $property->type;
         $this->namespacedName = $property->namespacedName;
 
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 
     /**
@@ -105,7 +105,7 @@ class PHP_Depend_AST_Property extends PHPParser_Node_Stmt_PropertyProperty imple
      */
     public function getId()
     {
-        return $this->getAttribute( 'id' );
+        return $this->getAttribute('id');
     }
 
     /**
@@ -161,6 +161,6 @@ class PHP_Depend_AST_Property extends PHPParser_Node_Stmt_PropertyProperty imple
     {
         $this->cached = true;
 
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 }

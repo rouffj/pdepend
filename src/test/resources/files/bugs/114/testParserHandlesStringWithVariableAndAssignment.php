@@ -2,9 +2,14 @@
 /**
  * @package foo
  */
-class test {
-	function query() {
+class test
+{
+    function query()
+    {
         "$i=";
-	}
-	static function close() {}
+    }
+
+    static function close()
+    {
+    }
 }

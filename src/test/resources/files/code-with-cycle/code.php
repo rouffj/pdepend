@@ -13,6 +13,7 @@ class clazz0
 /**
  * @package package1
  */
-class clazz1 extends clazz0 {
-    
+class clazz1 extends clazz0
+{
+
 }

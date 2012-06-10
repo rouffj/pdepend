@@ -67,5 +67,5 @@ interface PHP_Depend_Util_Coverage_Report
      *
      * @return float
      */
-    function getCoverage( PHP_Depend_Code_AbstractItem $item );
+    function getCoverage(PHP_Depend_Code_AbstractItem $item);
 }

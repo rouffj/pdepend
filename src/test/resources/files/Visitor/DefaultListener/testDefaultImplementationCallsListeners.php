@@ -8,8 +8,14 @@
  */
 class clazz
 {
-    public function m1() {}
-    protected function m2() {}
+    public function m1()
+    {
+    }
+
+    protected function m2()
+    {
+    }
+
     private $_p1;
 }
 
@@ -19,8 +25,12 @@ class clazz
 interface interfs
 {
     function m3();
+
     function m4();
 }
 
-function func() {}
+function func()
+{
+}
+
 ?>

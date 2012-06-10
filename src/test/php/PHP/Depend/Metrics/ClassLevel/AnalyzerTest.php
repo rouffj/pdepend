@@ -60,11 +60,11 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Metrics_ClassLevel_Analyzer
- * @group pdepend
- * @group pdepend::metrics
- * @group pdepend::metrics::classlevel
- * @group unittest
+ * @covers     PHP_Depend_Metrics_ClassLevel_Analyzer
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      pdepend::metrics::classlevel
+ * @group      unittest
  */
 class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
@@ -530,7 +530,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testGetNodeMetricsForTraitReturnsExpectedMetricSet(array $metrics)
@@ -547,7 +547,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateIMPLMetricForTrait(array $metrics)
@@ -561,7 +561,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateCISMetricForTrait(array $metrics)
@@ -575,7 +575,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateCSZMetricForTrait(array $metrics)
@@ -589,7 +589,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateNpmMetricForTrait(array $metrics)
@@ -603,7 +603,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateVARSMetricForTrait(array $metrics)
@@ -617,7 +617,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateVARSiMetricForTrait(array $metrics)
@@ -631,7 +631,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateVARSnpMetricForTrait(array $metrics)
@@ -645,7 +645,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateWMCMetricForTrait(array $metrics)
@@ -659,7 +659,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateWMCiMetricForTrait(array $metrics)
@@ -673,7 +673,7 @@ class PHP_Depend_Metrics_ClassLevel_AnalyzerTest extends PHP_Depend_Metrics_Abst
      * @param array $metrics Calculated class metrics.
      *
      * @return void
-     * @since 1.0.6
+     * @since   1.0.6
      * @depends testGetNodeMetricsForTrait
      */
     public function testCalculateWMCnpMetricForTrait(array $metrics)

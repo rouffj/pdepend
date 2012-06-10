@@ -87,9 +87,9 @@ final class PHP_Depend_Util_Log
      *
      * @return void
      */
-    public static function setSeverity( $severity )
+    public static function setSeverity($severity)
     {
-        self::$_debug = ( ( self::DEBUG & $severity ) === $severity );
+        self::$_debug = ((self::DEBUG & $severity) === $severity);
     }
 
     /**
@@ -99,11 +99,10 @@ final class PHP_Depend_Util_Log
      *
      * @return void
      */
-    public static function debug( $message )
+    public static function debug($message)
     {
-        if ( self::$_debug )
-        {
-            self::log( $message );
+        if (self::$_debug) {
+            self::log($message);
         }
     }
 
@@ -114,8 +113,8 @@ final class PHP_Depend_Util_Log
      *
      * @return void
      */
-    public static function log( $message )
+    public static function log($message)
     {
-        fwrite( self::$_stream, PHP_EOL . $message );
+        fwrite(self::$_stream, PHP_EOL . $message);
     }
 }

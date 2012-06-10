@@ -69,7 +69,7 @@ interface PHP_Depend_ProcessListener
      *
      * @return void
      */
-    function startParseProcess( PHP_Depend_Parser $parser );
+    function startParseProcess(PHP_Depend_Parser $parser);
 
     /**
      * Is called when PDepend has finished the file parsing process.
@@ -78,7 +78,7 @@ interface PHP_Depend_ProcessListener
      *
      * @return void
      */
-    function endParseProcess( PHP_Depend_Parser $parser );
+    function endParseProcess(PHP_Depend_Parser $parser);
 
     /**
      * Is called when PDepend starts parsing of a new file.
@@ -87,7 +87,7 @@ interface PHP_Depend_ProcessListener
      *
      * @return void
      */
-    function startFileParsing( PHP_Depend_Tokenizer $tokenizer );
+    function startFileParsing(PHP_Depend_Tokenizer $tokenizer);
 
     /**
      * Is called when PDepend has finished a file.
@@ -96,7 +96,7 @@ interface PHP_Depend_ProcessListener
      *
      * @return void
      */
-    function endFileParsing( PHP_Depend_Tokenizer $tokenizer );
+    function endFileParsing(PHP_Depend_Tokenizer $tokenizer);
 
     /**
      * Is called when PDepend starts the analyzing process.

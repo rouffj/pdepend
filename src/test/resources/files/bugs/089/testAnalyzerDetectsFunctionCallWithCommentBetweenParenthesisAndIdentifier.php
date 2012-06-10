@@ -1,8 +1,9 @@
 <?php
 function foo()
 {
-    bar//
+    bar //
     ();
 
-    baz/* */();
+    baz /* */
+    ();
 }

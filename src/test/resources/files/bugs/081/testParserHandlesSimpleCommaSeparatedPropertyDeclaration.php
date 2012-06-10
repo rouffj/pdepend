@@ -1,6 +1,7 @@
 <?php
 class Foo
 {
-    protected $foo,$bar;
+    protected $foo, $bar;
 }
+
 ?>

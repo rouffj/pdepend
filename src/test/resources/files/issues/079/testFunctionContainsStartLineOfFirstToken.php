@@ -1,5 +1,8 @@
 <?php
 function
 //
-foo() {}
+foo()
+{
+}
+
 ?>

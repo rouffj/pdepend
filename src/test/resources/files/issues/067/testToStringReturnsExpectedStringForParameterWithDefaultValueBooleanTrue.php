@@ -2,4 +2,5 @@
 function testToStringReturnsExpectedStringForParameterWithDefaultValueBooleanTrue($bar = true)
 {
 }
+
 ?>

@@ -76,5 +76,5 @@ interface PHP_Depend_Metrics_AggregateAnalyzerI extends PHP_Depend_Metrics_Analy
      *
      * @return void
      */
-    function addAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer );
+    function addAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
 }

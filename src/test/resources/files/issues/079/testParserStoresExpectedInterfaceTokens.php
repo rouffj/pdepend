@@ -3,4 +3,5 @@ interface Foo
 {
     public function bar();
 }
+
 ?>

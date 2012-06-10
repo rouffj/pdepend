@@ -70,13 +70,12 @@ final class PHP_Depend_Util_MathUtil
      *
      * @return string
      */
-    public static function mul( $left, $right )
+    public static function mul($left, $right)
     {
-        if ( function_exists( 'bcmul' ) )
-        {
-            return bcmul( $left, $right );
+        if (function_exists('bcmul')) {
+            return bcmul($left, $right);
         }
-        return (string) ( (int) $left * (int) $right );
+        return (string)((int)$left * (int)$right);
     }
 
     /**
@@ -88,13 +87,12 @@ final class PHP_Depend_Util_MathUtil
      *
      * @return string
      */
-    public static function add( $left, $right )
+    public static function add($left, $right)
     {
-        if ( function_exists( 'bcadd' ) )
-        {
-            return bcadd( $left, $right );
+        if (function_exists('bcadd')) {
+            return bcadd($left, $right);
         }
-        return (string) ( (int) $left + (int) $right );
+        return (string)((int)$left + (int)$right);
     }
 }
 

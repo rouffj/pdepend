@@ -2,7 +2,6 @@
 interface testAnalyzerCalculatesElocOfZeroForAbstractMethod
 {
     abstract
-        function
-            fooBar()
-                ;
+    function
+    fooBar();
 }

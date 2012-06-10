@@ -9,4 +9,5 @@ class Bar
         return false;
     }
 }
+
 ?>

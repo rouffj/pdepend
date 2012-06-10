@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://www.pdepend.org/
  *
- * @covers stdClass
- * @group pdepend
- * @group pdepend::bugs
- * @group regressiontest
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::bugs
+ * @group      regressiontest
  */
 class PHP_Depend_Bugs_ClassDeclarationWithoutBodyBug065Test extends PHP_Depend_AbstractTest
 {
@@ -114,7 +114,7 @@ class PHP_Depend_Bugs_ClassDeclarationWithoutBodyBug065Test extends PHP_Depend_A
 
         self::parseCodeResourceForTest();
     }
-    
+
     /**
      * Tests that the parser does not end in an endless loop when it detects a
      * class declaration without a body.

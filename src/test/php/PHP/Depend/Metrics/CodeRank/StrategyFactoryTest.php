@@ -60,11 +60,11 @@ require_once dirname(__FILE__) . '/../../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Metrics_CodeRank_StrategyFactory
- * @group pdepend
- * @group pdepend::metrics
- * @group pdepend::metrics::coderank
- * @group unittest
+ * @covers     PHP_Depend_Metrics_CodeRank_StrategyFactory
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      pdepend::metrics::coderank
+ * @group      unittest
  */
 class PHP_Depend_Metrics_CodeRank_StrategyFactoryTest extends PHP_Depend_AbstractTest
 {

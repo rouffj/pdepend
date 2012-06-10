@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Metrics_AnalyzerIterator
- * @group pdepend
- * @group pdepend::metrics
- * @group unittest
+ * @covers     PHP_Depend_Metrics_AnalyzerIterator
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      unittest
  */
 class PHP_Depend_Metrics_AnalyzerIteratorTest extends PHP_Depend_AbstractTest
 {

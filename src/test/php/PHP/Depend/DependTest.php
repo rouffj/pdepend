@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -58,9 +58,9 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version   Release: @package_version@
  * @link      http://pdepend.org/
  *
- * @covers PHP_Depend
- * @group pdepend
- * @group unittest
+ * @covers    PHP_Depend
+ * @group     pdepend
+ * @group     unittest
  */
 class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
 {
@@ -74,12 +74,13 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
     {
         $dir = dirname(__FILE__) . '/foobar';
         $msg = "Invalid directory '{$dir}' added.";
-        
+
         $this->setExpectedException('InvalidArgumentException', $msg);
-        
+
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory($dir);
     }
+
     /**
      * Tests that the {@link PHP_Depend::addDirectory()} method with an existing
      * directory.
@@ -105,9 +106,9 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
 
         self::assertInstanceOf('Iterator', $pdepend->analyze());
     }
-    
+
     /**
-     * Tests the {@link PHP_Depend::analyze()} method and the return value. 
+     * Tests the {@link PHP_Depend::analyze()} method and the return value.
      *
      * @return void
      */
@@ -116,22 +117,22 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->addFileFilter(new PHP_Depend_Input_ExtensionFilter(array('php')));
-        
+
         $metrics = $pdepend->analyze();
-        
+
         $expected = array(
-            'package1'  =>  true,
-            'package2'  =>  true,
-            'package3'  =>  true
+            'package1'  => true,
+            'package2'  => true,
+            'package3'  => true
         );
-        
+
         foreach ($metrics as $metric) {
             unset($expected[$metric->getName()]);
         }
-        
+
         $this->assertEquals(0, count($expected));
     }
-    
+
     /**
      * Tests that {@PHP_Depend::analyze()} throws an exception if no source
      * directory was set.
@@ -144,7 +145,7 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
         $this->setExpectedException('RuntimeException', 'No source directory and file set.');
         $pdepend->analyze();
     }
-    
+
     /**
      * testAnalyzeReturnsEmptyIteratorWhenNoPackageExists
      *
@@ -155,10 +156,10 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->addFileFilter(new PHP_Depend_Input_ExtensionFilter(array(__METHOD__)));
-       
-        $this->assertEquals(0, $pdepend->analyze()->count()); 
+
+        $this->assertEquals(0, $pdepend->analyze()->count());
     }
-    
+
     /**
      * Tests that {PHP_Depend::analyze()} configures the ignore annotations
      * option correct.
@@ -172,19 +173,19 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
         $pdepend->addFileFilter(new PHP_Depend_Input_ExtensionFilter(array('inc')));
         $pdepend->setWithoutAnnotations();
         $packages = $pdepend->analyze();
-        
+
         $this->assertEquals(2, $packages->count());
         $this->assertEquals('pdepend.test', $packages->current()->getName());
-        
+
         $function = $packages->current()->getFunctions()->current();
-        
+
         $this->assertNotNull($function);
         $this->assertEquals('foo', $function->getName());
         $this->assertEquals(0, $function->getExceptionClasses()->count());
     }
-    
+
     /**
-     * Tests that the {@link PHP_Depend::countClasses()} method returns the 
+     * Tests that the {@link PHP_Depend::countClasses()} method returns the
      * expected number of classes.
      *
      * @return void
@@ -195,10 +196,10 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->addFileFilter(new PHP_Depend_Input_ExtensionFilter(array('php')));
         $pdepend->analyze();
-        
+
         $this->assertEquals(10, $pdepend->countClasses());
     }
-    
+
     /**
      * Tests that the {@link PHP_Depend::countClasses()} method fails with an
      * exception if the code was not analyzed before.
@@ -208,17 +209,17 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
     public function testCountClassesWithoutAnalyzeFail()
     {
         $this->setExpectedException(
-            'RuntimeException', 
+            'RuntimeException',
             'countClasses() doesn\'t work before the source was analyzed.'
         );
-        
+
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->countClasses();
     }
-    
+
     /**
-     * Tests that the {@link PHP_Depend::countPackages()} method returns the 
+     * Tests that the {@link PHP_Depend::countPackages()} method returns the
      * expected number of packages.
      *
      * @return void
@@ -228,10 +229,10 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->analyze();
-        
+
         $this->assertEquals(4, $pdepend->countPackages());
     }
-    
+
     /**
      * Tests that the {@link PHP_Depend::countPackages()} method fails with an
      * exception if the code was not analyzed before.
@@ -241,17 +242,17 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
     public function testCountPackagesWithoutAnalyzeFail()
     {
         $this->setExpectedException(
-            'RuntimeException', 
+            'RuntimeException',
             'countPackages() doesn\'t work before the source was analyzed.'
         );
-        
+
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->countPackages();
     }
-    
+
     /**
-     * Tests that the {@link PHP_Depend::getPackage()} method returns the 
+     * Tests that the {@link PHP_Depend::getPackage()} method returns the
      * expected {@link PHP_Depend_Code_Package} objects.
      *
      * @return void
@@ -261,20 +262,20 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->analyze();
-        
+
         $packages = array(
-            'package1', 
-            'package2', 
+            'package1',
+            'package2',
             'package3'
         );
-        
+
         $className = 'PHP_Depend_Code_Package';
-        
+
         foreach ($packages as $package) {
             $this->assertInstanceOf($className, $pdepend->getPackage($package));
         }
     }
-    
+
     /**
      * Tests that the {@link PHP_Depend::getPackage()} method fails with an
      * exception if the code was not analyzed before.
@@ -284,15 +285,15 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
     public function testGetPackageWithoutAnalyzeFail()
     {
         $this->setExpectedException(
-            'RuntimeException', 
+            'RuntimeException',
             'getPackage() doesn\'t work before the source was analyzed.'
         );
-        
+
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->getPackage('package1');
     }
-    
+
     /**
      * Tests that the {@link PHP_Depend::getPackage()} method fails with an
      * exception if you request an invalid package.
@@ -302,18 +303,18 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
     public function testGetPackageWithUnknownPackageFail()
     {
         $this->setExpectedException(
-            'OutOfBoundsException', 
+            'OutOfBoundsException',
             'Unknown package "package0".'
         );
-        
+
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->analyze();
         $pdepend->getPackage('package0');
     }
-    
+
     /**
-     * Tests that the {@link PHP_Depend::getPackages()} method returns the 
+     * Tests that the {@link PHP_Depend::getPackages()} method returns the
      * expected {@link PHP_Depend_Code_Package} objects and reuses the result of
      * {@link PHP_Depend::analyze()}.
      *
@@ -323,16 +324,16 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
     {
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
-        
+
         $package1 = $pdepend->analyze();
         $package2 = $pdepend->getPackages();
-        
+
         $this->assertNotNull($package1);
         $this->assertNotNull($package2);
-        
+
         $this->assertSame($package1, $package2);
     }
-    
+
     /**
      * Tests that the {@link PHP_Depend::getPackages()} method fails with an
      * exception if the code was not analyzed before.
@@ -342,10 +343,10 @@ class PHP_Depend_DependTest extends PHP_Depend_AbstractTest
     public function testGetPackagesWithoutAnalyzeFail()
     {
         $this->setExpectedException(
-            'RuntimeException', 
+            'RuntimeException',
             'getPackages() doesn\'t work before the source was analyzed.'
         );
-        
+
         $pdepend = $this->createPDependFixture();
         $pdepend->addDirectory(self::createCodeResourceUriForTest());
         $pdepend->getPackages();

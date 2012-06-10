@@ -9,4 +9,5 @@ class testGetConstantsReturnsExpectedResultForInheritedConstantDefinitions
 {
     const BAR = 23;
 }
+
 ?>

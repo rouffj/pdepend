@@ -3,7 +3,7 @@ class testPropertyPostfixHasExpectedStartLine
 {
     protected function foo()
     {
-        $this->bar
-            /* */;
+        $this->bar/* */
+        ;
     }
 }

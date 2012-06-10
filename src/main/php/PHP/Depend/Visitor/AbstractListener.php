@@ -69,9 +69,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function startVisitClass( PHP_Depend_AST_Class $class )
+    public function startVisitClass(PHP_Depend_AST_Class $class)
     {
-        $this->startVisitNode( $class );
+        $this->startVisitNode($class);
     }
 
     /**
@@ -81,9 +81,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function endVisitClass( PHP_Depend_AST_Class $class )
+    public function endVisitClass(PHP_Depend_AST_Class $class)
     {
-        $this->endVisitNode( $class );
+        $this->endVisitNode($class);
     }
 
     /**
@@ -94,9 +94,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      * @return void
      * @since 1.0.0
      */
-    public function startVisitTrait( PHP_Depend_AST_Trait $trait )
+    public function startVisitTrait(PHP_Depend_AST_Trait $trait)
     {
-        $this->startVisitNode( $trait );
+        $this->startVisitNode($trait);
     }
 
     /**
@@ -107,9 +107,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      * @return void
      * @since 1.0.0
      */
-    public function endVisitTrait( PHP_Depend_AST_Trait $trait )
+    public function endVisitTrait(PHP_Depend_AST_Trait $trait)
     {
-        $this->endVisitNode( $trait );
+        $this->endVisitNode($trait);
     }
 
     /**
@@ -119,9 +119,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function startVisitFile( PHP_Depend_AST_File $file )
+    public function startVisitFile(PHP_Depend_AST_File $file)
     {
-        $this->startVisitNode( $file );
+        $this->startVisitNode($file);
     }
 
     /**
@@ -131,9 +131,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function endVisitFile( PHP_Depend_AST_File $file )
+    public function endVisitFile(PHP_Depend_AST_File $file)
     {
-        $this->endVisitNode( $file );
+        $this->endVisitNode($file);
     }
 
     /**
@@ -143,9 +143,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function startVisitFunction( PHP_Depend_AST_Function $function )
+    public function startVisitFunction(PHP_Depend_AST_Function $function)
     {
-        $this->startVisitNode( $function );
+        $this->startVisitNode($function);
     }
 
     /**
@@ -155,9 +155,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function endVisitFunction( PHP_Depend_AST_Function $function )
+    public function endVisitFunction(PHP_Depend_AST_Function $function)
     {
-        $this->endVisitNode( $function );
+        $this->endVisitNode($function);
     }
 
     /**
@@ -167,9 +167,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function startVisitInterface( PHP_Depend_AST_Interface $interface )
+    public function startVisitInterface(PHP_Depend_AST_Interface $interface)
     {
-        $this->startVisitNode( $interface );
+        $this->startVisitNode($interface);
     }
 
     /**
@@ -179,9 +179,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function endVisitInterface( PHP_Depend_AST_Interface $interface )
+    public function endVisitInterface(PHP_Depend_AST_Interface $interface)
     {
-        $this->endVisitNode( $interface );
+        $this->endVisitNode($interface);
     }
 
     /**
@@ -191,9 +191,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function startVisitMethod( PHP_Depend_AST_Method $method )
+    public function startVisitMethod(PHP_Depend_AST_Method $method)
     {
-        $this->startVisitNode( $method );
+        $this->startVisitNode($method);
     }
 
     /**
@@ -203,9 +203,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function endVisitMethod( PHP_Depend_AST_Method $method )
+    public function endVisitMethod(PHP_Depend_AST_Method $method)
     {
-        $this->endVisitNode( $method );
+        $this->endVisitNode($method);
     }
 
     /**
@@ -215,9 +215,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function startVisitPackage( PHP_Depend_AST_Package $package )
+    public function startVisitPackage(PHP_Depend_AST_Package $package)
     {
-        $this->startVisitNode( $package );
+        $this->startVisitNode($package);
     }
 
     /**
@@ -227,9 +227,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function endVisitPackage( PHP_Depend_AST_Package $package )
+    public function endVisitPackage(PHP_Depend_AST_Package $package)
     {
-        $this->endVisitNode( $package );
+        $this->endVisitNode($package);
     }
 
     /**
@@ -239,9 +239,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function startVisitParameter( PHP_Depend_AST_Parameter $parameter )
+    public function startVisitParameter(PHP_Depend_AST_Parameter $parameter)
     {
-        $this->startVisitNode( $parameter );
+        $this->startVisitNode($parameter);
     }
 
     /**
@@ -251,9 +251,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function endVisitParameter( PHP_Depend_AST_Parameter $parameter )
+    public function endVisitParameter(PHP_Depend_AST_Parameter $parameter)
     {
-        $this->endVisitNode( $parameter );
+        $this->endVisitNode($parameter);
     }
 
     /**
@@ -263,9 +263,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function startVisitProperty( PHP_Depend_AST_Property $property )
+    public function startVisitProperty(PHP_Depend_AST_Property $property)
     {
-        $this->startVisitNode( $property );
+        $this->startVisitNode($property);
     }
 
     /**
@@ -275,9 +275,9 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    public function endVisitProperty( PHP_Depend_AST_Property $property )
+    public function endVisitProperty(PHP_Depend_AST_Property $property)
     {
-        $this->endVisitNode( $property );
+        $this->endVisitNode($property);
     }
 
     /**
@@ -287,7 +287,7 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    protected function startVisitNode( PHP_Depend_AST_Node $node )
+    protected function startVisitNode(PHP_Depend_AST_Node $node)
     {
 
     }
@@ -299,7 +299,7 @@ abstract class PHP_Depend_Visitor_AbstractListener
      *
      * @return void
      */
-    protected function endVisitNode( PHP_Depend_AST_Node $node )
+    protected function endVisitNode(PHP_Depend_AST_Node $node)
     {
 
     }

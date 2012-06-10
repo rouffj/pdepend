@@ -76,7 +76,7 @@ class PHP_Depend_Util_Configuration
      *
      * @since 0.10.0
      */
-    public function __construct( stdClass $settings )
+    public function __construct(stdClass $settings)
     {
         $this->settings = $settings;
     }
@@ -94,14 +94,13 @@ class PHP_Depend_Util_Configuration
      * @throws OutOfRangeException If no matching configuration value exists.
      * @since 0.10.0
      */
-    public function __get( $name )
+    public function __get($name)
     {
-        if ( isset( $this->settings->{$name} ) )
-        {
+        if (isset($this->settings->{$name})) {
             return $this->settings->{$name};
         }
         throw new OutOfRangeException(
-            sprintf( "A configuration option '%s' not exists.", $name )
+            sprintf("A configuration option '%s' not exists.", $name)
         );
     }
 
@@ -118,10 +117,10 @@ class PHP_Depend_Util_Configuration
      * @throws OutOfRangeException Whenever this method is called.
      * @since 0.10.0
      */
-    public function __set( $name, $value )
+    public function __set($name, $value)
     {
         throw new OutOfRangeException(
-            sprintf( "A configuration option '%s' not exists.", $name )
+            sprintf("A configuration option '%s' not exists.", $name)
         );
     }
 
@@ -136,8 +135,8 @@ class PHP_Depend_Util_Configuration
      * @return boolean
      * @since 0.10.0
      */
-    public function __isset( $name )
+    public function __isset($name)
     {
-        return isset( $this->settings->{$name} );
+        return isset($this->settings->{$name});
     }
 }

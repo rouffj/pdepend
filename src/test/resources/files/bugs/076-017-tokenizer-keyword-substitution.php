@@ -1,2 +1,3 @@
 <?php
-echo Foo::use;
+echo Foo::
+use;

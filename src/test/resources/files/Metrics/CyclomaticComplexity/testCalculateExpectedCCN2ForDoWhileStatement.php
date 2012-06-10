@@ -4,9 +4,11 @@
  */
 
 /** */
-function func() {
+function func()
+{
     try {
-        do { } while (!$this->i());
+        do {
+        } while (!$this->i());
     } catch (Exception $e) {
     }
 }

@@ -70,9 +70,10 @@ class PHP_Depend_Context
      * Registers the given node in the global context.
      *
      * @param PHP_Depend_AST_Node $node
+     *
      * @return void
      */
-    public function registerNode( PHP_Depend_AST_Node $node )
+    public function registerNode(PHP_Depend_AST_Node $node)
     {
         self::$nodes[$node->getId()] = $node;
     }
@@ -82,11 +83,12 @@ class PHP_Depend_Context
      * matching namespace exists.
      *
      * @param string $id
+     *
      * @return null|PHP_Depend_AST_Namespace
      */
-    public function getNamespace( $id )
+    public function getNamespace($id)
     {
-        return $this->getNode( "{$id}#n" );
+        return $this->getNode("{$id}#n");
     }
 
     /**
@@ -94,23 +96,22 @@ class PHP_Depend_Context
      * matching class exists.
      *
      * @param string $id
+     *
      * @return null|PHP_Depend_AST_Class
      */
-    public function getClass( $id )
+    public function getClass($id)
     {
-        if ( $class = $this->getNode( "{$id}#c" ) )
-        {
+        if ($class = $this->getNode("{$id}#c")) {
             return $class;
         }
 
-        if ( $id )
-        {
+        if ($id) {
             // TODO 2.0 extract name/namespace from id.
             return new PHP_Depend_AST_Class(
                 new PHPParser_Node_Stmt_Class(
                     $id,
                     array(),
-                    array( 'user_defined' => false, 'id' => $id )
+                    array('user_defined' => false, 'id' => $id)
                 ),
                 new PHP_Depend_AST_ClassRefs(
                     $this, '+global', null, array()
@@ -124,11 +125,12 @@ class PHP_Depend_Context
      * matching interface exists.
      *
      * @param string $id
+     *
      * @return null|PHP_Depend_AST_Interface
      */
-    public function getInterface( $id )
+    public function getInterface($id)
     {
-        return $this->getNode( "{$id}#i" );
+        return $this->getNode("{$id}#i");
     }
 
     /**
@@ -136,20 +138,18 @@ class PHP_Depend_Context
      * matching type exists.
      *
      * @param string $id
+     *
      * @return null|PHP_Depend_AST_Type
      * @todo Implement traits
      */
-    public function getType( $id )
+    public function getType($id)
     {
-        if ( $type = $this->getNode( "{$id}#i" ) )
-        {
+        if ($type = $this->getNode("{$id}#i")) {
+            return $type;
+        } else if ($type = $this->getNode("{$id}#c")) {
             return $type;
         }
-        else if ( $type = $this->getNode( "{$id}#c" ) )
-        {
-            return $type;
-        }
-        return $this->getClass( $id );
+        return $this->getClass($id);
     }
 
     /**
@@ -157,11 +157,12 @@ class PHP_Depend_Context
      * matching method exists.
      *
      * @param string $id
+     *
      * @return null|PHP_Depend_AST_Method
      */
-    public function getMethod( $id )
+    public function getMethod($id)
     {
-        return $this->getNode( "{$id}#m" );
+        return $this->getNode("{$id}#m");
     }
 
     /**
@@ -169,11 +170,12 @@ class PHP_Depend_Context
      * matching function exists.
      *
      * @param string $id
+     *
      * @return null|PHP_Depend_AST_Function
      */
-    public function getFunction( $id )
+    public function getFunction($id)
     {
-        return $this->getNode( "{$id}#f" );
+        return $this->getNode("{$id}#f");
     }
 
     /**
@@ -181,12 +183,12 @@ class PHP_Depend_Context
      * matching node exists.
      *
      * @param string $id
+     *
      * @return null|PHP_Depend_AST_Node
      */
-    private function getNode( $id )
+    private function getNode($id)
     {
-        if ( isset( self::$nodes[$id] ) )
-        {
+        if (isset(self::$nodes[$id])) {
             return self::$nodes[$id];
         }
         return null;

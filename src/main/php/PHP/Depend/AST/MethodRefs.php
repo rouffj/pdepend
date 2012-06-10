@@ -85,11 +85,11 @@ class PHP_Depend_AST_MethodRefs
      * Constructs a new reference context for an interface.
      *
      * @param PHP_Depend_Context $context
-     * @param string $namespace
-     * @param string $declaringType
-     * @param string $returnType
+     * @param string             $namespace
+     * @param string             $declaringType
+     * @param string             $returnType
      */
-    public function __construct( PHP_Depend_Context $context, $namespace, $declaringType, $returnType )
+    public function __construct(PHP_Depend_Context $context, $namespace, $declaringType, $returnType)
     {
         $this->context       = $context;
         $this->namespace     = $namespace;
@@ -104,8 +104,7 @@ class PHP_Depend_AST_MethodRefs
      */
     public function getNamespace()
     {
-        if ( $namespace = $this->context->getNamespace( $this->namespace ) )
-        {
+        if ($namespace = $this->context->getNamespace($this->namespace)) {
             return $namespace;
         }
         // TODO Return dummy namespace
@@ -118,8 +117,7 @@ class PHP_Depend_AST_MethodRefs
      */
     public function getDeclaringType()
     {
-        if ( $declaringType = $this->context->getType( $this->declaringType ) )
-        {
+        if ($declaringType = $this->context->getType($this->declaringType)) {
             return $declaringType;
         }
         // TODO Return dummy class
@@ -133,17 +131,18 @@ class PHP_Depend_AST_MethodRefs
      */
     public function getReturnType()
     {
-        return $this->context->getType( $this->returnType );
+        return $this->context->getType($this->returnType);
     }
 
     /**
      * Initializes this reference instance for the given method.
      *
      * @param PHP_Depend_AST_Method $method
+     *
      * @return void
      */
-    public function initialize( PHP_Depend_AST_Method $method )
+    public function initialize(PHP_Depend_AST_Method $method)
     {
-        $this->context->registerNode( $method );
+        $this->context->registerNode($method);
     }
 }

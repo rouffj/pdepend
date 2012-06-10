@@ -88,7 +88,7 @@ class PHP_Depend_Input_Iterator extends FilterIterator
         $rootPath = null
     )
     {
-        parent::__construct( $iterator );
+        parent::__construct($iterator);
 
         $this->filter   = $filter;
         $this->rootPath = $rootPath;
@@ -101,7 +101,7 @@ class PHP_Depend_Input_Iterator extends FilterIterator
      */
     public function accept()
     {
-        return $this->filter->accept( $this->getLocalPath(), $this->getFullPath() );
+        return $this->filter->accept($this->getLocalPath(), $this->getFullPath());
     }
 
     /**
@@ -124,9 +124,8 @@ class PHP_Depend_Input_Iterator extends FilterIterator
      */
     protected function getLocalPath()
     {
-        if ( $this->rootPath && 0 === strpos( $this->getFullPath(), $this->rootPath ) )
-        {
-            return substr( $this->getFullPath(), strlen( $this->rootPath ) );
+        if ($this->rootPath && 0 === strpos($this->getFullPath(), $this->rootPath)) {
+            return substr($this->getFullPath(), strlen($this->rootPath));
         }
         return $this->getFullPath();
     }

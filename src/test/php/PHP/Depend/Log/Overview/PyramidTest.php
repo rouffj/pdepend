@@ -66,11 +66,11 @@ require_once dirname(__FILE__) . '/NodeLocAnalyzer.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Log_Overview_Pyramid
- * @group pdepend
- * @group pdepend::log
- * @group pdepend::log::overview
- * @group unittest
+ * @covers     PHP_Depend_Log_Overview_Pyramid
+ * @group      pdepend
+ * @group      pdepend::log
+ * @group      pdepend::log::overview
+ * @group      unittest
  */
 class PHP_Depend_Log_Overview_PyramidTest extends PHP_Depend_AbstractTest
 {
@@ -251,21 +251,21 @@ class PHP_Depend_Log_Overview_PyramidTest extends PHP_Depend_AbstractTest
         self::assertFileExists($output);
 
         $expected = array(
-            'cyclo'         =>  5579,
-            'loc'           =>  35175,
-            'nom'           =>  3618,
-            'noc'           =>  384,
-            'nop'           =>  19,
-            'andc'          =>  0.31,
-            'ahh'           =>  0.12,
-            'calls'         =>  15128,
-            'fanout'        =>  8590,
-            'cyclo-loc'     =>  0.15,
-            'loc-nom'       =>  9.72,
-            'nom-noc'       =>  9.42,
-            'noc-nop'       =>  20.21,
-            'fanout-calls'  =>  0.56,
-            'calls-nom'     =>  4.18
+            'cyclo'         => 5579,
+            'loc'           => 35175,
+            'nom'           => 3618,
+            'noc'           => 384,
+            'nop'           => 19,
+            'andc'          => 0.31,
+            'ahh'           => 0.12,
+            'calls'         => 15128,
+            'fanout'        => 8590,
+            'cyclo-loc'     => 0.15,
+            'loc-nom'       => 9.72,
+            'nom-noc'       => 9.42,
+            'noc-nop'       => 20.21,
+            'fanout-calls'  => 0.56,
+            'calls-nom'     => 4.18
         );
 
         $svg = new DOMDocument();

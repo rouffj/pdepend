@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://tracker.pdepend.org/pdepend/issue_tracker/issue/164
  *
- * @covers stdClass
- * @group pdepend
- * @group pdepend::bugs
- * @group regressiontest
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::bugs
+ * @group      regressiontest
  */
 class PHP_Depend_Bugs_InputIteratorShouldOnlyFilterOnLocalPathBug164Test
     extends PHP_Depend_Bugs_AbstractTest

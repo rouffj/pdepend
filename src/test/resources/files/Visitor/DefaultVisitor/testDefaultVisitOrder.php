@@ -8,8 +8,13 @@
  */
 class classB
 {
-    function methodBA() {}
-    function methodBB() {}
+    function methodBA()
+    {
+    }
+
+    function methodBB()
+    {
+    }
 }
 
 /**
@@ -17,8 +22,13 @@ class classB
  */
 class classA
 {
-    function methodAB() {}
-    function methodAA() {}
+    function methodAB()
+    {
+    }
+
+    function methodAA()
+    {
+    }
 }
 
 /**
@@ -27,8 +37,12 @@ class classA
 interface interfsC
 {
     function methodCB();
+
     function methodCA();
 }
 
-function funcD() {}
+function funcD()
+{
+}
+
 ?>

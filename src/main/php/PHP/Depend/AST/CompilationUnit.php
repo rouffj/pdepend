@@ -59,7 +59,7 @@
  * @link       http://pdepend.org/
  * @since      2.0.0
  *
- * @property string $file
+ * @property string                $file
  * @property PHPParser_Node_Stmt[] $stmts
  */
 class PHP_Depend_AST_CompilationUnit extends PHPParser_NodeAbstract implements PHP_Depend_AST_Node
@@ -67,10 +67,10 @@ class PHP_Depend_AST_CompilationUnit extends PHPParser_NodeAbstract implements P
     /**
      * Constructs a new compilation unit.
      *
-     * @param string $file
+     * @param string                $file
      * @param PHPParser_Node_Stmt[] $stmts
      */
-    public function __construct( $file, array $stmts )
+    public function __construct($file, array $stmts)
     {
         parent::__construct(
             array(
@@ -87,6 +87,6 @@ class PHP_Depend_AST_CompilationUnit extends PHPParser_NodeAbstract implements P
      */
     public function getId()
     {
-        return md5( $this->file );
+        return md5($this->file);
     }
 }

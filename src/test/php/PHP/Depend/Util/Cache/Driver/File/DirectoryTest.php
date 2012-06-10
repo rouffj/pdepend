@@ -62,12 +62,12 @@ require_once dirname(__FILE__) . '/../../../../AbstractTest.php';
  * @link       http://pdepend.org/
  * @since      0.10.0
  *
- * @covers PHP_Depend_Util_Cache_Driver_File_Directory
- * @group pdepend
- * @group pdepend::util
- * @group pdepend::util::cache
- * @group pdepend::util::cache::file
- * @group unittest
+ * @covers     PHP_Depend_Util_Cache_Driver_File_Directory
+ * @group      pdepend
+ * @group      pdepend::util
+ * @group      pdepend::util::cache
+ * @group      pdepend::util::cache::file
+ * @group      unittest
  */
 class PHP_Depend_Util_Cache_Driver_File_DirectoryTest extends PHP_Depend_AbstractTest
 {

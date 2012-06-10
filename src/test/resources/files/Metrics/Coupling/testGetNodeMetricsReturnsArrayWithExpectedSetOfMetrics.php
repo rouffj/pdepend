@@ -3,6 +3,6 @@ class testGetNodeMetricsReturnsArrayWithExpectedSetOfMetrics
 {
     public function testFooBarBaz()
     {
-        
+
     }
 }

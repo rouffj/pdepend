@@ -1,3 +1,6 @@
 <?php
-function foo(array &$foo, Bar &$bar) {}
+function foo(array &$foo, Bar &$bar)
+{
+}
+
 ?>

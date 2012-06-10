@@ -5,4 +5,5 @@ function foo()
     static $y;
     static $z = 3.14;
 }
+
 ?>

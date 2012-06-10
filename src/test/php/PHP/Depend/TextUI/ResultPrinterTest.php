@@ -60,7 +60,7 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_TextUI_ResultPrinter
+ * @covers     PHP_Depend_TextUI_ResultPrinter
  */
 class PHP_Depend_TextUI_ResultPrinterTest extends PHP_Depend_AbstractTest
 {
@@ -112,7 +112,7 @@ class PHP_Depend_TextUI_ResultPrinterTest extends PHP_Depend_AbstractTest
         ob_end_clean();
 
         $expected = "............................................................    60\n"
-                  . ".............                                                   73\n\n";
+            . ".............                                                   73\n\n";
 
         $this->assertEquals($expected, $actual);
     }
@@ -139,7 +139,7 @@ class PHP_Depend_TextUI_ResultPrinterTest extends PHP_Depend_AbstractTest
         ob_end_clean();
 
         $expected = "............................................................  1200\n"
-                  . "..........                                                    1401\n\n";
+            . "..........                                                    1401\n\n";
 
         $this->assertEquals($expected, $actual);
     }
@@ -166,7 +166,7 @@ class PHP_Depend_TextUI_ResultPrinterTest extends PHP_Depend_AbstractTest
         ob_end_clean();
 
         $expected = "............................................................  1200\n"
-                  . "............................................................  2400\n\n";
+            . "............................................................  2400\n\n";
 
         $this->assertEquals($expected, $actual);
     }

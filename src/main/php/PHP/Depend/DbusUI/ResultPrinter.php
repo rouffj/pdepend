@@ -86,7 +86,7 @@ class PHP_Depend_DbusUI_ResultPrinter
      *
      * @return void
      */
-    public function startParseProcess( PHP_Depend_Parser $parser )
+    public function startParseProcess(PHP_Depend_Parser $parser)
     {
         $this->_startTime = time();
     }
@@ -98,7 +98,7 @@ class PHP_Depend_DbusUI_ResultPrinter
      *
      * @return void
      */
-    public function endParseProcess( PHP_Depend_Parser $parser )
+    public function endParseProcess(PHP_Depend_Parser $parser)
     {
     }
 
@@ -109,7 +109,7 @@ class PHP_Depend_DbusUI_ResultPrinter
      *
      * @return void
      */
-    public function startFileParsing( PHP_Depend_Tokenizer $tokenizer )
+    public function startFileParsing(PHP_Depend_Tokenizer $tokenizer)
     {
     }
 
@@ -120,7 +120,7 @@ class PHP_Depend_DbusUI_ResultPrinter
      *
      * @return void
      */
-    public function endFileParsing( PHP_Depend_Tokenizer $tokenizer )
+    public function endFileParsing(PHP_Depend_Tokenizer $tokenizer)
     {
         ++$this->_parsedFiles;
     }
@@ -159,12 +159,11 @@ class PHP_Depend_DbusUI_ResultPrinter
      */
     public function endLogProcess()
     {
-        if ( extension_loaded( 'dbus' ) === false )
-        {
+        if (extension_loaded('dbus') === false) {
             return;
         }
 
-        $dbus  = new Dbus( Dbus::BUS_SESSION );
+        $dbus  = new Dbus(Dbus::BUS_SESSION);
         $proxy = $dbus->createProxy(
             "org.freedesktop.Notifications", // connection name
             "/org/freedesktop/Notifications", // object
@@ -172,16 +171,16 @@ class PHP_Depend_DbusUI_ResultPrinter
         );
         $proxy->Notify(
             'PDepend',
-            new DBusUInt32( 0 ),
+            new DBusUInt32(0),
             'pdepend',
             'PHP_Depend',
             sprintf(
                 '%d files analyzed in %s minutes...',
                 $this->_parsedFiles,
-                ( date( 'i:s', time() - $this->_startTime ) )
+                (date('i:s', time() - $this->_startTime))
             ),
-            new DBusArray( DBus::STRING, array() ),
-            new DBusDict( DBus::VARIANT, array() ),
+            new DBusArray(DBus::STRING, array()),
+            new DBusDict(DBus::VARIANT, array()),
             1000
         );
     }
@@ -193,7 +192,7 @@ class PHP_Depend_DbusUI_ResultPrinter
      *
      * @return void
      */
-    public function startAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer )
+    public function startAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
     {
     }
 
@@ -204,7 +203,7 @@ class PHP_Depend_DbusUI_ResultPrinter
      *
      * @return void
      */
-    public function endAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer )
+    public function endAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
     {
     }
 }

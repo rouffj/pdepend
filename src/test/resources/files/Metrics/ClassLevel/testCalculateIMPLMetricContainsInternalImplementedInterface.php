@@ -1,2 +1,4 @@
 <?php
-class testCalculateIMPLMetricContainsInternalImplementedInterface implements ArrayAccess {}
+class testCalculateIMPLMetricContainsInternalImplementedInterface implements ArrayAccess
+{
+}

@@ -1,7 +1,8 @@
 <?php
 trait testTokenizerReturnsExpectedConstantForTraitMagicConstant
 {
-    public function foo() {
+    public function foo()
+    {
         return __TRAIT__;
     }
 }

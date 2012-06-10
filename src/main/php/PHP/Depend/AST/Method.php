@@ -74,10 +74,10 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
      * Construct a new custom method node instance.
      *
      * @param PHPParser_Node_Stmt_ClassMethod $method
-     * @param PHPParser_Node[] $subNodes
-     * @param PHP_Depend_AST_MethodRefs $refs
+     * @param PHPParser_Node[]                $subNodes
+     * @param PHP_Depend_AST_MethodRefs       $refs
      */
-    public function __construct( PHPParser_Node_Stmt_ClassMethod $method, array $subNodes, PHP_Depend_AST_MethodRefs $refs )
+    public function __construct(PHPParser_Node_Stmt_ClassMethod $method, array $subNodes, PHP_Depend_AST_MethodRefs $refs)
     {
         parent::__construct(
             $method->name,
@@ -96,7 +96,7 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
         $this->refs = $refs;
 
 
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 
     /**
@@ -106,7 +106,7 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
      */
     public function getId()
     {
-        return $this->getAttribute( 'id' );
+        return $this->getAttribute('id');
     }
 
     /**
@@ -147,7 +147,7 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
      */
     public function isAbstract()
     {
-        return ( ( $this->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT ) === PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT );
+        return (($this->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT) === PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
     }
 
     /**
@@ -159,6 +159,6 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
      */
     public function __wakeup()
     {
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 }

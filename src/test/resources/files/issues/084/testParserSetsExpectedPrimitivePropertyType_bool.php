@@ -6,4 +6,5 @@ class Foo
      */
     protected $foo, $bar, $baz;
 }
+
 ?>

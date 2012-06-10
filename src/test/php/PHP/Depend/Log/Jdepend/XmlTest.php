@@ -61,11 +61,11 @@ require_once dirname(__FILE__) . '/../DummyAnalyzer.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Log_Jdepend_Xml
- * @group pdepend
- * @group pdepend::log
- * @group pdepend::log::jdepend
- * @group unittest
+ * @covers     PHP_Depend_Log_Jdepend_Xml
+ * @group      pdepend
+ * @group      pdepend::log
+ * @group      pdepend::log::jdepend
+ * @group      unittest
  */
 class PHP_Depend_Log_Jdepend_XmlTest extends PHP_Depend_AbstractTest
 {
@@ -199,7 +199,7 @@ class PHP_Depend_Log_Jdepend_XmlTest extends PHP_Depend_AbstractTest
         return preg_replace(
             '(sourceFile="[^"]+/([^/"]+)")',
             'sourceFile="' . $path . '/\\1"',
-             file_get_contents($fileName)
+            file_get_contents($fileName)
         );
     }
 

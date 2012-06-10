@@ -73,9 +73,9 @@ class PHP_Depend_AST_Namespace
      * Constructs a new namespace instance.
      *
      * @param PHPParser_Node_Stmt_Namespace $namespace
-     * @param PHP_Depend_AST_NamespaceRefs $refs
+     * @param PHP_Depend_AST_NamespaceRefs  $refs
      */
-    public function __construct( PHPParser_Node_Stmt_Namespace $namespace, PHP_Depend_AST_NamespaceRefs $refs )
+    public function __construct(PHPParser_Node_Stmt_Namespace $namespace, PHP_Depend_AST_NamespaceRefs $refs)
     {
         parent::__construct(
             $namespace->name,
@@ -85,7 +85,7 @@ class PHP_Depend_AST_Namespace
 
         $this->refs = $refs;
 
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 
     /**
@@ -95,7 +95,7 @@ class PHP_Depend_AST_Namespace
      */
     public function getId()
     {
-        return $this->getAttribute( 'id' );
+        return $this->getAttribute('id');
     }
 
     /**
@@ -107,6 +107,6 @@ class PHP_Depend_AST_Namespace
      */
     public function __wakeup()
     {
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 }

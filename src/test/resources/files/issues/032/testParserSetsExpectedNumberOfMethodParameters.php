@@ -10,6 +10,7 @@ class PHP_Depend_ParserTest1
      *
      * @return void
      */
-    public function parse($foo, Bar &$bar = null, $foobar = 23) {
+    public function parse($foo, Bar &$bar = null, $foobar = 23)
+    {
     }
 }

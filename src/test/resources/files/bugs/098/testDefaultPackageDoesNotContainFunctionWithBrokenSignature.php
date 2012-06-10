@@ -1,4 +1,7 @@
 <?php
-function bar() {}
+function bar()
+{
+}
 
-function foo($foo = 23 * 42) {}
+function foo($foo = 23 * 42) {
+}

@@ -3,6 +3,6 @@ class testAnalyterReturnsExpectedResultForMethodWithoutCoverageData
 {
     function foo()
     {
-        
+
     }
 }

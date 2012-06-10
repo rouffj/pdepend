@@ -83,10 +83,10 @@ class PHP_Depend_AST_FunctionRefs
      * Instantiates a new function reference object.
      *
      * @param PHP_Depend_Context $context
-     * @param string $namespace
-     * @param string $returnType
+     * @param string             $namespace
+     * @param string             $returnType
      */
-    public function __construct( PHP_Depend_Context $context, $namespace, $returnType )
+    public function __construct(PHP_Depend_Context $context, $namespace, $returnType)
     {
         $this->context = $this->context = $context;
 
@@ -101,7 +101,7 @@ class PHP_Depend_AST_FunctionRefs
      */
     public function getNamespace()
     {
-        return $this->context->getNamespace( $this->namespace );
+        return $this->context->getNamespace($this->namespace);
     }
 
     /**
@@ -112,17 +112,18 @@ class PHP_Depend_AST_FunctionRefs
      */
     public function getReturnType()
     {
-        return $this->context->getType( $this->returnType );
+        return $this->context->getType($this->returnType);
     }
 
     /**
      * Initializes this reference instance for the given function.
      *
      * @param PHP_Depend_AST_Function $function
+     *
      * @return void
      */
-    public function initialize( PHP_Depend_AST_Function $function )
+    public function initialize(PHP_Depend_AST_Function $function)
     {
-        $this->context->registerNode( $function );
+        $this->context->registerNode($function);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 class testCaFromFunctionWithObjectInstantiation
 {
-    
+
 }
 
 function foo()

@@ -8,5 +8,5 @@ class testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy
 interface testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy_interface
     extends testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy_interface
 {
-    
+
 }

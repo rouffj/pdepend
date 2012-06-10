@@ -5,4 +5,5 @@ interface IFoo
     const BAR = '42';
     const BAZ = 42.0, B4Z = 23.0;
 }
+
 ?>

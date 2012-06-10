@@ -102,16 +102,16 @@ class PHP_Depend_Log_Summary_Xml
 
     public function __construct()
     {
-        $this->document = new DOMDocument( '1.0', 'UTF-8' );
+        $this->document = new DOMDocument('1.0', 'UTF-8');
 
         $this->document->formatOutput = true;
 
-        $metrics = $this->document->createElement( 'metrics' );
-        $metrics->setAttribute( 'generated', date( 'Y-m-d\TH:i:s' ) );
-        $metrics->setAttribute( 'pdepend', '@package_version@' );
-        $metrics->appendChild( $this->document->createElement( 'files' ) );
+        $metrics = $this->document->createElement('metrics');
+        $metrics->setAttribute('generated', date('Y-m-d\TH:i:s'));
+        $metrics->setAttribute('pdepend', '@package_version@');
+        $metrics->appendChild($this->document->createElement('files'));
 
-        $this->document->appendChild( $metrics );
+        $this->document->appendChild($metrics);
     }
 
     /**
@@ -121,7 +121,7 @@ class PHP_Depend_Log_Summary_Xml
      *
      * @return void
      */
-    public function setLogFile( $logFile )
+    public function setLogFile($logFile)
     {
         $this->_logFile = $logFile;
     }
@@ -145,19 +145,18 @@ class PHP_Depend_Log_Summary_Xml
      * with return <b>true</b>, otherwise the return value is <b>false</b>.
      *
      * @param PHP_Depend_Metrics_Analyzer $analyzer
+     *
      * @return boolean
      */
-    public function log( PHP_Depend_Metrics_Analyzer $analyzer )
+    public function log(PHP_Depend_Metrics_Analyzer $analyzer)
     {
         $accepted = false;
-        if ( $analyzer instanceof PHP_Depend_Metrics_ProjectAware )
-        {
+        if ($analyzer instanceof PHP_Depend_Metrics_ProjectAware) {
             $this->_projectAwareAnalyzers[] = $analyzer;
 
             $accepted = true;
         }
-        if ( $analyzer instanceof PHP_Depend_Metrics_NodeAware )
-        {
+        if ($analyzer instanceof PHP_Depend_Metrics_NodeAware) {
             $this->_nodeAwareAnalyzers[] = $analyzer;
 
             $accepted = true;
@@ -173,55 +172,50 @@ class PHP_Depend_Log_Summary_Xml
      */
     public function close()
     {
-        if ( $this->_logFile === null )
-        {
-            throw new PHP_Depend_Log_NoLogOutputException( $this );
+        if ($this->_logFile === null) {
+            throw new PHP_Depend_Log_NoLogOutputException($this);
         }
 
-        foreach ( $this->_getProjectMetrics() as $name => $value )
-        {
-            $this->document->documentElement->setAttribute( $name, $value );
+        foreach ($this->_getProjectMetrics() as $name => $value) {
+            $this->document->documentElement->setAttribute($name, $value);
         }
 
-        $this->document->save( $this->_logFile );
+        $this->document->save($this->_logFile);
     }
 
-    public function visitCompilationUnitBefore( PHP_Depend_AST_CompilationUnit $compilationUnit )
+    public function visitCompilationUnitBefore(PHP_Depend_AST_CompilationUnit $compilationUnit)
     {
-        $element = $this->document->createElement( 'file' );
-        $element->setAttribute( 'name', $compilationUnit->file );
+        $element = $this->document->createElement('file');
+        $element->setAttribute('name', $compilationUnit->file);
 
-        $this->writeMetrics( $compilationUnit, $element );
+        $this->writeMetrics($compilationUnit, $element);
 
-        $this->document->documentElement->firstChild->appendChild( $element );
+        $this->document->documentElement->firstChild->appendChild($element);
 
         $this->elements[] = $element;
 
         return $element;
     }
 
-    public function visitCompilationUnitAfter( PHP_Depend_AST_CompilationUnit $compilationUnit )
+    public function visitCompilationUnitAfter(PHP_Depend_AST_CompilationUnit $compilationUnit)
     {
-        array_pop( $this->elements );
+        array_pop($this->elements);
     }
 
-    public function visitNamespaceBefore( PHP_Depend_AST_Namespace $namespace, DOMElement $file )
+    public function visitNamespaceBefore(PHP_Depend_AST_Namespace $namespace, DOMElement $file)
     {
-        $xpath  = new DOMXPath( $this->document );
-        $result = $xpath->query( "//package[@name='{$namespace->name}']" );
+        $xpath  = new DOMXPath($this->document);
+        $result = $xpath->query("//package[@name='{$namespace->name}']");
 
-        if ( 0 === $result->length )
-        {
-            $element = $this->document->createElement( 'package' );
-            $element->setAttribute( 'name', $namespace->name );
+        if (0 === $result->length) {
+            $element = $this->document->createElement('package');
+            $element->setAttribute('name', $namespace->name);
 
-            $this->writeMetrics( $namespace, $element );
+            $this->writeMetrics($namespace, $element);
 
-            $this->document->documentElement->appendChild( $element );
-        }
-        else
-        {
-            $element = $result->item( 0 );
+            $this->document->documentElement->appendChild($element);
+        } else {
+            $element = $result->item(0);
         }
 
         $this->elements[] = $file;
@@ -229,29 +223,28 @@ class PHP_Depend_Log_Summary_Xml
         return $element;
     }
 
-    public function visitNamespaceAfter( PHP_Depend_AST_Namespace $ns, DOMElement $namespace )
+    public function visitNamespaceAfter(PHP_Depend_AST_Namespace $ns, DOMElement $namespace)
     {
-        if ( 0 === $namespace->childNodes->length )
-        {
-            $this->document->documentElement->removeChild( $namespace );
+        if (0 === $namespace->childNodes->length) {
+            $this->document->documentElement->removeChild($namespace);
         }
 
-        return array_pop( $this->elements );
+        return array_pop($this->elements);
     }
 
-    public function visitClassBefore( PHP_Depend_AST_Class $class, DOMElement $namespace )
+    public function visitClassBefore(PHP_Depend_AST_Class $class, DOMElement $namespace)
     {
-        $element = $this->document->createElement( 'class' );
-        $element->setAttribute( 'name', $class->name );
+        $element = $this->document->createElement('class');
+        $element->setAttribute('name', $class->name);
 
-        $this->writeMetrics( $class, $element );
+        $this->writeMetrics($class, $element);
 
-        $file = $this->document->createElement( 'file' );
-        $file->setAttribute( 'name', $this->elements[0]->getAttribute( 'name' ) );
+        $file = $this->document->createElement('file');
+        $file->setAttribute('name', $this->elements[0]->getAttribute('name'));
 
-        $element->appendChild( $file );
+        $element->appendChild($file);
 
-        $namespace->appendChild( $element );
+        $namespace->appendChild($element);
 
         $this->elements[] = $namespace;
 
@@ -260,29 +253,29 @@ class PHP_Depend_Log_Summary_Xml
 
     public function visitClassAfter()
     {
-        return array_pop( $this->elements );
+        return array_pop($this->elements);
     }
 
-    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface, DOMElement $namespace )
+    public function visitInterfaceBefore(PHP_Depend_AST_Interface $interface, DOMElement $namespace)
     {
         $this->elements[] = $namespace;
 
-        return $this->document->createElement( 'interface' );
+        return $this->document->createElement('interface');
     }
 
     public function visitInterfaceAfter()
     {
-        return array_pop( $this->elements );
+        return array_pop($this->elements);
     }
 
-    public function visitMethodBefore( PHP_Depend_AST_Method $method, DOMElement $type )
+    public function visitMethodBefore(PHP_Depend_AST_Method $method, DOMElement $type)
     {
-        $element = $this->document->createElement( 'method' );
-        $element->setAttribute( 'name', $method->name );
+        $element = $this->document->createElement('method');
+        $element->setAttribute('name', $method->name);
 
-        $this->writeMetrics( $method, $element );
+        $this->writeMetrics($method, $element);
 
-        $type->appendChild( $element );
+        $type->appendChild($element);
 
         $this->elements[] = $type;
 
@@ -291,22 +284,22 @@ class PHP_Depend_Log_Summary_Xml
 
     public function visitMethodAfter()
     {
-        return array_pop( $this->elements );
+        return array_pop($this->elements);
     }
 
-    public function visitFunctionBefore( PHP_Depend_AST_Function $function, DOMElement $namespace )
+    public function visitFunctionBefore(PHP_Depend_AST_Function $function, DOMElement $namespace)
     {
-        $element = $this->document->createElement( 'function' );
-        $element->setAttribute( 'name', $function->name );
+        $element = $this->document->createElement('function');
+        $element->setAttribute('name', $function->name);
 
-        $this->writeMetrics( $function, $element );
+        $this->writeMetrics($function, $element);
 
-        $file = $this->document->createElement( 'file' );
-        $file->setAttribute( 'name', $this->elements[0]->getAttribute( 'name' ) );
+        $file = $this->document->createElement('file');
+        $file->setAttribute('name', $this->elements[0]->getAttribute('name'));
 
-        $element->appendChild( $file );
+        $element->appendChild($file);
 
-        $namespace->appendChild( $element );
+        $namespace->appendChild($element);
 
         $this->elements[] = $namespace;
 
@@ -315,25 +308,23 @@ class PHP_Depend_Log_Summary_Xml
 
     public function visitFunctionAfter()
     {
-        return array_pop( $this->elements );
+        return array_pop($this->elements);
     }
 
-    private function writeMetrics( PHP_Depend_AST_Node $node, DOMElement $element )
+    private function writeMetrics(PHP_Depend_AST_Node $node, DOMElement $element)
     {
-        foreach ( $this->getNodeMetrics( $node ) as $name => $value )
-        {
-            $element->setAttribute( $name, $value );
+        foreach ($this->getNodeMetrics($node) as $name => $value) {
+            $element->setAttribute($name, $value);
         }
     }
 
-    private function getNodeMetrics( PHP_Depend_AST_Node $node )
+    private function getNodeMetrics(PHP_Depend_AST_Node $node)
     {
         $metrics = array();
-        foreach ( $this->_nodeAwareAnalyzers as $analyzer )
-        {
-            $metrics = array_merge( $metrics, $analyzer->getNodeMetrics( $node ) );
+        foreach ($this->_nodeAwareAnalyzers as $analyzer) {
+            $metrics = array_merge($metrics, $analyzer->getNodeMetrics($node));
         }
-        ksort( $metrics );
+        ksort($metrics);
         return $metrics;
     }
 
@@ -346,14 +337,13 @@ class PHP_Depend_Log_Summary_Xml
     private function _getProjectMetrics()
     {
         $projectMetrics = array();
-        foreach ( $this->_projectAwareAnalyzers as $analyzer )
-        {
+        foreach ($this->_projectAwareAnalyzers as $analyzer) {
             $projectMetrics = array_merge(
                 $projectMetrics,
                 $analyzer->getProjectMetrics()
             );
         }
-        ksort( $projectMetrics );
+        ksort($projectMetrics);
 
         return $projectMetrics;
     }

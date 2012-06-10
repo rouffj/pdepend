@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Metrics_AnalyzerLoader
- * @group pdepend
- * @group pdepend::metrics
- * @group unittest
+ * @covers     PHP_Depend_Metrics_AnalyzerLoader
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      unittest
  */
 class PHP_Depend_Metrics_AnalyzerLoaderTest extends PHP_Depend_AbstractTest
 {
@@ -78,10 +78,10 @@ class PHP_Depend_Metrics_AnalyzerLoaderTest extends PHP_Depend_AbstractTest
             'PHP_Depend_Metrics_CodeRank_Analyzer',
             'PHP_Depend_Metrics_Hierarchy_Analyzer',
         );
-        
+
         $loader = new PHP_Depend_Metrics_AnalyzerLoader(
             new PHP_Depend_Metrics_AnalyzerClassFileSystemLocator(),
-            $this->getMock( 'PHP_Depend_Util_Cache_Driver' ),
+            $this->getMock('PHP_Depend_Util_Cache_Driver'),
             $expected
         );
 
@@ -118,7 +118,7 @@ class PHP_Depend_Metrics_AnalyzerLoaderTest extends PHP_Depend_AbstractTest
 
         $loader = new PHP_Depend_Metrics_AnalyzerLoader(
             $locator,
-            $this->getMock( 'PHP_Depend_Util_Cache_Driver' ),
+            $this->getMock('PHP_Depend_Util_Cache_Driver'),
             array('PHP_Depend_Metrics_Analyzer')
         );
 
@@ -150,7 +150,7 @@ class PHP_Depend_Metrics_AnalyzerLoaderTest extends PHP_Depend_AbstractTest
 
         $loader = new PHP_Depend_Metrics_AnalyzerLoader(
             $locator,
-            $this->getMock( 'PHP_Depend_Util_Cache_Driver' ),
+            $this->getMock('PHP_Depend_Util_Cache_Driver'),
             array('PHP_Depend_Metrics_Analyzer')
         );
 

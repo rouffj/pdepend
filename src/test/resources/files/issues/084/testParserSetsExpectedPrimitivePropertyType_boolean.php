@@ -6,4 +6,5 @@ class Foo
      */
     private $_x, $_y;
 }
+
 ?>

@@ -61,10 +61,10 @@ require_once dirname(__FILE__) . '/../Log/Dummy/Logger.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_TextUI_Runner
- * @group pdepend
- * @group pdepend::textui
- * @group unittest
+ * @covers     PHP_Depend_TextUI_Runner
+ * @group      pdepend
+ * @group      pdepend::textui
+ * @group      unittest
  */
 class PHP_Depend_TextUI_RunnerTest extends PHP_Depend_AbstractTest
 {
@@ -103,17 +103,17 @@ class PHP_Depend_TextUI_RunnerTest extends PHP_Depend_AbstractTest
     public function testRunnerUsesCorrectFileFilter()
     {
         $expected = array(
-            'pdepend.test'  =>  array(
-                'functions'   =>  array('foo'),
-                'classes'     =>  array('MyException'),
-                'interfaces'  =>  array(),
-                'exceptions'  =>  array()
+            'pdepend.test'   => array(
+                'functions'   => array('foo'),
+                'classes'     => array('MyException'),
+                'interfaces'  => array(),
+                'exceptions'  => array()
             ),
-            'pdepend.test2'  =>  array(
-                'functions'   =>  array(),
-                'classes'     =>  array('YourException'),
-                'interfaces'  =>  array(),
-                'exceptions'  =>  array()
+            'pdepend.test2'  => array(
+                'functions'   => array(),
+                'classes'     => array('YourException'),
+                'interfaces'  => array(),
+                'exceptions'  => array()
             )
         );
 
@@ -138,17 +138,17 @@ class PHP_Depend_TextUI_RunnerTest extends PHP_Depend_AbstractTest
     public function testRunnerHandlesWithoutAnnotationsOptionCorrect()
     {
         $expected = array(
-            'pdepend.test'  =>  array(
-                'functions'   =>  array('foo'),
-                'classes'     =>  array('MyException'),
-                'interfaces'  =>  array(),
-                'exceptions'  =>  array()
+            'pdepend.test'   => array(
+                'functions'   => array('foo'),
+                'classes'     => array('MyException'),
+                'interfaces'  => array(),
+                'exceptions'  => array()
             ),
-            'pdepend.test2'  =>  array(
-                'functions'   =>  array(),
-                'classes'     =>  array('YourException'),
-                'interfaces'  =>  array(),
-                'exceptions'  =>  array()
+            'pdepend.test2'  => array(
+                'functions'   => array(),
+                'classes'     => array('YourException'),
+                'interfaces'  => array(),
+                'exceptions'  => array()
             )
         );
 
@@ -170,9 +170,9 @@ class PHP_Depend_TextUI_RunnerTest extends PHP_Depend_AbstractTest
     public function testSupportBadDocumentation()
     {
         $expected = array(
-            '+global'  =>  array(
-                'functions'   =>  array('pkg3_foo'),
-                'classes'     =>  array(
+            '+global'  => array(
+                'functions'   => array('pkg3_foo'),
+                'classes'     => array(
                     'Bar',
                     'pkg1Bar',
                     'pkg1Barfoo',
@@ -182,12 +182,12 @@ class PHP_Depend_TextUI_RunnerTest extends PHP_Depend_AbstractTest
                     'pkg2Barfoo',
                     'pkg2Foobar',
                 ),
-                'interfaces'  =>  array(
+                'interfaces'  => array(
                     'pkg1FooI',
                     'pkg2FooI',
                     'pkg3FooI'
                 ),
-                'exceptions'  =>  array()
+                'exceptions'  => array()
             )
         );
 
@@ -275,7 +275,7 @@ class PHP_Depend_TextUI_RunnerTest extends PHP_Depend_AbstractTest
     /**
      * Executes the runner class and returns an array with package statistics.
      *
-     * @param array  PHP_Depend_TextUI_Runner $runner   The runner instance.
+     * @param                                 array     PHP_Depend_TextUI_Runner $runner   The runner instance.
      * @param string                          $pathName The source path.
      *
      * @return array
@@ -297,10 +297,10 @@ class PHP_Depend_TextUI_RunnerTest extends PHP_Depend_AbstractTest
         $actual = array();
         foreach ($code as $package) {
             $statistics = array(
-                'functions'   =>  array(),
-                'classes'     =>  array(),
-                'interfaces'  =>  array(),
-                'exceptions'  =>  array()
+                'functions'   => array(),
+                'classes'     => array(),
+                'interfaces'  => array(),
+                'exceptions'  => array()
             );
             foreach ($package->getFunctions() as $function) {
                 $statistics['functions'][] = $function->getName();

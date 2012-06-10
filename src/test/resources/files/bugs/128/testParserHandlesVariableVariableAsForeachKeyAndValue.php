@@ -5,4 +5,5 @@ function testParserHandlesVariableVariableAsForeachKeyAndValue($array, $name1, $
         var_dump($key, $value);
     }
 }
-testParserHandlesVariableVariableAsForeachKeyAndValue(array(1,2,3), 'key', 'value');
+
+testParserHandlesVariableVariableAsForeachKeyAndValue(array(1, 2, 3), 'key', 'value');

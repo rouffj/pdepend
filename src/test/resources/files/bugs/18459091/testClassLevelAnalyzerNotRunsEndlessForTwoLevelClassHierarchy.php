@@ -2,5 +2,5 @@
 class testClassLevelAnalyzerNotRunsEndlessForTwoLevelClassHierarchy
     extends testClassLevelAnalyzerNotRunsEndlessForTwoLevelClassHierarchy
 {
-    
+
 }

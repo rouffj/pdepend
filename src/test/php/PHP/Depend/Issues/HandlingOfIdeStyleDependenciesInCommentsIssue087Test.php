@@ -60,11 +60,11 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://www.pdepend.org/
  *
- * @covers PHP_Depend_Parser
- * @group pdepend
- * @group pdepend::issues
- * @group pdepend::parser
- * @group unittest
+ * @covers     PHP_Depend_Parser
+ * @group      pdepend
+ * @group      pdepend::issues
+ * @group      pdepend::parser
+ * @group      unittest
  */
 class PHP_Depend_Issues_HandlingOfIdeStyleDependenciesInCommentsIssue087Test
     extends PHP_Depend_Issues_AbstractTest

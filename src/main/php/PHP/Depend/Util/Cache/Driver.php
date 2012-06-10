@@ -81,7 +81,7 @@ interface PHP_Depend_Util_Cache_Driver
      *
      * @return PHP_Depend_Util_Cache_Driver
      */
-    function type( $type );
+    function type($type);
 
     /**
      * This method will store the given <em>$data</em> under <em>$key</em>. This
@@ -96,7 +96,7 @@ interface PHP_Depend_Util_Cache_Driver
      *
      * @return  void
      */
-    function store( $key, $data, $hash = null );
+    function store($key, $data, $hash = null);
 
     /**
      * This method tries to restore an existing cache entry for the given
@@ -110,7 +110,7 @@ interface PHP_Depend_Util_Cache_Driver
      *
      * @return mixed
      */
-    function restore( $key, $hash = null );
+    function restore($key, $hash = null);
 
     /**
      * This method will remove an existing cache entry for the given identifier.
@@ -122,7 +122,7 @@ interface PHP_Depend_Util_Cache_Driver
      *
      * @return void
      */
-    function remove( $pattern );
+    function remove($pattern);
 }
 
 // @codeCoverageIgnoreEnd

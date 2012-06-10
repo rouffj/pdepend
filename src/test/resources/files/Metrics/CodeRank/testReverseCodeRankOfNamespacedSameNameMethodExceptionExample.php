@@ -6,6 +6,8 @@ namespace foo\bar\baz
         /**
          * @throws \Exception
          */
-        public function bar() {}
+        public function bar()
+        {
+        }
     }
 }

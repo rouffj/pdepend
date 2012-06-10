@@ -1,8 +1,11 @@
 <?php
 namespace {
 
-    class Foo {
-        function bar(\Foo $foo) {}
+    class Foo
+    {
+        function bar(\Foo $foo)
+        {
+        }
     }
 }
 

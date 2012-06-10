@@ -146,7 +146,7 @@ class PHP_Depend_Log_Jdepend_Xml
      *
      * @return void
      */
-    public function setLogFile( $logFile )
+    public function setLogFile($logFile)
     {
         $this->_logFile = $logFile;
     }
@@ -159,7 +159,7 @@ class PHP_Depend_Log_Jdepend_Xml
      */
     public function getAcceptedAnalyzers()
     {
-        return array( PHP_Depend_Metrics_Dependency_Analyzer::CLAZZ );
+        return array(PHP_Depend_Metrics_Dependency_Analyzer::CLAZZ);
     }
 
     /**
@@ -169,7 +169,7 @@ class PHP_Depend_Log_Jdepend_Xml
      *
      * @return void
      */
-    public function setCode( PHP_Depend_AST_NodeIterator $code )
+    public function setCode(PHP_Depend_AST_NodeIterator $code)
     {
         $this->code = $code;
     }
@@ -182,10 +182,9 @@ class PHP_Depend_Log_Jdepend_Xml
      *
      * @return boolean
      */
-    public function log( PHP_Depend_Metrics_Analyzer $analyzer )
+    public function log(PHP_Depend_Metrics_Analyzer $analyzer)
     {
-        if ( $analyzer instanceof PHP_Depend_Metrics_Dependency_Analyzer )
-        {
+        if ($analyzer instanceof PHP_Depend_Metrics_Dependency_Analyzer) {
             $this->analyzer = $analyzer;
 
             return true;
@@ -202,27 +201,25 @@ class PHP_Depend_Log_Jdepend_Xml
     public function close()
     {
         // Check for configured output
-        if ( $this->_logFile === null )
-        {
-            throw new PHP_Depend_Log_NoLogOutputException( $this );
+        if ($this->_logFile === null) {
+            throw new PHP_Depend_Log_NoLogOutputException($this);
         }
 
-        $dom = new DOMDocument( '1.0', 'UTF-8' );
+        $dom = new DOMDocument('1.0', 'UTF-8');
 
         $dom->formatOutput = true;
 
-        $jdepend = $dom->createElement( 'PDepend' );
+        $jdepend = $dom->createElement('PDepend');
 
-        $this->packages = $jdepend->appendChild( $dom->createElement( 'Packages' ) );
-        $this->cycles   = $jdepend->appendChild( $dom->createElement( 'Cycles' ) );
+        $this->packages = $jdepend->appendChild($dom->createElement('Packages'));
+        $this->cycles   = $jdepend->appendChild($dom->createElement('Cycles'));
 
-        foreach ( $this->code as $node )
-        {
-            $node->accept( $this );
+        foreach ($this->code as $node) {
+            $node->accept($this);
         }
 
-        $dom->appendChild( $jdepend );
-        $dom->save( $this->_logFile );
+        $dom->appendChild($jdepend);
+        $dom->save($this->_logFile);
     }
 
     /**
@@ -233,26 +230,22 @@ class PHP_Depend_Log_Jdepend_Xml
      * @return void
      * @see PHP_Depend_VisitorI::visitClass()
      */
-    public function visitClass( PHP_Depend_AST_Class $class )
+    public function visitClass(PHP_Depend_AST_Class $class)
     {
-        if ( !$class->isUserDefined() )
-        {
+        if (!$class->isUserDefined()) {
             return;
         }
 
         $doc = $this->packages->ownerDocument;
 
-        $classXml = $doc->createElement( 'Class' );
-        $classXml->setAttribute( 'sourceFile', (string) $class->getSourceFile() );
-        $classXml->appendChild( $doc->createTextNode( $class->getName() ) );
+        $classXml = $doc->createElement('Class');
+        $classXml->setAttribute('sourceFile', (string)$class->getSourceFile());
+        $classXml->appendChild($doc->createTextNode($class->getName()));
 
-        if ( $class->isAbstract() )
-        {
-            $this->abstractClasses->appendChild( $classXml );
-        }
-        else
-        {
-            $this->concreteClasses->appendChild( $classXml );
+        if ($class->isAbstract()) {
+            $this->abstractClasses->appendChild($classXml);
+        } else {
+            $this->concreteClasses->appendChild($classXml);
         }
     }
 
@@ -264,20 +257,19 @@ class PHP_Depend_Log_Jdepend_Xml
      * @return void
      * @see PHP_Depend_VisitorI::visitInterface()
      */
-    public function visitInterface( PHP_Depend_AST_Interface $interface )
+    public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
-        if ( !$interface->isUserDefined() )
-        {
+        if (!$interface->isUserDefined()) {
             return;
         }
 
         $doc = $this->abstractClasses->ownerDocument;
 
-        $classXml = $doc->createElement( 'Class' );
-        $classXml->setAttribute( 'sourceFile', (string) $interface->getSourceFile() );
-        $classXml->appendChild( $doc->createTextNode( $interface->getName() ) );
+        $classXml = $doc->createElement('Class');
+        $classXml->setAttribute('sourceFile', (string)$interface->getSourceFile());
+        $classXml->appendChild($doc->createTextNode($interface->getName()));
 
-        $this->abstractClasses->appendChild( $classXml );
+        $this->abstractClasses->appendChild($classXml);
     }
 
     /**
@@ -288,95 +280,87 @@ class PHP_Depend_Log_Jdepend_Xml
      * @return void
      * @see PHP_Depend_VisitorI::visitPackage()
      */
-    public function visitPackage( PHP_Depend_AST_Package $package )
+    public function visitPackage(PHP_Depend_AST_Package $package)
     {
-        if ( !$package->isUserDefined() )
-        {
+        if (!$package->isUserDefined()) {
             return;
         }
 
-        $stats = $this->analyzer->getStats( $package );
-        if ( count( $stats ) === 0 )
-        {
+        $stats = $this->analyzer->getStats($package);
+        if (count($stats) === 0) {
             return;
         }
 
         $doc = $this->packages->ownerDocument;
 
-        $this->concreteClasses = $doc->createElement( 'ConcreteClasses' );
-        $this->abstractClasses = $doc->createElement( 'AbstractClasses' );
+        $this->concreteClasses = $doc->createElement('ConcreteClasses');
+        $this->abstractClasses = $doc->createElement('AbstractClasses');
 
-        $packageXml = $doc->createElement( 'Package' );
-        $packageXml->setAttribute( 'name', $package->getName() );
+        $packageXml = $doc->createElement('Package');
+        $packageXml->setAttribute('name', $package->getName());
 
-        $statsXml = $doc->createElement( 'Stats' );
-        $statsXml->appendChild( $doc->createElement( 'TotalClasses' ) )
-            ->appendChild( $doc->createTextNode( $stats['tc'] ) );
-        $statsXml->appendChild( $doc->createElement( 'ConcreteClasses' ) )
-            ->appendChild( $doc->createTextNode( $stats['cc'] ) );
-        $statsXml->appendChild( $doc->createElement( 'AbstractClasses' ) )
-            ->appendChild( $doc->createTextNode( $stats['ac'] ) );
-        $statsXml->appendChild( $doc->createElement( 'Ca' ) )
-            ->appendChild( $doc->createTextNode( $stats['ca'] ) );
-        $statsXml->appendChild( $doc->createElement( 'Ce' ) )
-            ->appendChild( $doc->createTextNode( $stats['ce'] ) );
-        $statsXml->appendChild( $doc->createElement( 'A' ) )
-            ->appendChild( $doc->createTextNode( $stats['a'] ) );
-        $statsXml->appendChild( $doc->createElement( 'I' ) )
-            ->appendChild( $doc->createTextNode( $stats['i'] ) );
-        $statsXml->appendChild( $doc->createElement( 'D' ) )
-            ->appendChild( $doc->createTextNode( $stats['d'] ) );
+        $statsXml = $doc->createElement('Stats');
+        $statsXml->appendChild($doc->createElement('TotalClasses'))
+            ->appendChild($doc->createTextNode($stats['tc']));
+        $statsXml->appendChild($doc->createElement('ConcreteClasses'))
+            ->appendChild($doc->createTextNode($stats['cc']));
+        $statsXml->appendChild($doc->createElement('AbstractClasses'))
+            ->appendChild($doc->createTextNode($stats['ac']));
+        $statsXml->appendChild($doc->createElement('Ca'))
+            ->appendChild($doc->createTextNode($stats['ca']));
+        $statsXml->appendChild($doc->createElement('Ce'))
+            ->appendChild($doc->createTextNode($stats['ce']));
+        $statsXml->appendChild($doc->createElement('A'))
+            ->appendChild($doc->createTextNode($stats['a']));
+        $statsXml->appendChild($doc->createElement('I'))
+            ->appendChild($doc->createTextNode($stats['i']));
+        $statsXml->appendChild($doc->createElement('D'))
+            ->appendChild($doc->createTextNode($stats['d']));
 
-        $dependsUpon = $doc->createElement( 'DependsUpon' );
-        foreach ( $this->analyzer->getEfferents( $package ) as $efferent )
-        {
-            $efferentXml = $doc->createElement( 'Package' );
-            $efferentXml->appendChild( $doc->createTextNode( $efferent->getName() ) );
+        $dependsUpon = $doc->createElement('DependsUpon');
+        foreach ($this->analyzer->getEfferents($package) as $efferent) {
+            $efferentXml = $doc->createElement('Package');
+            $efferentXml->appendChild($doc->createTextNode($efferent->getName()));
 
-            $dependsUpon->appendChild( $efferentXml );
+            $dependsUpon->appendChild($efferentXml);
         }
 
-        $usedBy = $doc->createElement( 'UsedBy' );
-        foreach ( $this->analyzer->getAfferents( $package ) as $afferent )
-        {
-            $afferentXml = $doc->createElement( 'Package' );
-            $afferentXml->appendChild( $doc->createTextNode( $afferent->getName() ) );
+        $usedBy = $doc->createElement('UsedBy');
+        foreach ($this->analyzer->getAfferents($package) as $afferent) {
+            $afferentXml = $doc->createElement('Package');
+            $afferentXml->appendChild($doc->createTextNode($afferent->getName()));
 
-            $usedBy->appendChild( $afferentXml );
+            $usedBy->appendChild($afferentXml);
         }
 
-        $packageXml->appendChild( $statsXml );
-        $packageXml->appendChild( $this->concreteClasses );
-        $packageXml->appendChild( $this->abstractClasses );
-        $packageXml->appendChild( $dependsUpon );
-        $packageXml->appendChild( $usedBy );
+        $packageXml->appendChild($statsXml);
+        $packageXml->appendChild($this->concreteClasses);
+        $packageXml->appendChild($this->abstractClasses);
+        $packageXml->appendChild($dependsUpon);
+        $packageXml->appendChild($usedBy);
 
-        if ( ( $cycles = $this->analyzer->getCycle( $package ) ) !== null )
-        {
-            $cycleXml = $doc->createElement( 'Package' );
-            $cycleXml->setAttribute( 'Name', $package->getName() );
+        if (($cycles = $this->analyzer->getCycle($package)) !== null) {
+            $cycleXml = $doc->createElement('Package');
+            $cycleXml->setAttribute('Name', $package->getName());
 
-            foreach ( $cycles as $cycle )
-            {
-                $cycleXml->appendChild( $doc->createElement( 'Package' ) )
-                    ->appendChild( $doc->createTextNode( $cycle->getName() ) );
+            foreach ($cycles as $cycle) {
+                $cycleXml->appendChild($doc->createElement('Package'))
+                    ->appendChild($doc->createTextNode($cycle->getName()));
             }
 
-            $this->cycles->appendChild( $cycleXml );
+            $this->cycles->appendChild($cycleXml);
         }
 
-        foreach ( $package->getTypes() as $type )
-        {
-            $type->accept( $this );
+        foreach ($package->getTypes() as $type) {
+            $type->accept($this);
         }
 
-        if ( $this->concreteClasses->firstChild === null
+        if ($this->concreteClasses->firstChild === null
             && $this->abstractClasses->firstChild === null
-        )
-        {
+        ) {
             return;
         }
 
-        $this->packages->appendChild( $packageXml );
+        $this->packages->appendChild($packageXml);
     }
 }

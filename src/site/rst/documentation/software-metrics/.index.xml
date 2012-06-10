@@ -24,12 +24,12 @@
         <name>Cyclomatic Complexity</name>
         <path>cyclomatic-complexity.rst</path>
     </site>
-<!--
-    <site>
-        <name>Depth of Inheritance</name>
-        <path>depth-of-inheritance.rst</path>
-    </site>
--->
+    <!--
+        <site>
+            <name>Depth of Inheritance</name>
+            <path>depth-of-inheritance.rst</path>
+        </site>
+    -->
     <site>
         <name>Efferent Coupling</name>
         <path>efferent-coupling.rst</path>

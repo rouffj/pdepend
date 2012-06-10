@@ -9,7 +9,9 @@ class ClassMethodWithExceptionReference
      * @throws ClassMethodWithExceptionReferenceExceptionTwo
      * @throws ClassMethodWithExceptionReferenceExceptionThree
      */
-    public function foo() {}
+    public function foo()
+    {
+    }
 }
 
 class ClassMethodWithExceptionReferenceExceptionOne extends Exception

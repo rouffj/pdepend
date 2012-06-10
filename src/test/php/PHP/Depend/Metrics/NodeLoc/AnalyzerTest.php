@@ -60,12 +60,12 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Metrics_AbstractCachingAnalyzer
- * @covers PHP_Depend_Metrics_NodeLoc_Analyzer
- * @group pdepend
- * @group pdepend::metrics
- * @group pdepend::metrics::nodeloc
- * @group unittest
+ * @covers     PHP_Depend_Metrics_AbstractCachingAnalyzer
+ * @covers     PHP_Depend_Metrics_NodeLoc_Analyzer
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      pdepend::metrics::nodeloc
+ * @group      unittest
  */
 class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
@@ -102,33 +102,33 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
         $analyzer->analyze($packages);
 
         $expected = array(
-            'func_with_comment'  =>  array(
-                'loc'    =>  6,
-                'cloc'   =>  3,
-                'eloc'   =>  2,
-                'lloc'   =>  0,
-                'ncloc'  =>  3
+            'func_with_comment'          => array(
+                'loc'    => 6,
+                'cloc'   => 3,
+                'eloc'   => 2,
+                'lloc'   => 0,
+                'ncloc'  => 3
             ),
-            'func_without_comment'  =>  array(
-                'loc'    =>  7,
-                'cloc'   =>  4,
-                'eloc'   =>  2,
-                'lloc'   =>  0,
-                'ncloc'  =>  3,
+            'func_without_comment'       => array(
+                'loc'    => 7,
+                'cloc'   => 4,
+                'eloc'   => 2,
+                'lloc'   => 0,
+                'ncloc'  => 3,
             ),
-            'func_without_doc_comment'  =>  array(
-                'loc'    =>  3,
-                'cloc'   =>  0,
-                'eloc'   =>  2,
-                'lloc'   =>  0,
-                'ncloc'  =>  3,
+            'func_without_doc_comment'   => array(
+                'loc'    => 3,
+                'cloc'   => 0,
+                'eloc'   => 2,
+                'lloc'   => 0,
+                'ncloc'  => 3,
             ),
-            'another_func_with_comment'  =>  array(
-                'loc'    =>  4,
-                'cloc'   =>  1,
-                'eloc'   =>  2,
-                'lloc'   =>  0,
-                'ncloc'  =>  3,
+            'another_func_with_comment'  => array(
+                'loc'    => 4,
+                'cloc'   => 1,
+                'eloc'   => 2,
+                'lloc'   => 0,
+                'ncloc'  => 3,
             ),
         );
 
@@ -139,7 +139,7 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
 
         ksort($expected);
         ksort($actual);
-        
+
         self::assertEquals($expected, $actual);
     }
 
@@ -161,11 +161,11 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
 
         $actual   = $analyzer->getNodeMetrics($file);
         $expected = array(
-            'loc'    =>  31,
-            'cloc'   =>  15,
-            'eloc'   =>  13,
-            'lloc'   =>  4,
-            'ncloc'  =>  16
+            'loc'    => 31,
+            'cloc'   => 15,
+            'eloc'   => 13,
+            'lloc'   => 4,
+            'ncloc'  => 16
         );
         self::assertEquals($expected, $actual);
     }
@@ -246,11 +246,11 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
 
         $actual   = $analyzer->getNodeMetrics($file);
         $expected = array(
-            'loc'    =>  21,
-            'cloc'   =>  10,
-            'eloc'   =>  8,
-            'lloc'   =>  4,
-            'ncloc'  =>  11
+            'loc'    => 21,
+            'cloc'   => 10,
+            'eloc'   => 8,
+            'lloc'   => 4,
+            'ncloc'  => 11
         );
         self::assertEquals($expected, $actual);
     }
@@ -272,11 +272,11 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
 
         $actual   = $analyzer->getNodeMetrics($class);
         $expected = array(
-            'loc'    =>  22,
-            'cloc'   =>  7,
-            'eloc'   =>  3,
-            'lloc'   =>  1,
-            'ncloc'  =>  15
+            'loc'    => 22,
+            'cloc'   => 7,
+            'eloc'   => 3,
+            'lloc'   => 1,
+            'ncloc'  => 15
         );
         self::assertEquals($expected, $actual);
     }
@@ -299,11 +299,11 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
 
         $actual   = $analyzer->getNodeMetrics($file);
         $expected = array(
-            'loc'    =>  21,
-            'cloc'   =>  10,
-            'eloc'   =>  8,
-            'lloc'   =>  4,
-            'ncloc'  =>  11
+            'loc'    => 21,
+            'cloc'   => 10,
+            'eloc'   => 8,
+            'lloc'   => 4,
+            'ncloc'  => 11
         );
         self::assertEquals($expected, $actual);
     }
@@ -325,11 +325,11 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
 
         $actual   = $analyzer->getNodeMetrics($interface);
         $expected = array(
-            'loc'    =>  17,
-            'cloc'   =>  7,
-            'eloc'   =>  0,
-            'lloc'   =>  0,
-            'ncloc'  =>  10
+            'loc'    => 17,
+            'cloc'   => 7,
+            'eloc'   => 0,
+            'lloc'   => 0,
+            'ncloc'  => 10
         );
         self::assertEquals($expected, $actual);
     }
@@ -348,11 +348,11 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
 
         $actual   = $analyzer->getProjectMetrics();
         $expected = array(
-            'loc'    =>  260,
-            'cloc'   =>  144,
-            'eloc'   =>  89,
-            'lloc'   =>  40,
-            'ncloc'  =>  116
+            'loc'    => 260,
+            'cloc'   => 144,
+            'eloc'   => 89,
+            'lloc'   => 40,
+            'ncloc'  => 116
         );
 
         self::assertEquals($expected, $actual);
@@ -708,7 +708,7 @@ class PHP_Depend_Metrics_NodeLoc_AnalyzerTest extends PHP_Depend_Metrics_Abstrac
     /**
      * Calculates the metrics of the code under test that is associated with
      * the calling test case and returns the metric value for <b>$name</b>.
-     *  
+     *
      * @param string $name The name of the requested metric.
      *
      * @return mixed

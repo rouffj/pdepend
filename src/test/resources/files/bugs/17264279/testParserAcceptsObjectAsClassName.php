@@ -1,4 +1,5 @@
 <?php
-class Object {
-    
+class Object
+{
+
 }

@@ -67,5 +67,5 @@ interface PHP_Depend_Log_FileAware extends PHP_Depend_Log_Logger
      *
      * @return void
      */
-    public function setLogFile( $logFile );
+    public function setLogFile($logFile);
 }

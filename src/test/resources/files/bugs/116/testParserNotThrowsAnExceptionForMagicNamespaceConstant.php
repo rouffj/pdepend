@@ -1,2 +1,4 @@
 <?php
-function &__NAMESPACE__() {}
+function &__NAMESPACE__()
+{
+}

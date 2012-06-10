@@ -19,7 +19,7 @@ interface z_testGetConstantsReturnsExpectedResultForInheritedAndImplementedConst
 }
 
 class testGetConstantsReturnsExpectedResultForInheritedAndImplementedConstantDefinitions
-       extends y_testGetConstantsReturnsExpectedResultForInheritedAndImplementedConstantDefinitions
+    extends y_testGetConstantsReturnsExpectedResultForInheritedAndImplementedConstantDefinitions
     implements z_testGetConstantsReturnsExpectedResultForInheritedAndImplementedConstantDefinitions
 {
     const BAZ = 7;

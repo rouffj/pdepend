@@ -1,9 +1,13 @@
 <?php
 if (!function_exists('foo')) {
-    function foo() {}
+    function foo()
+    {
+    }
 }
 
 /**
  * @package my.package
  */
-interface testParserExtractsCorrectInterfacePackage {}
+interface testParserExtractsCorrectInterfacePackage
+{
+}

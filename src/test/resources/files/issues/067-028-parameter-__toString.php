@@ -1,3 +1,6 @@
 <?php
-function foo_067_028($bar = array()) {}
+function foo_067_028($bar = array())
+{
+}
+
 ?>

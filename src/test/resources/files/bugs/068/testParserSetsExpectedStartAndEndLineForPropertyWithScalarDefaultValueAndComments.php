@@ -1,15 +1,17 @@
 <?php
-class Foo {
+class Foo
+{
 
     public
-    /* public */
+        /* public */
     static
-    // static
-    $value
-    # $value
-    =
-    + /**/
-    -
-    42;
+        // static
+        $value
+        # $value
+        =
+        + /**/
+        -
+        42;
 }
+
 ?>

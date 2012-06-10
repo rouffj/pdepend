@@ -3,5 +3,7 @@ namespace bar;
 
 class Foo
 {
-    public function baz(\Foo $foo) {}
+    public function baz(\Foo $foo)
+    {
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace baz {
-    function foo() {
+    function foo()
+    {
         return namespace\Foo::bar();
     }
 }

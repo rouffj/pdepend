@@ -1,2 +1,5 @@
 <?php
-class Foo { const __NaMeSpAcE__ = 42; }
+class Foo
+{
+    const __NaMeSpAcE__ = 42;
+}

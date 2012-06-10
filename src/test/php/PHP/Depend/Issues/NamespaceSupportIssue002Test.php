@@ -60,11 +60,11 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://www.pdepend.org/
  *
- * @covers PHP_Depend_Parser
- * @group pdepend
- * @group pdepend::issues
- * @group pdepend::parser
- * @group unittest
+ * @covers     PHP_Depend_Parser
+ * @group      pdepend
+ * @group      pdepend::issues
+ * @group      pdepend::parser
+ * @group      unittest
  */
 class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_AbstractTest
 {
@@ -116,8 +116,8 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
         $packages = self::parseSource('issues/002-003-use-declaration.php');
 
         $class = $packages->current()
-                          ->getClasses()
-                          ->current();
+            ->getClasses()
+            ->current();
 
         $parentClass = $class->getParentClass();
         self::assertEquals('Bar', $parentClass->getName());
@@ -232,8 +232,8 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
         $packages = self::parseSource('issues/002-010-namespace-has-higher-priority.php');
 
         $class = $packages->current()
-                          ->getClasses()
-                          ->current();
+            ->getClasses()
+            ->current();
 
         self::assertEquals('bar', $class->getPackage()->getName());
     }
@@ -249,8 +249,8 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
         $packages = self::parseSource('issues/002-011-namespace-has-higher-priority.php');
 
         $class = $packages->current()
-                          ->getClasses()
-                          ->current();
+            ->getClasses()
+            ->current();
 
         self::assertEquals('bar', $class->getPackage()->getName());
     }
@@ -265,7 +265,7 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
         $packages = self::parseSource('issues/002-012-multiple-namespaces.php');
 
         self::assertEquals(3, $packages->count());
-        
+
         $package = $packages->current();
         $types   = $package->getTypes();
         self::assertEquals('bar', $package->getName());
@@ -326,8 +326,8 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
     {
         $packages = self::parseSource('issues/002-014-namespace-function.php');
         $function = $packages->current()
-                             ->getFunctions()
-                             ->current();
+            ->getFunctions()
+            ->current();
 
         self::assertEquals('foo\bar', $function->getPackage()->getName());
     }
@@ -350,7 +350,7 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
             ->current()
             ->getDependencies()
             ->current();
-        
+
         self::assertEquals($namespaceName, $dependency->getPackage()->getName());
     }
 
@@ -368,11 +368,11 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
     {
         $packages = self::parseSource($fileName);
         $function = $packages->current()
-                             ->getFunctions()
-                             ->current();
+            ->getFunctions()
+            ->current();
 
         $dependency = $function->getDependencies()
-                               ->current();
+            ->current();
 
         self::assertEquals($namespaceName, $dependency->getPackage()->getName());
         $this->assertContains(
@@ -399,7 +399,7 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
             ->current()
             ->getDependencies()
             ->current();
-        
+
         self::assertEquals($namespaceName, $dependency->getPackage()->getName());
     }
 
@@ -487,7 +487,7 @@ class PHP_Depend_Issues_NamespaceSupportIssue002Test extends PHP_Depend_Issues_A
             ->current()
             ->getDependencies()
             ->current();
-        
+
         self::assertEquals($namespaceName, $dependency->getPackage()->getName());
     }
 

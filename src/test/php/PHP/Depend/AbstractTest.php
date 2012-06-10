@@ -274,7 +274,8 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
     protected static function collectChildNodes(
         PHP_Depend_Code_ASTNode $node,
         array $actual = array()
-    ) {
+    )
+    {
         foreach ($node->getChildren() as $child) {
             $actual[] = get_class($child);
             $actual   = self::collectChildNodes($child, $actual);
@@ -294,7 +295,8 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
     protected static function assertGraphEquals(
         PHP_Depend_Code_ASTNode $node,
         array $expected
-    ) {
+    )
+    {
         $actual = self::collectChildNodes($node);
         self::assertEquals($expected, $actual);
     }
@@ -628,13 +630,13 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
         // Is it not installed?
         if (is_file(dirname(__FILE__) . '/../../../../main/php/PHP/Depend.php')) {
 
-            $path  = realpath(dirname(__FILE__) . '/../../../../main/php/');
+            $path = realpath(dirname(__FILE__) . '/../../../../main/php/');
             $path .= PATH_SEPARATOR . get_include_path();
             set_include_path($path);
         }
 
         // Set test path
-        $path  = realpath(dirname(__FILE__) . '/../..');
+        $path = realpath(dirname(__FILE__) . '/../..');
         $path .= PATH_SEPARATOR . get_include_path();
         set_include_path($path);
 
@@ -674,10 +676,10 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
     private static function _initVersionCompatibility()
     {
         $reflection = new ReflectionClass('Iterator');
-        $extension  = strtolower( $reflection->getExtensionName() );
+        $extension  = strtolower($reflection->getExtensionName());
         $extension  = ($extension === '' ? 'standard' : $extension);
 
-        if (defined('CORE_PACKAGE') === false ) {
+        if (defined('CORE_PACKAGE') === false) {
             define('CORE_PACKAGE', '+' . $extension);
         }
     }
@@ -758,7 +760,7 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
         }
         sort($files);
 
-        $parser = new PHP_Depend_Parser( new PHP_Depend_Tokenizer_VersionAll() );
+        $parser = new PHP_Depend_Parser(new PHP_Depend_Tokenizer_VersionAll());
 
         $compilationUnits = array();
         foreach ($files as $file) {
@@ -767,7 +769,7 @@ abstract class PHP_Depend_AbstractTest extends PHPUnit_Framework_TestCase
 //                $parser->setIgnoreAnnotations();
 //            }
 
-            $compilationUnits[] = $parser->parse( $file );
+            $compilationUnits[] = $parser->parse($file);
         }
         return $compilationUnits;
     }

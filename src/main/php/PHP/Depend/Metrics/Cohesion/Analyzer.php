@@ -98,10 +98,9 @@ class PHP_Depend_Metrics_Cohesion_Analyzer
      *
      * @return array(string=>mixed)
      */
-    public function getNodeMetrics( $node )
+    public function getNodeMetrics($node)
     {
-        if ( isset( $this->_nodeMetrics[$node->getUUID()] ) )
-        {
+        if (isset($this->_nodeMetrics[$node->getUUID()])) {
             return $this->_nodeMetrics[$node->getUUID()];
         }
         return array();
@@ -114,13 +113,12 @@ class PHP_Depend_Metrics_Cohesion_Analyzer
      *
      * @return void
      */
-    public function analyze( PHP_Depend_Code_NodeIterator $packages )
+    public function analyze(PHP_Depend_Code_NodeIterator $packages)
     {
         $this->fireStartAnalyzer();
 
-        foreach ( $packages as $package )
-        {
-            $package->accept( $this );
+        foreach ($packages as $package) {
+            $package->accept($this);
         }
 
         $this->fireEndAnalyzer();

@@ -61,10 +61,10 @@ require_once dirname(__FILE__) . '/../../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @group pdepend
- * @group pdepend::util
- * @group pdepend::util::cache
- * @group unittest
+ * @group      pdepend
+ * @group      pdepend::util
+ * @group      pdepend::util::cache
+ * @group      unittest
  */
 abstract class PHP_Depend_Util_Cache_AbstractDriverTest
     extends PHP_Depend_AbstractTest

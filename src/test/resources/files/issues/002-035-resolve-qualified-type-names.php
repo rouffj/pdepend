@@ -1,5 +1,7 @@
 <?php
 namespace baz {
-    class Bar implements Foo {}
+    class Bar implements Foo
+    {
+    }
 }
 ?>

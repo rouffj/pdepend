@@ -1,6 +1,13 @@
 <?php
-class Foo {
-    function bar() {}
-    function &foo() {}
+class Foo
+{
+    function bar()
+    {
+    }
+
+    function &foo()
+    {
+    }
 }
+
 ?>

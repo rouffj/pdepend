@@ -61,10 +61,10 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://www.pdepend.org/
  *
- * @covers stdClass
- * @group pdepend
- * @group pdepend::integration
- * @group integrationtest
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::integration
+ * @group      integrationtest
  */
 class PHP_Depend_Integration_DependExcludePathFilterTest
     extends PHP_Depend_AbstractTest

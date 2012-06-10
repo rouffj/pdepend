@@ -2,6 +2,7 @@
 interface BCollection
 {
     function equals($object);
+
     function add($object);
 }
 
@@ -12,15 +13,28 @@ interface BList extends BCollection
 
 abstract class AbstractList implements BList
 {
-    public function add($object) {}
-    public function get($index) {}
-    public function equals($object) {}
+    public function add($object)
+    {
+    }
+
+    public function get($index)
+    {
+    }
+
+    public function equals($object)
+    {
+    }
 }
 
 class ArrayList extends AbstractList
 {
-    public function add($object) {}
-    public function get($index) {}
+    public function add($object)
+    {
+    }
+
+    public function get($index)
+    {
+    }
 }
 
 class Order

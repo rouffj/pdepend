@@ -60,13 +60,13 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://www.pdepend.org/
  *
- * @covers PHP_Depend_Parser
- * @covers PHP_Depend_Code_Parameter
- * @group pdepend
- * @group pdepend::code
- * @group pdepend::issues
- * @group pdepend::parser
- * @group unittest
+ * @covers     PHP_Depend_Parser
+ * @covers     PHP_Depend_Code_Parameter
+ * @group      pdepend
+ * @group      pdepend::code
+ * @group      pdepend::issues
+ * @group      pdepend::parser
+ * @group      unittest
  */
 class PHP_Depend_Issues_ReflectionCompatibilityIssue067Test
     extends PHP_Depend_Issues_AbstractTest
@@ -188,7 +188,7 @@ class PHP_Depend_Issues_ReflectionCompatibilityIssue067Test
 
     /**
      * testIsDefaultValueAvailableReturnsTrueForNullDefaultValue
-     * 
+     *
      * @return void
      */
     public function testIsDefaultValueAvailableReturnsTrueForNullDefaultValue()
@@ -671,7 +671,7 @@ class PHP_Depend_Issues_ReflectionCompatibilityIssue067Test
      * was defined.
      *
      * @return void
-     * @covers PHP_Depend_Parser_MissingValueException
+     * @covers            PHP_Depend_Parser_MissingValueException
      * @expectedException PHP_Depend_Parser_MissingValueException
      */
     public function testParserThrowsExpectedExceptionForMissingDefaultValue()
@@ -684,7 +684,7 @@ class PHP_Depend_Issues_ReflectionCompatibilityIssue067Test
      * end of file while it parses a parameter default value.
      *
      * @return void
-     * @covers PHP_Depend_Parser_TokenStreamEndException
+     * @covers            PHP_Depend_Parser_TokenStreamEndException
      * @expectedException PHP_Depend_Parser_TokenStreamEndException
      */
     public function testParserThrowsExpectedExceptionWhenReachesEofWhileParsingDefaultValue()
@@ -697,7 +697,7 @@ class PHP_Depend_Issues_ReflectionCompatibilityIssue067Test
      * an invalid token.
      *
      * @return void
-     * @covers PHP_Depend_Parser_UnexpectedTokenException
+     * @covers            PHP_Depend_Parser_UnexpectedTokenException
      * @expectedException PHP_Depend_Parser_UnexpectedTokenException
      */
     public function testParserThrowsExpectedExceptionWhenDefaultValueContainsInvalidToken()

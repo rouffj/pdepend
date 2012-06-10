@@ -65,10 +65,10 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @link       http://tracker.pdepend.org/pdepend/issue_tracker/issue/181
  * @since      0.10.0
  *
- * @covers stdClass
- * @group pdepend
- * @group pdepend::bugs
- * @group regressiontest
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::bugs
+ * @group      regressiontest
  */
 class PHP_Depend_Bugs_UnexpectedTokenAsciiChar39Bug181Test
     extends PHP_Depend_Bugs_AbstractTest

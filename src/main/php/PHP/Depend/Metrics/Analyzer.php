@@ -66,7 +66,7 @@ interface PHP_Depend_Metrics_Analyzer
      * @param array $options
      *        Global option array, every analyzer can extract the required options.
      */
-    public function __construct( array $options = array() );
+    public function __construct(array $options = array());
 
     /**
      * Adds a listener to this analyzer.
@@ -75,7 +75,7 @@ interface PHP_Depend_Metrics_Analyzer
      *
      * @return void
      */
-    public function addAnalyzeListener( PHP_Depend_Metrics_ListenerI $listener );
+    public function addAnalyzeListener(PHP_Depend_Metrics_ListenerI $listener);
 
     /**
      * An analyzer that is active must return <b>true</b> to recognized by

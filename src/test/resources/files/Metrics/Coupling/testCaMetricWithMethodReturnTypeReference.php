@@ -4,17 +4,23 @@ class ClassMethodWithReturnTypeReference
     /**
      * @return ClassWithoutMethodReferencingReturnType
      */
-    public function foo() {}
+    public function foo()
+    {
+    }
 
     /**
      * @return ClassWithMethodReferencingClassByReturnType
      */
-    public function bar() {}
+    public function bar()
+    {
+    }
 
     /**
      * @return ClassWithMethodReferencingClassByReturnType
      */
-    public function baz() {}
+    public function baz()
+    {
+    }
 }
 
 class ClassWithMethodReferencingClassByReturnType
@@ -22,7 +28,9 @@ class ClassWithMethodReferencingClassByReturnType
     /**
      * @return ClassMethodWithReturnTypeReference
      */
-    public function foo() {}
+    public function foo()
+    {
+    }
 }
 
 class ClassWithoutMethodReferencingReturnType

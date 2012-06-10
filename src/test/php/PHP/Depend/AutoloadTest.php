@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @link      http://pdepend.org/
  * @since     0.10.0
  *
- * @covers PHP_Depend_Autoload
- * @group pdepend
- * @group pdepend::autoload
- * @group unittest
+ * @covers    PHP_Depend_Autoload
+ * @group     pdepend
+ * @group     pdepend::autoload
+ * @group     unittest
  */
 class PHP_Depend_AutoloadTest extends PHP_Depend_AbstractTest
 {
@@ -100,7 +100,7 @@ class PHP_Depend_AutoloadTest extends PHP_Depend_AbstractTest
                 spl_autoload_unregister($callback);
             }
         }
-        
+
         parent::tearDown();
     }
 

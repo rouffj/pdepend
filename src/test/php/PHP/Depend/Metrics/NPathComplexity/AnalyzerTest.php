@@ -59,13 +59,13 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
- * 
- * @covers PHP_Depend_Metrics_AbstractCachingAnalyzer
- * @covers PHP_Depend_Metrics_NPathComplexity_Analyzer
- * @group pdepend
- * @group pdepend::metrics
- * @group pdepend::metrics::npathcomplexity
- * @group unittest
+ *
+ * @covers     PHP_Depend_Metrics_AbstractCachingAnalyzer
+ * @covers     PHP_Depend_Metrics_NPathComplexity_Analyzer
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      pdepend::metrics::npathcomplexity
+ * @group      unittest
  */
 class PHP_Depend_Metrics_NPathComplexity_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
@@ -179,8 +179,8 @@ class PHP_Depend_Metrics_NPathComplexity_AnalyzerTest extends PHP_Depend_Metrics
      *
      * @return void
      * @since 0.9.12
-     * @todo What happens with boolean/logical expressions within the body of
-     *       any other statement/expression?
+     * @todo  What happens with boolean/logical expressions within the body of
+     *        any other statement/expression?
      */
     public function testNPathComplexityForSiblingExpressions()
     {
@@ -241,7 +241,7 @@ class PHP_Depend_Metrics_NPathComplexity_AnalyzerTest extends PHP_Depend_Metrics
     {
         self::assertEquals(63, $this->_calculateFunctionMetric());
     }
-    
+
     /**
      * testNPathComplexityForConditionalsInArrayDeclaration
      *

@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -59,12 +59,12 @@ require_once dirname(__FILE__) . '/../../AbstractTest.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
- * 
- * @covers PHP_Depend_Metrics_CodeRank_PropertyStrategy
- * @group pdepend
- * @group pdepend::metrics
- * @group pdepend::metrics::coderank
- * @group unittest
+ *
+ * @covers     PHP_Depend_Metrics_CodeRank_PropertyStrategy
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      pdepend::metrics::coderank
+ * @group      unittest
  */
 class PHP_Depend_Metrics_CodeRank_PropertyStrategyTest
     extends PHP_Depend_AbstractTest
@@ -77,15 +77,15 @@ class PHP_Depend_Metrics_CodeRank_PropertyStrategyTest
     public function testStrategyCountsCorrectTypes()
     {
         $packages = self::parseCodeResourceForTest();
-        
+
         $uuidMap = array(
-            'PDepend::CodeRankA'       =>  null,
-            'PDepend::CodeRankB'       =>  null,
-            'PDepend_CodeRank_ClassA'  =>  null,
-            'PDepend_CodeRank_ClassB'  =>  null,
-            'PDepend_CodeRank_ClassC'  =>  null,
+            'PDepend::CodeRankA'       => null,
+            'PDepend::CodeRankB'       => null,
+            'PDepend_CodeRank_ClassA'  => null,
+            'PDepend_CodeRank_ClassB'  => null,
+            'PDepend_CodeRank_ClassC'  => null,
         );
-        
+
         foreach ($packages as $package) {
             foreach ($package->getClasses() as $class) {
                 self::assertArrayHasKey($class->getName(), $uuidMap);
@@ -97,73 +97,73 @@ class PHP_Depend_Metrics_CodeRank_PropertyStrategyTest
         }
 
         $expected = array(
-            $uuidMap['PDepend_CodeRank_ClassA']  =>  array(
-                'in'  =>  array(
+            $uuidMap['PDepend_CodeRank_ClassA']  => array(
+                'in'    => array(
                     $uuidMap['PDepend_CodeRank_ClassB'],
                     $uuidMap['PDepend_CodeRank_ClassC']
                 ),
-                'out'  =>  array(
+                'out'   => array(
                     $uuidMap['PDepend_CodeRank_ClassC']
                 ),
-                'name'  =>  'PDepend_CodeRank_ClassA',
-                'type'  =>  'PHP_Depend_Code_Class'
+                'name'  => 'PDepend_CodeRank_ClassA',
+                'type'  => 'PHP_Depend_Code_Class'
             ),
-            $uuidMap['PDepend_CodeRank_ClassB']  =>  array(
-                'in'  =>  array(
+            $uuidMap['PDepend_CodeRank_ClassB']  => array(
+                'in'    => array(
                     $uuidMap['PDepend_CodeRank_ClassC'],
                     $uuidMap['PDepend_CodeRank_ClassC']
                 ),
-                'out'  =>  array(
+                'out'   => array(
                     $uuidMap['PDepend_CodeRank_ClassA']
                 ),
-                'name'  =>  'PDepend_CodeRank_ClassB',
-                'type'  =>  'PHP_Depend_Code_Class'
+                'name'  => 'PDepend_CodeRank_ClassB',
+                'type'  => 'PHP_Depend_Code_Class'
             ),
-            $uuidMap['PDepend_CodeRank_ClassC']  =>  array(
-                'in'  =>  array(
+            $uuidMap['PDepend_CodeRank_ClassC']  => array(
+                'in'    => array(
                     $uuidMap['PDepend_CodeRank_ClassA']
                 ),
-                'out'  =>  array(
+                'out'   => array(
                     $uuidMap['PDepend_CodeRank_ClassA'],
                     $uuidMap['PDepend_CodeRank_ClassB'],
                     $uuidMap['PDepend_CodeRank_ClassB']
                 ),
-                'name'  =>  'PDepend_CodeRank_ClassC',
-                'type'  =>  'PHP_Depend_Code_Class'
+                'name'  => 'PDepend_CodeRank_ClassC',
+                'type'  => 'PHP_Depend_Code_Class'
             ),
-            $uuidMap['PDepend::CodeRankA']  =>  array(
-                'in'  =>  array(
+            $uuidMap['PDepend::CodeRankA']       => array(
+                'in'    => array(
                     $uuidMap['PDepend::CodeRankB'],
                     $uuidMap['PDepend::CodeRankB'],
                     $uuidMap['PDepend::CodeRankB']
                 ),
-                'out'  =>  array(
+                'out'   => array(
                     $uuidMap['PDepend::CodeRankB'],
                 ),
-                'name'  =>  'PDepend::CodeRankA',
-                'type'  =>  'PHP_Depend_Code_Package'
+                'name'  => 'PDepend::CodeRankA',
+                'type'  => 'PHP_Depend_Code_Package'
             ),
-            $uuidMap['PDepend::CodeRankB']  =>  array(
-                'in'  =>  array(
+            $uuidMap['PDepend::CodeRankB']       => array(
+                'in'    => array(
                     $uuidMap['PDepend::CodeRankA'],
                 ),
-                'out'  =>  array(
+                'out'   => array(
                     $uuidMap['PDepend::CodeRankA'],
                     $uuidMap['PDepend::CodeRankA'],
                     $uuidMap['PDepend::CodeRankA']
                 ),
-                'name'  =>  'PDepend::CodeRankB',
-                'type'  =>  'PHP_Depend_Code_Package'
+                'name'  => 'PDepend::CodeRankB',
+                'type'  => 'PHP_Depend_Code_Package'
             ),
         );
-    
+
         $strategy = new PHP_Depend_Metrics_CodeRank_PropertyStrategy();
         foreach ($packages as $package) {
             $package->accept($strategy);
         }
 
         $actual = $strategy->getCollectedNodes();
-        
+
         self::assertEquals($expected, $actual);
     }
 }

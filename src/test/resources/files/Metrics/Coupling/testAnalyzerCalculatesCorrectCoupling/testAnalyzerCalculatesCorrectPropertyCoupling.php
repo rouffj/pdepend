@@ -3,7 +3,7 @@
  * FANOUT := 3
  * CALLS  := 0
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 
@@ -13,7 +13,7 @@
  * FANOUT := 3
  * CALLS  := 0
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 class MyPropertyCouplingClass

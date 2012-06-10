@@ -1,6 +1,8 @@
 <?php
 $a = $b = null;
-function() use ($a, $b) {
-    
+function() use ($a, $b)
+{
+
 }
+
 ?>

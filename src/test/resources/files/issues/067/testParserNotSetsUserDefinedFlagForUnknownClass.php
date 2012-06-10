@@ -1,3 +1,6 @@
 <?php
-class Bar extends Foo {}
+class Bar extends Foo
+{
+}
+
 ?>

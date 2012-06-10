@@ -2,12 +2,12 @@
 class Foo
 {
     public
-    /* public */
+        /* public */
     static
-    /** static */
-    # static
-    $value
-    // $value
+        /** static */
+        # static
+        $value// $value
     ;
 }
+
 ?>

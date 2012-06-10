@@ -1,5 +1,6 @@
 <?php
-function foo($class) {
+function foo($class)
+{
     $y = new $class();
 }
 

@@ -1,5 +1,6 @@
 <?php
-function foo() {
+function foo()
+{
     $foo->bar();
     $bar->bar();
     foobar::bar();

@@ -81,10 +81,10 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
      * Constructs a new function AST node.
      *
      * @param PHPParser_Node_Stmt_Function $function
-     * @param PHPParser_Node[] $subNodes
-     * @param PHP_Depend_AST_FunctionRefs $refs
+     * @param PHPParser_Node[]             $subNodes
+     * @param PHP_Depend_AST_FunctionRefs  $refs
      */
-    public function __construct( PHPParser_Node_Stmt_Function $function, array $subNodes, PHP_Depend_AST_FunctionRefs $refs )
+    public function __construct(PHPParser_Node_Stmt_Function $function, array $subNodes, PHP_Depend_AST_FunctionRefs $refs)
     {
         parent::__construct(
             $function->name,
@@ -102,7 +102,7 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
         $this->refs           = $refs;
         $this->namespacedName = $function->namespacedName;
 
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 
     /**
@@ -112,7 +112,7 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
      */
     public function getId()
     {
-        return $this->getAttribute( 'id' );
+        return $this->getAttribute('id');
     }
 
     /**
@@ -158,6 +158,6 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
     {
         $this->cached = true;
 
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 }

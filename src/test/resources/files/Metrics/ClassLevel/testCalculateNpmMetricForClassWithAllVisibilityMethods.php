@@ -13,6 +13,6 @@ class testCalculateNpmMetricForClassWithAllVisibilityMethods
 
     public function baz()
     {
-        
+
     }
 }

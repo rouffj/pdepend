@@ -60,18 +60,18 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       https://www.pivotaltracker.com/story/show/9936901
  *
- * @ticket 9936901
- * @covers stdClass
- * @group pdepend
- * @group pdepend::bugs
- * @group regressiontest
+ * @ticket     9936901
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::bugs
+ * @group      regressiontest
  */
 class PHP_Depend_Bugs_ClassLevelAnalyzerBug09936901Test
     extends PHP_Depend_Bugs_AbstractTest
 {
     /**
      * testWmciMetricIsCalculatedForCurrentAndNotParentClass
-     * 
+     *
      * @return void
      */
     public function testWmciMetricIsCalculatedForCurrentAndNotParentClass()

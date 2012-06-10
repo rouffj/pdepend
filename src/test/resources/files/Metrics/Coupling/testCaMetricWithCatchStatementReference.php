@@ -3,12 +3,9 @@ class ClassWithCatchStatementReference
 {
     public function foo()
     {
-        try
-        {
+        try {
             // Do something
-        }
-        catch ( ClassWhereCatchStatementReferencesClassTwo $e )
-        {
+        } catch (ClassWhereCatchStatementReferencesClassTwo $e) {
         }
     }
 }
@@ -17,12 +14,9 @@ class ClassWhereCatchStatementReferencesClassOne
 {
     public function foo()
     {
-        try
-        {
+        try {
             // Do something
-        }
-        catch ( ClassWithCatchStatementReference $e )
-        {
+        } catch (ClassWithCatchStatementReference $e) {
         }
     }
 }
@@ -31,12 +25,9 @@ class ClassWhereCatchStatementReferencesClassTwo
 {
     public function bar()
     {
-        try
-        {
+        try {
             // Do something
-        }
-        catch ( ClassWithCatchStatementReference $e )
-        {
+        } catch (ClassWithCatchStatementReference $e) {
         }
     }
 }

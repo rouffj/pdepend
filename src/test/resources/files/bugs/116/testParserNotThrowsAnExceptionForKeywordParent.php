@@ -1,5 +1,7 @@
 <?php
 class testParserNotThrowsAnExceptionForKeywordParent
 {
-    private function &parent() {}
+    private function &parent()
+    {
+    }
 }

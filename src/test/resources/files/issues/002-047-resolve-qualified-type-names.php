@@ -1,8 +1,11 @@
 <?php
 namespace foo;
 
-function foo() {
-    try {        
-    } catch (foo\BazException $e) {}
+function foo()
+{
+    try {
+    } catch (foo\BazException $e) {
+    }
 }
+
 ?>

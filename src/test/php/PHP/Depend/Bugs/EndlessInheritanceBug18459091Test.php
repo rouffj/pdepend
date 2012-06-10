@@ -62,11 +62,11 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @link       https://www.pivotaltracker.com/story/show/18459091
  * @since      1.0.0
  *
- * @ticket 18459091
- * @covers stdClass
- * @group pdepend
- * @group pdepend::bugs
- * @group regressiontest
+ * @ticket     18459091
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::bugs
+ * @group      regressiontest
  */
 class PHP_Depend_Bugs_EndlessInheritanceBug18459091Test extends PHP_Depend_Bugs_AbstractTest
 {
@@ -84,7 +84,7 @@ class PHP_Depend_Bugs_EndlessInheritanceBug18459091Test extends PHP_Depend_Bugs_
 
     /**
      * testClassLevelAnalyzerNotRunsEndlessForTwoLevelClassHierarchy
-     * 
+     *
      * @return void
      * @expectedException PHP_Depend_Code_Exceptions_RecursiveInheritanceException
      */
@@ -140,7 +140,7 @@ class PHP_Depend_Bugs_EndlessInheritanceBug18459091Test extends PHP_Depend_Bugs_
 
     /**
      * testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy
-     * 
+     *
      * @return void
      */
     public function testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy()
@@ -212,7 +212,7 @@ class PHP_Depend_Bugs_EndlessInheritanceBug18459091Test extends PHP_Depend_Bugs_
 
     /**
      * testFullStackNotRunsEndless
-     * 
+     *
      * @return void
      */
     public function testFullStackNotRunsEndless()

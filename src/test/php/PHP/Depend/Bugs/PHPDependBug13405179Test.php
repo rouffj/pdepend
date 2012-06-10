@@ -60,11 +60,11 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       https://www.pivotaltracker.com/story/show/13405179
  *
- * @ticket 13405179
- * @covers stdClass
- * @group pdepend
- * @group pdepend::bugs
- * @group regressiontest
+ * @ticket     13405179
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::bugs
+ * @group      regressiontest
  */
 class PHP_Depend_Bugs_PHPDependBug13405179Test extends PHP_Depend_Bugs_AbstractTest
 {

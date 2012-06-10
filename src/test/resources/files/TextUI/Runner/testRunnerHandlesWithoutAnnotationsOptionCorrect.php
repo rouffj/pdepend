@@ -5,6 +5,7 @@
 
 /**
  * @param array $a
+ *
  * @return Iterator
  * @throws MyException
  */
@@ -16,9 +17,13 @@ function foo(array $a)
 /**
  * @package pdepend.test
  */
-class MyException extends Exception {}
+class MyException extends Exception
+{
+}
 
 /**
  * @package pdepend.test2
  */
-class YourException extends Exception {}
+class YourException extends Exception
+{
+}

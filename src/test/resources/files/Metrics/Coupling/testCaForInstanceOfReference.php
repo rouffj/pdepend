@@ -1,10 +1,9 @@
 <?php
 class testCaForInstanceOfReference
 {
-    public function foo( $object )
+    public function foo($object)
     {
-        if ( $object instanceof testCaForInstanceOfReferenceRefOne )
-        {
+        if ($object instanceof testCaForInstanceOfReferenceRefOne) {
 
         }
     }
@@ -12,10 +11,9 @@ class testCaForInstanceOfReference
 
 class testCaForInstanceOfReferenceRefOne
 {
-    public function foo( $object )
+    public function foo($object)
     {
-        if ( $object instanceof testCaForInstanceOfReference )
-        {
+        if ($object instanceof testCaForInstanceOfReference) {
 
         }
     }
@@ -23,10 +21,9 @@ class testCaForInstanceOfReferenceRefOne
 
 class testCaForInstanceOfReferenceRefTwo
 {
-    public function foo( $object )
+    public function foo($object)
     {
-        if ( $object instanceof testCaForInstanceOfReference )
-        {
+        if ($object instanceof testCaForInstanceOfReference) {
 
         }
     }
@@ -34,10 +31,9 @@ class testCaForInstanceOfReferenceRefTwo
 
 class testCaForInstanceOfReferenceRefThree extends testCaForInstanceOfReference
 {
-    public function foo( $object )
+    public function foo($object)
     {
-        if ( $object instanceof testCaForInstanceOfReference )
-        {
+        if ($object instanceof testCaForInstanceOfReference) {
 
         }
     }

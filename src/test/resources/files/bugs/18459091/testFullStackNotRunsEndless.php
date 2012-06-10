@@ -20,7 +20,7 @@ class testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy_parent_parent
 class testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy_parent_parent_parent
     extends testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy
 {
-    
+
 }
 
 class testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy
@@ -37,7 +37,7 @@ interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_interfac
 
 interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parent
     extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentA,
-            testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentB
+    testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentB
 {
 
 }
@@ -49,17 +49,20 @@ interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentA
 }
 
 interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentB
-    extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parent {
+    extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parent
+{
 
 }
 
 interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentC
-    extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_interface {}
+    extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_interface
+{
+}
 
 class testClassLevelAnalyzerNotRunsEndlessForTwoLevelClassHierarchy
     extends testClassLevelAnalyzerNotRunsEndlessForTwoLevelClassHierarchy
 {
-    
+
 }
 
 class testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy
@@ -71,7 +74,7 @@ class testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy
 interface testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy_interface
     extends testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy_interface
 {
-    
+
 }
 
 class testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy
@@ -95,7 +98,7 @@ class testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy_parent_parent
 class testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy_parent_parent_parent
     extends testClassLevelAnalyzerNotRunsEndlessForDeepClassHierarchy
 {
-    
+
 }
 
 class testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy
@@ -112,7 +115,7 @@ interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_interfac
 
 interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parent
     extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentA,
-            testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentB
+    testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentB
 {
 
 }
@@ -124,17 +127,20 @@ interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentA
 }
 
 interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentB
-    extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parent {
+    extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parent
+{
 
 }
 
 interface testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_parentC
-    extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_interface {}
+    extends testClassLevelAnalyzerNotRunsEndlessForDeepInterfaceHierarchy_interface
+{
+}
 
 class testClassLevelAnalyzerNotRunsEndlessForTwoLevelClassHierarchy
     extends testClassLevelAnalyzerNotRunsEndlessForTwoLevelClassHierarchy
 {
-    
+
 }
 
 class testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy
@@ -146,5 +152,5 @@ class testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy
 interface testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy_interface
     extends testClassLevelAnalyzerNotRunsEndlessForTwoLevelInterfaceHierarchy_interface
 {
-    
+
 }

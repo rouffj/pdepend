@@ -160,9 +160,9 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      *
      * @param array $options
      */
-    public function __construct( array $options = array() )
+    public function __construct(array $options = array())
     {
-        parent::__construct( $options );
+        parent::__construct($options);
 
         $this->serializer = new PHPParser_PrettyPrinter_Zend();
     }
@@ -205,16 +205,15 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      *
      * @return array
      */
-    public function getNodeMetrics( $node )
+    public function getNodeMetrics($node)
     {
-        $nodeId = (string) is_object( $node ) ? $node->getId() : $node;
+        $nodeId = (string)is_object($node) ? $node->getId() : $node;
 
-        if ( isset( $this->couplingMap[$nodeId] ) )
-        {
+        if (isset($this->couplingMap[$nodeId])) {
             return array(
-                self::M_CA  => count( $this->couplingMap[$nodeId][self::M_CA] ),
-                self::M_CBO => count( $this->couplingMap[$nodeId][self::M_CE] ),
-                self::M_CE  => count( $this->couplingMap[$nodeId][self::M_CE] ),
+                self::M_CA  => count($this->couplingMap[$nodeId][self::M_CA]),
+                self::M_CBO => count($this->couplingMap[$nodeId][self::M_CE]),
+                self::M_CE  => count($this->couplingMap[$nodeId][self::M_CE]),
             );
         }
         return array();
@@ -229,10 +228,9 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      */
     private function postProcessCouplingMap()
     {
-        foreach ( $this->couplingMap as $uuid => $metrics )
-        {
-            $afferentCoupling = count( $metrics[self::M_CA] );
-            $efferentCoupling = count( $metrics[self::M_CE] );
+        foreach ($this->couplingMap as $uuid => $metrics) {
+            $afferentCoupling = count($metrics[self::M_CA]);
+            $efferentCoupling = count($metrics[self::M_CE]);
 
             $this->metrics[$uuid] = array(
                 self::M_CA   => $afferentCoupling,
@@ -250,9 +248,10 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * Visits the given compilation unit ast node.
      *
      * @param PHP_Depend_AST_CompilationUnit $unit
+     *
      * @return void
      */
-    public function visitCompilationUnitBefore( PHP_Depend_AST_CompilationUnit $unit )
+    public function visitCompilationUnitBefore(PHP_Depend_AST_CompilationUnit $unit)
     {
         $this->nodeStack[] = $this->currentNode = $unit;
     }
@@ -272,26 +271,25 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * Visits the given function and calculates it's dependency data.
      *
      * @param PHP_Depend_AST_Function $function
+     *
      * @return void
      */
-    public function visitFunctionBefore( PHP_Depend_AST_Function $function )
+    public function visitFunctionBefore(PHP_Depend_AST_Function $function)
     {
         $this->nodeStack[] = $this->currentNode = $function;
 
-        $this->fireStartFunction( $function );
+        $this->fireStartFunction($function);
 
-        $this->calculateCoupling( $function->getReturnType() );
+        $this->calculateCoupling($function->getReturnType());
 
-        foreach ( $function->thrownExceptions as $type )
-        {
-            $this->calculateCoupling( $type );
+        foreach ($function->thrownExceptions as $type) {
+            $this->calculateCoupling($type);
         }
-        foreach ( $function->params as $param )
-        {
-            $this->calculateCoupling( $param->typeRef );
+        foreach ($function->params as $param) {
+            $this->calculateCoupling($param->typeRef);
         }
 
-        $this->fireEndFunction( $function );
+        $this->fireEndFunction($function);
     }
 
     /**
@@ -301,11 +299,11 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      */
     public function visitFunctionAfter()
     {
-        array_pop( $this->nodeStack );
+        array_pop($this->nodeStack);
 
-        $this->currentNode = end( $this->nodeStack );
+        $this->currentNode = end($this->nodeStack);
 
-        $this->calls += count( array_unique( $this->invokes ) );
+        $this->calls += count(array_unique($this->invokes));
         $this->invokes = array();
     }
 
@@ -313,13 +311,14 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * Visits the given class and initializes it's dependencies.
      *
      * @param PHP_Depend_AST_Class $class
+     *
      * @return void
      */
-    public function visitClassBefore( PHP_Depend_AST_Class $class )
+    public function visitClassBefore(PHP_Depend_AST_Class $class)
     {
         $this->nodeStack[] = $this->currentNode = $class;
 
-        $this->initCouplingMap( $class );
+        $this->initCouplingMap($class);
     }
 
     /**
@@ -329,11 +328,11 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      */
     public function visitClassAfter()
     {
-        array_pop( $this->nodeStack );
+        array_pop($this->nodeStack);
 
-        $this->currentNode = end( $this->nodeStack );
+        $this->currentNode = end($this->nodeStack);
 
-        $this->calls += count( array_unique( $this->invokes ) );
+        $this->calls += count(array_unique($this->invokes));
         $this->invokes = array();
     }
 
@@ -341,13 +340,14 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * Visits a interface ast node.
      *
      * @param PHP_Depend_AST_Interface $interface
+     *
      * @return mixed
      */
-    public function visitInterfaceBefore( PHP_Depend_AST_Interface $interface )
+    public function visitInterfaceBefore(PHP_Depend_AST_Interface $interface)
     {
         $this->nodeStack[] = $this->currentNode = $interface;
 
-        $this->initCouplingMap( $interface );
+        $this->initCouplingMap($interface);
     }
 
     /**
@@ -357,188 +357,194 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      */
     public function visitInterfaceAfter()
     {
-        array_pop( $this->nodeStack );
+        array_pop($this->nodeStack);
 
-        $this->currentNode = end( $this->nodeStack );
+        $this->currentNode = end($this->nodeStack);
     }
 
     /**
      * Visits the given method and calculates it's dependency data.
      *
      * @param PHP_Depend_AST_Method $method
+     *
      * @return void
      */
-    public function visitMethodBefore( PHP_Depend_AST_Method $method )
+    public function visitMethodBefore(PHP_Depend_AST_Method $method)
     {
-        $this->fireStartMethod( $method );
+        $this->fireStartMethod($method);
 
-        $this->calculateCoupling( $method->getReturnType() );
+        $this->calculateCoupling($method->getReturnType());
 
-        foreach ( $method->thrownExceptions as $type )
-        {
-            $this->calculateCoupling( $type );
+        foreach ($method->thrownExceptions as $type) {
+            $this->calculateCoupling($type);
         }
-        foreach ( $method->params as $param )
-        {
-            $this->calculateCoupling( $param->typeRef );
+        foreach ($method->params as $param) {
+            $this->calculateCoupling($param->typeRef);
         }
 
-        $this->fireEndMethod( $method );
+        $this->fireEndMethod($method);
     }
 
     /**
      * Visits a property node.
      *
      * @param PHP_Depend_AST_Property $property
+     *
      * @return void
      */
-    public function visitPropertyBefore( PHP_Depend_AST_Property $property )
+    public function visitPropertyBefore(PHP_Depend_AST_Property $property)
     {
-        $this->fireStartProperty( $property );
+        $this->fireStartProperty($property);
 
-        $this->calculateCoupling( $property->getType() );
+        $this->calculateCoupling($property->getType());
 
-        $this->fireEndProperty( $property );
+        $this->fireEndProperty($property);
     }
 
     /**
      * Visits a catch statement that will contain a class reference.
      *
      * @param PHPParser_Node_Stmt_Catch $catch
+     *
      * @return void
      */
-    public function visitStmtCatchBefore( PHPParser_Node_Stmt_Catch $catch )
+    public function visitStmtCatchBefore(PHPParser_Node_Stmt_Catch $catch)
     {
-        $this->calculateCoupling( $catch->typeRef );
+        $this->calculateCoupling($catch->typeRef);
     }
 
     /**
      * Visits an instance allocation node.
      *
      * @param PHPParser_Node_Expr_New $new
+     *
      * @return void
      */
-    public function visitExprNewBefore( PHPParser_Node_Expr_New $new )
+    public function visitExprNewBefore(PHPParser_Node_Expr_New $new)
     {
-        $this->calculateCoupling( $new->typeRef );
+        $this->calculateCoupling($new->typeRef);
     }
 
     /**
      * Visits an instanceof ast node.
      *
      * @param PHPParser_Node_Expr_Instanceof $instanceof
+     *
      * @return void
      */
-    public function visitExprInstanceofBefore( PHPParser_Node_Expr_Instanceof $instanceof )
+    public function visitExprInstanceofBefore(PHPParser_Node_Expr_Instanceof $instanceof)
     {
-        $this->calculateCoupling( $instanceof->typeRef );
+        $this->calculateCoupling($instanceof->typeRef);
     }
 
     /**
      * Visits a static method call node.
      *
      * @param PHPParser_Node_Expr_StaticCall $call
+     *
      * @return void
      */
-    public function visitExprStaticCallBefore( PHPParser_Node_Expr_StaticCall $call )
+    public function visitExprStaticCallBefore(PHPParser_Node_Expr_StaticCall $call)
     {
-        $this->calculateCoupling( $call->typeRef );
+        $this->calculateCoupling($call->typeRef);
 
-        $this->updateInvokes( $call );
+        $this->updateInvokes($call);
     }
 
     /**
      * Visits the given class property fetch ast node.
      *
      * @param PHPParser_Node_Expr_StaticPropertyFetch $fetch
+     *
      * @return void
      */
-    public function visitExprStaticPropertyFetchBefore( PHPParser_Node_Expr_StaticPropertyFetch $fetch )
+    public function visitExprStaticPropertyFetchBefore(PHPParser_Node_Expr_StaticPropertyFetch $fetch)
     {
-        $this->calculateCoupling( $fetch->typeRef );
+        $this->calculateCoupling($fetch->typeRef);
     }
 
     /**
      * Visits the given class constant fetch ast node.
      *
      * @param PHPParser_Node_Expr_ClassConstFetch $fetch
+     *
      * @return void
      */
-    public function visitExprClassConstFetchBefore( PHPParser_Node_Expr_ClassConstFetch $fetch )
+    public function visitExprClassConstFetchBefore(PHPParser_Node_Expr_ClassConstFetch $fetch)
     {
-        $this->calculateCoupling( $fetch->typeRef );
+        $this->calculateCoupling($fetch->typeRef);
     }
 
     /**
      * Visits a function call ast node.
      *
      * @param PHPParser_Node_Expr_FuncCall $call
+     *
      * @return void
      */
-    public function visitExprFuncCallBefore( PHPParser_Node_Expr_FuncCall $call )
+    public function visitExprFuncCallBefore(PHPParser_Node_Expr_FuncCall $call)
     {
-        $this->updateInvokes( $call );
+        $this->updateInvokes($call);
     }
 
     /**
      * Visits an object method call.
      *
      * @param PHPParser_Node_Expr_MethodCall $call
+     *
      * @return void
      */
-    public function visitExprMethodCallBefore( PHPParser_Node_Expr_MethodCall $call )
+    public function visitExprMethodCallBefore(PHPParser_Node_Expr_MethodCall $call)
     {
-        $this->updateInvokes( $call );
+        $this->updateInvokes($call);
     }
 
     /**
      * Updates the number of invokes.
      *
      * @param PHPParser_Node_Expr $expr
+     *
      * @return void
      */
-    private function updateInvokes( PHPParser_Node_Expr $expr )
+    private function updateInvokes(PHPParser_Node_Expr $expr)
     {
         $clone       = clone $expr;
         $clone->args = array();
 
-        $this->invokes[] = $this->serializer->prettyPrintExpr( $clone );
+        $this->invokes[] = $this->serializer->prettyPrintExpr($clone);
     }
 
     /**
      * Calculates the coupling between the given types.
      *
      * @param PHP_Depend_AST_Type $afferentType
+     *
      * @return void
      * @since 0.10.2
      */
-    private function calculateCoupling( PHP_Depend_AST_Type $afferentType = null )
+    private function calculateCoupling(PHP_Depend_AST_Type $afferentType = null)
     {
-        if ( null === $afferentType )
-        {
+        if (null === $afferentType) {
             return;
         }
 
-        if ( $this->currentNode instanceof PHP_Depend_AST_Type && (
-            $afferentType->isSubtypeOf( $this->currentNode ) ||
-                $this->currentNode->isSubtypeOf( $afferentType ) )
-        )
-        {
+        if ($this->currentNode instanceof PHP_Depend_AST_Type && (
+            $afferentType->isSubtypeOf($this->currentNode) ||
+                $this->currentNode->isSubtypeOf($afferentType))
+        ) {
             return;
         }
 
         $afferentId = $afferentType->getId();
         $efferentId = $this->currentNode->getId();
 
-        $this->initCouplingMap( $afferentType );
-        if ( !isset( $this->couplingMap[$afferentId][self::M_CA][$efferentId] ) )
-        {
+        $this->initCouplingMap($afferentType);
+        if (!isset($this->couplingMap[$afferentId][self::M_CA][$efferentId])) {
             $this->couplingMap[$afferentId][self::M_CA][$efferentId] = true;
             ++$this->fanout;
         }
 
-        if ( !( $this->currentNode instanceof PHP_Depend_AST_Type ) )
-        {
+        if (!($this->currentNode instanceof PHP_Depend_AST_Type)) {
             return;
         }
 
@@ -550,13 +556,13 @@ class PHP_Depend_Metrics_Coupling_Analyzer
      * given class or interface instance.
      *
      * @param PHP_Depend_AST_Type $type
+     *
      * @return void
      * @since 0.10.2
      */
-    private function initCouplingMap( PHP_Depend_AST_Type $type )
+    private function initCouplingMap(PHP_Depend_AST_Type $type)
     {
-        if ( isset( $this->couplingMap[$type->getId()] ) )
-        {
+        if (isset($this->couplingMap[$type->getId()])) {
             return;
         }
 

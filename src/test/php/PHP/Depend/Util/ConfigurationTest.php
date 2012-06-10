@@ -62,11 +62,11 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @link       http://pdepend.org/
  * @since      0.10.0
  *
- * @covers PHP_Depend_Util_Configuration
- * @group pdepend
- * @group pdepend::util
- * @group pdepend::util::configuration
- * @group unittest
+ * @covers     PHP_Depend_Util_Configuration
+ * @group      pdepend
+ * @group      pdepend::util
+ * @group      pdepend::util::configuration
+ * @group      unittest
  */
 class PHP_Depend_Util_ConfigurationTest extends PHP_Depend_AbstractTest
 {

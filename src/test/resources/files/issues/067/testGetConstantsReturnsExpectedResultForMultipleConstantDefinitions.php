@@ -5,4 +5,5 @@ class testGetConstantsReturnsExpectedResultForMultipleConstantDefinitions
     const BAZ = 23;
     const FOO = 42;
 }
+
 ?>

@@ -1,4 +1,7 @@
 <?php
 namespace baz;
-interface Bar extends namespace\foo\Foo {}
+interface Bar extends namespace\foo\Foo
+{
+}
+
 ?>

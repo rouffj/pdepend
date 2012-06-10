@@ -1,3 +1,6 @@
 <?php
-function foo_067_022($bar) {}
+function foo_067_022($bar)
+{
+}
+
 ?>

@@ -2,12 +2,15 @@
 /**
  * Foobar
  */
-abstract class Foo {
-    
+abstract class Foo
+{
+
 }
 
-class Bar extends Foo {
-    public function foo() {
+class Bar extends Foo
+{
+    public function foo()
+    {
         FooBar::bar();
         $bar = 'foo';
         $foo = true;

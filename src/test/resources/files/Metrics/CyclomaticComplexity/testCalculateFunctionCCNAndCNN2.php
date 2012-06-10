@@ -2,21 +2,22 @@
 function pdepend1($x)
 {
     switch ($x) {
-    case 'a':
-        if ($a === true) {
-             
-        } else if ($a === false && $a !== 17) {
-            
-        } else {
-            
-        }
-        break;
-        
-    default:
-        if ($a === true) {}
-        break;
+        case 'a':
+            if ($a === true) {
+
+            } else if ($a === false && $a !== 17) {
+
+            } else {
+
+            }
+            break;
+
+        default:
+            if ($a === true) {
+            }
+            break;
     }
-        
+
 }
 
 function pdepend2($x)
@@ -31,7 +32,8 @@ function pdepend2($x)
                 } else if ($x->get($i) === 1 or false) {
                     return false;
                 }
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
  * FANOUT := 9
  * CALLS  := 10
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 
@@ -13,7 +13,7 @@
  * FANOUT := 7
  * CALLS  := 10
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 class MyMethodCouplingClass
@@ -78,7 +78,7 @@ class MyMethodCouplingClass
  * FANOUT := 2
  * CALLS  := 0
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 interface MyMethodCouplingInterface

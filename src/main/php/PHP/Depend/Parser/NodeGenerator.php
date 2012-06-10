@@ -97,20 +97,18 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
      *  * otherwise: $node is set to the return value
      *
      * @param PHPParser_Node $node
+     *
      * @return null|PHPParser_Node
      */
-    public function enterNode( PHPParser_Node $node )
+    public function enterNode(PHPParser_Node $node)
     {
-        if ( $node instanceof PHPParser_Node_Stmt_Class
+        if ($node instanceof PHPParser_Node_Stmt_Class
             || $node instanceof PHPParser_Node_Stmt_Interface
-        )
-        {
-            $this->declaringType    = (string) $node->namespacedName;
-            $this->declaringPackage = $this->extractNamespaceName( $node );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Namespace )
-        {
-            $this->declaringNamespace = (string) $node->name;
+        ) {
+            $this->declaringType    = (string)$node->namespacedName;
+            $this->declaringPackage = $this->extractNamespaceName($node);
+        } else if ($node instanceof PHPParser_Node_Stmt_Namespace) {
+            $this->declaringNamespace = (string)$node->name;
         }
     }
 
@@ -119,31 +117,27 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
      * node attribute named <b>"id"</b>.
      *
      * @param PHPParser_Node $node Node
+     *
      * @return null|PHPParser_Node
      */
-    public function leaveNode( PHPParser_Node $node )
+    public function leaveNode(PHPParser_Node $node)
     {
         $newNode = null;
-        if ( $node instanceof PHPParser_Node_Stmt_Namespace )
-        {
+        if ($node instanceof PHPParser_Node_Stmt_Namespace) {
             $newNode = new PHP_Depend_AST_Namespace(
-                $node, new PHP_Depend_AST_NamespaceRefs( $this->context )
+                $node, new PHP_Depend_AST_NamespaceRefs($this->context)
             );
 
             $this->declaringNamespace = null;
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Class )
-        {
+        } else if ($node instanceof PHPParser_Node_Stmt_Class) {
             $parentClassId = null;
-            if ( $node->extends )
-            {
-                $parentClassId = (string) $node->extends;
+            if ($node->extends) {
+                $parentClassId = (string)$node->extends;
             }
 
             $implemented = array();
-            foreach ( $node->implements as $implements )
-            {
-                $implemented[] = (string) $implements;
+            foreach ($node->implements as $implements) {
+                $implemented[] = (string)$implements;
             }
 
             $newNode = $this->wrapOptionalNamespace(
@@ -151,7 +145,7 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                     $node,
                     new PHP_Depend_AST_ClassRefs(
                         $this->context,
-                        $this->extractNamespaceName( $node ),
+                        $this->extractNamespaceName($node),
                         $parentClassId,
                         $implemented
                     )
@@ -160,13 +154,10 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
 
             $this->declaringType    = null;
             $this->declaringPackage = null;
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Interface )
-        {
+        } else if ($node instanceof PHPParser_Node_Stmt_Interface) {
             $extends = array();
-            foreach ( $node->extends as $extend )
-            {
-                $extends[] = (string) $extend;
+            foreach ($node->extends as $extend) {
+                $extends[] = (string)$extend;
             }
 
             $newNode = $this->wrapOptionalNamespace(
@@ -174,7 +165,7 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                     $node,
                     new PHP_Depend_AST_InterfaceRefs(
                         $this->context,
-                        $this->extractNamespaceName( $node ),
+                        $this->extractNamespaceName($node),
                         $extends
                     )
                 )
@@ -182,25 +173,20 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
 
             $this->declaringType    = null;
             $this->declaringPackage = null;
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_PropertyProperty )
-        {
+        } else if ($node instanceof PHPParser_Node_Stmt_PropertyProperty) {
             $newNode = new PHP_Depend_AST_Property(
                 $node,
                 new PHP_Depend_AST_PropertyRefs(
                     $this->context,
-                    $this->extractNamespaceName( $node ),
+                    $this->extractNamespaceName($node),
                     $this->declaringType,
-                    (string) $node->type
+                    (string)$node->type
                 )
             );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_ClassMethod )
-        {
+        } else if ($node instanceof PHPParser_Node_Stmt_ClassMethod) {
             $thrownExceptions = array();
-            foreach ( $node->exceptions as $exception )
-            {
-                $thrownExceptions[] = new PHP_Depend_AST_TypeRef( $this->context, (string) $exception );
+            foreach ($node->exceptions as $exception) {
+                $thrownExceptions[] = new PHP_Depend_AST_TypeRef($this->context, (string)$exception);
             }
 
             $newNode = new PHP_Depend_AST_Method(
@@ -210,18 +196,15 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                 ),
                 new PHP_Depend_AST_MethodRefs(
                     $this->context,
-                    $this->extractNamespaceName( $node ),
+                    $this->extractNamespaceName($node),
                     $this->declaringType,
-                    (string) $node->returnType
+                    (string)$node->returnType
                 )
             );
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Function )
-        {
+        } else if ($node instanceof PHPParser_Node_Stmt_Function) {
             $thrownExceptions = array();
-            foreach ( $node->exceptions as $exception )
-            {
-                $thrownExceptions[] = new PHP_Depend_AST_TypeRef( $this->context, (string) $exception );
+            foreach ($node->exceptions as $exception) {
+                $thrownExceptions[] = new PHP_Depend_AST_TypeRef($this->context, (string)$exception);
             }
 
             $newNode = $this->wrapOptionalNamespace(
@@ -232,42 +215,30 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
                     ),
                     new PHP_Depend_AST_FunctionRefs(
                         $this->context,
-                        $this->extractNamespaceName( $node ),
-                        (string) $node->returnType
+                        $this->extractNamespaceName($node),
+                        (string)$node->returnType
                     )
                 )
             );
 
             $this->declaringPackage = null;
-        }
-        else if ( $node instanceof PHPParser_Node_Stmt_Catch )
-        {
-            $node->typeRef = new PHP_Depend_AST_TypeRef( $this->context, (string) $node->type );
-        }
-        else if ( $node instanceof PHPParser_Node_Expr_StaticCall
+        } else if ($node instanceof PHPParser_Node_Stmt_Catch) {
+            $node->typeRef = new PHP_Depend_AST_TypeRef($this->context, (string)$node->type);
+        } else if ($node instanceof PHPParser_Node_Expr_StaticCall
             || $node instanceof PHPParser_Node_Expr_StaticPropertyFetch
             || $node instanceof PHPParser_Node_Expr_ClassConstFetch
             || $node instanceof PHPParser_Node_Expr_New
             || $node instanceof PHPParser_Node_Expr_Instanceof
-        )
-        {
-            if ( $node->class instanceof PHPParser_Node_Name )
-            {
-                $node->typeRef = new PHP_Depend_AST_TypeRef( $this->context, (string) $node->class );
-            }
-            else
-            {
+        ) {
+            if ($node->class instanceof PHPParser_Node_Name) {
+                $node->typeRef = new PHP_Depend_AST_TypeRef($this->context, (string)$node->class);
+            } else {
                 $node->typeRef = null;
             }
-        }
-        else if ( $node instanceof PHPParser_Node_Param )
-        {
-            if ( $node->type instanceof PHPParser_Node_Name )
-            {
-                $node->typeRef = new PHP_Depend_AST_TypeRef( $this->context, (string) $node->type );
-            }
-            else
-            {
+        } else if ($node instanceof PHPParser_Node_Param) {
+            if ($node->type instanceof PHPParser_Node_Name) {
+                $node->typeRef = new PHP_Depend_AST_TypeRef($this->context, (string)$node->type);
+            } else {
                 $node->typeRef = null;
             }
         }
@@ -285,23 +256,19 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
      * this method returns the pseudo global namespace.
      *
      * @param PHPParser_Node $node
+     *
      * @return string
      */
-    private function extractNamespaceName( PHPParser_Node $node )
+    private function extractNamespaceName(PHPParser_Node $node)
     {
-        if ( is_string( $this->declaringNamespace ) )
-        {
+        if (is_string($this->declaringNamespace)) {
             return $this->declaringNamespace;
-        }
-        else if ( preg_match( '(\*\s*@package\s+([^\s\*]+))', $node->getDocComment(), $match ) )
-        {
-            return ( $this->declaringPackage = $match[1] );
-        }
-        else if ( is_string( $this->declaringPackage ) )
-        {
+        } else if (preg_match('(\*\s*@package\s+([^\s\*]+))', $node->getDocComment(), $match)) {
+            return ($this->declaringPackage = $match[1]);
+        } else if (is_string($this->declaringPackage)) {
             return $this->declaringPackage;
         }
-        return ( $this->declaringPackage = "+global" );
+        return ($this->declaringPackage = "+global");
     }
 
     /**
@@ -309,22 +276,22 @@ class PHP_Depend_Parser_NodeGenerator extends PHPParser_NodeVisitorAbstract
      * when the node itself is not within a valid php namespace.
      *
      * @param PHP_Depend_AST_Node $node
+     *
      * @return PHP_Depend_AST_Namespace|PHP_Depend_AST_Node
      */
-    private function wrapOptionalNamespace( PHP_Depend_AST_Node $node )
+    private function wrapOptionalNamespace(PHP_Depend_AST_Node $node)
     {
-        if ( is_string( $this->declaringNamespace ) )
-        {
+        if (is_string($this->declaringNamespace)) {
             return $node;
         }
 
         return new PHP_Depend_AST_Namespace(
             new PHPParser_Node_Stmt_Namespace(
-                new PHPParser_Node_Name( $this->extractNamespaceName( $node ) ),
-                array( $node ),
-                array( 'id'  => $this->extractNamespaceName( $node ) . '#n' )
+                new PHPParser_Node_Name($this->extractNamespaceName($node)),
+                array($node),
+                array('id'  => $this->extractNamespaceName($node) . '#n')
             ),
-            new PHP_Depend_AST_NamespaceRefs( $this->context )
+            new PHP_Depend_AST_NamespaceRefs($this->context)
         );
     }
 }

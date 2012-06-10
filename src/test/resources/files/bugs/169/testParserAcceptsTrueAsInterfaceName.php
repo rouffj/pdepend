@@ -1,4 +1,5 @@
 <?php
-interface True {
-    
+interface True
+{
+
 }

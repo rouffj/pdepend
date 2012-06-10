@@ -5,7 +5,7 @@
 
     <xsd:element name="configuration">
         <xsd:complexType>
-            <xsd:choice minOccurs="0" maxOccurs="unbounded" >
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
                 <xsd:element ref="imageConvert" minOccurs="0" maxOccurs="1" />
                 <xsd:element ref="cache" minOccurs="0" maxOccurs="1" />
                 <xsd:element ref="parser" minOccurs="0" maxOccurs="1" />

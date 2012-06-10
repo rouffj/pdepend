@@ -2,6 +2,6 @@
 function testCalculateCCNDetectsExpressionsInAWhileLoop()
 {
     while ($a && $b && $c) {
-        
+
     }
 }

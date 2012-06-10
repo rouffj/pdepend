@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -58,13 +58,13 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-class PHP_Depend_Log_Overview_NodeLocAnalyzer 
+class PHP_Depend_Log_Overview_NodeLocAnalyzer
     extends PHP_Depend_Metrics_NodeLoc_Analyzer
 {
     public function getProjectMetrics()
     {
         return array(
-            'eloc'  =>  35175
+            'eloc'  => 35175
         );
     }
 }

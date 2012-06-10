@@ -3,6 +3,6 @@ class testNPathComplexityIsZeroForEmptyMethod
 {
     function testNPathComplexityIsZeroForEmptyMethod()
     {
-        
+
     }
 }

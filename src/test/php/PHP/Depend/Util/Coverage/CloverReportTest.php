@@ -60,11 +60,11 @@ require_once dirname(__FILE__) . '/../../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Util_Coverage_CloverReport
- * @group pdepend
- * @group pdepend::util
- * @group pdepend::util::coverage
- * @group unittest
+ * @covers     PHP_Depend_Util_Coverage_CloverReport
+ * @group      pdepend
+ * @group      pdepend::util
+ * @group      pdepend::util::coverage
+ * @group      unittest
  */
 class PHP_Depend_Util_Coverage_CloverReportTest extends PHP_Depend_AbstractTest
 {

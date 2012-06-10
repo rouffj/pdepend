@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -72,12 +72,12 @@ class PHP_Depend_Log_LoggerFactoryTest extends PHP_Depend_AbstractTest
     {
         $factory = new PHP_Depend_Log_LoggerFactory();
         $logger  = $factory->createLogger('summary-xml', 'pdepend.xml');
-        
+
         $this->assertInstanceOf(PHP_Depend_Log_Summary_Xml::CLAZZ, $logger);
     }
-    
+
     /**
-     * Tests the singleton behaviour of the logger factory method 
+     * Tests the singleton behaviour of the logger factory method
      * {@link PHP_Depend_Log_LoggerFactory::createLogger()}.
      *
      * @return void
@@ -91,7 +91,7 @@ class PHP_Depend_Log_LoggerFactoryTest extends PHP_Depend_AbstractTest
         $this->assertInstanceOf(PHP_Depend_Log_Summary_Xml::CLAZZ, $logger1);
         $this->assertSame($logger1, $logger2);
     }
-    
+
     /**
      * Tests that {@link PHP_Depend_Log_LoggerFactory::createLogger()} fails with
      * an exception for an invalid logger identifier.
@@ -104,7 +104,7 @@ class PHP_Depend_Log_LoggerFactoryTest extends PHP_Depend_AbstractTest
             'RuntimeException',
             "Unknown logger class 'PHP_Depend_Log_FooBar_Xml'."
         );
-        
+
         $factory = new PHP_Depend_Log_LoggerFactory();
         $factory->createLogger('foo-bar-xml', 'pdepend.xml');
     }

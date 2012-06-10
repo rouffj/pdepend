@@ -1,8 +1,12 @@
 <?php
 namespace a {
-    class testChangedSourceFileGetsProcessed {}
+    class testChangedSourceFileGetsProcessed
+    {
+    }
 }
 
 namespace b {
-    class testChangedSourceFileGetsProcessed {}
+    class testChangedSourceFileGetsProcessed
+    {
+    }
 }

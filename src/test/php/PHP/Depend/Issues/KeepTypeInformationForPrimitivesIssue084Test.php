@@ -61,11 +61,11 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://www.pdepend.org/
  *
- * @covers PHP_Depend_Parser
- * @group pdepend
- * @group pdepend::issues
- * @group pdepend::parser
- * @group unittest
+ * @covers     PHP_Depend_Parser
+ * @group      pdepend
+ * @group      pdepend::issues
+ * @group      pdepend::parser
+ * @group      unittest
  */
 class PHP_Depend_Issues_KeepTypeInformationForPrimitivesIssue084Test
     extends PHP_Depend_Issues_AbstractTest
@@ -75,14 +75,14 @@ class PHP_Depend_Issues_KeepTypeInformationForPrimitivesIssue084Test
      *
      * @param string $actual   The actual used type identifier.
      * @param string $expected The expected primitive type image.
-     * 
+     *
      * @return void
      * @dataProvider dataProviderParserSetsExpectedPrimitivePropertyType
      */
     public function testParserSetsExpectedPrimitivePropertyType($actual, $expected)
     {
         $packages = self::parseTestCase(__METHOD__ . '_' . $actual);
-        
+
         $type = $packages->current()
             ->getClasses()
             ->current()
@@ -137,15 +137,15 @@ class PHP_Depend_Issues_KeepTypeInformationForPrimitivesIssue084Test
     public static function dataProviderParserSetsExpectedPrimitivePropertyType()
     {
         return array(
-            array('int',     'integer'),
+            array('int', 'integer'),
             array('INTEger', 'integer'),
-            array('float',   'float'),
-            array('real',    'float'),
-            array('double',  'float'),
-            array('bool',    'boolean'),
+            array('float', 'float'),
+            array('real', 'float'),
+            array('double', 'float'),
+            array('bool', 'boolean'),
             array('boolean', 'boolean'),
-            array('false',   'boolean'),
-            array('true',    'boolean'),
+            array('false', 'boolean'),
+            array('true', 'boolean'),
         );
     }
 }

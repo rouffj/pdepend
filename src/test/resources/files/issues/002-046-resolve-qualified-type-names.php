@@ -1,5 +1,7 @@
 <?php
 namespace foo {
-    interface Bar extends foo\Foo {}
+    interface Bar extends foo\Foo
+    {
+    }
 }
 ?>

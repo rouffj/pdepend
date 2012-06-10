@@ -112,10 +112,10 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      * @param string $root     The cache root directory.
      * @param string $cacheKey Unique key for this cache instance.
      */
-    public function __construct( $root, $cacheKey = null )
+    public function __construct($root, $cacheKey = null)
     {
-        $this->directory = new PHP_Depend_Util_Cache_Driver_File_Directory( $root );
-        $this->version   = preg_replace( '(^(\d+\.\d+).*)', '\\1', phpversion() );
+        $this->directory = new PHP_Depend_Util_Cache_Driver_File_Directory($root);
+        $this->version   = preg_replace('(^(\d+\.\d+).*)', '\\1', phpversion());
 
         $this->_cacheKey = $cacheKey;
     }
@@ -132,7 +132,7 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return PHP_Depend_Util_Cache_Driver
      */
-    public function type( $type )
+    public function type($type)
     {
         $this->type = $type;
         return $this;
@@ -151,10 +151,10 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return  void
      */
-    public function store( $key, $data, $hash = null )
+    public function store($key, $data, $hash = null)
     {
-        $file = $this->getCacheFile( $key );
-        $this->write( $file, serialize( array( 'hash' => $hash, 'data' => $data ) ) );
+        $file = $this->getCacheFile($key);
+        $this->write($file, serialize(array('hash' => $hash, 'data' => $data)));
     }
 
     /**
@@ -165,13 +165,13 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return void
      */
-    protected function write( $file, $data )
+    protected function write($file, $data)
     {
-        $handle = fopen( $file, 'wb' );
-        flock( $handle, LOCK_EX );
-        fwrite( $handle, $data );
-        flock( $handle, LOCK_UN );
-        fclose( $handle );
+        $handle = fopen($file, 'wb');
+        flock($handle, LOCK_EX);
+        fwrite($handle, $data);
+        flock($handle, LOCK_UN);
+        fclose($handle);
     }
 
     /**
@@ -186,12 +186,11 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return mixed
      */
-    public function restore( $key, $hash = null )
+    public function restore($key, $hash = null)
     {
-        $file = $this->getCacheFile( $key );
-        if ( file_exists( $file ) )
-        {
-            return $this->restoreFile( $file, $hash );
+        $file = $this->getCacheFile($key);
+        if (file_exists($file)) {
+            return $this->restoreFile($file, $hash);
         }
         return null;
     }
@@ -206,11 +205,10 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return mixed
      */
-    protected function restoreFile( $file, $hash )
+    protected function restoreFile($file, $hash)
     {
-        $data = unserialize( $this->read( $file ) );
-        if ( $data['hash'] === $hash )
-        {
+        $data = unserialize($this->read($file));
+        if ($data['hash'] === $hash) {
             return $data['data'];
         }
         return null;
@@ -223,15 +221,15 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return string
      */
-    protected function read( $file )
+    protected function read($file)
     {
-        $handle = fopen( $file, 'rb' );
-        flock( $handle, LOCK_EX );
+        $handle = fopen($file, 'rb');
+        flock($handle, LOCK_EX);
 
-        $data = fread( $handle, filesize( $file ) );
+        $data = fread($handle, filesize($file));
 
-        flock( $handle, LOCK_UN );
-        fclose( $handle );
+        flock($handle, LOCK_UN);
+        fclose($handle);
 
         return $data;
     }
@@ -246,12 +244,11 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return void
      */
-    public function remove( $pattern )
+    public function remove($pattern)
     {
-        $file = $this->getCacheFileWithoutExtension( $pattern );
-        foreach ( glob( "{$file}*.*" ) as $f )
-        {
-            unlink( $f );
+        $file = $this->getCacheFileWithoutExtension($pattern);
+        foreach (glob("{$file}*.*") as $f) {
+            unlink($f);
         }
     }
 
@@ -264,9 +261,9 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return string
      */
-    protected function getCacheFile( $key )
+    protected function getCacheFile($key)
     {
-        $cacheFile = $this->getCacheFileWithoutExtension( $key ) .
+        $cacheFile = $this->getCacheFileWithoutExtension($key) .
             '.' . $this->version .
             '.' . $this->type;
 
@@ -285,14 +282,13 @@ class PHP_Depend_Util_Cache_Driver_File implements PHP_Depend_Util_Cache_Driver
      *
      * @return string
      */
-    protected function getCacheFileWithoutExtension( $key )
+    protected function getCacheFileWithoutExtension($key)
     {
-        if ( is_string( $this->_cacheKey ) )
-        {
-            $key = md5( $key . $this->_cacheKey );
+        if (is_string($this->_cacheKey)) {
+            $key = md5($key . $this->_cacheKey);
         }
 
-        $path = $this->directory->createCacheDirectory( $key );
+        $path = $this->directory->createCacheDirectory($key);
         return "{$path}/{$key}";
     }
 }

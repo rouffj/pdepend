@@ -2,5 +2,6 @@
 function foo()
 {
     Foo::bar();
-    Foo::/**/bar();
+    Foo:: /**/
+        bar();
 }

@@ -1,3 +1,6 @@
 <?php
-function foo($x = -42) {}
+function foo($x = -42)
+{
+}
+
 ?>

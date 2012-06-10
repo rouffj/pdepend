@@ -79,7 +79,8 @@ interface PHP_Depend_AST_Type extends PHP_Depend_AST_Node
      * Checks if this type is a subtype of the given <b>$type</b>.
      *
      * @param PHP_Depend_AST_Type $type
+     *
      * @return boolean
      */
-    public function isSubtypeOf( PHP_Depend_AST_Type $type );
+    public function isSubtypeOf(PHP_Depend_AST_Type $type);
 }

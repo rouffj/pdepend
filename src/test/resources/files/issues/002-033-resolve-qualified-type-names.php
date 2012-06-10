@@ -1,4 +1,7 @@
 <?php
 namespace baz;
-class Bar extends namespace\foo\Foo {}
+class Bar extends namespace\foo\Foo
+{
+}
+
 ?>

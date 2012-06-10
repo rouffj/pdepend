@@ -71,5 +71,5 @@ interface PHP_Depend_Metrics_CacheAware extends PHP_Depend_Metrics_Analyzer
      *
      * @return void
      */
-    public function setCache( PHP_Depend_Util_Cache_Driver $cache );
+    public function setCache(PHP_Depend_Util_Cache_Driver $cache);
 }

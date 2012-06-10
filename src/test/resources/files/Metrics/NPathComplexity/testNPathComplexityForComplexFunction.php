@@ -1,7 +1,7 @@
 <?php
 function testNPathComplexityForComplexFunction()
 {
-    $var1 = $var2->get();
+    $var1          = $var2->get();
     $info['class'] = ($var1 !== null) ? $var1->get() : null;
     if ($var2->is()) {
         $info['defaultValue'] = $var2->get();

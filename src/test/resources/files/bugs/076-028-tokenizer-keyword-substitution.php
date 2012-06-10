@@ -1,2 +1,5 @@
 <?php
-class Foo { const parent = 42; }
+class Foo
+{
+    const parent = 42;
+}

@@ -70,9 +70,9 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
      * Constructs a new class instance.
      *
      * @param PHPParser_Node_Stmt_Class $class
-     * @param PHP_Depend_AST_ClassRefs $refs
+     * @param PHP_Depend_AST_ClassRefs  $refs
      */
-    public function __construct( PHPParser_Node_Stmt_Class $class, PHP_Depend_AST_ClassRefs $refs )
+    public function __construct(PHPParser_Node_Stmt_Class $class, PHP_Depend_AST_ClassRefs $refs)
     {
         parent::__construct(
             $class->name,
@@ -82,13 +82,13 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
                 'implements' => $class->implements,
                 'stmts'      => $class->stmts,
             ),
-            array_merge( array( 'user_defined' => true ), $class->attributes )
+            array_merge(array('user_defined' => true), $class->attributes)
         );
 
         $this->refs           = $refs;
         $this->namespacedName = $class->namespacedName;
 
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 
     /**
@@ -98,7 +98,7 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
      */
     public function getId()
     {
-        return $this->getAttribute( 'id' );
+        return $this->getAttribute('id');
     }
 
     /**
@@ -130,10 +130,8 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
     public function getMethods()
     {
         $methods = array();
-        foreach ( $this->stmts as $stmt )
-        {
-            if ( $stmt instanceof PHP_Depend_AST_Method )
-            {
+        foreach ($this->stmts as $stmt) {
+            if ($stmt instanceof PHP_Depend_AST_Method) {
                 $methods[] = $stmt;
             }
         }
@@ -157,29 +155,26 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
      */
     public function isAbstract()
     {
-        return ( ( $this->type & self::MODIFIER_ABSTRACT ) === self::MODIFIER_ABSTRACT );
+        return (($this->type & self::MODIFIER_ABSTRACT) === self::MODIFIER_ABSTRACT);
     }
 
     /**
      * Checks if this type is a subtype of the given <b>$type</b>.
      *
      * @param PHP_Depend_AST_Type $type
+     *
      * @return boolean
      */
-    public function isSubtypeOf( PHP_Depend_AST_Type $type )
+    public function isSubtypeOf(PHP_Depend_AST_Type $type)
     {
-        if ( $type->namespacedName === $this->namespacedName )
-        {
+        if ($type->namespacedName === $this->namespacedName) {
             return true;
         }
-        if ( $this->extends && $type->isSubtypeOf( $this->refs->getParentClass() ) )
-        {
+        if ($this->extends && $type->isSubtypeOf($this->refs->getParentClass())) {
             return true;
         }
-        foreach ( $this->refs->getImplementedInterfaces() as $interface )
-        {
-            if ( $type->isSubtypeOf( $interface ) )
-            {
+        foreach ($this->refs->getImplementedInterfaces() as $interface) {
+            if ($type->isSubtypeOf($interface)) {
                 return true;
             }
         }
@@ -195,6 +190,6 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
      */
     public function __wakeup()
     {
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 }

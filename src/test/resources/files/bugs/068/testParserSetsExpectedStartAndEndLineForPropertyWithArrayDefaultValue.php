@@ -1,9 +1,11 @@
 <?php
-class Foo {
+class Foo
+{
     public $bar = array(
         'Manuel',
         'Pichler',
         'PHP_Depend',
     );
 }
+
 ?>

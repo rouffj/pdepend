@@ -2,8 +2,10 @@
 /**
  * @package foo
  */
-class Foo {
-    function bar(){
+class Foo
+{
+    function bar()
+    {
         `\$baz = new baz_$r('');`;
     }
 }

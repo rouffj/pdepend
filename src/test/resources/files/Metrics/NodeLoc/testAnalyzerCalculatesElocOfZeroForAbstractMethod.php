@@ -2,8 +2,7 @@
 abstract class testAnalyzerCalculatesElocOfZeroForAbstractMethod
 {
     protected
-        abstract
-            function
-                fooBar()
-                    ;
+    abstract
+    function
+    fooBar();
 }

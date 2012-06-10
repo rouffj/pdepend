@@ -1,3 +1,5 @@
 <?php
 namespace testParserHandlesNamespaceDeclarationWithIdentifierAndSemicolonSyntax;
-function bar() {}
+function bar()
+{
+}

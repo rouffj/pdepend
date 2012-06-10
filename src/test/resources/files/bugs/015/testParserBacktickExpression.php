@@ -1,5 +1,5 @@
 <?php
-class BugTestClass15    
+class BugTestClass15
 {
     public function bugTest15()
     {

@@ -1,7 +1,9 @@
 <?php
 namespace foo;
 
-function foo() {
+function foo()
+{
     return baz\Foo::bar();
 }
+
 ?>

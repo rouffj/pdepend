@@ -1,4 +1,5 @@
 <?php
-class Null {
-    
+class Null
+{
+
 }

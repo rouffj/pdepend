@@ -2,10 +2,15 @@
 /**
  * @package a
  */
-interface ParserI {}
+interface ParserI
+{
+}
 
 /**
  * @package a
  */
-class Parser {}
+class Parser
+{
+}
+
 ?>

@@ -2,7 +2,8 @@
 /*
  * Bar
  */
-function xyz($x, $y) {
+function xyz($x, $y)
+{
     new Foo($x, $y);
 }
 
@@ -10,7 +11,9 @@ function xyz($x, $y) {
 /**
  * Foo
  */
-class Foo {
+class Foo
+{
     // Hello world
 }
+
 ?>

@@ -6,4 +6,5 @@ class Foo extends Bar
         static::foo();
     }
 }
+
 ?>

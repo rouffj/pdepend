@@ -2,6 +2,7 @@
 /**
  * @package test
  */
-function dataProviderAnalyzerCalculatesExpectedCallCount01() {
-    
+function dataProviderAnalyzerCalculatesExpectedCallCount01()
+{
+
 }

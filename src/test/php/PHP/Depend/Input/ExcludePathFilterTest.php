@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Input_ExcludePathFilter
- * @group pdepend
- * @group pdepend::input
- * @group unittest
+ * @covers     PHP_Depend_Input_ExcludePathFilter
+ * @group      pdepend
+ * @group      pdepend::input
+ * @group      unittest
  */
 class PHP_Depend_Input_ExcludePathFilterTest extends PHP_Depend_AbstractTest
 {
@@ -227,7 +227,7 @@ class PHP_Depend_Input_ExcludePathFilterTest extends PHP_Depend_AbstractTest
         $actual = array();
         foreach ($files as $file) {
             if ($filter->accept($file, $file)
-                && $file->isFile() 
+                && $file->isFile()
                 && false === stripos($file->getPathname(), '.svn')
             ) {
                 $actual[] = $file->getFilename();

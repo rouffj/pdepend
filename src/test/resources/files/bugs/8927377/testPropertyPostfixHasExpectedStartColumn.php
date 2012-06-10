@@ -3,7 +3,7 @@ class testPropertyPostfixHasExpectedStartColumn
 {
     protected function foo()
     {
-        $this->bar
-            /* */;
+        $this->bar/* */
+        ;
     }
 }

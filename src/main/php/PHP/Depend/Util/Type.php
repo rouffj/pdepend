@@ -247,14 +247,14 @@ final class PHP_Depend_Util_Type
      *
      * @return boolean
      */
-    public static function isInternalType( $typeName )
+    public static function isInternalType($typeName)
     {
         self::_initTypeToExtension();
 
-        $normalizedName = ltrim( $typeName, '\\' );
-        $normalizedName = strtolower( $normalizedName );
+        $normalizedName = ltrim($typeName, '\\');
+        $normalizedName = strtolower($normalizedName);
 
-        return isset( self::$_typeNameToExtension[$normalizedName] );
+        return isset(self::$_typeNameToExtension[$normalizedName]);
     }
 
     /**
@@ -265,14 +265,13 @@ final class PHP_Depend_Util_Type
      *
      * @return string
      */
-    public static function getTypePackage( $typeName )
+    public static function getTypePackage($typeName)
     {
         self::_initTypeToExtension();
 
-        $normalizedName = ltrim( $typeName, '\\' );
-        $normalizedName = strtolower( $normalizedName );
-        if ( isset( self::$_typeNameToExtension[$normalizedName] ) )
-        {
+        $normalizedName = ltrim($typeName, '\\');
+        $normalizedName = strtolower($normalizedName);
+        if (isset(self::$_typeNameToExtension[$normalizedName])) {
             return self::$_typeNameToExtension[$normalizedName];
         }
         return null;
@@ -285,12 +284,11 @@ final class PHP_Depend_Util_Type
      */
     public static function getInternalPackages()
     {
-        if ( self::$_internalPackages === null )
-        {
-            $extensions = array_values( self::_initTypeToExtension() );
-            $extensions = array_unique( $extensions );
+        if (self::$_internalPackages === null) {
+            $extensions = array_values(self::_initTypeToExtension());
+            $extensions = array_unique($extensions);
 
-            self::$_internalPackages = array_combine( $extensions, $extensions );
+            self::$_internalPackages = array_combine($extensions, $extensions);
         }
         return self::$_internalPackages;
     }
@@ -303,10 +301,10 @@ final class PHP_Depend_Util_Type
      *
      * @return boolean
      */
-    public static function isInternalPackage( $packageName )
+    public static function isInternalPackage($packageName)
     {
         $packageNames = self::getInternalPackages();
-        return isset( $packageNames[strtolower( $packageName )] );
+        return isset($packageNames[strtolower($packageName)]);
     }
 
     /**
@@ -317,19 +315,17 @@ final class PHP_Depend_Util_Type
      *
      * @return boolean
      */
-    public static function isScalarType( $image )
+    public static function isScalarType($image)
     {
-        $image = strtolower( $image );
-        if ( isset( self::$_scalarTypes[$image] ) === true )
-        {
+        $image = strtolower($image);
+        if (isset(self::$_scalarTypes[$image]) === true) {
             return true;
         }
-        $image = metaphone( $image );
-        if ( isset( self::$_scalarTypes[$image] ) === true )
-        {
+        $image = metaphone($image);
+        if (isset(self::$_scalarTypes[$image]) === true) {
             return true;
         }
-        return isset( self::$_scalarTypes[soundex( $image )] );
+        return isset(self::$_scalarTypes[soundex($image)]);
     }
 
     /**
@@ -341,9 +337,9 @@ final class PHP_Depend_Util_Type
      * @return boolean
      * @since 0.9.6
      */
-    public static function isPrimitiveType( $image )
+    public static function isPrimitiveType($image)
     {
-        return ( self::getPrimitiveType( $image ) !== null );
+        return (self::getPrimitiveType($image) !== null);
     }
 
     /**
@@ -355,21 +351,18 @@ final class PHP_Depend_Util_Type
      * @return string
      * @since 0.9.6
      */
-    public static function getPrimitiveType( $image )
+    public static function getPrimitiveType($image)
     {
-        $image = strtolower( $image );
-        if ( isset( self::$_primitiveTypes[$image] ) === true )
-        {
+        $image = strtolower($image);
+        if (isset(self::$_primitiveTypes[$image]) === true) {
             return self::$_primitiveTypes[$image];
         }
-        $image = metaphone( $image );
-        if ( isset( self::$_primitiveTypes[$image] ) === true )
-        {
+        $image = metaphone($image);
+        if (isset(self::$_primitiveTypes[$image]) === true) {
             return self::$_primitiveTypes[$image];
         }
-        $image = soundex( $image );
-        if ( isset( self::$_primitiveTypes[$image] ) === true )
-        {
+        $image = soundex($image);
+        if (isset(self::$_primitiveTypes[$image]) === true) {
             return self::$_primitiveTypes[$image];
         }
         return null;
@@ -384,9 +377,9 @@ final class PHP_Depend_Util_Type
      * @return boolean
      * @since 0.9.6
      */
-    public static function isArrayType( $image )
+    public static function isArrayType($image)
     {
-        return ( strtolower( $image ) === 'array' );
+        return (strtolower($image) === 'array');
     }
 
     /**
@@ -399,25 +392,22 @@ final class PHP_Depend_Util_Type
     private static function _initTypeToExtension()
     {
         // Skip when already done.
-        if ( self::$_typeNameToExtension !== null )
-        {
+        if (self::$_typeNameToExtension !== null) {
             return self::$_typeNameToExtension;
         }
 
-        self::$_typeNameToExtension = array( 'iterator' => '+standard' );
+        self::$_typeNameToExtension = array('iterator' => '+standard');
 
         $extensionNames = get_loaded_extensions();
-        $extensionNames = array_map( 'strtolower', $extensionNames );
+        $extensionNames = array_map('strtolower', $extensionNames);
 
-        foreach ( $extensionNames as $extensionName )
-        {
-            $extension = new ReflectionExtension( $extensionName );
+        foreach ($extensionNames as $extensionName) {
+            $extension = new ReflectionExtension($extensionName);
 
             $classNames = $extension->getClassNames();
-            $classNames = array_map( 'strtolower', $classNames );
+            $classNames = array_map('strtolower', $classNames);
 
-            foreach ( $classNames as $className )
-            {
+            foreach ($classNames as $className) {
                 self::$_typeNameToExtension[$className] = '+' . $extensionName;
             }
         }

@@ -2,7 +2,7 @@
 class z_testGetConstantsReturnsExpectedResultForMultipleInheritedConstantDefinitions
 {
     const BAZ = 11,
-          F00 = 7;
+        F00   = 7;
 }
 
 class y_testGetConstantsReturnsExpectedResultForMultipleInheritedConstantDefinitions
@@ -16,6 +16,7 @@ class testGetConstantsReturnsExpectedResultForMultipleInheritedConstantDefinitio
     extends y_testGetConstantsReturnsExpectedResultForMultipleInheritedConstantDefinitions
 {
     const FOO = 42,
-          BAR = 23;
+        BAR   = 23;
 }
+
 ?>

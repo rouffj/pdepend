@@ -1,5 +1,7 @@
 <?php
-interface testParserSetsSourceFileForInterfaceMethod {
+interface testParserSetsSourceFileForInterfaceMethod
+{
     function foo();
 }
+
 ?>

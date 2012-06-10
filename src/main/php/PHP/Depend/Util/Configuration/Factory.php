@@ -118,15 +118,14 @@ class PHP_Depend_Util_Configuration_Factory
      * @throws InvalidArgumentException If the given file does not point to an
      *         existing configuration file.
      */
-    public function create( $file )
+    public function create($file)
     {
-        if ( false === file_exists( $file ) )
-        {
+        if (false === file_exists($file)) {
             throw new InvalidArgumentException(
-                sprintf( 'The configuration file "%s" doesn\'t exist.', $file )
+                sprintf('The configuration file "%s" doesn\'t exist.', $file)
             );
         }
-        return new PHP_Depend_Util_Configuration( $this->read( $file ) );
+        return new PHP_Depend_Util_Configuration($this->read($file));
     }
 
     /**
@@ -147,15 +146,13 @@ class PHP_Depend_Util_Configuration_Factory
     public function createDefault()
     {
         $fileName = getcwd() . DIRECTORY_SEPARATOR . 'pdepend.xml';
-        if ( file_exists( $fileName . '.dist' ) )
-        {
-            $this->read( $fileName . '.dist' );
+        if (file_exists($fileName . '.dist')) {
+            $this->read($fileName . '.dist');
         }
-        if ( file_exists( $fileName ) )
-        {
-            $this->read( $fileName );
+        if (file_exists($fileName)) {
+            $this->read($fileName);
         }
-        return new PHP_Depend_Util_Configuration( $this->default );
+        return new PHP_Depend_Util_Configuration($this->default);
     }
 
     /**
@@ -166,10 +163,10 @@ class PHP_Depend_Util_Configuration_Factory
      *
      * @return stdClass
      */
-    protected function read( $file )
+    protected function read($file)
     {
         $parser = $this->createOrReturnParser();
-        $parser->parse( $file );
+        $parser->parse($file);
 
         return $this->default;
     }
@@ -182,9 +179,8 @@ class PHP_Depend_Util_Configuration_Factory
      */
     protected function createOrReturnParser()
     {
-        if ( null === $this->parser )
-        {
-            $this->parser = new PHP_Depend_Util_Configuration_Parser( $this->default );
+        if (null === $this->parser) {
+            $this->parser = new PHP_Depend_Util_Configuration_Parser($this->default);
         }
         return $this->parser;
     }

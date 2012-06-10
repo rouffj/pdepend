@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -61,10 +61,10 @@ require_once dirname(__FILE__) . '/DefaultVisitorDummy.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Visitor_AbstractVisitor
- * @group pdepend
- * @group pdepend::visitor
- * @group unittest
+ * @covers     PHP_Depend_Visitor_AbstractVisitor
+ * @group      pdepend
+ * @group      pdepend::visitor
+ * @group      unittest
  */
 class PHP_Depend_Visitor_DefaultVisitorTest extends PHP_Depend_AbstractTest
 {
@@ -76,12 +76,12 @@ class PHP_Depend_Visitor_DefaultVisitorTest extends PHP_Depend_AbstractTest
     public function testDefaultVisitOrder()
     {
         $packages = self::parseCodeResourceForTest();
-        
-        $visitor = new PHP_Depend_Visitor_DefaultVisitorDummy();        
+
+        $visitor = new PHP_Depend_Visitor_DefaultVisitorDummy();
         foreach ($packages as $package) {
             $package->accept($visitor);
         }
-        
+
         $expected = array(
             'pkgA',
             'classB',
@@ -100,13 +100,13 @@ class PHP_Depend_Visitor_DefaultVisitorTest extends PHP_Depend_AbstractTest
             'funcD',
             'PHP_Depend_Code_File'
         );
-        
+
         self::assertEquals($expected, $visitor->visits);
     }
 
     /**
      * testVisitorVisitsFunctionParameter
-     * 
+     *
      * @return void
      */
     public function testVisitorVisitsFunctionParameter()
@@ -144,7 +144,7 @@ class PHP_Depend_Visitor_DefaultVisitorTest extends PHP_Depend_AbstractTest
     public function testVisitorInvokesStartVisitParameterOnListener()
     {
         $packages = self::parseCodeResourceForTest();
-        
+
         $listener = $this->getMock('PHP_Depend_Visitor_ListenerI');
         $listener->expects($this->exactly(2))
             ->method('startVisitParameter');

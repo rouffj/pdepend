@@ -1,5 +1,9 @@
 <?php
-function foo($data) {
-    array_walk($data, function($x) {});
+function foo($data)
+{
+    array_walk($data, function($x)
+    {
+    });
 }
+
 ?>

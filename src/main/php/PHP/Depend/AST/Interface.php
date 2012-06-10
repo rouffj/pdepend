@@ -72,9 +72,9 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
      * Constructs a new interface instance.
      *
      * @param PHPParser_Node_Stmt_Interface $interface
-     * @param PHP_Depend_AST_InterfaceRefs $refs
+     * @param PHP_Depend_AST_InterfaceRefs  $refs
      */
-    public function __construct( PHPParser_Node_Stmt_Interface $interface, PHP_Depend_AST_InterfaceRefs $refs )
+    public function __construct(PHPParser_Node_Stmt_Interface $interface, PHP_Depend_AST_InterfaceRefs $refs)
     {
         parent::__construct(
             $interface->name,
@@ -88,7 +88,7 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
         $this->refs           = $refs;
         $this->namespacedName = $interface->namespacedName;
 
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 
     /**
@@ -98,7 +98,7 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
      */
     public function getId()
     {
-        return $this->getAttribute( 'id' );
+        return $this->getAttribute('id');
     }
 
     /**
@@ -119,10 +119,8 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
     public function getMethods()
     {
         $methods = array();
-        foreach ( $this->stmts as $stmt )
-        {
-            if ( $stmt instanceof PHP_Depend_AST_Method )
-            {
+        foreach ($this->stmts as $stmt) {
+            if ($stmt instanceof PHP_Depend_AST_Method) {
                 $methods[] = $stmt;
             }
         }
@@ -133,18 +131,16 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
      * Checks if this type is a subtype of the given <b>$type</b>.
      *
      * @param PHP_Depend_AST_Type $type
+     *
      * @return boolean
      */
-    public function isSubtypeOf( PHP_Depend_AST_Type $type )
+    public function isSubtypeOf(PHP_Depend_AST_Type $type)
     {
-        if ( $type->namespacedName === $this->namespacedName )
-        {
+        if ($type->namespacedName === $this->namespacedName) {
             return true;
         }
-        foreach ( $this->refs->getParentInterfaces() as $interface )
-        {
-            if ( $type->isSubtypeOf( $interface ) )
-            {
+        foreach ($this->refs->getParentInterfaces() as $interface) {
+            if ($type->isSubtypeOf($interface)) {
                 return true;
             }
         }
@@ -160,6 +156,6 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
      */
     public function __wakeup()
     {
-        $this->refs->initialize( $this );
+        $this->refs->initialize($this);
     }
 }

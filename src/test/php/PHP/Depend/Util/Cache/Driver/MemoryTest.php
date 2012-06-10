@@ -59,8 +59,8 @@ require_once dirname(__FILE__) . '/../AbstractDriverTest.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
- * 
- * @covers PHP_Depend_Util_Cache_Driver_Memory
+ *
+ * @covers     PHP_Depend_Util_Cache_Driver_Memory
  */
 class PHP_Depend_Util_Cache_Driver_MemoryTest
     extends PHP_Depend_Util_Cache_AbstractDriverTest

@@ -148,14 +148,14 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * </code>
      *
      * @param PHP_Depend_AST_Node|string $node The context node instance.
+     *
      * @return array
      */
-    public function getNodeMetrics( $node )
+    public function getNodeMetrics($node)
     {
-        $nodeId = (string) is_object( $node ) ? $node->getId() : $node;
+        $nodeId = (string)is_object($node) ? $node->getId() : $node;
 
-        if ( isset( $this->metrics[$nodeId] ) )
-        {
+        if (isset($this->metrics[$nodeId])) {
             return $this->metrics[$nodeId];
         }
         return array();
@@ -179,8 +179,8 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
             self::M_AVERAGE_NUMBER_DERIVED_CLASSES  => $this->getAverageNumberOfDerivedClasses(),
             self::M_AVERAGE_HIERARCHY_HEIGHT        => $this->getAverageHierarchyHeight(),
             self::M_MAXIMUM_INHERITANCE_DEPTH       => $this->maxDIT,
-            self::M_NUMBER_OF_LEAF_CLASSES          => $this->numberOfClasses - count( $this->noneLeafClasses ),
-            self::M_NUMBER_OF_ROOT_CLASSES          => count( $this->rootClasses ),
+            self::M_NUMBER_OF_LEAF_CLASSES          => $this->numberOfClasses - count($this->noneLeafClasses),
+            self::M_NUMBER_OF_ROOT_CLASSES          => count($this->rootClasses),
         );
     }
 
@@ -191,8 +191,7 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      */
     private function getAverageNumberOfDerivedClasses()
     {
-        if ( $this->numberOfClasses > 0 )
-        {
+        if ($this->numberOfClasses > 0) {
             return $this->numberOfDerivedClasses / $this->numberOfClasses;
         }
         return 0.0;
@@ -205,9 +204,8 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      */
     private function getAverageHierarchyHeight()
     {
-        if ( ( $count = count( $this->rootClasses ) ) > 0 )
-        {
-            return array_sum( $this->rootClasses ) / $count;
+        if (($count = count($this->rootClasses)) > 0) {
+            return array_sum($this->rootClasses) / $count;
         }
         return 0.0;
     }
@@ -216,40 +214,40 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * Visits a class node.
      *
      * @param PHP_Depend_AST_Class $class The current class node.
+     *
      * @return void
      */
-    public function visitClassBefore( PHP_Depend_AST_Class $class )
+    public function visitClassBefore(PHP_Depend_AST_Class $class)
     {
-        if ( !$class->isUserDefined() )
-        {
+        if (!$class->isUserDefined()) {
             return;
         }
 
-        $this->fireStartClass( $class );
+        $this->fireStartClass($class);
 
         ++$this->numberOfClasses;
 
-        $this->initNodeMetricsForClass( $class );
+        $this->initNodeMetricsForClass($class);
 
-        $this->calculateNumberOfDerivedClasses( $class );
-        $this->calculateNumberOfAddedAndOverwrittenMethods( $class );
-        $this->calculateDepthOfInheritanceTree( $class );
+        $this->calculateNumberOfDerivedClasses($class);
+        $this->calculateNumberOfAddedAndOverwrittenMethods($class);
+        $this->calculateDepthOfInheritanceTree($class);
 
-        $this->fireEndClass( $class );
+        $this->fireEndClass($class);
     }
 
     /**
      * Calculates the number of derived classes.
      *
      * @param PHP_Depend_AST_Class $class The current class node.
+     *
      * @return void
      * @since 0.9.5
      */
-    private function calculateNumberOfDerivedClasses( PHP_Depend_AST_Class $class )
+    private function calculateNumberOfDerivedClasses(PHP_Depend_AST_Class $class)
     {
         $parentClass = $class->getParentClass();
-        if ( null === $parentClass || false === $parentClass->isUserDefined() )
-        {
+        if (null === $parentClass || false === $parentClass->isUserDefined()) {
             return;
         }
 
@@ -263,10 +261,11 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * Calculates the maximum HIT for the given class.
      *
      * @param PHP_Depend_AST_Class $class The context class instance.
+     *
      * @return void
      * @since 0.9.10
      */
-    private function calculateDepthOfInheritanceTree( PHP_Depend_AST_Class $class )
+    private function calculateDepthOfInheritanceTree(PHP_Depend_AST_Class $class)
     {
         $dep  = 0;
         $dit  = 0;
@@ -274,27 +273,22 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         $root = $class->getId();
 
         $parent = $class;
-        while ( $parent = $parent->getParentClass() )
-        {
+        while ($parent = $parent->getParentClass()) {
             ++$dit;
 
-            if ( $parent->isUserDefined() )
-            {
+            if ($parent->isUserDefined()) {
                 ++$dep;
                 $root = $parent->getId();
-            }
-            else
-            {
+            } else {
                 ++$dit;
                 break;
             }
         }
 
         // Collect max dit value
-        $this->maxDIT = max( $this->maxDIT, $dit );
+        $this->maxDIT = max($this->maxDIT, $dit);
 
-        if ( empty( $this->rootClasses[$root] ) || $this->rootClasses[$root] < $dep )
-        {
+        if (empty($this->rootClasses[$root]) || $this->rootClasses[$root] < $dep) {
             $this->rootClasses[$root] = $dep;
         }
         $this->metrics[$uuid][self::M_DEPTH_OF_INHERITANCE_TREE] = $dit;
@@ -305,24 +299,22 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * overwritten methods.
      *
      * @param PHP_Depend_AST_Class $class The context class instance.
+     *
      * @return void
      * @since 0.9.10
      */
-    private function calculateNumberOfAddedAndOverwrittenMethods( PHP_Depend_AST_Class $class )
+    private function calculateNumberOfAddedAndOverwrittenMethods(PHP_Depend_AST_Class $class)
     {
         $parentClass = $class->getParentClass();
-        if ( $parentClass === null )
-        {
+        if ($parentClass === null) {
             return;
         }
 
         $parentMethodNames = array();
 
         $parent = $class;
-        while ( $parent = $parent->getParentClass() )
-        {
-            foreach ( $parent->getMethods() as $method )
-            {
+        while ($parent = $parent->getParentClass()) {
+            foreach ($parent->getMethods() as $method) {
                 $parentMethodNames[$method->name] = $method->isAbstract();
             }
         }
@@ -330,17 +322,12 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         $numberOfAddedMethods       = 0;
         $numberOfOverwrittenMethods = 0;
 
-        foreach ( $class->getMethods() as $method )
-        {
-            if ( isset( $parentMethodNames[$method->name] ) )
-            {
-                if ( !$parentMethodNames[$method->name] )
-                {
+        foreach ($class->getMethods() as $method) {
+            if (isset($parentMethodNames[$method->name])) {
+                if (!$parentMethodNames[$method->name]) {
                     ++$numberOfOverwrittenMethods;
                 }
-            }
-            else
-            {
+            } else {
                 ++$numberOfAddedMethods;
             }
         }
@@ -355,14 +342,14 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
      * Initializes a empty metric container for the given class node.
      *
      * @param PHP_Depend_AST_Class $class The context class instance.
+     *
      * @return void
      * @since 0.9.10
      */
-    private function initNodeMetricsForClass( PHP_Depend_AST_Class $class )
+    private function initNodeMetricsForClass(PHP_Depend_AST_Class $class)
     {
         $uuid = $class->getId();
-        if ( isset( $this->metrics[$uuid] ) )
-        {
+        if (isset($this->metrics[$uuid])) {
             return;
         }
 
@@ -374,9 +361,8 @@ class PHP_Depend_Metrics_Inheritance_Analyzer
         );
 
         $parent = $class;
-        while ( $parent = $parent->getParentClass() )
-        {
-            $this->initNodeMetricsForClass( $parent );
+        while ($parent = $parent->getParentClass()) {
+            $this->initNodeMetricsForClass($parent);
         }
     }
 }

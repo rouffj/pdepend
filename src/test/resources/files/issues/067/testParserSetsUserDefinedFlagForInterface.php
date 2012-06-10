@@ -1,3 +1,6 @@
 <?php
-interface IBar extends IFoo {}
+interface IBar extends IFoo
+{
+}
+
 ?>

@@ -8,10 +8,9 @@ class testAnalyzerReturnsExpectedClassLocFromCache
 
     }
 
-    private  function baz()
+    private function baz()
     {
-        if (true)
-        {
+        if (true) {
             return 42;
         }
         return 23;

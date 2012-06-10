@@ -60,10 +60,10 @@ require_once dirname(__FILE__) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Util_Type
- * @group pdepend
- * @group pdepend::util
- * @group unittest
+ * @covers     PHP_Depend_Util_Type
+ * @group      pdepend
+ * @group      pdepend::util
+ * @group      unittest
  */
 class PHP_Depend_Util_TypeTest extends PHP_Depend_AbstractTest
 {
@@ -214,7 +214,7 @@ class PHP_Depend_Util_TypeTest extends PHP_Depend_AbstractTest
         $extensionName = PHP_Depend_Util_Type::getTypePackage('\LogicException');
         self::assertEquals('+spl', $extensionName);
     }
-    
+
     /**
      * testIsArrayReturnsFalseForNonArrayString
      *

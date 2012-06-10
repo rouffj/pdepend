@@ -3,10 +3,10 @@ namespace nspace;
 
 class Clazz
 {
-	function method()
+    function method()
     {
         throw new \InvalidArgumentException('Lorem ipsum...', 123);
-	}
+    }
 }
 
 $obj = new Clazz();

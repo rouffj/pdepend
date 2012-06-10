@@ -1,3 +1,9 @@
 <?php
-interface Foo extends Bar {}
-interface Bar { ; }
+interface Foo extends Bar
+{
+}
+
+interface Bar
+{
+;
+}

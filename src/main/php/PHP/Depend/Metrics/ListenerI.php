@@ -69,7 +69,7 @@ interface PHP_Depend_Metrics_ListenerI
      *
      * @return void
      */
-    function startAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer );
+    function startAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
 
     /**
      * This method is called when the analyzer has finished code processing.
@@ -78,5 +78,5 @@ interface PHP_Depend_Metrics_ListenerI
      *
      * @return void
      */
-    function endAnalyzer( PHP_Depend_Metrics_Analyzer $analyzer );
+    function endAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer);
 }

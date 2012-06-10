@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -58,14 +58,14 @@
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  */
-class PHP_Depend_Log_Overview_CouplingAnalyzer 
+class PHP_Depend_Log_Overview_CouplingAnalyzer
     extends PHP_Depend_Metrics_Coupling_Analyzer
 {
     public function getProjectMetrics()
     {
         return array(
-            'fanout'  =>  8590,
-            'calls'   =>  15128
+            'fanout'  => 8590,
+            'calls'   => 15128
         );
     }
 }

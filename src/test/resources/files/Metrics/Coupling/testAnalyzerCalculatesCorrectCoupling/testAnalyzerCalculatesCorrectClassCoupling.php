@@ -3,7 +3,7 @@
  * FANOUT := 12
  * CALLS  := 10
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 
@@ -13,7 +13,7 @@
  * FANOUT := 2
  * CALLS  := 0
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 interface MyCouplingInterface
@@ -40,7 +40,7 @@ interface MyCouplingInterface
  * FANOUT := 10
  * CALLS  := 10
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 class MyCouplingClass

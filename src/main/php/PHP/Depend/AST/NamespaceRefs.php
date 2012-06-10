@@ -6,13 +6,13 @@ class PHP_Depend_AST_NamespaceRefs
      */
     private $context;
 
-    public function __construct( PHP_Depend_Context $context )
+    public function __construct(PHP_Depend_Context $context)
     {
         $this->context = $context;
     }
 
-    public function initialize( PHP_Depend_AST_Namespace $namespace )
+    public function initialize(PHP_Depend_AST_Namespace $namespace)
     {
-        $this->context->registerNode( $namespace );
+        $this->context->registerNode($namespace);
     }
 }

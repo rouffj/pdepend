@@ -1,6 +1,9 @@
 <?php
 namespace foo;
 
-class Bar {
-    function baz(namespace\bar\Baz $x) {}
+class Bar
+{
+    function baz(namespace\bar\Baz $x)
+    {
+    }
 }

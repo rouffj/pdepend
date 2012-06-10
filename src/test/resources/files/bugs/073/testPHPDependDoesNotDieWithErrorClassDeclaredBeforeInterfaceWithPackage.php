@@ -1,9 +1,17 @@
 <?php
-abstract class Foo {}
-class Bar extends Foo {}
+abstract class Foo
+{
+}
+
+class Bar extends Foo
+{
+}
 
 /**
  * @package baz
  */
-interface Foo {}
+interface Foo
+{
+}
+
 ?>

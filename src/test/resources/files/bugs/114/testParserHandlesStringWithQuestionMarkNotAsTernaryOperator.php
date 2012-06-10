@@ -2,8 +2,10 @@
 /**
  * @package foo
  */
-class Foo {
-    function bar(){
+class Foo
+{
+    function bar()
+    {
         "{$foo->bar}?$bar";
     }
 }

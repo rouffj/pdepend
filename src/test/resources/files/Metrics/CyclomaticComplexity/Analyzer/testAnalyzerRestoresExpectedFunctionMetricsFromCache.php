@@ -1,8 +1,7 @@
 <?php
 function testAnalyzerRestoresExpectedMethodMetricsFromCache($foo)
 {
-    switch ($foo)
-    {
+    switch ($foo) {
         case 1:
             foreach (array() as $x) {
 
@@ -10,19 +9,15 @@ function testAnalyzerRestoresExpectedMethodMetricsFromCache($foo)
             break;
 
         case 17:
-            for ($i = 0; $i < 23; ++$i)
-            {
+            for ($i = 0; $i < 23; ++$i) {
                 echo $i, PHP_EOL;
             }
             break;
 
         case 23:
-            if ( time() % 23 )
-            {
+            if (time() % 23) {
                 echo "YES";
-            }
-            else
-            {
+            } else {
                 echo "NO";
             }
             break;
@@ -31,8 +26,7 @@ function testAnalyzerRestoresExpectedMethodMetricsFromCache($foo)
             throw new Exception();
     }
 
-    if (true)
-    {
+    if (true) {
         return 42;
     }
     return ($i ? 23 : (42 ? true : false) ? $i : $x);

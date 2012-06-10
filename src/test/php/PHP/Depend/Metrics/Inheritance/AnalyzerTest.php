@@ -46,7 +46,7 @@
  * @link       http://pdepend.org/
  */
 
-require_once dirname( __FILE__ ) . '/../AbstractTest.php';
+require_once dirname(__FILE__) . '/../AbstractTest.php';
 
 /**
  * Test case for the inheritance analyzer.
@@ -60,12 +60,12 @@ require_once dirname( __FILE__ ) . '/../AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Metrics_Inheritance_Analyzer
- * @group pdepend
- * @group pdepend::metrics
- * @group pdepend::metrics::inheritance
- * @group unittest
- * @group 2.0
+ * @covers     PHP_Depend_Metrics_Inheritance_Analyzer
+ * @group      pdepend
+ * @group      pdepend::metrics
+ * @group      pdepend::metrics::inheritance
+ * @group      unittest
+ * @group      2.0
  */
 class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_AbstractTest
 {
@@ -77,11 +77,11 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
     public function testGetProjectMetricsReturnsExpectedSetOfMetrics()
     {
         $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_Inheritance_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
+        $processor->register($analyzer = new PHP_Depend_Metrics_Inheritance_Analyzer());
+        $processor->process(self::parseTestCaseSource(__METHOD__));
 
         $metrics = $analyzer->getProjectMetrics();
-        $this->assertEquals( array( 'andc', 'ahh', 'maxDIT', 'leafs', 'roots' ), array_keys( $metrics ) );
+        $this->assertEquals(array('andc', 'ahh', 'maxDIT', 'leafs', 'roots'), array_keys($metrics));
 
         return $metrics;
     }
@@ -90,12 +90,13 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      * testMaxDepthOfInheritanceTree
      *
      * @param array $metrics
+     *
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testMaxDepthOfInheritanceTree( array $metrics )
+    public function testMaxDepthOfInheritanceTree(array $metrics)
     {
-        $this->assertEquals( 4, $metrics['maxDIT'] );
+        $this->assertEquals(4, $metrics['maxDIT']);
     }
 
     /**
@@ -103,48 +104,52 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      * classes.
      *
      * @param array $metrics
+     *
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testAverageNumberOfDerivedClasses( array $metrics )
+    public function testAverageNumberOfDerivedClasses(array $metrics)
     {
-        $this->assertEquals( 0.7368, $metrics['andc'], null, 0.0001 );
+        $this->assertEquals(0.7368, $metrics['andc'], null, 0.0001);
     }
 
     /**
      * Tests that the analyzer calculates the correct average hierarchy height.
      *
      * @param array $metrics
+     *
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testAverageHierarchyHeight( array $metrics )
+    public function testAverageHierarchyHeight(array $metrics)
     {
-        $this->assertEquals( 1, $metrics['ahh'] );
+        $this->assertEquals(1, $metrics['ahh']);
     }
 
     /**
      * testNumberOfLeafClasses
      *
      * @param array $metrics
+     *
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testNumberOfLeafClasses( array $metrics )
+    public function testNumberOfLeafClasses(array $metrics)
     {
-        $this->assertEquals( 11, $metrics['leafs'] );
+        $this->assertEquals(11, $metrics['leafs']);
     }
 
     /**
      * testCalculatesExpectedNumberOfRootClasses
      *
      * @param array $metrics
+     *
      * @return void
      * @depends testGetProjectMetricsReturnsExpectedSetOfMetrics
      */
-    public function testNumberOfRootClasses( array $metrics )
+    public function testNumberOfRootClasses(array $metrics)
     {
-        self::assertEquals( 5, $metrics['roots'] );
+        self::assertEquals(5, $metrics['roots']);
     }
 
     /**
@@ -155,11 +160,11 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
     public function testGetNodeMetricsReturnsExpectedSetOfMetrics()
     {
         $processor = new PHP_Depend_Metrics_Processor();
-        $processor->register( $analyzer = new PHP_Depend_Metrics_Inheritance_Analyzer() );
-        $processor->process( self::parseTestCaseSource( __METHOD__ ) );
+        $processor->register($analyzer = new PHP_Depend_Metrics_Inheritance_Analyzer());
+        $processor->process(self::parseTestCaseSource(__METHOD__));
 
-        $metrics = $analyzer->getNodeMetrics( 'NoInheritance#c' );
-        $this->assertEquals( array( 'dit', 'noam', 'nocc', 'noom' ), array_keys( $metrics ) );
+        $metrics = $analyzer->getNodeMetrics('NoInheritance#c');
+        $this->assertEquals(array('dit', 'noam', 'nocc', 'noom'), array_keys($metrics));
 
         return $analyzer;
     }
@@ -168,221 +173,238 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      * testCalculatesExpectedNoccMetricForClassWithoutChildren
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoccMetricForClassWithoutChildren( $analyzer )
+    public function testCalculatesExpectedNoccMetricForClassWithoutChildren($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'FourLevelInheritance#c' );
-        $this->assertEquals( 0, $metrics['nocc'] );
+        $metrics = $analyzer->getNodeMetrics('FourLevelInheritance#c');
+        $this->assertEquals(0, $metrics['nocc']);
     }
 
     /**
      * testCalculatesExpectedNoccMetricForClassWithDirectChildren
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoccMetricForClassWithDirectChildren( $analyzer )
+    public function testCalculatesExpectedNoccMetricForClassWithDirectChildren($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'ThreeLevelInheritance#c' );
-        $this->assertEquals( 3, $metrics['nocc'] );
+        $metrics = $analyzer->getNodeMetrics('ThreeLevelInheritance#c');
+        $this->assertEquals(3, $metrics['nocc']);
     }
 
     /**
      * testCalculatesExpectedNoccMetricForClassWithDirectAndIndirectChildren
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoccMetricForClassWithDirectAndIndirectChildren( $analyzer )
+    public function testCalculatesExpectedNoccMetricForClassWithDirectAndIndirectChildren($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'NoInheritance#c' );
-        $this->assertEquals( 1, $metrics['nocc'] );
+        $metrics = $analyzer->getNodeMetrics('NoInheritance#c');
+        $this->assertEquals(1, $metrics['nocc']);
     }
 
     /**
      * testCalculatesExpectedNoamMetricForClassWithDirectParent
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoamMetricForClassWithDirectParent( $analyzer )
+    public function testCalculatesExpectedNoamMetricForClassWithDirectParent($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'TwoLevelInheritance#c' );
-        $this->assertEquals( 2, $metrics['noam'] );
+        $metrics = $analyzer->getNodeMetrics('TwoLevelInheritance#c');
+        $this->assertEquals(2, $metrics['noam']);
     }
 
     /**
      * testCalculatesExpectedNoamMetricForClassWithoutParent
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoamMetricForClassWithoutParent( $analyzer )
+    public function testCalculatesExpectedNoamMetricForClassWithoutParent($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'NoInheritance#c' );
-        $this->assertEquals( 0, $metrics['noam'] );
+        $metrics = $analyzer->getNodeMetrics('NoInheritance#c');
+        $this->assertEquals(0, $metrics['noam']);
     }
 
     /**
      * testCalculatesExpectedNoamMetricForClassWithIndirectParent
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoamMetricForClassWithIndirectParent( $analyzer )
+    public function testCalculatesExpectedNoamMetricForClassWithIndirectParent($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'FourLevelInheritance#c' );
-        $this->assertEquals( 2, $metrics['noam'] );
+        $metrics = $analyzer->getNodeMetrics('FourLevelInheritance#c');
+        $this->assertEquals(2, $metrics['noam']);
     }
 
     /**
      * testCalculatesExpectedNoomMetricForClassWithoutParent
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoomMetricForClassWithoutParent( $analyzer )
+    public function testCalculatesExpectedNoomMetricForClassWithoutParent($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'NoInheritance#c' );
-        $this->assertEquals( 0, $metrics['noom'] );
+        $metrics = $analyzer->getNodeMetrics('NoInheritance#c');
+        $this->assertEquals(0, $metrics['noom']);
     }
 
     /**
      * testCalculatesExpectedNoomMetricForClassWithParent
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoomMetricForClassWithParent( $analyzer )
+    public function testCalculatesExpectedNoomMetricForClassWithParent($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'OneLevelInheritance#c' );
-        $this->assertEquals( 2, $metrics['noom'] );
+        $metrics = $analyzer->getNodeMetrics('OneLevelInheritance#c');
+        $this->assertEquals(2, $metrics['noom']);
     }
 
     /**
      * testCalculatesExpectedNoomMetricForClassWithParentPrivateMethods
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculatesExpectedNoomMetricForClassWithParentPrivateMethods( $analyzer )
+    public function testCalculatesExpectedNoomMetricForClassWithParentPrivateMethods($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'TwoLevelInheritance#c' );
-        $this->assertEquals( 2, $metrics['noom'] );
+        $metrics = $analyzer->getNodeMetrics('TwoLevelInheritance#c');
+        $this->assertEquals(2, $metrics['noom']);
     }
 
     /**
      * Tests that the analyzer calculates the correct DIT values.
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculateDITMetricNoInheritance( $analyzer )
+    public function testCalculateDITMetricNoInheritance($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'NoInheritance#c' );
-        $this->assertEquals( 0, $metrics['dit'] );
+        $metrics = $analyzer->getNodeMetrics('NoInheritance#c');
+        $this->assertEquals(0, $metrics['dit']);
     }
 
     /**
      * Tests that the analyzer calculates the correct DIT values.
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculateDITMetricOneLevelInheritance( $analyzer )
+    public function testCalculateDITMetricOneLevelInheritance($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'OneLevelInheritance#c' );
-        $this->assertEquals( 1, $metrics['dit'] );
+        $metrics = $analyzer->getNodeMetrics('OneLevelInheritance#c');
+        $this->assertEquals(1, $metrics['dit']);
     }
 
     /**
      * Tests that the analyzer calculates the correct DIT values.
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculateDITMetricTwoLevelInheritance( $analyzer )
+    public function testCalculateDITMetricTwoLevelInheritance($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'TwoLevelInheritance#c' );
-        $this->assertEquals( 2, $metrics['dit'] );
+        $metrics = $analyzer->getNodeMetrics('TwoLevelInheritance#c');
+        $this->assertEquals(2, $metrics['dit']);
     }
 
     /**
      * Tests that the analyzer calculates the correct DIT values.
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculateDITMetricThreeLevelInheritance( $analyzer )
+    public function testCalculateDITMetricThreeLevelInheritance($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'ThreeLevelInheritance#c' );
-        $this->assertEquals( 3, $metrics['dit'] );
+        $metrics = $analyzer->getNodeMetrics('ThreeLevelInheritance#c');
+        $this->assertEquals(3, $metrics['dit']);
     }
 
     /**
      * Tests that the analyzer calculates the correct DIT values.
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculateDITMetricFourLevelInheritance( $analyzer )
+    public function testCalculateDITMetricFourLevelInheritance($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'FourLevelInheritance#c' );
-        $this->assertEquals( 4, $metrics['dit'] );
+        $metrics = $analyzer->getNodeMetrics('FourLevelInheritance#c');
+        $this->assertEquals(4, $metrics['dit']);
     }
 
     /**
      * testCalculateDITMetricForUnknownParentIncrementsMetricWithTwo
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculateDITMetricForUnknownParentIncrementsMetricWithTwo( $analyzer )
+    public function testCalculateDITMetricForUnknownParentIncrementsMetricWithTwo($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'UnknownClassInheritance#c' );
-        $this->assertEquals( 2, $metrics['dit'] );
+        $metrics = $analyzer->getNodeMetrics('UnknownClassInheritance#c');
+        $this->assertEquals(2, $metrics['dit']);
     }
 
     /**
      * testCalculateDITMetricForInternalParentIncrementsMetricWithTwo
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculateDITMetricForInternalParentIncrementsMetricWithTwo( $analyzer )
+    public function testCalculateDITMetricForInternalParentIncrementsMetricWithTwo($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'InternalClassInheritance#c' );
-        $this->assertEquals( 2, $metrics['dit'] );
+        $metrics = $analyzer->getNodeMetrics('InternalClassInheritance#c');
+        $this->assertEquals(2, $metrics['dit']);
     }
 
     /**
      * testAnalyzerIgnoresClassesThatAreNotUserDefined
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testAnalyzerIgnoresClassesThatAreNotUserDefined( $analyzer )
+    public function testAnalyzerIgnoresClassesThatAreNotUserDefined($analyzer)
     {
-        $metrics = $analyzer->getNodeMetrics( 'UnknownInheritClass#c' );
-        $this->assertEquals( array(), $metrics );
+        $metrics = $analyzer->getNodeMetrics('UnknownInheritClass#c');
+        $this->assertEquals(array(), $metrics);
     }
 
     /**
@@ -390,10 +412,11 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
      * calculates the expected DIT values.
      *
      * @param PHP_Depend_Metrics_Inheritance_Analyzer $analyzer
+     *
      * @return void
      * @depends testGetNodeMetricsReturnsExpectedSetOfMetrics
      */
-    public function testCalculateDepthOfInheritanceForSeveralClasses( $analyzer )
+    public function testCalculateDepthOfInheritanceForSeveralClasses($analyzer)
     {
         $expected = array(
             'NoInheritance'         => 0,
@@ -406,12 +429,11 @@ class PHP_Depend_Metrics_Inheritance_AnalyzerTest extends PHP_Depend_Metrics_Abs
         );
 
         $actual = array();
-        foreach ( array_keys( $expected ) as $name )
-        {
-            $metrics       = $analyzer->getNodeMetrics( "{$name}#c" );
+        foreach (array_keys($expected) as $name) {
+            $metrics       = $analyzer->getNodeMetrics("{$name}#c");
             $actual[$name] = $metrics['dit'];
         }
 
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals($expected, $actual);
     }
 }

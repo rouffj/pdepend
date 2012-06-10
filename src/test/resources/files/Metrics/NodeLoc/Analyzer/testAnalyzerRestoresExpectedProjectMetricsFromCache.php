@@ -8,10 +8,9 @@ class testAnalyzerReturnsExpectedProjectMetricsFromCacheClass
 
     }
 
-    private  function baz()
+    private function baz()
     {
-        if (true)
-        {
+        if (true) {
             return 42;
         }
         return 23;
@@ -22,10 +21,9 @@ class testAnalyzerReturnsExpectedProjectMetricsFromCacheMethod
 {
     public $foo;
 
-    private  function baz()
+    private function baz()
     {
-        switch ($this->foo)
-        {
+        switch ($this->foo) {
             case 1:
                 foreach (array() as $x) {
 
@@ -33,19 +31,15 @@ class testAnalyzerReturnsExpectedProjectMetricsFromCacheMethod
                 break;
 
             case 17:
-                for ($i = 0; $i < 23; ++$i)
-                {
+                for ($i = 0; $i < 23; ++$i) {
                     echo $i, PHP_EOL;
                 }
                 break;
 
             case 23:
-                if ( time() % 23 )
-                {
+                if (time() % 23) {
                     echo "YES";
-                }
-                else
-                {
+                } else {
                     echo "NO";
                 }
                 break;
@@ -54,8 +48,7 @@ class testAnalyzerReturnsExpectedProjectMetricsFromCacheMethod
                 throw new Exception();
         }
 
-        if (true)
-        {
+        if (true) {
             return 42;
         }
         return 23;
@@ -64,8 +57,7 @@ class testAnalyzerReturnsExpectedProjectMetricsFromCacheMethod
 
 function testAnalyzerRestoresExpectedProjectMetricsFromCacheFunction($foo)
 {
-    switch ($foo)
-    {
+    switch ($foo) {
         case 1:
             foreach (array() as $x) {
 
@@ -73,19 +65,15 @@ function testAnalyzerRestoresExpectedProjectMetricsFromCacheFunction($foo)
             break;
 
         case 17:
-            for ($i = 0; $i < 23; ++$i)
-            {
+            for ($i = 0; $i < 23; ++$i) {
                 echo $i, PHP_EOL;
             }
             break;
 
         case 23:
-            if ( time() % 23 )
-            {
+            if (time() % 23) {
                 echo "YES";
-            }
-            else
-            {
+            } else {
                 echo "NO";
             }
             break;
@@ -94,8 +82,7 @@ function testAnalyzerRestoresExpectedProjectMetricsFromCacheFunction($foo)
             throw new Exception();
     }
 
-    if (true)
-    {
+    if (true) {
         return 42;
     }
     return 23;

@@ -2,4 +2,6 @@
 /**
  * @package bugs
  */
-class testSummaryReportDoesNotContainEmptyPackages extends FooBar {}
+class testSummaryReportDoesNotContainEmptyPackages extends FooBar
+{
+}

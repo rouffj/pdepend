@@ -76,32 +76,33 @@ class PHP_Depend_Parser
      *
      * @param PHP_Depend_Tokenizer $tokenizer
      */
-    public function __construct( PHP_Depend_Tokenizer $tokenizer )
+    public function __construct(PHP_Depend_Tokenizer $tokenizer)
     {
-        $this->parser = new PHPParser_Parser( $tokenizer );
+        $this->parser = new PHPParser_Parser($tokenizer);
 
         $this->idGenerator = new PHP_Depend_Parser_IdGenerator();
 
         $this->traverser = new PHPParser_NodeTraverser();
-        $this->traverser->addVisitor( new PHPParser_NodeVisitor_NameResolver() );
-        $this->traverser->addVisitor( $this->idGenerator );
-        $this->traverser->addVisitor( new PHP_Depend_Parser_NodeGenerator() );
-        $this->traverser->addVisitor( new PHP_Depend_Parser_AnnotationExtractor() );
+        $this->traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver());
+        $this->traverser->addVisitor($this->idGenerator);
+        $this->traverser->addVisitor(new PHP_Depend_Parser_NodeGenerator());
+        $this->traverser->addVisitor(new PHP_Depend_Parser_AnnotationExtractor());
     }
 
     /**
      * Transforms the given token stream into an abstract syntax tree.
      *
      * @param string $file
+     *
      * @return PHP_Depend_AST_CompilationUnit
      */
-    public function parse( $file )
+    public function parse($file)
     {
         $nodes = $this->traverser->traverse(
             array(
                 new PHP_Depend_AST_CompilationUnit(
                     $file,
-                    $this->parser->parse( file_get_contents( $file ) )
+                    $this->parser->parse(file_get_contents($file))
                 )
             )
         );

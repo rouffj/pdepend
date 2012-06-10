@@ -75,7 +75,7 @@ class PHP_Depend_Input_CompositeFilter implements PHP_Depend_Input_FilterI
      *
      * @return void
      */
-    public function append( PHP_Depend_Input_FilterI $filter )
+    public function append(PHP_Depend_Input_FilterI $filter)
     {
         $this->filters[] = $filter;
     }
@@ -89,12 +89,10 @@ class PHP_Depend_Input_CompositeFilter implements PHP_Depend_Input_FilterI
      *
      * @return boolean
      */
-    public function accept( $relative, $absolute )
+    public function accept($relative, $absolute)
     {
-        foreach ( $this->filters as $filter )
-        {
-            if ( false === $filter->accept( $relative, $absolute ) )
-            {
+        foreach ($this->filters as $filter) {
+            if (false === $filter->accept($relative, $absolute)) {
                 return false;
             }
         }

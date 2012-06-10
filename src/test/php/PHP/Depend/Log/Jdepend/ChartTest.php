@@ -62,11 +62,11 @@ require_once dirname(__FILE__) . '/DependencyAnalyzer.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Log_Jdepend_Chart
- * @group pdepend
- * @group pdepend::log
- * @group pdepend::log::jdepend
- * @group unittest
+ * @covers     PHP_Depend_Log_Jdepend_Chart
+ * @group      pdepend
+ * @group      pdepend::log
+ * @group      pdepend::log::jdepend
+ * @group      unittest
  */
 class PHP_Depend_Log_Jdepend_ChartTest extends PHP_Depend_AbstractTest
 {
@@ -79,7 +79,7 @@ class PHP_Depend_Log_Jdepend_ChartTest extends PHP_Depend_AbstractTest
 
     /**
      * setUp()
-     * 
+     *
      * @return void
      */
     protected function setUp()
@@ -240,21 +240,21 @@ class PHP_Depend_Log_Jdepend_ChartTest extends PHP_Depend_AbstractTest
     {
         $nodes = $this->_createPackages(true, true);
 
-        $analyzer = new PHP_Depend_Log_Jdepend_DependencyAnalyzer();
+        $analyzer        = new PHP_Depend_Log_Jdepend_DependencyAnalyzer();
         $analyzer->stats = array(
-            $nodes[0]->getUUID()  =>  array(
-                'a'   =>  0,
-                'i'   =>  0,
-                'd'   =>  0,
-                'cc'  =>  250,
-                'ac'  =>  250
+            $nodes[0]->getUUID()  => array(
+                'a'   => 0,
+                'i'   => 0,
+                'd'   => 0,
+                'cc'  => 250,
+                'ac'  => 250
             ),
-            $nodes[1]->getUUID()  =>  array(
-                'a'   =>  0,
-                'i'   =>  0,
-                'd'   =>  0,
-                'cc'  =>  50,
-                'ac'  =>  50
+            $nodes[1]->getUUID()  => array(
+                'a'   => 0,
+                'i'   => 0,
+                'd'   => 0,
+                'cc'  => 50,
+                'ac'  => 50
             ),
         );
 

@@ -9,5 +9,5 @@ function foo()
 
 class ClassWithReturnTypeReference
 {
-    
+
 }

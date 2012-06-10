@@ -90,7 +90,7 @@ class PHP_Depend_Util_Configuration_Parser
      *
      * @param stdClass $settings The default configuration values.
      */
-    public function __construct( stdClass $settings )
+    public function __construct(stdClass $settings)
     {
         $this->settings = $settings;
     }
@@ -104,9 +104,9 @@ class PHP_Depend_Util_Configuration_Parser
      *
      * @return stdClass
      */
-    public function parse( $file )
+    public function parse($file)
     {
-        $this->sxml = new SimpleXMLElement( $file, null, true );
+        $this->sxml = new SimpleXMLElement($file, null, true);
 
         $this->parseCache();
         $this->parseParser();
@@ -122,13 +122,11 @@ class PHP_Depend_Util_Configuration_Parser
      */
     protected function parseCache()
     {
-        if ( isset( $this->sxml->cache->driver ) )
-        {
-            $this->settings->cache->driver = (string) $this->sxml->cache->driver;
+        if (isset($this->sxml->cache->driver)) {
+            $this->settings->cache->driver = (string)$this->sxml->cache->driver;
         }
-        if ( isset( $this->sxml->cache->location ) )
-        {
-            $this->settings->cache->location = (string) $this->sxml->cache->location;
+        if (isset($this->sxml->cache->location)) {
+            $this->settings->cache->location = (string)$this->sxml->cache->location;
         }
     }
 
@@ -139,15 +137,13 @@ class PHP_Depend_Util_Configuration_Parser
      */
     protected function parseImageConvert()
     {
-        if ( isset( $this->sxml->imageConvert->fontFamily ) )
-        {
+        if (isset($this->sxml->imageConvert->fontFamily)) {
             $this->settings->imageConvert->fontFamily
-                = (string) $this->sxml->imageConvert->fontFamily;
+                = (string)$this->sxml->imageConvert->fontFamily;
         }
-        if ( isset( $this->sxml->imageConvert->fontSize ) )
-        {
+        if (isset($this->sxml->imageConvert->fontSize)) {
             $this->settings->imageConvert->fontSize
-                = (float) $this->sxml->imageConvert->fontSize;
+                = (float)$this->sxml->imageConvert->fontSize;
         }
     }
 
@@ -159,9 +155,8 @@ class PHP_Depend_Util_Configuration_Parser
      */
     protected function parseParser()
     {
-        if ( isset( $this->sxml->parser->nesting ) )
-        {
-            $this->settings->parser->nesting = (int) $this->sxml->parser->nesting;
+        if (isset($this->sxml->parser->nesting)) {
+            $this->settings->parser->nesting = (int)$this->sxml->parser->nesting;
         }
     }
 }

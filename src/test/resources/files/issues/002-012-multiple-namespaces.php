@@ -1,10 +1,17 @@
 <?php
 namespace bar;
-class BarFoo {}
+class BarFoo
+{
+}
 
 namespace foo;
-class FooBar {}
+class FooBar
+{
+}
 
 namespace baz;
-interface FooBaz {}
+interface FooBaz
+{
+}
+
 ?>

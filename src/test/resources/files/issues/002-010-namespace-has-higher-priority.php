@@ -4,6 +4,8 @@ namespace bar {
     /**
      * @package foo
      */
-    class FooBar {}
+    class FooBar
+    {
+    }
 }
 ?>

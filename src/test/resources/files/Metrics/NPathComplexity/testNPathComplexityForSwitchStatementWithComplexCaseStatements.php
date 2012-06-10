@@ -6,18 +6,21 @@ class testNPathComplexityForSwitchStatementWithComplexCaseStatements
         switch (a) {
             case 0:
             case 1:
-                for (;;) {}
+                for (; ;) {
+                }
                 break;
 
             case 2:
-                do {} while (true);
+                do {
+                } while (true);
                 break;
 
             case 3:
                 break;
 
             default:
-                while (true) {}
+                while (true) {
+                }
                 break;
         }
     }

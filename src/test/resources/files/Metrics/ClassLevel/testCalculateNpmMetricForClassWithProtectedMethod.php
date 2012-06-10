@@ -3,6 +3,6 @@ class testCalculateNpmMetricForClassWithProtectedMethod
 {
     protected function foo()
     {
-        
+
     }
 }

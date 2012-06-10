@@ -1,5 +1,7 @@
 <?php
 namespace baz {
-    class Bar extends Foo {}
+    class Bar extends Foo
+    {
+    }
 }
 ?>

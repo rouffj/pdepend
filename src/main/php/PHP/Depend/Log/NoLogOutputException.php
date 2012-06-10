@@ -66,11 +66,11 @@ class PHP_Depend_Log_NoLogOutputException extends LogicException
      *
      * @param PHP_Depend_Log_Logger $logger The context log instance.
      */
-    public function __construct( PHP_Depend_Log_Logger $logger )
+    public function __construct(PHP_Depend_Log_Logger $logger)
     {
-        $className = get_class( $logger );
+        $className = get_class($logger);
         $message   = "The log target is not configured for '{$className}'.";
 
-        parent::__construct( $message );
+        parent::__construct($message);
     }
 }

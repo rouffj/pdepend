@@ -62,10 +62,10 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://www.pdepend.org/
  *
- * @covers stdClass
- * @group pdepend
- * @group pdepend::bugs
- * @group regressiontest
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::bugs
+ * @group      regressiontest
  */
 class PHP_Depend_Bugs_ParentKeywordAsParameterTypeHintBug087Test
     extends PHP_Depend_Bugs_AbstractTest
@@ -99,7 +99,7 @@ class PHP_Depend_Bugs_ParentKeywordAsParameterTypeHintBug087Test
         $this->setExpectedException(
             'PHP_Depend_Parser_InvalidStateException',
             'The keyword "parent" was used as type hint but the parameter ' .
-            'declaration is not in a class scope.'
+                'declaration is not in a class scope.'
         );
 
         self::parseCodeResourceForTest();
@@ -107,7 +107,7 @@ class PHP_Depend_Bugs_ParentKeywordAsParameterTypeHintBug087Test
 
     /**
      * testParserThrowsExpectedExceptionForParentTypeHintWithRootClass
-     * 
+     *
      * @return void
      */
     public function testParserThrowsExpectedExceptionForParentTypeHintWithRootClass()
@@ -115,7 +115,7 @@ class PHP_Depend_Bugs_ParentKeywordAsParameterTypeHintBug087Test
         $this->setExpectedException(
             'PHP_Depend_Parser_InvalidStateException',
             'The keyword "parent" was used as type hint but the ' .
-            'class "Baz" does not declare a parent.'
+                'class "Baz" does not declare a parent.'
         );
 
         self::parseCodeResourceForTest();

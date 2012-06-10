@@ -1,5 +1,14 @@
 <?php
-interface Foo {}
-class Bar implements Foo {}
-class Foo {}
+interface Foo
+{
+}
+
+class Bar implements Foo
+{
+}
+
+class Foo
+{
+}
+
 ?>

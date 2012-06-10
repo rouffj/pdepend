@@ -1,7 +1,7 @@
 <?php
 /**
  * Class comment.
- * 
+ *
  * @package PDepend::CodeRankA
  */
 class PDepend_CodeRank_ClassA
@@ -12,14 +12,14 @@ class PDepend_CodeRank_ClassA
      * @var PDepend_CodeRank_ClassA
      */
     protected $classA = null;
-    
+
     /**
      * Property comment.
      *
      * @var PDepend_CodeRank_ClassB
      */
     protected $classB = null;
-    
+
     /**
      * Property comment.
      *
@@ -30,7 +30,7 @@ class PDepend_CodeRank_ClassA
 
 /**
  * Class comment.
- * 
+ *
  * @package PDepend::CodeRankA
  */
 class PDepend_CodeRank_ClassB
@@ -41,14 +41,14 @@ class PDepend_CodeRank_ClassB
      * @var PDepend_CodeRank_ClassB
      */
     protected $classB = null;
-    
+
     /**
      * Property comment.
      *
      * @var PDepend_CodeRank_ClassC
      */
     protected $classC1 = null;
-    
+
     /**
      * Property comment.
      *
@@ -59,7 +59,7 @@ class PDepend_CodeRank_ClassB
 
 /**
  * Class comment.
- * 
+ *
  * @package PDepend::CodeRankB
  */
 class PDepend_CodeRank_ClassC
@@ -70,7 +70,7 @@ class PDepend_CodeRank_ClassC
      * @var string $_literal
      */
     private $_literal = '';
-    
+
     /**
      * Property comment.
      *

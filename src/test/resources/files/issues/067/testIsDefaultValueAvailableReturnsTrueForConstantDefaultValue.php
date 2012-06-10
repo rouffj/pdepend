@@ -1,3 +1,6 @@
 <?php
-function foo($foo = E_MY_ERROR) {}
+function foo($foo = E_MY_ERROR)
+{
+}
+
 ?>

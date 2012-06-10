@@ -3,7 +3,7 @@
  * FANOUT := 7
  * CALLS  := 10
  *
- * @package default
+ * @package    default
  * @subpackage package
  */
 

@@ -80,10 +80,10 @@ class PHP_Depend_AST_InterfaceRefs
      * Constructs a new reference context for an interface.
      *
      * @param PHP_Depend_Context $context
-     * @param string $namespace
-     * @param string[] $parentInterfaces
+     * @param string             $namespace
+     * @param string[]           $parentInterfaces
      */
-    public function __construct( PHP_Depend_Context $context, $namespace, array $parentInterfaces )
+    public function __construct(PHP_Depend_Context $context, $namespace, array $parentInterfaces)
     {
         $this->context          = $context;
         $this->namespace        = $namespace;
@@ -97,8 +97,7 @@ class PHP_Depend_AST_InterfaceRefs
      */
     public function getNamespace()
     {
-        if ( $namespace = $this->context->getNamespace( $this->namespace ) )
-        {
+        if ($namespace = $this->context->getNamespace($this->namespace)) {
             return $namespace;
         }
         // TODO Return dummy namespace
@@ -113,14 +112,10 @@ class PHP_Depend_AST_InterfaceRefs
     public function getParentInterfaces()
     {
         $parentInterfaces = array();
-        foreach ( $this->parentInterfaces as $id )
-        {
-            if ( $interface = $this->context->getInterface( $id ) )
-            {
+        foreach ($this->parentInterfaces as $id) {
+            if ($interface = $this->context->getInterface($id)) {
                 $parentInterfaces[] = $interface;
-            }
-            else
-            {
+            } else {
                 // TODO Create dummy interface
                 continue;
             }
@@ -132,10 +127,11 @@ class PHP_Depend_AST_InterfaceRefs
      * Initializes this reference instance for the given interface.
      *
      * @param PHP_Depend_AST_Interface $interface
+     *
      * @return void
      */
-    public function initialize( PHP_Depend_AST_Interface $interface )
+    public function initialize(PHP_Depend_AST_Interface $interface)
     {
-        $this->context->registerNode( $interface );
+        $this->context->registerNode($interface);
     }
 }

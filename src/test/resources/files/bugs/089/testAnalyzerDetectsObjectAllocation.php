@@ -1,5 +1,6 @@
 <?php
 function foo()
 {
-    $o = new /* Object */ Bar();
+    $o = new /* Object */
+    Bar();
 }

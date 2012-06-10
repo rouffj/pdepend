@@ -1,7 +1,9 @@
 <?php
-class Foo {
+class Foo
+{
     public
     static
-    $property;
+        $property;
 }
+
 ?>

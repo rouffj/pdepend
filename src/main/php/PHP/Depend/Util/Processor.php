@@ -88,27 +88,25 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      */
     public function __construct()
     {
-        $this->addVisitor( $this );
+        $this->addVisitor($this);
     }
 
     /**
      * Registers the given visitor for the next AST processing.
      *
      * @param stdClass $visitor
+     *
      * @return void
      */
-    protected function registerVisitor( $visitor )
+    protected function registerVisitor($visitor)
     {
-        $class = get_class( $visitor );
+        $class = get_class($visitor);
 
-        foreach ( get_class_methods( $visitor ) as $method )
-        {
-            if ( 0 === preg_match( '(^visit[\w\d]+(Before|After)$)', $method ) )
-            {
+        foreach (get_class_methods($visitor) as $method) {
+            if (0 === preg_match('(^visit[\w\d]+(Before|After)$)', $method)) {
                 continue;
             }
-            if ( false === isset( $this->callbacks[$method] ) )
-            {
+            if (false === isset($this->callbacks[$method])) {
                 $this->callbacks[$method] = array();
             }
             $this->callbacks[$method][] = $class;
@@ -122,11 +120,12 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      * Processes the given compilation units with all registered analyzers.
      *
      * @param PHP_Depend_AST_CompilationUnit[] $compilationUnit
+     *
      * @return void
      */
-    public function process( array $compilationUnit )
+    public function process(array $compilationUnit)
     {
-        $this->traverse( $compilationUnit );
+        $this->traverse($compilationUnit);
     }
 
     /**
@@ -140,10 +139,9 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      *
      * @return null|PHPParser_Node[] Array of nodes
      */
-    public function beforeTraverse( array $nodes )
+    public function beforeTraverse(array $nodes)
     {
-        foreach ( array_keys( $this->data ) as $class )
-        {
+        foreach (array_keys($this->data) as $class) {
             $this->data[$class] = null;
         }
     }
@@ -159,9 +157,9 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      *
      * @return null|PHPParser_Node Node
      */
-    public function enterNode( PHPParser_Node $node )
+    public function enterNode(PHPParser_Node $node)
     {
-        $this->invoke( $node, 'Before' );
+        $this->invoke($node, 'Before');
     }
 
     /**
@@ -177,9 +175,9 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      *
      * @return null|PHPParser_Node|false|PHPParser_Node[] Node
      */
-    public function leaveNode( PHPParser_Node $node )
+    public function leaveNode(PHPParser_Node $node)
     {
-        $this->invoke( $node, 'After' );
+        $this->invoke($node, 'After');
     }
 
     /**
@@ -193,10 +191,9 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      *
      * @return null|PHPParser_Node[] Array of nodes
      */
-    public function afterTraverse( array $nodes )
+    public function afterTraverse(array $nodes)
     {
-        foreach ( array_keys( $this->data ) as $class )
-        {
+        foreach (array_keys($this->data) as $class) {
             $this->data[$class] = null;
         }
     }
@@ -207,25 +204,24 @@ abstract class PHP_Depend_Util_Processor extends PHPParser_NodeTraverser impleme
      * registered visitors.
      *
      * @param PHPParser_Node $node
-     * @param string $eventType
+     * @param string         $eventType
+     *
      * @return void
      */
-    private function invoke( PHPParser_Node $node, $eventType )
+    private function invoke(PHPParser_Node $node, $eventType)
     {
         $callback = sprintf(
             'visit%s%s',
-            str_replace( '_', '', substr( get_class( $node ), 15 ) ),
+            str_replace('_', '', substr(get_class($node), 15)),
             $eventType
         );
 
-        if ( false === isset( $this->callbacks[$callback] ) )
-        {
+        if (false === isset($this->callbacks[$callback])) {
             return;
         }
 
-        foreach ( $this->callbacks[$callback] as $class )
-        {
-            $this->data[$class] = $this->nodeVisitors[$class]->$callback( $node, $this->data[$class] );
+        foreach ($this->callbacks[$callback] as $class) {
+            $this->data[$class] = $this->nodeVisitors[$class]->$callback($node, $this->data[$class]);
         }
     }
 }

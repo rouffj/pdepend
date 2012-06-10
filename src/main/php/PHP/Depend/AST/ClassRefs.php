@@ -25,11 +25,11 @@ class PHP_Depend_AST_ClassRefs
      * asdasd
      *
      * @param PHP_Depend_Context $context
-     * @param string $namespaceId
-     * @param string $parentClassId
-     * @param string[] $implementedInterfaceIds
+     * @param string             $namespaceId
+     * @param string             $parentClassId
+     * @param string[]           $implementedInterfaceIds
      */
-    public function __construct( PHP_Depend_Context $context, $namespaceId, $parentClassId, array $implementedInterfaceIds )
+    public function __construct(PHP_Depend_Context $context, $namespaceId, $parentClassId, array $implementedInterfaceIds)
     {
         $this->context                 = $context;
         $this->namespaceId             = $namespaceId;
@@ -39,8 +39,7 @@ class PHP_Depend_AST_ClassRefs
 
     public function getNamespace()
     {
-        if ( $namespace = $this->context->getNamespace( $this->namespaceId ) )
-        {
+        if ($namespace = $this->context->getNamespace($this->namespaceId)) {
             return $namespace;
         }
         // TODO Return dummy namespace
@@ -48,12 +47,10 @@ class PHP_Depend_AST_ClassRefs
 
     public function getParentClass()
     {
-        if ( null === $this->parentClassId )
-        {
+        if (null === $this->parentClassId) {
             return null;
         }
-        if ( $parentClass = $this->context->getClass( $this->parentClassId ) )
-        {
+        if ($parentClass = $this->context->getClass($this->parentClassId)) {
             return $parentClass;
         }
         // TODO Return dummy class
@@ -65,14 +62,10 @@ class PHP_Depend_AST_ClassRefs
     public function getImplementedInterfaces()
     {
         $implementedInterfaces = array();
-        foreach ( $this->implementedInterfaceIds as $interfaceId )
-        {
-            if ( $interface = $this->context->getInterface( $interfaceId ) )
-            {
+        foreach ($this->implementedInterfaceIds as $interfaceId) {
+            if ($interface = $this->context->getInterface($interfaceId)) {
                 $implementedInterfaces[] = $interface;
-            }
-            else
-            {
+            } else {
                 // TODO Create dummy interface
                 continue;
             }
@@ -80,8 +73,8 @@ class PHP_Depend_AST_ClassRefs
         return $implementedInterfaces;
     }
 
-    public function initialize( PHP_Depend_AST_Class $class )
+    public function initialize(PHP_Depend_AST_Class $class)
     {
-        $this->context->registerNode( $class );
+        $this->context->registerNode($class);
     }
 }

@@ -1,9 +1,11 @@
 <?php
 function foo(
 
-    Bar
-    $foo
+    Bar $foo
     =
     42
-) {}
+)
+{
+}
+
 ?>

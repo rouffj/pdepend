@@ -1,6 +1,7 @@
 <?php
 namespace {
-    function foo() {
+    function foo()
+    {
         new namespace\Foo;
     }
 }

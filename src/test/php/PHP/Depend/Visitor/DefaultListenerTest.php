@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of PHP_Depend.
- * 
+ *
  * PHP Version 5
  *
  * Copyright (c) 2008-2012, Manuel Pichler <mapi@pdepend.org>.
@@ -62,16 +62,16 @@ require_once dirname(__FILE__) . '/TestListener.php';
  * @version    Release: @package_version@
  * @link       http://pdepend.org/
  *
- * @covers PHP_Depend_Visitor_AbstractListener
- * @group pdepend
- * @group pdepend::visitor
- * @group unittest
+ * @covers     PHP_Depend_Visitor_AbstractListener
+ * @group      pdepend
+ * @group      pdepend::visitor
+ * @group      unittest
  */
 class PHP_Depend_Visitor_DefaultListenerTest extends PHP_Depend_AbstractTest
 {
     /**
      * testDefaultImplementationCallsListeners
-     * 
+     *
      * @return void
      */
     public function testDefaultImplementationCallsListeners()
@@ -86,26 +86,26 @@ class PHP_Depend_Visitor_DefaultListenerTest extends PHP_Depend_AbstractTest
 
         $actual   = $listener->nodes;
         $expected = array(
-            $codeUri . '#start'  =>  true,
-            $codeUri . '#end'  =>  true,
-            'package#start'  =>  true,
-            'package#end'  =>  true,
-            'clazz#start'  =>  true,
-            'clazz#end'  =>  true,
-            'func#start'  =>  true,
-            'func#end'  =>  true,
-            'interfs#start'  =>  true,
-            'interfs#end'  =>  true,
-            'm1#start'  =>  true,
-            'm1#end'  =>  true,
-            'm2#start'  =>  true,
-            'm2#end'  =>  true,
-            'm3#start'  =>  true,
-            'm3#end'  =>  true,
-            'm4#start'  =>  true,
-            'm4#end'  =>  true,
-            '$_p1#start'  =>  true,
-            '$_p1#end'  =>  true,
+            $codeUri . '#start'  => true,
+            $codeUri . '#end'    => true,
+            'package#start'      => true,
+            'package#end'        => true,
+            'clazz#start'        => true,
+            'clazz#end'          => true,
+            'func#start'         => true,
+            'func#end'           => true,
+            'interfs#start'      => true,
+            'interfs#end'        => true,
+            'm1#start'           => true,
+            'm1#end'             => true,
+            'm2#start'           => true,
+            'm2#end'             => true,
+            'm3#start'           => true,
+            'm3#end'             => true,
+            'm4#start'           => true,
+            'm4#end'             => true,
+            '$_p1#start'         => true,
+            '$_p1#end'           => true,
         );
 
         ksort($actual);
@@ -133,10 +133,10 @@ class PHP_Depend_Visitor_DefaultListenerTest extends PHP_Depend_AbstractTest
 
         $actual   = $listener->nodes;
         $expected = array(
-            __FUNCTION__ . '#start' => true,
-            __FUNCTION__ . '#end' => true,
+            __FUNCTION__ . '#start'                  => true,
+            __FUNCTION__ . '#end'                    => true,
             realpath($GLOBALS['argv'][0]) . '#start' => true,
-            realpath($GLOBALS['argv'][0]) . '#end' => true,
+            realpath($GLOBALS['argv'][0]) . '#end'   => true,
         );
 
         $this->assertEquals($expected, $actual);
@@ -161,10 +161,10 @@ class PHP_Depend_Visitor_DefaultListenerTest extends PHP_Depend_AbstractTest
 
         $actual   = $listener->nodes;
         $expected = array(
-            __FUNCTION__ . '#start' => true,
-            __FUNCTION__ . '#end' => true,
+            __FUNCTION__ . '#start'                  => true,
+            __FUNCTION__ . '#end'                    => true,
             realpath($GLOBALS['argv'][0]) . '#start' => true,
-            realpath($GLOBALS['argv'][0]) . '#end' => true,
+            realpath($GLOBALS['argv'][0]) . '#end'   => true,
         );
 
         $this->assertEquals($expected, $actual);
@@ -189,10 +189,10 @@ class PHP_Depend_Visitor_DefaultListenerTest extends PHP_Depend_AbstractTest
 
         $actual   = $listener->nodes;
         $expected = array(
-            __FUNCTION__ . '#start' => true,
-            __FUNCTION__ . '#end' => true,
+            __FUNCTION__ . '#start'                  => true,
+            __FUNCTION__ . '#end'                    => true,
             realpath($GLOBALS['argv'][0]) . '#start' => true,
-            realpath($GLOBALS['argv'][0]) . '#end' => true,
+            realpath($GLOBALS['argv'][0]) . '#end'   => true,
         );
 
         $this->assertEquals($expected, $actual);
@@ -218,7 +218,7 @@ class PHP_Depend_Visitor_DefaultListenerTest extends PHP_Depend_AbstractTest
         $actual   = $listener->nodes;
         $expected = array(
             __FUNCTION__ . '#start' => true,
-            __FUNCTION__ . '#end' => true,
+            __FUNCTION__ . '#end'   => true,
         );
 
         $this->assertEquals($expected, $actual);

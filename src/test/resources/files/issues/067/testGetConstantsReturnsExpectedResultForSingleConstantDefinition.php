@@ -3,4 +3,5 @@ class testGetConstantsReturnsExpectedResultForSingleConstantDefinition
 {
     const FOO = 42;
 }
+
 ?>

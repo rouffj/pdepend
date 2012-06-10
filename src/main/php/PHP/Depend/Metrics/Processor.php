@@ -68,10 +68,11 @@ class PHP_Depend_Metrics_Processor extends PHP_Depend_Util_Processor
      * Registers the given analyzer for the next AST processing.
      *
      * @param PHP_Depend_Metrics_Analyzer $analyzer
+     *
      * @return void
      */
-    public function register( PHP_Depend_Metrics_Analyzer $analyzer )
+    public function register(PHP_Depend_Metrics_Analyzer $analyzer)
     {
-        $this->registerVisitor( $analyzer );
+        $this->registerVisitor($analyzer);
     }
 }

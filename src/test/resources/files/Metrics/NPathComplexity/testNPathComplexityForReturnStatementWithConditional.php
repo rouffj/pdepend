@@ -4,7 +4,7 @@ class testNPathComplexityForReturnStatementWithConditional
     function testNPathComplexityForReturnStatementWithConditional()
     {
         if (true) {
-            return $a ?: 2;
+            return $a ? : 2;
         }
     }
 }

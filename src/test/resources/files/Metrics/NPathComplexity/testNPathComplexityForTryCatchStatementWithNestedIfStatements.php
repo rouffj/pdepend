@@ -4,11 +4,13 @@ class testNPathComplexityForTryCatchStatementWithNestedIfStatements
     function testNPathComplexityForTryCatchStatementWithNestedIfStatements()
     {
         try {
-            if (true) {}
+            if (true) {
+            }
         } catch (E1 $e) {
             if (false) {
             } else {
-                if (true) {}
+                if (true) {
+                }
             }
         }
     }

@@ -1,8 +1,19 @@
 <?php
-class A {
+class A
+{
     public $c;
-    private function a3() {}
-    protected function b2() {}
-    public function c2() {}
+
+    private function a3()
+    {
+    }
+
+    protected function b2()
+    {
+    }
+
+    public function c2()
+    {
+    }
 }
+
 ?>

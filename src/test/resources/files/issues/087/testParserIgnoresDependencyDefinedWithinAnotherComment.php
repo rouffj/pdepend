@@ -1,6 +1,8 @@
 <?php
-function foo() {
+function foo()
+{
     // A comment line... /* @var $bar Bar */
     $bar = bar();
 }
+
 ?>

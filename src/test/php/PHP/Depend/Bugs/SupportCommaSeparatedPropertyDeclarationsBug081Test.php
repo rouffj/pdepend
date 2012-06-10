@@ -63,17 +63,17 @@ require_once dirname(__FILE__) . '/AbstractTest.php';
  * @version    Release: @package_version@
  * @link       http://www.pdepend.org/
  *
- * @covers stdClass
- * @group pdepend
- * @group pdepend::bugs
- * @group regressiontest
+ * @covers     stdClass
+ * @group      pdepend
+ * @group      pdepend::bugs
+ * @group      regressiontest
  */
 class PHP_Depend_Bugs_SupportCommaSeparatedPropertyDeclarationsBug081Test
     extends PHP_Depend_Bugs_AbstractTest
 {
     /**
      * Tests that the parser handles a comma separated property declaration.
-     * 
+     *
      * @return void
      */
     public function testParserHandlesSimpleCommaSeparatedPropertyDeclaration()
@@ -103,8 +103,8 @@ class PHP_Depend_Bugs_SupportCommaSeparatedPropertyDeclarationsBug081Test
         $actual = array();
         foreach ($properties as $property) {
             $actual[] = array(
-                'private'  =>  $property->isPrivate(),
-                'public'   =>  $property->isPublic()
+                'private'  => $property->isPrivate(),
+                'public'   => $property->isPublic()
             );
         }
 

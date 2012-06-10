@@ -1,5 +1,7 @@
 <?php
 namespace {
-    class Foo {}
+    class Foo
+    {
+    }
 }
 ?>

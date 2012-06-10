@@ -1,6 +1,7 @@
 <?php
 namespace {
-    function foo($obj) {
+    function foo($obj)
+    {
         return ($obj instanceof namespace\Foo);
     }
 }
