@@ -55,8 +55,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version   Release: @package_version@
  * @link      http://pdepend.org/
- *
- * @method mixed visitInterfaceBefore(PHP_Depend_AST_Interface $interface, mixed $data = null)
  */
 interface PHP_Depend_VisitorI
 {
