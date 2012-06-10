@@ -108,7 +108,7 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
      */
     public function getName()
     {
-        return $this->namespacedName;
+        return (string) $this->namespacedName;
     }
 
     /**

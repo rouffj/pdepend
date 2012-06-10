@@ -105,7 +105,7 @@ class PHP_Depend_AST_Namespace
      */
     public function getName()
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**

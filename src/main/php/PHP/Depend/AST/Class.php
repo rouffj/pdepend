@@ -108,7 +108,7 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
      */
     public function getName()
     {
-        return $this->namespacedName;
+        return (string) $this->namespacedName;
     }
 
     /**

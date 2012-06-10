@@ -116,7 +116,7 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
      */
     public function getName()
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**

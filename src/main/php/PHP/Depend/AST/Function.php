@@ -122,7 +122,7 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
      */
     public function getName()
     {
-        return $this->namespacedName;
+        return (string) $this->namespacedName;
     }
 
     /**

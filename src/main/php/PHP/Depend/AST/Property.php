@@ -115,7 +115,7 @@ class PHP_Depend_AST_Property extends PHPParser_Node_Stmt_PropertyProperty imple
      */
     public function getName()
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**
