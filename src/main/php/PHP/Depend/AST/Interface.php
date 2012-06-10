@@ -102,6 +102,16 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
     }
 
     /**
+     * Returns the name for this type.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->namespacedName;
+    }
+
+    /**
      * Returns the namespace for this node.
      *
      * @return PHP_Depend_AST_Namespace

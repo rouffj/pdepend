@@ -116,6 +116,16 @@ class PHP_Depend_AST_Function extends PHPParser_Node_Stmt_Function implements PH
     }
 
     /**
+     * Returns the name for this node.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->namespacedName;
+    }
+
+    /**
      * Returns the namespace where this method is declared.
      *
      * @return PHP_Depend_AST_Namespace

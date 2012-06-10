@@ -89,4 +89,15 @@ class PHP_Depend_AST_CompilationUnit extends PHPParser_NodeAbstract implements P
     {
         return md5($this->file);
     }
+
+    /**
+     * Returns the name for this node.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->file;
+    }
+
 }

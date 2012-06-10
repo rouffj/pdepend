@@ -99,6 +99,16 @@ class PHP_Depend_AST_Namespace
     }
 
     /**
+     * Returns the name for this node.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Magic wake up method that will register this object in the global node
      * reference context.
      *

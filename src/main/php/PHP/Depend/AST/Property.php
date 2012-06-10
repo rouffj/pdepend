@@ -109,6 +109,16 @@ class PHP_Depend_AST_Property extends PHPParser_Node_Stmt_PropertyProperty imple
     }
 
     /**
+     * Returns the name for this node.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Returns the namespace where this property is declared.
      *
      * @return PHP_Depend_AST_Namespace

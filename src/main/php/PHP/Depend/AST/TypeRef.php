@@ -100,6 +100,16 @@ class PHP_Depend_AST_TypeRef extends PHPParser_NodeAbstract implements PHP_Depen
     }
 
     /**
+     * Returns the name for this type.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->context->getType($this->name)->getName();
+    }
+
+    /**
      * Returns all methods declared by this type.
      *
      * @return PHP_Depend_AST_Method[]
