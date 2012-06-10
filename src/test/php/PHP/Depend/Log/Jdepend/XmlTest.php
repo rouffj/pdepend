@@ -72,23 +72,23 @@ class PHP_Depend_Log_Jdepend_XmlTest extends PHP_Depend_AbstractTest
     /**
      * Test code structure.
      *
-     * @var PHP_Depend_Code_NodeIterator $packages
+     * @var PHP_Depend_Code_NodeIterator
      */
-    protected $packages = null;
+    protected $packages;
 
     /**
      * Test dependency analyzer.
      *
-     * @var PHP_Depend_Metrics_Dependency_Analyzer $analyzer
+     * @var PHP_Depend_Metrics_Dependency_Analyzer
      */
-    protected $analyzer = null;
+    protected $analyzer;
 
     /**
      * The temporary file name for the logger result.
      *
-     * @var string $resultFile
+     * @var string
      */
-    protected $resultFile = null;
+    protected $resultFile;
 
     /**
      * Creates the package structure from a test source file.
@@ -123,9 +123,9 @@ class PHP_Depend_Log_Jdepend_XmlTest extends PHP_Depend_AbstractTest
     {
         $logger    = new PHP_Depend_Log_Jdepend_Xml();
         $actual    = $logger->getAcceptedAnalyzers();
-        $exptected = array('PHP_Depend_Metrics_Dependency_Analyzer');
+        $expected = array('PHP_Depend_Metrics_Dependency_Analyzer');
 
-        $this->assertEquals($exptected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -190,7 +190,7 @@ class PHP_Depend_Log_Jdepend_XmlTest extends PHP_Depend_AbstractTest
      *
      * @param string $fileName File name of the expected result document.
      *
-     * @return string The prepared xml document
+     * @return string
      */
     protected function getNormalizedPathXml($fileName)
     {
