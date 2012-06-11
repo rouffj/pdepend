@@ -133,6 +133,16 @@ class PHP_Depend_AST_Class extends PHPParser_Node_Stmt_Class implements PHP_Depe
     }
 
     /**
+     * Returns all interfaces implemented by this class.
+     *
+     * @return PHP_Depend_AST_Interface[]
+     */
+    public function getInterfaces()
+    {
+        return $this->refs->getImplementedInterfaces();
+    }
+
+    /**
      * Returns all methods declared by this class.
      *
      * @return PHP_Depend_AST_Method[]

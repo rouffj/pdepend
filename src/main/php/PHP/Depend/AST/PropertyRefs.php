@@ -104,10 +104,7 @@ class PHP_Depend_AST_PropertyRefs
      */
     public function getNamespace()
     {
-        if ($namespace = $this->context->getNamespace($this->namespace)) {
-            return $namespace;
-        }
-        // TODO Return dummy namespace
+        return $this->context->getNamespace($this->namespace);
     }
 
     /**
@@ -117,12 +114,12 @@ class PHP_Depend_AST_PropertyRefs
      */
     public function getDeclaringType()
     {
-        if ($declaringType = $this->context->getType($this->declaringType)) {
-            return $declaringType;
-        }
-        // TODO Return dummy class
+        return $this->context->getType($this->declaringType);
     }
 
+    /**
+     * @return null|PHP_Depend_AST_Type
+     */
     public function getType()
     {
         if ($this->type) {

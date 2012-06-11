@@ -119,6 +119,7 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
         } else if ($node instanceof PHPParser_Node_Stmt_Property) {
             $this->type = $this->extractType($node, 'var');
             $node->type = $this->type;
+
         } else if ($node instanceof PHPParser_Node_Stmt_PropertyProperty) {
             if (null === ($type = $this->extractType($node, 'var'))) {
                 $type = $this->type;
@@ -215,7 +216,8 @@ class PHP_Depend_Parser_AnnotationExtractor extends PHPParser_NodeVisitor_NameRe
         }
 
         // fully qualified names are already resolved
-        if ($name->isFullyQualified()) {
+        if (0 === strpos($name, '\\') || $name->isFullyQualified()) {
+            $name->set(ltrim($name, '\\'));
             return $name;
         }
 

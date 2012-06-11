@@ -60,10 +60,7 @@
  */
 class PHP_Depend_Metrics_CodeRank_Analyzer
     extends PHP_Depend_Metrics_AbstractAnalyzer
-    /* TODO 2.0
-   implements PHP_Depend_Metrics_Analyzer,
-              PHP_Depend_Metrics_NodeAware
-   */
+    implements PHP_Depend_Metrics_NodeAware
 {
     /**
      * Type of this analyzer class.
@@ -94,16 +91,9 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
     /**
      * All found nodes.
      *
-     * @var array(string=>array) $_nodes
+     * @var array
      */
     private $_nodes = array();
-
-    /**
-     * List of node collect strategies.
-     *
-     * @var array(PHP_Depend_Metrics_CodeRank_CodeRankStrategyI) $_strategies
-     */
-    private $_strategies = array();
 
     /**
      * Hash with all calculated node metrics.
@@ -123,20 +113,30 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
      * )
      * </code>
      *
-     * @var array(string=>array) $_nodeMetrics
+     * @var array
      */
-    private $_nodeMetrics = null;
+    private $metrics = null;
+
+    public function __construct(array $options = array())
+    {
+        parent::__construct(
+            array_merge(
+                array(self::STRATEGY_OPTION => array('inheritance')),
+                $options
+            )
+        );
+    }
+
 
     /**
      * Processes all {@link PHP_Depend_Code_Package} code nodes.
      *
      * @param PHP_Depend_Code_NodeIterator $packages All code packages.
-     *
      * @return void
      */
     public function analyze(PHP_Depend_Code_NodeIterator $packages)
     {
-        if ($this->_nodeMetrics === null) {
+        if ($this->metrics === null) {
 
             $this->fireStartAnalyzer();
 
@@ -148,35 +148,6 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
             } else {
                 $this->_strategies[] = $factory->createDefaultStrategy();
             }
-
-            // Register all listeners
-            foreach ($this->getVisitListeners() as $listener) {
-                foreach ($this->_strategies as $strategy) {
-                    $strategy->addVisitListener($listener);
-                }
-            }
-
-            // First traverse package tree
-            foreach ($packages as $package) {
-                // Traverse all strategies
-                foreach ($this->_strategies as $strategy) {
-                    $package->accept($strategy);
-                }
-            }
-
-            // Collect all nodes
-            foreach ($this->_strategies as $strategy) {
-                $collected    = $strategy->getCollectedNodes();
-                $this->_nodes = array_merge_recursive($collected, $this->_nodes);
-            }
-
-            // Init node metrics
-            $this->_nodeMetrics = array();
-
-            // Calculate code rank metrics
-            $this->buildCodeRankMetrics();
-
-            $this->fireEndAnalyzer();
         }
     }
 
@@ -199,7 +170,11 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
      */
     public function getNodeMetrics($node)
     {
-        $nodeId = (string)is_object($node) ? $node->getId() : $node;
+        if (null === $this->metrics) {
+            $this->buildCodeRankMetrics();
+        }
+
+        $nodeId = (string) is_object($node) ? $node->getId() : $node;
 
         if (isset($this->metrics[$nodeId])) {
             return $this->metrics[$nodeId];
@@ -212,19 +187,19 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
      *
      * @return void
      */
-    protected function buildCodeRankMetrics()
+    private function buildCodeRankMetrics()
     {
         foreach (array_keys($this->_nodes) as $uuid) {
-            $this->_nodeMetrics[$uuid] = array(
+            $this->metrics[$uuid] = array(
                 self::M_CODE_RANK          => 0,
                 self::M_REVERSE_CODE_RANK  => 0
             );
         }
         foreach ($this->computeCodeRank('out', 'in') as $uuid => $rank) {
-            $this->_nodeMetrics[$uuid][self::M_CODE_RANK] = $rank;
+            $this->metrics[$uuid][self::M_CODE_RANK] = $rank;
         }
         foreach ($this->computeCodeRank('in', 'out') as $uuid => $rank) {
-            $this->_nodeMetrics[$uuid][self::M_REVERSE_CODE_RANK] = $rank;
+            $this->metrics[$uuid][self::M_REVERSE_CODE_RANK] = $rank;
         }
     }
 
@@ -234,9 +209,9 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
      * @param string $id1 Identifier for the incoming edges.
      * @param string $id2 Identifier for the outgoing edges.
      *
-     * @return array(string=>float)
+     * @return array
      */
-    protected function computeCodeRank($id1, $id2)
+    private function computeCodeRank($id1, $id2)
     {
         $dampingFactory = self::DAMPING_FACTOR;
 
@@ -259,5 +234,130 @@ class PHP_Depend_Metrics_CodeRank_Analyzer
             }
         }
         return $ranks;
+    }
+
+    public function visitClassBefore(PHP_Depend_AST_Class $class)
+    {
+        $this->init($class);
+
+        if ($this->isInheritanceDisabled()) {
+            return;
+        }
+
+        if ($parentClass = $class->getParentClass()) {
+            $this->updateType($class, $parentClass);
+        }
+
+        foreach ($class->getInterfaces() as $interface) {
+            $this->updateType($class, $interface);
+        }
+    }
+
+    public function visitInterfaceBefore(PHP_Depend_AST_Interface $interface)
+    {
+        $this->init($interface);
+
+        if ($this->isInheritanceDisabled()) {
+            return;
+        }
+
+        foreach ($interface->getInterfaces() as $parentInterface) {
+            $this->updateType($interface, $parentInterface);
+        }
+    }
+
+    public function visitPropertyBefore(PHP_Depend_AST_Property $property)
+    {
+        if ($this->isPropertyDisabled()) {
+            return;
+        }
+
+        if ($type = $property->getType()) {
+            $this->updateType($property->getDeclaringType(), $type);
+        }
+    }
+
+    public function visitMethodBefore(PHP_Depend_AST_Method $method)
+    {
+        if ($this->isMethodDisabled()) {
+            return array();
+        }
+
+        if ($type = $method->getReturnType()) {
+            $this->updateType($method->getDeclaringType(), $type);
+        }
+
+        foreach ($method->getThrownExceptions() as $thrownException) {
+            $this->updateType($method->getDeclaringType(), $thrownException);
+        }
+
+        foreach ($method->params as $param) {
+            if ($param->typeRef) {
+                $this->updateType($method->getDeclaringType(), $param->typeRef);
+            }
+        }
+
+        return array();
+    }
+
+    public function visitMethodAfter(PHP_Depend_AST_Method $method, array $nodes)
+    {
+        if ($this->isMethodDisabled()) {
+            return;
+        }
+
+        foreach ($nodes as $node) {
+            $this->updateType($method->getDeclaringType(), $node);
+        }
+    }
+
+
+
+    private function updateType(PHP_Depend_AST_Type $in, PHP_Depend_AST_Type $out)
+    {
+        $this->update($in, $out);
+        $this->update($in->getNamespace(), $out->getNamespace());
+    }
+
+    private function update(PHP_Depend_AST_Node $in, PHP_Depend_AST_Node $out)
+    {
+        if ($in->getId() === $out->getId()) {
+            return;
+        }
+
+        $this->init($in);
+        $this->init($out);
+
+        $this->_nodes[$in->getId()]['in'][]   = $out->getId();
+        $this->_nodes[$out->getId()]['out'][] = $in->getId();
+    }
+
+    private function init(PHP_Depend_AST_Node $node)
+    {
+        if (isset($this->_nodes[$node->getId()])) {
+            return;
+        }
+
+        $this->_nodes[$node->getId()] = array(
+            'in'   => array(),
+            'out'  => array(),
+            'name' => $node->getName(),
+            'type' => get_class($node)
+        );
+    }
+
+    private function isInheritanceDisabled()
+    {
+        return !in_array('inheritance', $this->options[self::STRATEGY_OPTION]);
+    }
+
+    private function isMethodDisabled()
+    {
+        return !in_array('method', $this->options[self::STRATEGY_OPTION]);
+    }
+
+    private function isPropertyDisabled()
+    {
+        return !in_array('property', $this->options[self::STRATEGY_OPTION]);
     }
 }

@@ -122,6 +122,16 @@ class PHP_Depend_AST_Interface extends PHPParser_Node_Stmt_Interface implements 
     }
 
     /**
+     * Returns an array with all parent interfaces.
+     *
+     * @return PHP_Depend_AST_Interface[]
+     */
+    public function getInterfaces()
+    {
+        return $this->refs->getParentInterfaces();
+    }
+
+    /**
      * Returns all methods declared by this interface.
      *
      * @return PHP_Depend_AST_Method[]

@@ -88,7 +88,18 @@ class PHP_Depend_Context
      */
     public function getNamespace($id)
     {
-        return $this->getNode("{$id}#n");
+        if ($namespace = $this->getNode("{$id}#n")) {
+            return $namespace;
+        }
+
+        return new PHP_Depend_AST_Namespace(
+            new PHPParser_Node_Stmt_Namespace(
+                new PHPParser_Node_Name($id ? $id : '+global'),
+                array(),
+                array('id' => ($id ? $id : '+global') . '#n')
+            ),
+            new PHP_Depend_AST_NamespaceRefs($this)
+        );
     }
 
     /**
@@ -110,7 +121,7 @@ class PHP_Depend_Context
             return new PHP_Depend_AST_Class(
                 new PHPParser_Node_Stmt_Class(
                     $id,
-                    array(),
+                    array('namespacedName' => $id),
                     array('user_defined' => false, 'id' => $id)
                 ),
                 new PHP_Depend_AST_ClassRefs(
@@ -130,7 +141,23 @@ class PHP_Depend_Context
      */
     public function getInterface($id)
     {
-        return $this->getNode("{$id}#i");
+        if ($interface = $this->getNode("{$id}#i")) {
+            return $interface;
+        }
+
+        if ($id) {
+            // TODO 2.0 extract name/namespace from id.
+            return new PHP_Depend_AST_Interface(
+                new PHPParser_Node_Stmt_Interface(
+                    $id,
+                    array('namespacedName' => $id),
+                    array('user_defined' => false, 'id' => $id)
+                ),
+                new PHP_Depend_AST_InterfaceRefs(
+                    $this, '+global', array()
+                )
+            );
+        }
     }
 
     /**
@@ -139,7 +166,7 @@ class PHP_Depend_Context
      *
      * @param string $id
      *
-     * @return null|PHP_Depend_AST_Type
+     * @return PHP_Depend_AST_Type
      * @todo Implement traits
      */
     public function getType($id)

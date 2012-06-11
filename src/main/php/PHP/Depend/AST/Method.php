@@ -151,6 +151,16 @@ class PHP_Depend_AST_Method extends PHPParser_Node_Stmt_ClassMethod implements P
     }
 
     /**
+     * Returns an array with all exceptions thrown by this method.
+     *
+     * @return PHP_Depend_AST_Type[]
+     */
+    public function getThrownExceptions()
+    {
+        return $this->thrownExceptions;
+    }
+
+    /**
      * Returns <b>true</b> when this method was declared as abstract.
      *
      * @return boolean
