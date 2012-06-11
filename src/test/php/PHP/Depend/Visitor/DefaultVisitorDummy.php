@@ -72,9 +72,7 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
      * Visits a class node.
      *
      * @param PHP_Depend_AST_Class $class The current class node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitClass()
      */
     public function visitClass(PHP_Depend_AST_Class $class)
     {
@@ -87,9 +85,7 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
      * Visits a file node.
      *
      * @param PHP_Depend_AST_File $file The current file node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitFile()
      */
     public function visitFile(PHP_Depend_AST_File $file)
     {
@@ -102,9 +98,7 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
      * Visits a function node.
      *
      * @param PHP_Depend_AST_Function $function The current function node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitFunction()
      */
     public function visitFunction(PHP_Depend_AST_Function $function)
     {
@@ -117,9 +111,7 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
      * Visits a code interface object.
      *
      * @param PHP_Depend_AST_Interface $interface The context code interface.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitInterface()
      */
     public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
@@ -132,9 +124,7 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
      * Visits a method node.
      *
      * @param PHP_Depend_AST_Class $method The method class node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitMethod()
      */
     public function visitMethod(PHP_Depend_AST_Method $method)
     {
@@ -147,9 +137,7 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
      * Visits a package node.
      *
      * @param PHP_Depend_AST_Class $package The package class node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitPackage()
      */
     public function visitPackage(PHP_Depend_AST_Package $package)
     {
@@ -162,9 +150,7 @@ class PHP_Depend_Visitor_DefaultVisitorDummy
      * Visits a property node.
      *
      * @param PHP_Depend_AST_Property $property The property class node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitProperty()
      */
     public function visitProperty(PHP_Depend_AST_Property $property)
     {

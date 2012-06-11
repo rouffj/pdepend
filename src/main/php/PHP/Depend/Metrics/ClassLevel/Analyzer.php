@@ -164,7 +164,6 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * Adds a required sub analyzer.
      *
      * @param PHP_Depend_Metrics_Analyzer $analyzer The sub analyzer instance.
-     *
      * @return void
      */
     public function addAnalyzer(PHP_Depend_Metrics_Analyzer $analyzer)
@@ -182,7 +181,6 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * node, this method will return an empty <b>array</b>.
      *
      * @param PHP_Depend_Code_NodeI $node The context node instance.
-     *
      * @return array(string=>mixed)
      */
     public function getNodeMetrics($node)
@@ -198,9 +196,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * Visits a class node.
      *
      * @param PHP_Depend_Code_Class $class The current class node.
-     *
      * @return void
-     * @see PHP_Depend_Visitor_AbstractVisitor::visitClass()
      */
     public function visitClass(PHP_Depend_AST_Class $class)
     {
@@ -237,9 +233,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * Visits a code interface object.
      *
      * @param PHP_Depend_Code_Interface $interface The context code interface.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitInterface()
      */
     public function visitInterface(PHP_Depend_AST_Interface $interface)
     {
@@ -250,7 +244,6 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * Visits a trait node.
      *
      * @param PHP_Depend_AST_Trait $trait The current trait node.
-     *
      * @return void
      * @since 1.0.0
      */
@@ -287,9 +280,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * Visits a method node.
      *
      * @param PHP_Depend_Code_Class $method The method class node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitMethod()
      */
     public function visitMethod(PHP_Depend_AST_Method $method)
     {
@@ -321,9 +312,7 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * Visits a property node.
      *
      * @param PHP_Depend_Code_Property $property The property class node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitProperty()
      */
     public function visitProperty(PHP_Depend_AST_Property $property)
     {
@@ -353,7 +342,6 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * counts protected and public properties of parent classes.
      *
      * @param PHP_Depend_Code_Class $class The context class instance.
-     *
      * @return integer
      */
     private function _calculateVARSi(PHP_Depend_Code_Class $class)
@@ -380,7 +368,6 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * protected and public methods of parent classes.
      *
      * @param PHP_Depend_Code_Class $class The context class instance.
-     *
      * @return integer
      */
     private function _calculateWMCiForClass(PHP_Depend_Code_Class $class)
@@ -406,7 +393,6 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * Calculates the Weight Method Per Class metric for a trait.
      *
      * @param PHP_Depend_AST_Trait $trait The context trait instance.
-     *
      * @return integer
      * @since 1.0.6
      */
@@ -419,7 +405,6 @@ class PHP_Depend_Metrics_ClassLevel_Analyzer
      * Calculates the Weight Method Per Class metric.
      *
      * @param PHP_Depend_Code_AbstractType $type The context type instance.
-     *
      * @return integer[]
      * @since 1.0.6
      */

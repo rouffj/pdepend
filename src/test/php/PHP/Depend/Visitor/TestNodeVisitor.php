@@ -119,7 +119,6 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Adds a new listener to this node visitor.
      *
      * @param PHP_Depend_Visitor_ListenerI $listener The new visit listener.
-     *
      * @return void
      */
     public function addVisitListener(PHP_Depend_Visitor_ListenerI $listener)
@@ -130,7 +129,6 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Visits a class node.
      *
      * @param PHP_Depend_AST_Class $class The current class node.
-     *
      * @return void
      */
     public function visitClass(PHP_Depend_AST_Class $class)
@@ -142,7 +140,6 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Visits a trait node.
      *
      * @param PHP_Depend_AST_Trait $trait The current trait node.
-     *
      * @return void
      * @since 1.0.0
      */
@@ -151,12 +148,10 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
         $this->trait = $trait;
     }
 
-
     /**
      * Visits a code interface object.
      *
      * @param PHP_Depend_AST_Interface $interface The context code interface.
-     *
      * @return void
      */
     public function visitInterface(PHP_Depend_AST_Interface $interface)
@@ -168,7 +163,6 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Visits a method node.
      *
      * @param PHP_Depend_AST_Class $method The method class node.
-     *
      * @return void
      */
     public function visitMethod(PHP_Depend_AST_Method $method)
@@ -180,7 +174,6 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Visits a package node.
      *
      * @param PHP_Depend_AST_Class $package The package class node.
-     *
      * @return void
      */
     public function visitPackage(PHP_Depend_AST_Package $package)
@@ -192,7 +185,6 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Visits a parameter node.
      *
      * @param PHP_Depend_AST_Parameter $parameter The parameter node.
-     *
      * @return void
      */
     public function visitParameter(PHP_Depend_AST_Parameter $parameter)
@@ -204,9 +196,7 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Visits a property node.
      *
      * @param PHP_Depend_AST_Property $property The property class node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitProperty()
      */
     public function visitProperty(PHP_Depend_AST_Property $property)
     {
@@ -217,7 +207,6 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Visits a function node.
      *
      * @param PHP_Depend_AST_Function $function The current function node.
-     *
      * @return void
      */
     public function visitFunction(PHP_Depend_AST_Function $function)
@@ -229,9 +218,7 @@ class PHP_Depend_Visitor_TestNodeVisitor implements PHP_Depend_VisitorI
      * Visits a file node.
      *
      * @param PHP_Depend_AST_File $file The current file node.
-     *
      * @return void
-     * @see PHP_Depend_VisitorI::visitFile()
      */
     public function visitFile(PHP_Depend_AST_File $file)
     {
