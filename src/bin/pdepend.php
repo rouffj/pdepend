@@ -46,12 +46,23 @@
  * @link      http://pdepend.org/
  */
 
-// PEAR/svn workaround
-if (strpos('@php_bin@', '@php_bin') === 0) {
-    set_include_path('.' . PATH_SEPARATOR . dirname(__FILE__) . '/../main/php');
-}
+// Is PHP_Depend lib in vendor ?
+if (file_exists(__DIR__ . '/../../../../autoload.php')) {
+    require_once __DIR__ . '/../../../../autoload.php';
+// Is PHP_Depend lib in root ?
+} else if (file_exists(__DIR__ . '/../../vendor/autoload.php')) {
+    require_once __DIR__ . '/../../vendor/autoload.php';
+// Composer autoloader is not find, fallback to PHP_Depend autoloader
+} else {
+    // PEAR/svn workaround
+    if (strpos('@php_bin@', '@php_bin') === 0) {
+        set_include_path('.' . PATH_SEPARATOR . dirname(__FILE__) . '/../main/php');
+    }
 
-require_once 'PHP/Depend/Autoload.php';
+    require_once 'PHP/Depend/Autoload.php';
+    $autoload = new PHP_Depend_Autoload();
+    $autoload->register();
+}
 
 // Allow as much memory as possible by default
 if (extension_loaded('suhosin') && is_numeric(ini_get('suhosin.memory_limit'))) {
@@ -71,8 +82,5 @@ if (extension_loaded('suhosin') && is_numeric(ini_get('suhosin.memory_limit'))) 
 if (version_compare(phpversion(), '5.3.0')) {
     error_reporting(error_reporting() & ~E_STRICT);
 }
-
-$autoload = new PHP_Depend_Autoload();
-$autoload->register();
 
 exit(PHP_Depend_TextUI_Command::main());

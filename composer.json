@@ -5,7 +5,7 @@
         "php": ">=5.2.3"
     },
     "autoload": {
-            "psr-0": { "PHP\\Depend": "src/main/php " }
+            "psr-0": { "PHP_Depend": "src/main/php" }
     },
     "bin": ["src/bin/pdepend"]
 }
