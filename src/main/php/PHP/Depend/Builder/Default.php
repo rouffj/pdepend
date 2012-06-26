@@ -2320,7 +2320,7 @@ class PHP_Depend_Builder_Default implements PHP_Depend_BuilderI
         $fileName  = "PHP/Depend/Code/{$className}.php";
         $className = "PHP_Depend_Code_{$className}";
 
-        include_once $fileName;
+        @include_once $fileName;
 
         PHP_Depend_Util_Log::debug("Creating: {$className}({$image})");
 

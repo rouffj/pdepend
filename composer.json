@@ -1,9 +1,12 @@
 {
-    "name": "pdepend/pdepend",
-    "description": "Official version of pdepend to be handled with Composer",
+    "name": "php/depend",
+    "authors": [
+        {
+            "name": "Manuel Pichler",
+            "email": "mapi@pdepend.org"
+        }
+    ],
     "require": {
-        "php": ">=5.2.3"
-    },
-    "bin": ["src/bin/pdepend"]
-}
 
+    }
+}
