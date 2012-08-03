@@ -7,6 +7,6 @@
     "autoload": {
             "psr-0": { "PHP_Depend": "src/main/php" }
     },
-    "bin": ["src/bin/pdepend"]
+    "bin": ["src/bin/pdepend"],
+    "minimum-stability": "dev"
 }
-
